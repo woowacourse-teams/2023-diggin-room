@@ -1,0 +1,47 @@
+name: "\U0001F41B 버그 제보"
+description: 버그를 발견하셨나요?
+labels: bug, parent
+assignees: DYGames,0chil,whk06061,Songusika,kong-hana01,thdwoqor,boogi-woogi
+
+body:
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 버그 설명
+      placeholder: 버그에 대해 설명해주세요.
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 예상 동작
+      placeholder: 예상했던 동작에 대해 설명해주세요.
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 실제 동작
+      placeholder: 실제로 일어난 동작을 설명해주세요.
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: 재현 방법
+      placeholder: 순서대로 설명해주세요.
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: 스크린샷 첨부
+      placeholder: 스크린샷이 있으면 첨부해주세요.
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 환경
+      placeholder: 디바이스, 운영체제, 앱 버전 등을 명시해주세요.
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 비고
+      placeholder: 추가적인 정보를 기입해주세요.
