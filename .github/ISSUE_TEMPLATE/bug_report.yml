@@ -1,8 +1,7 @@
 name: "\U0001F41B 버그 제보"
-about: 버그를 발견하셨나요?
-title: ''
+description: 버그를 발견하셨나요?
 labels: bug, parent
-assignees: DYGames, 0chil, whk06061, Songusika, kong-hana01, thdwoqor, boogi-woogi
+assignees: DYGames,0chil,whk06061,Songusika,kong-hana01,thdwoqor,boogi-woogi
 
 body:
   - type: markdown
