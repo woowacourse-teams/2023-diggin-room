@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DigginRoom</string>
+    <string name="common_join">회원가입</string>
+    <string name="common_id">아이디</string>
+    <string name="join_request_input_id">아이디를 입력하세요</string>
+    <string name="common_password">비밀번호</string>
+    <string name="join_request_input_password">비밀번호를 입력하세요</string>
+    <string name="join_reinput_password">비밀번호 재입력</string>
+    <string name="join_requset_reinput_password">비밀번호를 다시 한번 입력하세요</string>
 </resources>
