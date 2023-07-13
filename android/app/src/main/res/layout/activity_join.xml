@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="joinState"
+            type="com.digginroom.model.join.JoinState" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,6 +24,17 @@
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/join_tv_id_form_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:textColor="#AF1B1B"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/join_et_input_id"
+            app:layout_constraintTop_toBottomOf="@+id/join_et_input_id"
+            tools:text="아이디는 최소 5자 이상이어야합니다." />
 
         <TextView
             android:id="@+id/join_tv_join"
@@ -67,13 +85,14 @@
             android:id="@+id/join_et_input_password"
             android:layout_width="300dp"
             android:layout_height="52dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="54dp"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_request_input_password"
             android:inputType="textPassword"
             android:padding="14dp"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/join_et_input_id" />
 
@@ -91,7 +110,7 @@
             android:id="@+id/join_et_reinput_password"
             android:layout_width="300dp"
             android:layout_height="52dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="54dp"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_requset_reinput_password"
             android:inputType="textPassword"
