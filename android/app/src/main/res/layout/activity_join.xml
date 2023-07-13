@@ -92,6 +92,17 @@
             app:layout_constraintTop_toBottomOf="@+id/join_et_input_id" />
 
         <TextView
+            android:id="@+id/join_tv_password_form_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:textColor="#AF1B1B"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/join_et_input_password"
+            app:layout_constraintTop_toBottomOf="@+id/join_et_input_password"
+            tools:text="비밀번호는 최소 5자 이상이어야합니다." />
+
+        <TextView
             android:id="@+id/join_tv_reinput_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

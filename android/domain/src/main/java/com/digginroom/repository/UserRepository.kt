@@ -1,6 +1,6 @@
 package com.digginroom.repository
 
-import com.digginroom.model.join.JoinState
+import com.digginroom.model.user.JoinState
 import com.digginroom.model.user.User
 
 interface UserRepository {

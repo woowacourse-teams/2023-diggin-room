@@ -1,5 +1,6 @@
 package com.digginroom.model.join
 
+import com.digginroom.model.user.Password
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
