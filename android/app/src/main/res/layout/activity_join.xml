@@ -23,11 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
+            android:text="아이디의 길이는 5자 이상 11자 이하입니다."
             android:textColor="#AF1B1B"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="@+id/join_et_input_id"
-            app:layout_constraintTop_toBottomOf="@+id/join_et_input_id"
-            tools:text="아이디는 최소 5자 이상이어야합니다." />
+            app:layout_constraintTop_toBottomOf="@+id/join_et_input_id" />
 
         <TextView
             android:id="@+id/join_tv_join"
@@ -96,11 +96,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
+            android:text="비밀번호는 영문, 숫자 조합의 8자 이상 15자 이하입니다."
             android:textColor="#AF1B1B"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="@+id/join_et_input_password"
-            app:layout_constraintTop_toBottomOf="@+id/join_et_input_password"
-            tools:text="비밀번호는 최소 5자 이상이어야합니다." />
+            app:layout_constraintTop_toBottomOf="@+id/join_et_input_password" />
 
         <TextView
             android:id="@+id/join_tv_reinput_password"
@@ -127,12 +127,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
 
+        <TextView
+            android:id="@+id/join_tv_password_not_equal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="비밀번호가 일치하지 않습니다."
+            android:textColor="#AF1B1B"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/join_et_re_input_password"
+            app:layout_constraintTop_toBottomOf="@+id/join_et_re_input_password" />
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/join_button_join"
             android:layout_width="300dp"
             android:layout_height="52dp"
             android:layout_marginTop="48dp"
             android:background="@drawable/bg_gradient_blue_radius"
+            android:enabled="false"
             android:text="@string/common_join"
             android:textColor="@color/white"
             android:textSize="16sp"

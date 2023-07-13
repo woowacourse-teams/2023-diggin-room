@@ -2,6 +2,8 @@ package com.digginroom.digginroom.views
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
@@ -23,9 +25,37 @@ class JoinActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_join)
 
+        initJoinBinding()
         initJoinButtonListener()
+        initObservers()
+        initIdTextChangedListener()
+        initPasswordTextChangedListener()
+        initReInputPasswordTextChangedListener()
+    }
+
+    private fun initJoinBinding() {
+        binding = DataBindingUtil
+            .setContentView<ActivityJoinBinding>(this, R.layout.activity_join)
+            .also {
+                it.lifecycleOwner = this
+            }
+    }
+
+    // todo: 바인딩 어댑터로 빠질 예정
+    private fun initObservers() {
+        joinViewModel.isValidId.observe(this) {
+            binding.joinTvIdFormError.isVisible = !it
+        }
+        joinViewModel.isValidPassword.observe(this) {
+            binding.joinTvPasswordFormError.isVisible = !it
+        }
+        joinViewModel.isEqualPassword.observe(this) {
+            binding.joinTvPasswordNotEqual.isVisible = !it
+        }
+        joinViewModel.isJoinAble.observe(this) {
+            binding.joinButtonJoin.isEnabled = it
+        }
     }
 
     private fun initJoinButtonListener() {
@@ -35,6 +65,32 @@ class JoinActivity : AppCompatActivity() {
                     id = joinTvId.text.toString(),
                     password = joinTvPassword.text.toString()
                 )
+            }
+        }
+    }
+
+    private fun initIdTextChangedListener() {
+        binding.joinEtInputId.doAfterTextChanged { id ->
+            joinViewModel.validateId(id.toString())
+            joinViewModel.validateJoinAble()
+        }
+    }
+
+    private fun initPasswordTextChangedListener() {
+        binding.joinEtInputPassword.doAfterTextChanged { id ->
+            joinViewModel.validatePassword(id.toString())
+            joinViewModel.validateJoinAble()
+        }
+    }
+
+    private fun initReInputPasswordTextChangedListener() {
+        with(binding) {
+            joinEtReInputPassword.doAfterTextChanged { id ->
+                joinViewModel.validatePasswordEquality(
+                    password = joinEtInputPassword.text.toString(),
+                    reInputPassword = joinEtReInputPassword.text.toString()
+                )
+                joinViewModel.validateJoinAble()
             }
         }
     }
