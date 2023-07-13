@@ -3,18 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="joinState"
-            type="com.digginroom.model.join.JoinState" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        tools:context=".JoinActivity">
+        tools:context=".views.JoinActivity">
 
         <ImageView
             android:layout_width="40dp"
@@ -66,6 +59,7 @@
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_request_input_id"
             android:padding="14dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +84,7 @@
             android:hint="@string/join_request_input_password"
             android:inputType="textPassword"
             android:padding="14dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
@@ -115,6 +110,7 @@
             android:hint="@string/join_requset_reinput_password"
             android:inputType="textPassword"
             android:padding="14dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
