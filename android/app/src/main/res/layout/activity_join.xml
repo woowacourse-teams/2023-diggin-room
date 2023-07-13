@@ -1,101 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".JoinActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="14dp"
-        android:src="@drawable/ic_arrow_left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#110B2E"
+        tools:context=".JoinActivity">
 
-    <TextView
-        android:id="@+id/join_tv_join"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/common_join"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/join_tv_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="@string/common_id"
-        app:layout_constraintBottom_toTopOf="@id/join_et_input_id"
-        app:layout_constraintStart_toStartOf="@id/join_et_input_id" />
+        <TextView
+            android:id="@+id/join_tv_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/common_join"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/join_et_input_id"
-        android:layout_width="300dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="107dp"
-        android:background="@drawable/bg_stroke_gray_radius_1dp"
-        android:hint="@string/join_request_input_id"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/join_tv_join" />
+        <TextView
+            android:id="@+id/join_tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/common_id"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/join_et_input_id"
+            app:layout_constraintStart_toStartOf="@id/join_et_input_id" />
 
-    <TextView
-        android:id="@+id/join_tv_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="@string/common_password"
-        app:layout_constraintBottom_toTopOf="@id/join_et_input_password"
-        app:layout_constraintStart_toStartOf="@id/join_et_input_password" />
+        <EditText
+            android:id="@+id/join_et_input_id"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="107dp"
+            android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:hint="@string/join_request_input_id"
+            android:padding="14dp"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/join_tv_join" />
 
-    <EditText
-        android:id="@+id/join_et_input_password"
-        android:layout_width="300dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/bg_stroke_gray_radius_1dp"
-        android:hint="@string/join_request_input_password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/join_et_input_id" />
+        <TextView
+            android:id="@+id/join_tv_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/common_password"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/join_et_input_password"
+            app:layout_constraintStart_toStartOf="@id/join_et_input_password" />
 
-    <TextView
-        android:id="@+id/join_tv_reinput_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="@string/join_reinput_password"
-        app:layout_constraintBottom_toTopOf="@id/join_et_reinput_password"
-        app:layout_constraintStart_toStartOf="@id/join_et_reinput_password" />
+        <EditText
+            android:id="@+id/join_et_input_password"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:hint="@string/join_request_input_password"
+            android:inputType="textPassword"
+            android:padding="14dp"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/join_et_input_id" />
 
-    <EditText
-        android:id="@+id/join_et_reinput_password"
-        android:layout_width="300dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/bg_stroke_gray_radius_1dp"
-        android:hint="@string/join_requset_reinput_password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
+        <TextView
+            android:id="@+id/join_tv_reinput_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/join_reinput_password"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/join_et_reinput_password"
+            app:layout_constraintStart_toStartOf="@id/join_et_reinput_password" />
 
-    <Button
-        android:id="@+id/join_bt_join"
-        android:layout_width="300dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/common_join"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/join_et_reinput_password" />
+        <EditText
+            android:id="@+id/join_et_reinput_password"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:hint="@string/join_requset_reinput_password"
+            android:inputType="textPassword"
+            android:padding="14dp"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/join_button_join"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/bg_gradient_blue_radius"
+            android:text="@string/common_join"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/join_et_reinput_password" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
