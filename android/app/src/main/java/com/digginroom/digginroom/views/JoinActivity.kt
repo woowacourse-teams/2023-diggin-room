@@ -1,11 +1,12 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.views
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
-import com.digginroom.model.join.JoinState
+import com.digginroom.digginroom.viewmodels.JoinViewModel
 
 class JoinActivity : AppCompatActivity() {
 
@@ -13,7 +14,10 @@ class JoinActivity : AppCompatActivity() {
     private val joinViewModel: JoinViewModel by lazy {
         ViewModelProvider(
             this,
-            JoinViewModel.getJoinViewModelFactory()
+            JoinViewModel.getJoinViewModelFactory(
+                joinSucceed = ::navigateToRoomView,
+                joinFailed = ::clearInputIdAndPassword
+            )
         )[JoinViewModel::class.java]
     }
 
@@ -21,17 +25,7 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_join)
 
-        initJoinObserver()
         initJoinButtonListener()
-    }
-
-    private fun initJoinObserver() {
-        joinViewModel.state.observe(this) { joinState ->
-            when (joinState) {
-                is JoinState.Success -> navigateToRoomView()
-                is JoinState.Retry -> clearInputIdAndPassword()
-            }
-        }
     }
 
     private fun initJoinButtonListener() {

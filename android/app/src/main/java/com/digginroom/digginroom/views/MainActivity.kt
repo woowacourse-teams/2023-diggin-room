@@ -1,9 +1,10 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.views
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.digginroom.digginroom.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

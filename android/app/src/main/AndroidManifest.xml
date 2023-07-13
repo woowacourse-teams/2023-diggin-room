@@ -13,7 +13,7 @@
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31" >
         <activity
-            android:name=".JoinActivity"
+            android:name=".views.JoinActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".views.MainActivity"
             android:exported="false" >
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
