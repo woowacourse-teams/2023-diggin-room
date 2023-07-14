@@ -18,6 +18,9 @@ class JoinViewModel(
     private val joinFailed: () -> Unit
 ) : ViewModel() {
 
+    private val _id: MutableLiveData<String> = MutableLiveData()
+    private val _password: MutableLiveData<String> = MutableLiveData()
+
     private val _isValidId = MutableLiveData(false)
     val isValidId: LiveData<Boolean>
         get() = _isValidId
@@ -43,34 +46,37 @@ class JoinViewModel(
         }.onFailure {
             _isValidId.value = false
         }
+        _id.value = id
+        validateJoinAble()
     }
 
-    fun validatePassword(id: String) {
+    fun validatePassword(password: String) {
         runCatching {
-            Password(id)
+            Password(password)
         }.onSuccess {
             _isValidPassword.value = true
         }.onFailure {
             _isValidPassword.value = false
         }
+        _password.value = password
+        validateJoinAble()
     }
 
-    fun validatePasswordEquality(password: String, reInputPassword: String) {
-        _isEqualPassword.value =
-            password == reInputPassword
+    fun validatePasswordEquality(reInputPassword: String) {
+        _isEqualPassword.value = _password.value == reInputPassword
     }
 
-    fun validateJoinAble() {
+    private fun validateJoinAble() {
         _isJoinAble.value = _isValidId.value == true &&
             _isValidPassword.value == true &&
             _isEqualPassword.value == true
     }
 
-    fun join(id: String, password: String) {
+    fun join() {
         userRepository.save(
             User(
-                id = id,
-                password = password
+                id = Id(_id.value ?: EMPTY),
+                password = Password(_password.value ?: EMPTY)
             )
         ).onSuccess {
             joinSucceed()
@@ -80,6 +86,8 @@ class JoinViewModel(
     }
 
     companion object {
+
+        private const val EMPTY = ""
 
         fun getJoinViewModelFactory(
             joinSucceed: () -> Unit,

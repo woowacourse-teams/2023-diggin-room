@@ -2,7 +2,6 @@ package com.digginroom.digginroom.views
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
@@ -26,10 +25,6 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initJoinBinding()
-        initJoinButtonListener()
-        initIdTextChangedListener()
-        initPasswordTextChangedListener()
-        initReInputPasswordTextChangedListener()
     }
 
     private fun initJoinBinding() {
@@ -39,43 +34,6 @@ class JoinActivity : AppCompatActivity() {
                 it.lifecycleOwner = this
                 it.viewModel = joinViewModel
             }
-    }
-
-    private fun initJoinButtonListener() {
-        with(binding) {
-            joinButtonJoin.setOnClickListener {
-                joinViewModel.join(
-                    id = joinTvId.text.toString(),
-                    password = joinTvPassword.text.toString()
-                )
-            }
-        }
-    }
-
-    private fun initIdTextChangedListener() {
-        binding.joinEtInputId.doAfterTextChanged { id ->
-            joinViewModel.validateId(id.toString())
-            joinViewModel.validateJoinAble()
-        }
-    }
-
-    private fun initPasswordTextChangedListener() {
-        binding.joinEtInputPassword.doAfterTextChanged { id ->
-            joinViewModel.validatePassword(id.toString())
-            joinViewModel.validateJoinAble()
-        }
-    }
-
-    private fun initReInputPasswordTextChangedListener() {
-        with(binding) {
-            joinEtReInputPassword.doAfterTextChanged { id ->
-                joinViewModel.validatePasswordEquality(
-                    password = joinEtInputPassword.text.toString(),
-                    reInputPassword = joinEtReInputPassword.text.toString()
-                )
-                joinViewModel.validateJoinAble()
-            }
-        }
     }
 
     private fun navigateToRoomView() {
