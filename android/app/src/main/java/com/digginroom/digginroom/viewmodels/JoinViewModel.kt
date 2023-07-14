@@ -26,7 +26,7 @@ class JoinViewModel(
     val isValidPassword: LiveData<Boolean>
         get() = _isValidPassword
 
-    private val _isEqualPassword: MutableLiveData<Boolean> = MutableLiveData()
+    private val _isEqualPassword: MutableLiveData<Boolean> = MutableLiveData(true)
     val isEqualPassword: LiveData<Boolean>
         get() = _isEqualPassword
 

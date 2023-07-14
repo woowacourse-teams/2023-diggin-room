@@ -2,7 +2,6 @@ package com.digginroom.digginroom.views
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -28,7 +27,6 @@ class JoinActivity : AppCompatActivity() {
 
         initJoinBinding()
         initJoinButtonListener()
-        initObservers()
         initIdTextChangedListener()
         initPasswordTextChangedListener()
         initReInputPasswordTextChangedListener()
@@ -39,23 +37,8 @@ class JoinActivity : AppCompatActivity() {
             .setContentView<ActivityJoinBinding>(this, R.layout.activity_join)
             .also {
                 it.lifecycleOwner = this
+                it.viewModel = joinViewModel
             }
-    }
-
-    // todo: 바인딩 어댑터로 빠질 예정
-    private fun initObservers() {
-        joinViewModel.isValidId.observe(this) {
-            binding.joinTvIdFormError.isVisible = !it
-        }
-        joinViewModel.isValidPassword.observe(this) {
-            binding.joinTvPasswordFormError.isVisible = !it
-        }
-        joinViewModel.isEqualPassword.observe(this) {
-            binding.joinTvPasswordNotEqual.isVisible = !it
-        }
-        joinViewModel.isJoinAble.observe(this) {
-            binding.joinButtonJoin.isEnabled = it
-        }
     }
 
     private fun initJoinButtonListener() {
