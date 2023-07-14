@@ -13,7 +13,7 @@ class RoomViewModel(
     private val roomRepository: RoomRepository
 ) : ViewModel() {
 
-    private val _cachedRoom: MutableLiveData<List<Room>> = MutableLiveData()
+    private val _cachedRoom: MutableLiveData<List<Room>> = MutableLiveData(rooms)
     val cachedRoom: LiveData<List<Room>>
         get() = _cachedRoom
 

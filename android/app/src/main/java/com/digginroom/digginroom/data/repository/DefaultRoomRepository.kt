@@ -1,11 +1,14 @@
-package com.digginroom.digginroom.data
+package com.digginroom.digginroom.data.repository
 
+import com.digginroom.digginroom.data.datasource.RoomRemoteDataSource
 import com.digginroom.model.room.Room
 import com.digginroom.repository.RoomRepository
 
-class DefaultRoomRepository : RoomRepository {
+class DefaultRoomRepository(
+    private val roomRemoteDataSource: RoomRemoteDataSource
+) : RoomRepository {
     override suspend fun findNext(): Room {
-        TODO("Not yet implemented")
+        return roomRemoteDataSource.findNext()
     }
 
     override fun updateScrapById(id: Long, value: Boolean) {
