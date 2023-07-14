@@ -1,6 +1,6 @@
 package com.digginroom.model
 
-data class RoomUiModel(
+data class TempUiModel(
+    // 임시 룸 UI 데이터
     val videoId: Int,
-    // 추후 추가
 )

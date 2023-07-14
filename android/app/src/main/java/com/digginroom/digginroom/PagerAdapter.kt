@@ -4,12 +4,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.model.TempUiModel
 
-class RoomAdapter(private val data: List<TempUiModel>) : RecyclerView.Adapter<RoomViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
-        return RoomViewHolder.create(parent)
+class PagerAdapter(private val data: List<TempUiModel>) : RecyclerView.Adapter<PagerViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
+        return PagerViewHolder.create(parent)
     }
 
-    override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
         holder.bind(data[position])
     }
 
