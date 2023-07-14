@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
+import com.digginroom.digginroom.views.PagerAdapter
 import com.digginroom.model.TempUiModel
 
 class RoomActivity : AppCompatActivity() {

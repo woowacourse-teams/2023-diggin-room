@@ -1,4 +1,4 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
