@@ -4,5 +4,5 @@ import com.digginroom.model.user.User
 
 interface UserRepository {
     fun find(user: User): String
-    fun save(user: User): Result<String>
+    suspend fun save(user: User): Result<String>
 }
