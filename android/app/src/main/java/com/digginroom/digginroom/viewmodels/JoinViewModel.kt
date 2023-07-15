@@ -18,6 +18,9 @@ class JoinViewModel(
     private val joinFailed: () -> Unit
 ) : ViewModel() {
 
+    // todo: editText는 회전이 일어나도 데이터가 유지된다. 이 상황에서 이 정보들을 가지고 있어야 하는 이유는?
+    // 1. 바인딩 어댑터를 위해
+    // 2. viewModel이라는 것이
     private val _id: MutableLiveData<String> = MutableLiveData()
     private val _password: MutableLiveData<String> = MutableLiveData()
 
