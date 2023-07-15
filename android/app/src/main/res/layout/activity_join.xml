@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.viewmodels.JoinViewModel" />
@@ -15,6 +17,16 @@
         android:layout_height="match_parent"
         android:background="#110B2E"
         tools:context=".views.JoinActivity">
+
+        <ProgressBar
+            android:id="@+id/join_pb"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:layout_width="40dp"
