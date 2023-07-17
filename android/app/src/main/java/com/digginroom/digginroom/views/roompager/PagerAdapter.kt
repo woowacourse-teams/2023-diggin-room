@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views
+package com.digginroom.digginroom.views.roompager
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

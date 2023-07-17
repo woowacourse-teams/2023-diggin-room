@@ -1,12 +1,12 @@
-package com.digginroom.digginroom.views
+package com.digginroom.digginroom.views.roompager
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.digginroom.databinding.ItemRoomBinding
+import com.digginroom.digginroom.databinding.ItemRecyclerViewBinding
 import com.digginroom.model.TempUiModel
 
-class PagerViewHolder(private val binding: ItemRoomBinding) :
+class PagerViewHolder(private val binding: ItemRecyclerViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(tempUIModel: TempUiModel) {
         binding.ivRoom.setImageResource(tempUIModel.videoId)
@@ -15,7 +15,7 @@ class PagerViewHolder(private val binding: ItemRoomBinding) :
     companion object {
         fun create(parent: ViewGroup): PagerViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ItemRoomBinding.inflate(layoutInflater, parent, false)
+            val binding = ItemRecyclerViewBinding.inflate(layoutInflater, parent, false)
             return PagerViewHolder(binding)
         }
     }

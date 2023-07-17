@@ -1,4 +1,4 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.views.roompager
 
 import android.view.GestureDetector
 import android.view.MotionEvent

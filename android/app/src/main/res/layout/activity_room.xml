@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".RoomActivity">
 
-        <androidx.viewpager2.widget.ViewPager2
+        <com.digginroom.digginroom.views.roompager.RoomPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -15,12 +15,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_room"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
