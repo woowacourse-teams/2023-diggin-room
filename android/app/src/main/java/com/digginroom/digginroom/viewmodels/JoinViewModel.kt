@@ -20,9 +20,6 @@ class JoinViewModel(
     private val joinFailed: () -> Unit
 ) : ViewModel() {
 
-    // todo: editText는 회전이 일어나도 데이터가 유지된다. 이 상황에서 이 정보들을(id, password) 가지고 있어야 하는 이유는?
-    // 1. onClick을 xml상에서 처리하기 위해? -> view딴에서만 현재 입력된 id와 password를 가지는 경우 xml상에서 click event를 어떻게 설정해야 할 지 모르겠다.
-    // 2. ??
     private val _id: MutableLiveData<String> = MutableLiveData()
     private val _password: MutableLiveData<String> = MutableLiveData()
 
@@ -46,7 +43,6 @@ class JoinViewModel(
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
-    // todo: exception message를 error message로 쓰이는 형태로 개선 예정
     fun validateId(id: String) {
         runCatching {
             Id(id)
