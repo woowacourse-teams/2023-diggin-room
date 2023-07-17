@@ -7,10 +7,8 @@ class Room(
 ) {
 
     fun dislike() {
-
     }
 
     fun scrap() {
-
     }
 }
