@@ -10,9 +10,11 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Entity
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room {
 
@@ -26,6 +28,13 @@ public class Room {
     public Room(final List<MediaSource> mediaSources) {
         validateNotEmpty(mediaSources);
         this.mediaSources = mediaSources;
+        bindRooms(mediaSources);
+    }
+
+    private void bindRooms(final List<MediaSource> mediaSources) {
+        for (MediaSource mediaSource : mediaSources) {
+            mediaSource.setRoom(this);
+        }
     }
 
     private void validateNotEmpty(final List<MediaSource> mediaSources) {
