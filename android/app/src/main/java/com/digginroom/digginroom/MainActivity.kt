@@ -7,6 +7,7 @@ import com.digginroom.digginroom.data.datasource.RoomRemoteDataSource
 import com.digginroom.digginroom.data.repository.DefaultRoomRepository
 import com.digginroom.digginroom.databinding.ActivityMainBinding
 import com.digginroom.digginroom.viewmodels.RoomViewModel
+import com.digginroom.digginroom.viewmodels.YoutubeRoomCacheStrategy
 import com.digginroom.model.room.Room
 import com.digginroom.model.room.Song
 
@@ -44,15 +45,10 @@ class MainActivity : AppCompatActivity() {
                     false
                 )
             ),
+            YoutubeRoomCacheStrategy(),
             DefaultRoomRepository(
                 RoomRemoteDataSource()
             )
         )
-//        val roomYoutubeView = findViewById<RoomYoutubeView>(R.id.t)
-//        roomYoutubeView.webViewClient = object : WebViewClient() {
-//            override fun onPageFinished(view: WebView, url: String) {
-//                roomYoutubeView.pause()
-//            }
-//        }
     }
 }
