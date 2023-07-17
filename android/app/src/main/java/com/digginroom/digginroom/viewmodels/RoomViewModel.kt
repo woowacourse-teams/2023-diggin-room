@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 
 class RoomViewModel(
     private val rooms: MutableList<Room>,
+    private val roomCacheStrategy: RoomCacheStrategy,
     private val roomRepository: RoomRepository
 ) : ViewModel() {
 
@@ -18,7 +19,10 @@ class RoomViewModel(
         get() = _cachedRoom
 
     fun findPreviousRoom(index: Int) {
-        _cachedRoom.value = rooms.subList(index - 2, index + 2)
+        _cachedRoom.value = rooms.subList(
+            index - roomCacheStrategy.previousRoomCount,
+            index + roomCacheStrategy.nextRoomCount
+        )
     }
 
     fun findNextRoom(index: Int) {
