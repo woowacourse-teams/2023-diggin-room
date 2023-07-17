@@ -1,14 +1,7 @@
 package com.digginroom.model.room
 
-class Room(
+data class Room(
     val videoId: String,
     val song: Song,
     val isScrapped: Boolean
-) {
-
-    fun dislike() {
-    }
-
-    fun scrap() {
-    }
-}
+)
