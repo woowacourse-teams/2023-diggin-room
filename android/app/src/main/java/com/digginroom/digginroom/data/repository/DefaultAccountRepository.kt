@@ -25,4 +25,14 @@ class DefaultAccountRepository(
                 ).token
             }
         }
+
+    override suspend fun postAccount(account: Account): Result<String> =
+        withContext(ioDispatcher) {
+            runCatching {
+                accountRemoteDataSource.postAccount(
+                    id = account.id.value,
+                    password = account.password.value
+                ).token
+            }
+        }
 }
