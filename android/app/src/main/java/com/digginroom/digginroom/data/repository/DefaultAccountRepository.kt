@@ -1,8 +1,8 @@
-package com.digginroom.digginroom.data
+package com.digginroom.digginroom.data.repository
 
+import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
+import com.digginroom.digginroom.data.datasource.remote.DefaultAccountRemoteDataSource
 import com.digginroom.digginroom.data.entity.JoinRequest
-import com.digginroom.digginroom.data.source.AccountRemoteDataSource
-import com.digginroom.digginroom.data.source.DefaultAccountRemoteDataSource
 import com.digginroom.model.user.Account
 import com.digginroom.repository.AccountRepository
 import kotlinx.coroutines.CoroutineDispatcher

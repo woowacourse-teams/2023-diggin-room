@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views.roompager
+package com.digginroom.digginroom.views.customView.roompager
 
 import androidx.viewpager2.widget.ViewPager2
 

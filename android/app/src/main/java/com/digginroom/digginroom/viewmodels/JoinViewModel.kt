@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.digginroom.digginroom.data.DefaultAccountRepository
+import com.digginroom.digginroom.data.repository.DefaultAccountRepository
 import com.digginroom.model.user.Account
 import com.digginroom.model.user.Id
 import com.digginroom.model.user.Password

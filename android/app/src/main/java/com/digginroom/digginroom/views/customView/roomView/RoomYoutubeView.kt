@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views
+package com.digginroom.digginroom.views.customView.roomView
 
 import android.content.Context
 import android.util.AttributeSet
