@@ -1,18 +1,18 @@
-package com.digginroom.digginroom.views.roompager
+package com.digginroom.digginroom.views.customView.roompager
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.widget.FrameLayout
 import androidx.viewpager2.widget.ViewPager2
-import com.digginroom.model.TempUiModel
+import com.digginroom.digginroom.views.model.RoomModel
 
 class RoomPager @JvmOverloads constructor(
     context: Context,
-    attributeSet: AttributeSet? = null,
+    attributeSet: AttributeSet? = null
 ) : FrameLayout(context, attributeSet) {
     val viewPager2: ViewPager2 = ViewPager2(context, attributeSet)
-    var data: List<TempUiModel> = emptyList()
+    var data: List<RoomModel> = emptyList()
 
     init {
         addView(viewPager2)

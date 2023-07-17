@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.data.datasource
+package com.digginroom.digginroom.data.datasource.remote
 
 import com.digginroom.model.room.Room
 import com.digginroom.model.room.Song

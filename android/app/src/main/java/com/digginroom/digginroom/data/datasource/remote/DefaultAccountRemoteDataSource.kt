@@ -1,6 +1,5 @@
-package com.digginroom.digginroom.data.source
+package com.digginroom.digginroom.data.datasource.remote
 
-import com.digginroom.digginroom.data.NetworkModule
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.JoinResponse
 import com.digginroom.digginroom.data.service.AccountService

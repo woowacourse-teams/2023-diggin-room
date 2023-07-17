@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views
+package com.digginroom.digginroom.views.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -37,10 +37,7 @@ class JoinActivity : AppCompatActivity() {
     }
 
     private fun navigateToRoomView() {
-        // todo: RoomView가 구성되어 있지 않은 상황에서 임시로 구현
-        val intent = MainActivity.getIntent(this)
-
-        startActivity(intent)
+        RoomActivity.start(this)
     }
 
     private fun clearInputIdAndPassword() {

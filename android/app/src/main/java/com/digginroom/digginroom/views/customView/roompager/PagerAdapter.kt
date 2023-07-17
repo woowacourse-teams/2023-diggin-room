@@ -1,10 +1,10 @@
-package com.digginroom.digginroom.views.roompager
+package com.digginroom.digginroom.views.customView.roompager
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.model.TempUiModel
+import com.digginroom.digginroom.views.model.RoomModel
 
-class PagerAdapter(private val data: List<TempUiModel>) : RecyclerView.Adapter<PagerViewHolder>() {
+class PagerAdapter(private val data: List<RoomModel>) : RecyclerView.Adapter<PagerViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
         return PagerViewHolder.create(parent)
     }

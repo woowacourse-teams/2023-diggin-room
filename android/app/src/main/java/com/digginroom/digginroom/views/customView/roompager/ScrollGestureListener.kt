@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views.roompager
+package com.digginroom.digginroom.views.customView.roompager
 
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -10,7 +10,7 @@ class ScrollGestureListener(private val viewPager2: ViewPager2) :
         e1: MotionEvent,
         e2: MotionEvent,
         distanceX: Float,
-        distanceY: Float,
+        distanceY: Float
     ): Boolean {
         val deltaX = e2.x - e1.x
         val deltaY = e2.y - e1.y

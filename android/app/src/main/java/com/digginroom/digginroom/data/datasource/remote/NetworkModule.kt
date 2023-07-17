@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.data
+package com.digginroom.digginroom.data.datasource.remote
 
 import com.digginroom.digginroom.data.service.AccountService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

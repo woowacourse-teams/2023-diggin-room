@@ -1,15 +1,15 @@
-package com.digginroom.digginroom.views.roompager
+package com.digginroom.digginroom.views.customView.roompager
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.databinding.ItemRecyclerViewBinding
-import com.digginroom.model.TempUiModel
+import com.digginroom.digginroom.views.model.RoomModel
 
 class PagerViewHolder(private val binding: ItemRecyclerViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(tempUIModel: TempUiModel) {
-        binding.ivRoom.setImageResource(tempUIModel.videoId)
+    fun bind(roomModel: RoomModel) {
+        binding.ivRoom.setImageResource(roomModel.videoId)
     }
 
     companion object {

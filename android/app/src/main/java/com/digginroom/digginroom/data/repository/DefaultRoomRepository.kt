@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
-import com.digginroom.digginroom.data.datasource.RoomRemoteDataSource
+import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.model.room.Room
 import com.digginroom.repository.RoomRepository
 
