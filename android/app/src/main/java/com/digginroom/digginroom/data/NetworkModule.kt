@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.data
 
-import com.digginroom.digginroom.data.service.UserService
+import com.digginroom.digginroom.data.service.AccountService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -19,5 +19,5 @@ object NetworkModule {
             .build()
     }
 
-    val userService: UserService = retrofit.create(UserService::class.java)
+    val accountService: AccountService = retrofit.create(AccountService::class.java)
 }

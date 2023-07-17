@@ -4,10 +4,10 @@ import com.digginroom.digginroom.data.entity.JoinResponse
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface UserService {
+interface AccountService {
 
     @POST("/join")
-    suspend fun save(
+    suspend fun saveAccount(
         @Query("id") id: String,
         @Query("password") password: String
     ): JoinResponse

@@ -1,6 +1,6 @@
 package com.digginroom.model.user
 
-data class User(
+data class Account(
     val id: Id,
     val password: Password
 )
