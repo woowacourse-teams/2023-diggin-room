@@ -52,7 +52,7 @@ class JoinActivity : AppCompatActivity() {
     companion object {
 
         fun start(context: Context) {
-            val intent = Intent(context, LoginActivity::class.java)
+            val intent = Intent(context, JoinActivity::class.java)
 
             context.startActivity(intent)
         }
