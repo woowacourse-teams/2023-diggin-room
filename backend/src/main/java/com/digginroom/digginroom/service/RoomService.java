@@ -19,7 +19,7 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public RoomResponse pickRandom() {
         List<Room> rooms = roomRepository.findAll();
         Collections.shuffle(rooms);
@@ -31,7 +31,7 @@ public class RoomService {
         return new RoomResponse(pickedRoom.getId(), pickedRoom.getMediaSource().getIdentifier());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Room pickRandomByPage() {
         int count = Math.toIntExact(roomRepository.count());
 
