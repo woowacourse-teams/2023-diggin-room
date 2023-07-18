@@ -17,9 +17,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody @Valid final MemberSaveRequest memberSaveRequest) {
+    public ResponseEntity<Void> save(@RequestBody @Valid final MemberSaveRequest memberSaveRequest) {
         memberService.save(memberSaveRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/checkMemberIdDuplication")
