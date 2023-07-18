@@ -9,7 +9,7 @@ import com.digginroom.digginroom.views.model.RoomModel
 
 class RoomPager @JvmOverloads constructor(
     context: Context,
-    attributeSet: AttributeSet? = null
+    attributeSet: AttributeSet? = null,
 ) : FrameLayout(context, attributeSet) {
     val viewPager2: ViewPager2 = ViewPager2(context, attributeSet)
     var data: List<RoomModel> = emptyList()
@@ -25,5 +25,9 @@ class RoomPager @JvmOverloads constructor(
             }
             registerOnPageChangeCallback(PageChangeListener())
         }
+    }
+
+    fun updateData() {
+        viewPager2.adapter = PagerAdapter(data)
     }
 }
