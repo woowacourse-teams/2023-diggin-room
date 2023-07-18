@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.data.datasource.remote
 
-import com.digginroom.model.room.Room
-import com.digginroom.model.room.Song
+import com.digginroom.digginroom.model.room.Room
+import com.digginroom.digginroom.model.room.Song
 
 class RoomRemoteDataSource {
     suspend fun findNext(): Room {

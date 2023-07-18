@@ -10,27 +10,9 @@
             type="com.digginroom.digginroom.viewmodels.RoomViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.digginroom.digginroom.views.customView.roompager.RoomPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".views.activity.RoomActivity">
-
-        <com.digginroom.digginroom.views.customView.roomView.RoomYoutubeView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:nextRoom="@{roomViewModel.cachedRoom[0]}" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{ () -> roomViewModel.findNextRoom() }"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>

@@ -1,14 +1,22 @@
 package com.digginroom.digginroom.views.customView.roomView
 
 import android.content.Context
+import android.media.midi.MidiOutputPort
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
 import android.webkit.WebView
-import com.digginroom.model.room.Room
+import com.digginroom.digginroom.views.model.RoomModel
 
 class RoomYoutubeView(context: Context, attributeSet: AttributeSet) :
     WebView(context, attributeSet), RoomView {
 
     init {
+        setOnTouchListener { v, event -> true }
+        isClickable = false
+        isContextClickable = false
+        isFocusableInTouchMode = false
+        focusable = View.NOT_FOCUSABLE
         val iframe = """
             <!DOCTYPE html>
             <html lang="en">
@@ -125,7 +133,7 @@ class RoomYoutubeView(context: Context, attributeSet: AttributeSet) :
         loadUrl("javascript:pause()")
     }
 
-    override fun navigate(room: Room) {
+    override fun navigate(room: RoomModel) {
         loadUrl("javascript:navigate(\"${room.videoId}\")")
     }
 }
