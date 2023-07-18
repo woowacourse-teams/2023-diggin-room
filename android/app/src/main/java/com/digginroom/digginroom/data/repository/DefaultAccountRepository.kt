@@ -4,6 +4,7 @@ import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
 import com.digginroom.digginroom.data.datasource.remote.DefaultAccountRemoteDataSource
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.model.user.Account
+import com.digginroom.model.user.Id
 import com.digginroom.repository.AccountRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -25,4 +26,12 @@ class DefaultAccountRepository(
                 ).token
             }
         }
+
+    override suspend fun fetchIsDuplicatedId(id: Id): Result<Boolean> {
+        return withContext(ioDispatcher) {
+            runCatching {
+                accountRemoteDataSource.fetchIsDuplicatedId(id.value).isDuplicated
+            }
+        }
+    }
 }
