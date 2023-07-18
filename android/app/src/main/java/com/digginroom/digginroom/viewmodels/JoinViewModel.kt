@@ -20,6 +20,14 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
     val isValidId: LiveData<Boolean>
         get() = _isValidId
 
+    private val _isRedundancyChecked: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isRedundancyChecked: LiveData<Boolean>
+        get() = _isRedundancyChecked
+
+    private val _isUniqueId: MutableLiveData<Boolean> = MutableLiveData()
+    val isUniqueId: LiveData<Boolean>
+        get() = _isUniqueId
+
     private val _isValidPassword = MutableLiveData(false)
     val isValidPassword: LiveData<Boolean>
         get() = _isValidPassword
@@ -41,6 +49,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         get() = _isJoinSucceed
 
     fun validateId(id: String) {
+        _isRedundancyChecked.value = false
         runCatching {
             Id(id)
         }.onSuccess {
@@ -49,6 +58,17 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
             _isValidId.value = false
         }
         validateJoinAble()
+    }
+
+    fun validateIdRedundancy(id: String) {
+        viewModelScope.launch {
+            runCatching {
+                accountRepository.fetchIsDuplicatedId(Id(id))
+            }.onSuccess {
+                _isUniqueId.value = it.getOrThrow()
+            }
+            _isRedundancyChecked.value = true
+        }
     }
 
     fun validatePassword(password: String) {
@@ -69,7 +89,8 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
     private fun validateJoinAble() {
         _isJoinAble.value = _isValidId.value == true &&
             _isValidPassword.value == true &&
-            _isEqualPassword.value == true
+            _isEqualPassword.value == true &&
+            _isUniqueId.value == true
     }
 
     fun join(id: String, password: String) {
