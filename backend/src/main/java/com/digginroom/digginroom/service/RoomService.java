@@ -2,6 +2,7 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.exception.RoomException.EmptyException;
 import com.digginroom.digginroom.repository.RoomRepository;
 import java.util.Collections;
 import java.util.List;
@@ -22,22 +23,26 @@ public class RoomService {
     public RoomResponse pickRandom() {
         List<Room> rooms = roomRepository.findAll();
         Collections.shuffle(rooms);
+
         Room pickedRoom = rooms.stream()
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(EmptyException::new);
 
         return new RoomResponse(pickedRoom.getId(), pickedRoom.getMediaSource().getIdentifier());
     }
 
     @Transactional
     public Room pickRandomByPage() {
-        int count = Long.valueOf(roomRepository.count()).intValue();
+        int count = Math.toIntExact(roomRepository.count());
 
-        Pageable pageable = Pageable.ofSize(1)
-                .withPage(ThreadLocalRandom.current().nextInt(count));
+        Page<Room> randomizedPage = roomRepository.findAll(
+                Pageable.ofSize(1)
+                        .withPage(ThreadLocalRandom.current().nextInt(count))
+        );
 
-        Page<Room> randomizedPage = roomRepository.findAll(pageable);
-
-        return randomizedPage.getContent().get(0);
+        return randomizedPage.getContent()
+                .stream()
+                .findFirst()
+                .orElseThrow(EmptyException::new);
     }
 }
