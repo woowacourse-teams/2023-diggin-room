@@ -1,12 +1,11 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.MemberRequest;
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
+import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,15 +13,19 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void save(final MemberRequest request) {
-        validateMemberId(request.memberId());
+    public void save(final MemberSaveRequest request) {
+        if (isDuplicated(request.memberId())) {
+            throw new DuplicationException();
+        }
         memberRepository.save(request.toMember());
     }
 
-    public void validateMemberId(String memberId) {
-        Optional<Member> findMember = memberRepository.findByMemberId(memberId);
-        if (findMember.isPresent()) {
-            throw new IllegalArgumentException("아이디가 중복되었습니다.");
-        }
+    private boolean isDuplicated(String memberId) {
+        return memberRepository.findByMemberId(memberId).isPresent();
+    }
+
+    public MemberDuplicationResponse checkDuplication(String memberId) {
+        boolean duplicated = isDuplicated(memberId);
+        return new MemberDuplicationResponse(duplicated);
     }
 }

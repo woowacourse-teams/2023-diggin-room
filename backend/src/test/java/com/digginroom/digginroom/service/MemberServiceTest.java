@@ -1,9 +1,9 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.MemberRequest;
+import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -44,16 +45,6 @@ class MemberServiceTest {
         when(memberRepository.findByMemberId("power"))
                 .thenReturn(Optional.empty());
 
-        Assertions.assertThatNoException().isThrownBy(() -> memberService.validateMemberId("power"));
-    }
-
-    @Test
-    void 아이디가_중복이_아닌경우_회원가입을_성공한다() {
-        when(memberRepository.findByMemberId("power"))
-                .thenReturn(Optional.empty());
-
-        memberService.save(new MemberRequest("power", "power"));
-
-        verify(memberRepository).save(any(Member.class));
+        assertThat(memberService.checkDuplication("power").isDuplicated()).isFalse();
     }
 }

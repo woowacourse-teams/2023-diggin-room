@@ -1,10 +1,12 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.controller.dto.MemberRequest;
+import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +23,7 @@ public class MemberController {
     }
 
     @GetMapping("/checkMemberIdDuplication")
-    public void isDuplicated(@RequestParam final String memberId) {
-        memberService.validateMemberId(memberId);
+    public ResponseEntity<MemberDuplicationResponse> isDuplicated(@RequestParam final String memberId) {
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.checkDuplication(memberId));
     }
 }
