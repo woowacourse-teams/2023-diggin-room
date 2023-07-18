@@ -6,13 +6,16 @@ import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public void save(final MemberSaveRequest request) {
         if (isDuplicated(request.memberId())) {
             throw new DuplicationException();
