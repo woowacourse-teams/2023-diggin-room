@@ -62,10 +62,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         validateJoinAble()
     }
 
-    fun validatePasswordEquality(
-        password: String,
-        reInputPassword: String
-    ) {
+    fun validatePasswordEquality(password: String, reInputPassword: String) {
         _isEqualPassword.value = password == reInputPassword
     }
 
@@ -98,9 +95,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         fun getJoinViewModelFactory(): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    JoinViewModel(
-                        accountRepository = DefaultAccountRepository()
-                    )
+                    JoinViewModel(DefaultAccountRepository())
                 }
             }
     }
