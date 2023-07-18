@@ -10,15 +10,9 @@
             type="com.digginroom.digginroom.viewmodels.RoomViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.digginroom.digginroom.views.customView.roompager.RoomPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".views.activity.RoomActivity">
-
-        <com.digginroom.digginroom.views.customView.roompager.RoomPager
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>

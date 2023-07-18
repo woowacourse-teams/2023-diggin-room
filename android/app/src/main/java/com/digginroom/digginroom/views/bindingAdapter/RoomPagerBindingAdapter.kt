@@ -6,8 +6,8 @@ import com.digginroom.digginroom.views.model.RoomModel
 
 object RoomPagerBindingAdapter {
     @JvmStatic
-    @BindingAdapter("app:data")
-    fun data(roomPager: RoomPager, data: List<RoomModel>) {
-        roomPager.data = data
+    @BindingAdapter("app:rooms")
+    fun rooms(roomPager: RoomPager, rooms: List<RoomModel>) {
+        roomPager.updateData(rooms)
     }
 }

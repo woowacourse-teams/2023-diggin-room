@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.data.repository
 
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
-import com.digginroom.model.room.Room
-import com.digginroom.repository.RoomRepository
+import com.digginroom.digginroom.model.room.Room
+import com.digginroom.digginroom.repository.RoomRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

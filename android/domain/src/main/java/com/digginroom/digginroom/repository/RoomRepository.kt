@@ -1,6 +1,6 @@
-package com.digginroom.repository
+package com.digginroom.digginroom.repository
 
-import com.digginroom.model.room.Room
+import com.digginroom.digginroom.model.room.Room
 
 interface RoomRepository {
 

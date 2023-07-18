@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
-import com.digginroom.model.user.Account
-import com.digginroom.model.user.Id
-import com.digginroom.model.user.Password
-import com.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.model.user.Account
+import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.Password
+import com.digginroom.digginroom.repository.AccountRepository
 import kotlinx.coroutines.launch
 
 class JoinViewModel(
