@@ -12,7 +12,7 @@ interface AccountService {
     suspend fun saveAccount(
         @Query("id") id: String,
         @Query("password") password: String
-    ): JoinResponse
+    ): Response<JoinResponse>
 
     @POST("/join/checkMemberIdDuplication")
     suspend fun fetchIsDuplicatedId(

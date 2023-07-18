@@ -65,7 +65,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
             runCatching {
                 accountRepository.fetchIsDuplicatedId(Id(id))
             }.onSuccess {
-                _isUniqueId.value = it.getOrThrow()
+                _isUniqueId.value = !it.getOrThrow()
             }
             _isRedundancyChecked.value = true
         }
