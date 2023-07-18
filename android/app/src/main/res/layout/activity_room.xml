@@ -22,12 +22,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:nextRoom="@{roomViewModel.cachedRoom[2]}" />
+            app:nextRoom="@{roomViewModel.cachedRoom[0]}" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{ () -> roomViewModel.findNextRoom(0) }"
+            android:onClick="@{ () -> roomViewModel.findNextRoom() }"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
