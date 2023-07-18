@@ -6,7 +6,6 @@ import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.MediaType;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.RoomRepository;
-import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -28,8 +27,8 @@ class RoomServiceTest {
 
     @Test
     void 여러_룸_중_랜덤으로_하나를_선택한다() {
-        Room 나무 = new Room(List.of(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww")));
-        Room 가까운듯먼그대여 = new Room(List.of(new MediaSource(MediaType.YOUTUBE, "2VkWaOOF4Rc")));
+        Room 나무 = new Room(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww"));
+        Room 가까운듯먼그대여 = new Room(new MediaSource(MediaType.YOUTUBE, "2VkWaOOF4Rc"));
         roomRepository.save(나무);
         roomRepository.save(가까운듯먼그대여);
 
@@ -40,8 +39,8 @@ class RoomServiceTest {
 
     @Test
     void 페이징을_사용하여_여러_룸_중_랜덤으로_하나를_선택한다() {
-        Room 나무 = new Room(List.of(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww")));
-        Room 가까운듯먼그대여 = new Room(List.of(new MediaSource(MediaType.YOUTUBE, "2VkWaOOF4Rc")));
+        Room 나무 = new Room(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww"));
+        Room 가까운듯먼그대여 = new Room(new MediaSource(MediaType.YOUTUBE, "2VkWaOOF4Rc"));
         roomRepository.save(나무);
         roomRepository.save(가까운듯먼그대여);
 

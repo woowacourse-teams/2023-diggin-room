@@ -4,13 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.ToString.Exclude;
 
 @Getter
 @Entity
@@ -23,9 +21,6 @@ public class MediaSource {
     private Long id;
     private MediaType mediaType;
     private String identifier;
-    @Exclude
-    @ManyToOne
-    private Room room;
 
     public MediaSource(final MediaType mediaType, final String identifier) {
         validateNotNull(mediaType);
@@ -51,9 +46,5 @@ public class MediaSource {
         if (identifier.isBlank()) {
             throw new IllegalArgumentException("식별자는 공백일 수 없습니다");
         }
-    }
-
-    public void setRoom(final Room room) {
-        this.room = room;
     }
 }

@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.List;
+import jakarta.persistence.ManyToOne;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,24 +22,17 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.PERSIST)
-    private List<MediaSource> mediaSources;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private MediaSource mediaSource;
 
-    public Room(final List<MediaSource> mediaSources) {
-        validateNotEmpty(mediaSources);
-        this.mediaSources = mediaSources;
-        bindRooms(mediaSources);
+    public Room(final MediaSource mediaSource) {
+        validateNotNull(mediaSource);
+        this.mediaSource = mediaSource;
     }
 
-    private void bindRooms(final List<MediaSource> mediaSources) {
-        for (MediaSource mediaSource : mediaSources) {
-            mediaSource.setRoom(this);
-        }
-    }
-
-    private void validateNotEmpty(final List<MediaSource> mediaSources) {
-        if (mediaSources.size() == 0) {
-            throw new IllegalArgumentException("룸의 미디어 소스는 비어있을 수 없습니다");
+    private void validateNotNull(final MediaSource mediaSource) {
+        if (Objects.isNull(mediaSource)) {
+            throw new IllegalArgumentException("미디어 소스가 있어야 합니다");
         }
     }
 }

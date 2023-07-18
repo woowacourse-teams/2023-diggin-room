@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.MediaType;
 import com.digginroom.digginroom.domain.Room;
-import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -25,10 +24,10 @@ class RoomRepositoryTest {
 
     @Test
     void 룸_저장_시_미디어_소스도_같아_저장된다() {
-        Room 나무 = new Room(List.of(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww")));
+        Room 나무 = new Room(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww"));
 
         roomRepository.save(나무);
 
-        assertThat(나무.getMediaSources().get(0).getId()).isNotNull();
+        assertThat(나무.getMediaSource().getId()).isNotNull();
     }
 }

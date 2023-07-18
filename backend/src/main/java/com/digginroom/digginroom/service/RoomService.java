@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.service;
 
+import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.RoomRepository;
 import java.util.Collections;
@@ -18,12 +19,14 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     @Transactional
-    public Room pickRandom() {
+    public RoomResponse pickRandom() {
         List<Room> rooms = roomRepository.findAll();
-
         Collections.shuffle(rooms);
+        Room pickedRoom = rooms.stream()
+                .findFirst()
+                .orElseThrow();
 
-        return rooms.get(0);
+        return new RoomResponse(pickedRoom.getId(), pickedRoom.getMediaSource().getIdentifier());
     }
 
     @Transactional
