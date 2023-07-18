@@ -12,8 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,8 +30,8 @@ class MemberServiceTest {
 
     @Test
     void 아이디가_중복이_아닌경우_회원가입을_성공한다() {
-        when(memberRepository.findByMemberId("power"))
-                .thenReturn(Optional.empty());
+        when(memberRepository.existsByMemberId("power"))
+                .thenReturn(false);
 
         memberService.save(new MemberSaveRequest("power", "power"));
 
@@ -42,8 +40,8 @@ class MemberServiceTest {
 
     @Test
     void 회원가입을_할_때_전달된_아이디가_중복일경우_에러가_발생한다() {
-        when(memberRepository.findByMemberId("power"))
-                .thenReturn(Optional.of(new Member("power", "power")));
+        when(memberRepository.existsByMemberId("power"))
+                .thenReturn(true);
 
         assertThatThrownBy(() -> memberService.save(new MemberSaveRequest("power", "power")))
                 .isInstanceOf(MemberException.DuplicationException.class)
@@ -52,8 +50,8 @@ class MemberServiceTest {
 
     @Test
     void 아이디가_중복이_아닌경우_에러가_발생하지않는다() {
-        when(memberRepository.findByMemberId("power"))
-                .thenReturn(Optional.empty());
+        when(memberRepository.existsByMemberId("power"))
+                .thenReturn(false);
 
         assertThat(memberService.checkDuplication("power").isDuplicated()).isFalse();
     }

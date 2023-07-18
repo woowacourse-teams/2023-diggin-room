@@ -20,8 +20,8 @@ public class MemberService {
         memberRepository.save(request.toMember());
     }
 
-    private boolean isDuplicated(String memberId) {
-        return memberRepository.findByMemberId(memberId).isPresent();
+    private boolean isDuplicated(final String memberId) {
+        return memberRepository.existsByMemberId(memberId);
     }
 
     public MemberDuplicationResponse checkDuplication(String memberId) {
