@@ -7,7 +7,8 @@ import com.digginroom.model.room.Room
 object RoomBindingAdapter {
     @JvmStatic
     @BindingAdapter("app:nextRoom")
-    fun nextRoom(roomYoutubeView: RoomYoutubeView, room: Room) {
+    fun nextRoom(roomYoutubeView: RoomYoutubeView, room: Room?) {
+        if (room == null) return
         roomYoutubeView.navigate(room)
     }
 }
