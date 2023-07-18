@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="java.util.function.Function"/>
+        <import type="android.view.View" />
+
         <variable
-            name="activity"
-            type="com.digginroom.digginroom.views.activity.LoginActivity" />
+            name="navigateToJoinView"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="resultListener"
+            type="com.digginroom.digginroom.views.activity.ResultListener" />
 
         <variable
             name="viewModel"
@@ -26,6 +34,16 @@
         android:layout_height="match_parent"
         android:background="#110B2E"
         tools:context=".views.activity.LoginActivity">
+
+        <ProgressBar
+            android:id="@+id/login_pb"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/login_tv_login"
@@ -77,13 +95,15 @@
             android:layout_height="52dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/bg_gradient_blue_radius"
-            android:onClick="@{() -> viewModel.login(id, password)}"
             android:text="@string/common_login"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:flag="@{viewModel.isLoginSucceed}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
+            app:onClickWithResult="@{() -> viewModel.login(id, password)}"
+            app:resultListener="@{resultListener}" />
 
         <TextView
             android:id="@+id/login_tv_join"
@@ -91,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
-            android:onClick="@{() -> activity.navigateToJoinView()}"
+            android:onClick="@{() -> navigateToJoinView.invoke()}"
             android:text="@string/common_join"
             android:textColor="#90909F"
             app:layout_constraintEnd_toEndOf="@+id/login_button"
