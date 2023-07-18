@@ -18,8 +18,8 @@ public class MemberController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody @Valid final MemberRequest memberRequest) {
-        memberService.save(memberRequest);
+    public void save(@RequestBody @Valid final MemberSaveRequest memberSaveRequest) {
+        memberService.save(memberSaveRequest);
     }
 
     @GetMapping("/checkMemberIdDuplication")

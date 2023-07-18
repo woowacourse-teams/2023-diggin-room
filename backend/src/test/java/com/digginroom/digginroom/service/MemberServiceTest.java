@@ -31,12 +31,22 @@ class MemberServiceTest {
     private MemberService memberService;
 
     @Test
-    void 아이디가_중복일경우_에러가_발생한다() {
+    void 아이디가_중복이_아닌경우_회원가입을_성공한다() {
+        when(memberRepository.findByMemberId("power"))
+                .thenReturn(Optional.empty());
+
+        memberService.save(new MemberSaveRequest("power", "power"));
+
+        verify(memberRepository).save(any(Member.class));
+    }
+
+    @Test
+    void 회원가입을_할_때_전달된_아이디가_중복일경우_에러가_발생한다() {
         when(memberRepository.findByMemberId("power"))
                 .thenReturn(Optional.of(new Member("power", "power")));
 
-        assertThatThrownBy(() -> memberService.validateMemberId("power"))
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> memberService.save(new MemberSaveRequest("power", "power")))
+                .isInstanceOf(MemberException.DuplicationException.class)
                 .hasMessageContaining("아이디가 중복되었습니다.");
     }
 
