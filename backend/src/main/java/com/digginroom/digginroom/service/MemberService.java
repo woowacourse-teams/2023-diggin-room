@@ -27,7 +27,7 @@ public class MemberService {
         return memberRepository.existsByMemberId(memberId);
     }
 
-    public MemberDuplicationResponse checkDuplication(String memberId) {
+    public MemberDuplicationResponse checkDuplication(final String memberId) {
         boolean duplicated = isDuplicated(memberId);
         return new MemberDuplicationResponse(duplicated);
     }
