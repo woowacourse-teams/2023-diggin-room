@@ -13,7 +13,7 @@ class MemberControllerTest extends ControllerTest {
     void 회원가입을_할_수_있다() {
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new MemberSaveRequest("power", "power"))
+                .body(new MemberSaveRequest("power", "power123#"))
                 .when().post("/join")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
