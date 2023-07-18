@@ -2,9 +2,9 @@ package com.digginroom.digginroom.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class RoomException extends DigginRoomException {
+public abstract class RoomException extends DigginRoomException {
 
-    private RoomException(final String message, final HttpStatus httpStatus) {
+    public RoomException(final String message, final HttpStatus httpStatus) {
         super(message, httpStatus);
     }
 
