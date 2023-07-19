@@ -32,7 +32,7 @@ class DefaultAccountRepository(
                 accountRemoteDataSource.postAccount(
                     id = account.id.value,
                     password = account.password.value
-                ).token
+                )
             }
         }
 }

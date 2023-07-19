@@ -9,13 +9,13 @@ object LoginBindingAdapter {
     @JvmStatic
     @BindingAdapter(
         value = ["onClick", "listener", "isSucceed"],
-        requireAll = false,
+        requireAll = false
     )
     fun onClickForResultListener(
         button: Button,
         onClick: () -> Unit,
         listener: ResultListener,
-        isSucceed: Boolean,
+        isSucceed: Boolean
     ) {
         button.setOnClickListener {
             onClick()

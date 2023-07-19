@@ -30,8 +30,8 @@ class LoginViewModel(private val accountRepository: AccountRepository) : ViewMod
                 accountRepository.postAccount(
                     Account(
                         id = Id(id),
-                        password = Password(password),
-                    ),
+                        password = Password(password)
+                    )
                 )
             }
         }.onSuccess {

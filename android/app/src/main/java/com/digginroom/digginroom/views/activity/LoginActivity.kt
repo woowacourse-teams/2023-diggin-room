@@ -14,7 +14,7 @@ class LoginActivity : AppCompatActivity(), ResultListener {
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
             this,
-            LoginViewModel.getLoginViewModelFactory(),
+            LoginViewModel.getLoginViewModelFactory()
         )[LoginViewModel::class.java]
     }
 
