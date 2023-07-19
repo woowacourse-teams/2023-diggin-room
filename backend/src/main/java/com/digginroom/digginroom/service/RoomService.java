@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RoomService {
 
     private final RoomRepository roomRepository;
 
-    @Transactional(readOnly = true)
     public RoomResponse pickRandom() {
         List<Room> rooms = roomRepository.findAll();
         Collections.shuffle(rooms);
@@ -31,7 +31,6 @@ public class RoomService {
         return new RoomResponse(pickedRoom.getId(), pickedRoom.getMediaSource().getIdentifier());
     }
 
-    @Transactional(readOnly = true)
     public Room pickRandomByPage() {
         int count = Math.toIntExact(roomRepository.count());
 
