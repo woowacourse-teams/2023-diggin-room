@@ -14,4 +14,11 @@ public abstract class MemberException extends DigginRoomException {
             super("아이디가 중복되었습니다.", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public static class NotFoundException extends MemberException {
+
+        public NotFoundException() {
+            super("회원 정보가 없습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
