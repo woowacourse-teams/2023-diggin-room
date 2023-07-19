@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.views.model.RoomModel
+import com.digginroom.digginroom.views.customView.roomview.RoomState
 import com.digginroom.digginroom.views.model.mapper.RoomMapper.toModel
 import kotlinx.coroutines.launch
 
@@ -15,17 +15,18 @@ class RoomViewModel(
     private val roomRepository: RoomRepository
 ) : ViewModel() {
 
-    private val _cachedRoom: MutableLiveData<List<RoomModel>> =
-        MutableLiveData(rooms.map { it.toModel() })
-    val cachedRoom: LiveData<List<RoomModel>>
+    private val _cachedRoom: MutableLiveData<RoomState> =
+        MutableLiveData(RoomState.Loading)
+    val cachedRoom: LiveData<RoomState>
         get() = _cachedRoom
 
     fun findNextRoom() {
         viewModelScope.launch {
             roomRepository.findNext().onSuccess { room ->
                 rooms.add(room)
-                _cachedRoom.value = rooms.map { it.toModel() }
+                _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
             }.onFailure {
+                _cachedRoom.value = RoomState.Error(it)
             }
         }
     }

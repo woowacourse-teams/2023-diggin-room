@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views.customView.roomView
+package com.digginroom.digginroom.views.customView.roomview
 
 import com.digginroom.digginroom.views.model.RoomModel
 
