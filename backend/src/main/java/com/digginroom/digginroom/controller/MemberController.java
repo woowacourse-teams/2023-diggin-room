@@ -23,7 +23,7 @@ public class MemberController {
     }
 
     @GetMapping("/checkMemberIdDuplication")
-    public ResponseEntity<MemberDuplicationResponse> isDuplicated(@RequestParam final String memberId) {
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.checkDuplication(memberId));
+    public ResponseEntity<MemberDuplicationResponse> isDuplicated(@RequestParam final String userName) {
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.checkDuplication(userName));
     }
 }
