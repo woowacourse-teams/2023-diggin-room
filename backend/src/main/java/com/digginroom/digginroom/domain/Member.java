@@ -30,7 +30,7 @@ public class Member {
     private final List<Room> scraps = new ArrayList<>();
 
     public void scrap(final Room room) {
-        if (!scraps.contains(room)) {
+        if (!hasScrapped(room)) {
             scraps.add(room);
         }
     }
