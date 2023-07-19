@@ -17,14 +17,14 @@ public class MemberService {
 
     @Transactional
     public void save(final MemberSaveRequest request) {
-        if (isDuplicated(request.memberId())) {
+        if (isDuplicated(request.userName())) {
             throw new DuplicationException();
         }
         memberRepository.save(request.toMember());
     }
 
     private boolean isDuplicated(final String memberId) {
-        return memberRepository.existsByMemberId(memberId);
+        return memberRepository.existsByUserName(memberId);
     }
 
     public MemberDuplicationResponse checkDuplication(final String memberId) {
