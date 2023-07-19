@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.views.customView.roomview.RoomState
+import com.digginroom.digginroom.views.customview.roomview.RoomState
 import com.digginroom.digginroom.views.model.mapper.RoomMapper.toModel
 import kotlinx.coroutines.launch
 

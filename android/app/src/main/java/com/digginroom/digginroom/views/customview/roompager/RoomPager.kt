@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.views.customView.roompager
+package com.digginroom.digginroom.views.customview.roompager
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.view.size
-import com.digginroom.digginroom.views.customView.roomview.YoutubeRoomView
+import com.digginroom.digginroom.views.customview.roomview.YoutubeRoomPlayer
 import com.digginroom.digginroom.views.model.RoomModel
 
 @SuppressLint("ClickableViewAccessibility")
@@ -22,8 +22,8 @@ class RoomPager(
     private val horizontalScrollView: HorizontalScrollView = HorizontalScrollView(context)
     private val gridLayout: GridLayout = GridLayout(context)
     private var rooms: List<RoomModel> = emptyList()
-    private val roomViews: List<YoutubeRoomView> = (0 until 9).map {
-        YoutubeRoomView(context)
+    private val roomViews: List<YoutubeRoomPlayer> = (0 until 9).map {
+        YoutubeRoomPlayer(context)
     }
     private val imageViews: List<TextView> = (0 until 9).map {
         TextView(context)

@@ -1,12 +1,12 @@
-package com.digginroom.digginroom.views.customView.roomview
+package com.digginroom.digginroom.views.customview.roomview
 
 import android.content.Context
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.digginroom.digginroom.views.model.RoomModel
 
-class YoutubeRoomView(context: Context) :
-    WebView(context), RoomView {
+class YoutubeRoomPlayer(context: Context) :
+    WebView(context), RoomPlayer {
     private var videoId = ""
 
     init {
@@ -112,7 +112,7 @@ class YoutubeRoomView(context: Context) :
                 @JavascriptInterface
                 fun onLoaded() {
                     if (videoId.isEmpty()) return
-                    this@YoutubeRoomView.post {
+                    this@YoutubeRoomPlayer.post {
                         println(videoId)
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }

@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.views.bindingAdapter
 
 import androidx.databinding.BindingAdapter
-import com.digginroom.digginroom.views.customView.roompager.RoomPager
-import com.digginroom.digginroom.views.customView.roomview.RoomState
+import com.digginroom.digginroom.views.customview.roompager.RoomPager
+import com.digginroom.digginroom.views.customview.roomview.RoomState
 
 object RoomPagerBindingAdapter {
     @JvmStatic
