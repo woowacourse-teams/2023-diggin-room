@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.views.customView.roomview
 
 import android.content.Context
+import android.view.View
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.digginroom.digginroom.views.model.RoomModel
@@ -10,11 +11,13 @@ class YoutubeRoomView(context: Context) :
     private var videoId = ""
 
     init {
-//        setOnTouchListener { v, event -> true }
-//        isClickable = false
-//        isContextClickable = false
-//        isFocusableInTouchMode = false
-//        focusable = View.NOT_FOCUSABLE
+        setOnTouchListener { v, event -> true }
+        isClickable = false
+        isContextClickable = false
+        isFocusableInTouchMode = false
+        focusable = View.NOT_FOCUSABLE
+        isHorizontalScrollBarEnabled = false
+        isVerticalScrollBarEnabled = false
         val iframe = """
             <!DOCTYPE html>
             <html lang="en">
