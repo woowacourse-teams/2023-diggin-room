@@ -23,12 +23,12 @@ public class MemberService {
         memberRepository.save(request.toMember());
     }
 
-    private boolean isDuplicated(final String memberId) {
-        return memberRepository.existsByUserName(memberId);
+    private boolean isDuplicated(final String userName) {
+        return memberRepository.existsByUserName(userName);
     }
 
-    public MemberDuplicationResponse checkDuplication(final String memberId) {
-        boolean duplicated = isDuplicated(memberId);
+    public MemberDuplicationResponse checkDuplication(final String userName) {
+        boolean duplicated = isDuplicated(userName);
         return new MemberDuplicationResponse(duplicated);
     }
 }
