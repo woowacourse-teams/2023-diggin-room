@@ -2,6 +2,7 @@ package com.digginroom.digginroom.domain;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.digginroom.digginroom.exception.RoomException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ class RoomTest {
     @Test
     void 미디어소스는_필수다() {
         assertThatThrownBy(() -> new Room(null))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("미디어 소스가 있어야 합니다");
+                .isInstanceOf(RoomException.NoMediaSourceException.class);
     }
 }

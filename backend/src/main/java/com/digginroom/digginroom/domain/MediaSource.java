@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.domain;
 
+import static com.digginroom.digginroom.exception.MediaSourceException.NoIdentifierException;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,13 +29,13 @@ public class MediaSource {
 
     private void validateNotNull(final String identifier) {
         if (Objects.isNull(identifier)) {
-            throw new IllegalArgumentException("식별자가 지정되지 않았습니다");
+            throw new NoIdentifierException();
         }
     }
 
     private void validateNotBlank(final String identifier) {
         if (identifier.isBlank()) {
-            throw new IllegalArgumentException("식별자는 공백일 수 없습니다");
+            throw new NoIdentifierException();
         }
     }
 }
