@@ -17,21 +17,12 @@ public class MediaSource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private MediaType mediaType;
     private String identifier;
 
-    public MediaSource(final MediaType mediaType, final String identifier) {
-        validateNotNull(mediaType);
+    public MediaSource(final String identifier) {
         validateNotNull(identifier);
         validateNotBlank(identifier);
-        this.mediaType = mediaType;
         this.identifier = identifier;
-    }
-
-    private void validateNotNull(final MediaType mediaType) {
-        if (Objects.isNull(mediaType)) {
-            throw new IllegalArgumentException("미디어 타입이 지정되지 않았습니다");
-        }
     }
 
     private void validateNotNull(final String identifier) {
