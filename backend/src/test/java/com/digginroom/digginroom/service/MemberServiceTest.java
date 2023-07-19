@@ -1,9 +1,16 @@
 package com.digginroom.digginroom.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -11,12 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -54,5 +55,23 @@ class MemberServiceTest {
                 .thenReturn(false);
 
         assertThat(memberService.checkDuplication("power").isDuplicated()).isFalse();
+    }
+
+    @Test
+    void 회원_정보가_있는_경우_멤버를_반환한다() {
+        Member power = new Member("power", "power123!");
+        when(memberRepository.findById(1L)).thenReturn(Optional.of(power));
+
+        assertThat(memberService.findMember(1L)).isEqualTo(power);
+    }
+
+    @Test
+    void 회원_정보가_없는_경우_에러가_발생한다() {
+        when(memberRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> memberService.findMember(1L))
+                .isInstanceOf(MemberException.NotFoundException.class)
+                .hasMessageContaining("회원 정보가 없습니다.");
     }
 }
