@@ -2,9 +2,9 @@ package com.digginroom.digginroom.data.repository
 
 import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
 import com.digginroom.digginroom.data.datasource.remote.DefaultAccountRemoteDataSource
-import com.digginroom.model.user.Account
-import com.digginroom.model.user.Id
-import com.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.model.user.Account
+import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.repository.AccountRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

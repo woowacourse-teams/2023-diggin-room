@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.views.model
 
 data class RoomModel(
-    val videoId: Int
+    val videoId: String,
+    val song: SongModel,
+    val isScrapped: Boolean
 )

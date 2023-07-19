@@ -1,8 +1,8 @@
 package com.digginroom.digginroom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.viewmodels.JoinViewModel
-import com.digginroom.repository.AccountRepository
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before

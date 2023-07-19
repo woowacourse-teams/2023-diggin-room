@@ -1,7 +1,7 @@
-package com.digginroom.repository
+package com.digginroom.digginroom.repository
 
-import com.digginroom.model.user.Account
-import com.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.Account
+import com.digginroom.digginroom.model.user.Id
 
 interface AccountRepository {
 

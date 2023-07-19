@@ -38,10 +38,10 @@ android {
         enabled = true
     }
 }
-//
-//tasks.withType(Test) {
-//    useJUnitPlatform()
-//}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
@@ -54,20 +54,14 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    // test
-    testImplementation("junit:junit:4.13.2")
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2"
-
-    // testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    // ViewModel test
-    testImplementation "androidx.arch.core:core-testing:2.2.0"
-    // Mockk
-    testImplementation("io.mockk:mockk:1.13.5")
 
     implementation project(':domain')
     // ViewPager2

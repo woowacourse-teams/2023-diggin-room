@@ -1,4 +1,4 @@
-package com.digginroom.model.user
+package com.digginroom.digginroom.model.user
 
 @JvmInline
 value class Id(val value: String) {
