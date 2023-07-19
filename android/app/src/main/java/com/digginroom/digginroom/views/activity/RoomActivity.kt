@@ -10,9 +10,6 @@ import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.data.repository.DefaultRoomRepository
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.viewmodels.RoomViewModel
-import com.digginroom.digginroom.viewmodels.YoutubeRoomCacheStrategy
-import com.digginroom.model.room.Room
-import com.digginroom.model.room.Song
 
 class RoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoomBinding
@@ -21,38 +18,17 @@ class RoomActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_room)
         binding.lifecycleOwner = this
         binding.roomViewModel = RoomViewModel(
-            mutableListOf(
-                Room(
-                    "ucZl6vQ_8Uo",
-                    Song("", "", "", emptyList(), emptyList()),
-                    false
-                ),
-                Room(
-                    "ucZl6vQ_8Uo",
-                    Song("", "", "", emptyList(), emptyList()),
-                    false
-                ),
-                Room(
-                    "ucZl6vQ_8Uo",
-                    Song("", "", "", emptyList(), emptyList()),
-                    false
-                ),
-                Room(
-                    "ucZl6vQ_8Uo",
-                    Song("", "", "", emptyList(), emptyList()),
-                    false
-                ),
-                Room(
-                    "ucZl6vQ_8Uo",
-                    Song("", "", "", emptyList(), emptyList()),
-                    false
-                )
-            ),
-            YoutubeRoomCacheStrategy(),
+            mutableListOf(),
             DefaultRoomRepository(
                 RoomRemoteDataSource()
             )
-        )
+        ).also {
+            it.findNextRoom()
+            it.findNextRoom()
+            it.findNextRoom()
+            it.findNextRoom()
+            it.findNextRoom()
+        }
     }
 
     companion object {

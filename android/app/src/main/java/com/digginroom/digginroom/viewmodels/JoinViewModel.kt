@@ -8,24 +8,25 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
-import com.digginroom.model.user.Account
-import com.digginroom.model.user.Id
-import com.digginroom.model.user.Password
-import com.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.model.user.Account
+import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.Password
+import com.digginroom.digginroom.repository.AccountRepository
 import kotlinx.coroutines.launch
 
-class JoinViewModel(
-    private val accountRepository: AccountRepository,
-    private val joinSucceed: () -> Unit,
-    private val joinFailed: () -> Unit
-) : ViewModel() {
-
-    private val _id: MutableLiveData<String> = MutableLiveData()
-    private val _password: MutableLiveData<String> = MutableLiveData()
+class JoinViewModel(private val accountRepository: AccountRepository) : ViewModel() {
 
     private val _isValidId = MutableLiveData(false)
     val isValidId: LiveData<Boolean>
         get() = _isValidId
+
+    private val _isRedundancyChecked: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isRedundancyChecked: LiveData<Boolean>
+        get() = _isRedundancyChecked
+
+    private val _isUniqueId: MutableLiveData<Boolean> = MutableLiveData()
+    val isUniqueId: LiveData<Boolean>
+        get() = _isUniqueId
 
     private val _isValidPassword = MutableLiveData(false)
     val isValidPassword: LiveData<Boolean>
@@ -43,7 +44,12 @@ class JoinViewModel(
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
+    private val _isJoinSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isJoinSucceed: LiveData<Boolean>
+        get() = _isJoinSucceed
+
     fun validateId(id: String) {
+        _isRedundancyChecked.value = false
         runCatching {
             Id(id)
         }.onSuccess {
@@ -51,8 +57,18 @@ class JoinViewModel(
         }.onFailure {
             _isValidId.value = false
         }
-        _id.value = id
         validateJoinAble()
+    }
+
+    fun validateIdRedundancy(id: String) {
+        viewModelScope.launch {
+            runCatching {
+                accountRepository.fetchIsDuplicatedId(Id(id))
+            }.onSuccess {
+                _isUniqueId.value = !it.getOrThrow()
+            }
+            _isRedundancyChecked.value = true
+        }
     }
 
     fun validatePassword(password: String) {
@@ -63,33 +79,33 @@ class JoinViewModel(
         }.onFailure {
             _isValidPassword.value = false
         }
-        _password.value = password
         validateJoinAble()
     }
 
-    fun validatePasswordEquality(reInputPassword: String) {
-        _isEqualPassword.value = _password.value == reInputPassword
+    fun validatePasswordEquality(password: String, reInputPassword: String) {
+        _isEqualPassword.value = password == reInputPassword
     }
 
     private fun validateJoinAble() {
         _isJoinAble.value = _isValidId.value == true &&
             _isValidPassword.value == true &&
-            _isEqualPassword.value == true
+            _isEqualPassword.value == true &&
+            _isUniqueId.value == true
     }
 
-    fun join() {
+    fun join(id: String, password: String) {
         _isLoading.value = true
 
         viewModelScope.launch {
             accountRepository.saveAccount(
                 Account(
-                    id = Id(_id.value ?: EMPTY),
-                    password = Password(_password.value ?: EMPTY)
+                    id = Id(id),
+                    password = Password(password)
                 )
             ).onSuccess {
-                joinSucceed()
+                _isJoinSucceed.value = true
             }.onFailure {
-                joinFailed()
+                _isJoinSucceed.value = false
             }
             _isLoading.value = false
         }
@@ -97,21 +113,11 @@ class JoinViewModel(
 
     companion object {
 
-        private const val EMPTY = ""
-
-        fun getJoinViewModelFactory(
-            joinSucceed: () -> Unit,
-            joinFailed: () -> Unit
-        ): ViewModelProvider.Factory {
-            return viewModelFactory {
+        fun getJoinViewModelFactory(): ViewModelProvider.Factory =
+            viewModelFactory {
                 initializer {
-                    JoinViewModel(
-                        accountRepository = DefaultAccountRepository(),
-                        joinSucceed = joinSucceed,
-                        joinFailed = joinFailed
-                    )
+                    JoinViewModel(DefaultAccountRepository())
                 }
             }
-        }
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.core.content.edit
 
-class TokenLocalDataSource(context: Context){
+class TokenLocalDataSource(context: Context) {
 
     private val tokenPreference =
         context.getSharedPreferences(SHARED_PREFERENCE_NAME, MODE_PRIVATE)

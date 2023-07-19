@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
-import com.digginroom.model.user.Account
-import com.digginroom.model.user.Id
-import com.digginroom.model.user.Password
-import com.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.model.user.Account
+import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.Password
+import com.digginroom.digginroom.repository.AccountRepository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val accountRepository: AccountRepository) : ViewModel() {
@@ -25,19 +25,17 @@ class LoginViewModel(private val accountRepository: AccountRepository) : ViewMod
         get() = _isLoading
 
     fun login(id: String, password: String) {
-        runCatching {
-            viewModelScope.launch {
-                accountRepository.postAccount(
-                    Account(
-                        id = Id(id),
-                        password = Password(password)
-                    )
+        viewModelScope.launch {
+            accountRepository.postAccount(
+                Account(
+                    id = Id(id),
+                    password = Password(password)
                 )
+            ).onSuccess {
+                _isLoginSucceed.value = true
+            }.onFailure {
+                _isLoginSucceed.value = false
             }
-        }.onSuccess {
-            _isLoginSucceed.value = true
-        }.onFailure {
-            _isLoginSucceed.value = false
         }
     }
 

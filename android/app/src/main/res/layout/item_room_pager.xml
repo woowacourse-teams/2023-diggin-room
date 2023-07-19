@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="room"
+            type="com.digginroom.digginroom.views.model.RoomModel" />
+    </data>
+
+        <com.digginroom.digginroom.views.customView.roomView.RoomYoutubeView
+            android:id="@+id/roomYoutubeView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            app:room="@{room}" />
+
+
+</layout>
