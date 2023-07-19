@@ -10,6 +10,8 @@ class YoutubeRoomPlayer(context: Context) :
     private var videoId = ""
 
     init {
+        setOnTouchListener { _, _ -> true }
+        focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
         val iframe = """
@@ -32,10 +34,21 @@ class YoutubeRoomPlayer(context: Context) :
                     player.playVideo()
                     player.unMute()
                 }
-
+                
                 function pause() {
                     if (!isPlayerLoaded) return
-                    player.pauseVideo()
+                    //player.pauseVideo()
+                    player.mute()
+                }
+                
+                function mute() {
+                    if (!isPlayerLoaded) return
+                    player.mute()
+                }
+
+                function unMute() {
+                    if (!isPlayerLoaded) return
+                    player.unMute()
                 }
 
                 function navigate(videoId) {
@@ -72,9 +85,6 @@ class YoutubeRoomPlayer(context: Context) :
                 }
                 
                 function onPlayerStateChange(event) {
-                    if (event.data == 1 && realPlay == false) {
-                        player.pauseVideo()
-                    }
                 }
               </script>
               <style>
@@ -134,8 +144,10 @@ class YoutubeRoomPlayer(context: Context) :
     }
 
     override fun navigate(room: RoomModel) {
+        if (videoId == room.videoId) {
+            return
+        }
         if (videoId.isNotEmpty()) {
-            println(room.videoId)
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
