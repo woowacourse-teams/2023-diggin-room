@@ -1,13 +1,13 @@
 package com.digginroom.digginroom.controller;
 
+import static org.hamcrest.Matchers.equalTo;
+
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
-
-import static org.hamcrest.Matchers.equalTo;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
