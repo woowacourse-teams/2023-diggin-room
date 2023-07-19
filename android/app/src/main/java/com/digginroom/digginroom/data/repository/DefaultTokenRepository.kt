@@ -7,13 +7,9 @@ class DefaultTokenRepository(
     private val tokenLocalDataSource: TokenLocalDataSource
 ) : TokenRepository {
 
-    override fun save(token: String): Result<Unit> =
-        runCatching {
-            tokenLocalDataSource.save(token)
-        }
+    override fun save(token: String) {
+        tokenLocalDataSource.save(token)
+    }
 
-    override fun fetch(): Result<String> =
-        runCatching {
-            tokenLocalDataSource.fetch()
-        }
+    override fun fetch(): String = tokenLocalDataSource.fetch()
 }

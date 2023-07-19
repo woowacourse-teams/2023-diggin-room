@@ -14,7 +14,7 @@ interface AccountService {
     ): Response<Void>
 
     @POST("/login")
-    suspend fun postAccount(
+    suspend fun postLogin(
         @Query("id") id: String,
         @Query("password") password: String
     ): Response<Void>

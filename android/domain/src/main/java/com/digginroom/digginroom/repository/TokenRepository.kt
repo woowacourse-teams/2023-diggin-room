@@ -2,7 +2,7 @@ package com.digginroom.digginroom.repository
 
 interface TokenRepository {
 
-    fun save(token: String): Result<Unit>
+    fun save(token: String)
 
-    fun fetch(): Result<String>
+    fun fetch(): String
 }

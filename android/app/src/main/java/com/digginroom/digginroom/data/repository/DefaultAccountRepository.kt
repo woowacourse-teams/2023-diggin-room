@@ -13,10 +13,10 @@ class DefaultAccountRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AccountRepository {
 
-    override suspend fun saveAccount(account: Account): Result<Unit> =
+    override suspend fun postJoin(account: Account): Result<Unit> =
         withContext(ioDispatcher) {
             runCatching {
-                accountRemoteDataSource.saveAccount(
+                accountRemoteDataSource.postJoin(
                     id = account.id.value,
                     password = account.password.value
                 )
@@ -30,10 +30,10 @@ class DefaultAccountRepository(
             }
         }
 
-    override suspend fun postAccount(account: Account): Result<String> =
+    override suspend fun postLogIn(account: Account): Result<String> =
         withContext(ioDispatcher) {
             runCatching {
-                accountRemoteDataSource.postAccount(
+                accountRemoteDataSource.postLogin(
                     id = account.id.value,
                     password = account.password.value
                 )

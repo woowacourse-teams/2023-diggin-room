@@ -33,7 +33,7 @@ class LoginViewModel(
 
     fun login(id: String, password: String) {
         viewModelScope.launch {
-            accountRepository.postAccount(
+            accountRepository.postLogIn(
                 Account(
                     id = Id(id),
                     password = Password(password)

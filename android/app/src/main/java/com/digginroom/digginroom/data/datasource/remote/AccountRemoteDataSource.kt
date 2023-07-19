@@ -1,17 +1,15 @@
 package com.digginroom.digginroom.data.datasource.remote
 
-import android.util.Log
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinErrorResponse
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
-import java.io.IOException
 
 class AccountRemoteDataSource(
     private val accountService: AccountService = NetworkModule.accountService
 ) {
 
-    suspend fun saveAccount(id: String, password: String) {
+    suspend fun postJoin(id: String, password: String) {
         val response: Response<Void> = accountService.saveAccount(
             id = id,
             password = password
@@ -22,19 +20,17 @@ class AccountRemoteDataSource(
         }
     }
 
-    suspend fun postAccount(id: String, password: String): String {
-        val response = accountService.postAccount(
+    suspend fun postLogin(id: String, password: String): String {
+        val response = accountService.postLogin(
             id = id,
             password = password
         )
 
         if (response.isSuccessful) {
-            val cookie = response.headers().get(SET_COOKIE)
+            return response.headers().get(SET_COOKIE)
                 ?: throw JoinErrorResponse.from(response.code())
-            Log.d("woogi", "postAccount: $cookie")
-            return cookie
         }
-        throw IOException()
+        throw JoinErrorResponse.from(response.code())
     }
 
     suspend fun fetchIsDuplicatedId(id: String): IdDuplicationResponse {
