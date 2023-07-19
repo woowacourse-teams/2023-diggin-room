@@ -30,7 +30,7 @@ class MemberServiceTest {
 
     @Test
     void 아이디가_중복이_아닌경우_회원가입을_성공한다() {
-        when(memberRepository.existsByUserName("power"))
+        when(memberRepository.existsByUsername("power"))
                 .thenReturn(false);
 
         memberService.save(new MemberSaveRequest("power", "power"));
@@ -40,7 +40,7 @@ class MemberServiceTest {
 
     @Test
     void 회원가입을_할_때_전달된_아이디가_중복일경우_에러가_발생한다() {
-        when(memberRepository.existsByUserName("power"))
+        when(memberRepository.existsByUsername("power"))
                 .thenReturn(true);
 
         assertThatThrownBy(() -> memberService.save(new MemberSaveRequest("power", "power")))
@@ -50,7 +50,7 @@ class MemberServiceTest {
 
     @Test
     void 아이디가_중복이_아닌경우_에러가_발생하지않는다() {
-        when(memberRepository.existsByUserName("power"))
+        when(memberRepository.existsByUsername("power"))
                 .thenReturn(false);
 
         assertThat(memberService.checkDuplication("power").isDuplicated()).isFalse();

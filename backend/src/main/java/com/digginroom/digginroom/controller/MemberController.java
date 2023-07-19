@@ -22,8 +22,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/checkMemberIdDuplication")
-    public ResponseEntity<MemberDuplicationResponse> isDuplicated(@RequestParam final String userName) {
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.checkDuplication(userName));
+    @GetMapping("/exist")
+    public ResponseEntity<MemberDuplicationResponse> isDuplicated(@RequestParam final String username) {
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.checkDuplication(username));
     }
 }

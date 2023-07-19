@@ -17,18 +17,18 @@ public class MemberService {
 
     @Transactional
     public void save(final MemberSaveRequest request) {
-        if (isDuplicated(request.userName())) {
+        if (isDuplicated(request.username())) {
             throw new DuplicationException();
         }
         memberRepository.save(request.toMember());
     }
 
-    private boolean isDuplicated(final String userName) {
-        return memberRepository.existsByUserName(userName);
+    private boolean isDuplicated(final String username) {
+        return memberRepository.existsByUsername(username);
     }
 
-    public MemberDuplicationResponse checkDuplication(final String userName) {
-        boolean duplicated = isDuplicated(userName);
+    public MemberDuplicationResponse checkDuplication(final String username) {
+        boolean duplicated = isDuplicated(username);
         return new MemberDuplicationResponse(duplicated);
     }
 }

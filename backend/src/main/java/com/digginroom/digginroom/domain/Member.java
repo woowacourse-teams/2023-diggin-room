@@ -16,7 +16,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    private String userName;
+    private String username;
     @NonNull
     private String password;
 }

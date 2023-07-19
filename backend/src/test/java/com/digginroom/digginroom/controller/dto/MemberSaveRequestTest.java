@@ -23,9 +23,9 @@ class MemberSaveRequestTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"power", "12345", "power123"})
-    public void 유저_아이디_검증_성공_테스트(final String userName) {
+    public void 유저_아이디_검증_성공_테스트(final String username) {
         MemberSaveRequest request = new MemberSaveRequest(
-                userName,
+                username,
                 "Password123!"
         );
 
@@ -36,9 +36,9 @@ class MemberSaveRequestTest {
 
     @ParameterizedTest
     @ValueSource(strings = {" ", "1234", "abcd", "abc한글", "", "abcde!", "aaaaaaaaaaaaaaaaaaaa1"})
-    public void 유저_아이디_검증_실패_테스트(final String userName) {
+    public void 유저_아이디_검증_실패_테스트(final String username) {
         MemberSaveRequest request = new MemberSaveRequest(
-                userName,
+                username,
                 "Password123!"
         );
 

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+// TODO 검증 로직 위치 논의
 public record MemberSaveRequest(
         @NotBlank(message = "아이디를 입력해주세요.")
         @Size(min = 5, max = 20, message = "아이디는 5~20자만 가능합니다.")
@@ -12,7 +13,7 @@ public record MemberSaveRequest(
                 regexp = "^[a-zA-Z0-9]+$",
                 message = "아이디는 영문자, 숫자만 입력해주세요."
         )
-        String userName,
+        String username,
         @NotBlank(message = "비밀번호를 입력해주세요.")
         @Size(min = 8, max = 16, message = "비밀번호는 8~16자만 가능합니다.")
         @Pattern(
@@ -23,6 +24,6 @@ public record MemberSaveRequest(
 ) {
 
     public Member toMember() {
-        return new Member(userName, password);
+        return new Member(username, password);
     }
 }
