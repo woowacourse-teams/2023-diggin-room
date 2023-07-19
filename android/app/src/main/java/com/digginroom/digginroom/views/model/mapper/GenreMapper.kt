@@ -1,19 +1,19 @@
 package com.digginroom.digginroom.views.model.mapper
 
-import com.digginroom.digginroom.views.model.GenreModel
 import com.digginroom.digginroom.model.room.Genre
+import com.digginroom.digginroom.views.model.GenreModel
 
 object GenreMapper {
 
     fun GenreModel.toDomain(): Genre {
         return Genre(
-            title,
+            title
         )
     }
 
     fun Genre.toModel(): GenreModel {
         return GenreModel(
-            title,
+            title
         )
     }
 }

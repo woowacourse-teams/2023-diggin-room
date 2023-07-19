@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class RoomViewModel(
     private val rooms: MutableList<Room>,
-    private val roomRepository: RoomRepository,
+    private val roomRepository: RoomRepository
 ) : ViewModel() {
 
     private val _cachedRoom: MutableLiveData<List<RoomModel>> =

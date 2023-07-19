@@ -20,8 +20,8 @@ class RoomActivity : AppCompatActivity() {
         binding.roomViewModel = RoomViewModel(
             mutableListOf(),
             DefaultRoomRepository(
-                RoomRemoteDataSource(),
-            ),
+                RoomRemoteDataSource()
+            )
         ).also {
             it.findNextRoom()
             it.findNextRoom()

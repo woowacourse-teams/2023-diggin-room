@@ -1,9 +1,7 @@
 package com.digginroom.digginroom.views.customView.roomView
 
 import android.content.Context
-import android.media.midi.MidiOutputPort
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.webkit.WebView
 import com.digginroom.digginroom.views.model.RoomModel

@@ -1,16 +1,16 @@
 package com.digginroom.digginroom.views.model.mapper
 
+import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.views.model.RoomModel
 import com.digginroom.digginroom.views.model.mapper.SongMapper.toDomain
 import com.digginroom.digginroom.views.model.mapper.SongMapper.toModel
-import com.digginroom.digginroom.model.room.Room
 
 object RoomMapper {
     fun RoomModel.toDomain(): Room {
         return Room(
             videoId,
             song.toDomain(),
-            isScrapped,
+            isScrapped
         )
     }
 
@@ -18,7 +18,7 @@ object RoomMapper {
         return RoomModel(
             videoId,
             song.toModel(),
-            isScrapped,
+            isScrapped
         )
     }
 }

@@ -14,7 +14,7 @@ class ScrollGestureListener(private val viewPager2: ViewPager2) :
         e1: MotionEvent,
         e2: MotionEvent,
         distanceX: Float,
-        distanceY: Float,
+        distanceY: Float
     ): Boolean {
         println(1)
 //        if (isOnScroll) return super.onScroll(e1, e2, distanceX, distanceY)
