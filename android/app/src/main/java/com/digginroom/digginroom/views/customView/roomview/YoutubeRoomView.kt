@@ -1,7 +1,6 @@
 package com.digginroom.digginroom.views.customView.roomview
 
 import android.content.Context
-import android.view.View
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.digginroom.digginroom.views.model.RoomModel
@@ -11,11 +10,6 @@ class YoutubeRoomView(context: Context) :
     private var videoId = ""
 
     init {
-        setOnTouchListener { v, event -> true }
-        isClickable = false
-        isContextClickable = false
-        isFocusableInTouchMode = false
-        focusable = View.NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
         val iframe = """
@@ -30,10 +24,13 @@ class YoutubeRoomView(context: Context) :
 
                 var isPlayerLoaded = false
                 var player
+                var realPlay = false
 
                 function play() {
                     if (!isPlayerLoaded) return
+                    realPlay = true
                     player.playVideo()
+                    player.unMute()
                 }
 
                 function pause() {
@@ -43,14 +40,15 @@ class YoutubeRoomView(context: Context) :
 
                 function navigate(videoId) {
                     if (!isPlayerLoaded) return
-                    console.log('system navigate')
+                    realPlay = false
                     player.loadVideoById(videoId, 0, 'large')
                 }
 
                 function onYouTubeIframeAPIReady() {
                     player = new YT.Player('player', {
                         events: {
-                            'onReady': onPlayerReady
+                            'onReady': onPlayerReady,
+                            'onStateChange': onPlayerStateChange
                         },
                         videoId: 'bHQqvYy5KYo',
                         playerVars: {
@@ -62,7 +60,7 @@ class YoutubeRoomView(context: Context) :
                             //modestbranding: 1,
                             rel: 0,
                             showinfo: 0,
-                            mute: 0,
+                            mute: 1,
                             autohide: 1,
                         },
                     })
@@ -71,6 +69,12 @@ class YoutubeRoomView(context: Context) :
                 function onPlayerReady() {
                     Player.onLoaded()
                     isPlayerLoaded = true
+                }
+                
+                function onPlayerStateChange(event) {
+                    if (event.data == 1 && realPlay == false) {
+                        player.pauseVideo()
+                    }
                 }
               </script>
               <style>
