@@ -28,4 +28,18 @@ public abstract class RoomException extends DigginRoomException {
             super("룸은 미디어소스가 필수입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public static class AlreadyScrappedException extends RoomException {
+
+        public AlreadyScrappedException() {
+            super("이미 스크랩된 룸입니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public static class NotScrappedException extends RoomException {
+
+        public NotScrappedException() {
+            super("스크랩되지 않은 룸입니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
