@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.viewmodels
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,14 +8,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
+import com.digginroom.digginroom.data.repository.DefaultTokenRepository
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
 import com.digginroom.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.repository.TokenRepository
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val accountRepository: AccountRepository) : ViewModel() {
+class LoginViewModel(
+    private val accountRepository: AccountRepository,
+    private val tokenRepository: TokenRepository
+) : ViewModel() {
 
     private val _isLoginSucceed: MutableLiveData<Boolean> = MutableLiveData()
     val isLoginSucceed: LiveData<Boolean>
@@ -33,6 +40,7 @@ class LoginViewModel(private val accountRepository: AccountRepository) : ViewMod
                 )
             ).onSuccess {
                 _isLoginSucceed.value = true
+                tokenRepository.save(it)
             }.onFailure {
                 _isLoginSucceed.value = false
             }
@@ -41,10 +49,15 @@ class LoginViewModel(private val accountRepository: AccountRepository) : ViewMod
 
     companion object {
 
-        fun getLoginViewModelFactory(): ViewModelProvider.Factory =
+        fun getLoginViewModelFactory(application: Application): ViewModelProvider.Factory =
             viewModelFactory {
                 initializer {
-                    LoginViewModel(DefaultAccountRepository())
+                    LoginViewModel(
+                        accountRepository = DefaultAccountRepository(),
+                        tokenRepository = DefaultTokenRepository(
+                            TokenLocalDataSource(application.applicationContext)
+                        )
+                    )
                 }
             }
     }
