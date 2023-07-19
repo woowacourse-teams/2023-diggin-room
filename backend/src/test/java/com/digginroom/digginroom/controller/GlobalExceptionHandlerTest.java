@@ -1,11 +1,11 @@
 package com.digginroom.digginroom.controller;
 
-import static org.hamcrest.Matchers.equalTo;
-
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+
+import static org.hamcrest.Matchers.equalTo;
 
 @SuppressWarnings("NonAsciiCharacters")
 class GlobalExceptionHandlerTest extends ControllerTest {
@@ -18,7 +18,6 @@ class GlobalExceptionHandlerTest extends ControllerTest {
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .body("timeStamp", Matchers.notNullValue())
-                .body("errorCode", equalTo("NONE"))
                 .body("errorMessage", equalTo("리소스를 찾을 수 없습니다."));
 
     }

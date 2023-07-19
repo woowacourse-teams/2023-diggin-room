@@ -3,7 +3,6 @@ package com.digginroom.digginroom.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.domain.MediaSource;
-import com.digginroom.digginroom.domain.MediaType;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -26,25 +25,13 @@ class RoomServiceTest {
     private RoomService roomService;
 
     @Test
-    void 여러_룸_중_랜덤으로_하나를_선택한다() {
-        Room 나무 = new Room(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww"));
-        Room 가까운듯먼그대여 = new Room(new MediaSource(MediaType.YOUTUBE, "2VkWaOOF4Rc"));
+    void 페이징을_사용하여_여러_룸_중_랜덤으로_하나를_선택한다() {
+        Room 나무 = new Room(new MediaSource("lQcnNPqy2Ww"));
+        Room 가까운듯먼그대여 = new Room(new MediaSource("2VkWaOOF4Rc"));
         roomRepository.save(나무);
         roomRepository.save(가까운듯먼그대여);
 
         final var pickedRoom = roomService.pickRandom();
-
-        assertThat(pickedRoom).isNotNull();
-    }
-
-    @Test
-    void 페이징을_사용하여_여러_룸_중_랜덤으로_하나를_선택한다() {
-        Room 나무 = new Room(new MediaSource(MediaType.YOUTUBE, "lQcnNPqy2Ww"));
-        Room 가까운듯먼그대여 = new Room(new MediaSource(MediaType.YOUTUBE, "2VkWaOOF4Rc"));
-        roomRepository.save(나무);
-        roomRepository.save(가까운듯먼그대여);
-
-        final var pickedRoom = roomService.pickRandomByPage();
 
         assertThat(pickedRoom).isNotNull();
     }

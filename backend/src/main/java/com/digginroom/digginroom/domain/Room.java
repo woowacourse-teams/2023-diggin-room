@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.domain;
 
+import static com.digginroom.digginroom.exception.RoomException.NoMediaSourceException;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,11 +12,9 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @Entity
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Room {
 
@@ -32,7 +32,7 @@ public class Room {
 
     private void validateNotNull(final MediaSource mediaSource) {
         if (Objects.isNull(mediaSource)) {
-            throw new IllegalArgumentException("미디어 소스가 있어야 합니다");
+            throw new NoMediaSourceException();
         }
     }
 }

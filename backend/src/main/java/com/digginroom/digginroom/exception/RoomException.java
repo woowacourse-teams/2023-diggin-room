@@ -21,4 +21,11 @@ public abstract class RoomException extends DigginRoomException {
             super("더 이상 룸이 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public static class NoMediaSourceException extends RoomException {
+
+        public NoMediaSourceException() {
+            super("룸은 미디어소스가 필수입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
