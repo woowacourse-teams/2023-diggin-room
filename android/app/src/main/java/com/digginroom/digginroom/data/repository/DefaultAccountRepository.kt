@@ -14,13 +14,13 @@ class DefaultAccountRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AccountRepository {
 
-    override suspend fun saveAccount(account: Account): Result<String> =
+    override suspend fun saveAccount(account: Account): Result<Unit> =
         withContext(ioDispatcher) {
             runCatching {
                 accountRemoteDataSource.saveAccount(
                     id = account.id.value,
                     password = account.password.value
-                ).token
+                )
             }
         }
 

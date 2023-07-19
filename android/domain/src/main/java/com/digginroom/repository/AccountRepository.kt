@@ -5,7 +5,7 @@ import com.digginroom.model.user.Id
 
 interface AccountRepository {
 
-    suspend fun saveAccount(account: Account): Result<String>
+    suspend fun saveAccount(account: Account): Result<Unit>
 
     suspend fun fetchIsDuplicatedId(id: Id): Result<Boolean>
 }
