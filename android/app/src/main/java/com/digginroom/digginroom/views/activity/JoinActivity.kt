@@ -36,6 +36,7 @@ class JoinActivity : AppCompatActivity(), ResultListener {
 
     override fun onSucceed() {
         RoomActivity.start(this)
+        finish()
     }
 
     override fun onFailed() {
