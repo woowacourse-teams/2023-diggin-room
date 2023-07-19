@@ -9,7 +9,7 @@
             type="com.digginroom.digginroom.views.model.RoomModel" />
     </data>
 
-        <com.digginroom.digginroom.views.customView.roomView.RoomYoutubeView
+        <com.digginroom.digginroom.views.customview.roomview.YoutubeRoomPlayer
             android:id="@+id/roomYoutubeView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

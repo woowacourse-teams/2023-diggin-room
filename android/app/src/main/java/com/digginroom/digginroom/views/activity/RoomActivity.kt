@@ -22,12 +22,10 @@ class RoomActivity : AppCompatActivity() {
             DefaultRoomRepository(
                 RoomRemoteDataSource()
             )
-        ).also {
-            it.findNextRoom()
-            it.findNextRoom()
-            it.findNextRoom()
-            it.findNextRoom()
-            it.findNextRoom()
+        ).also { roomViewModel ->
+            repeat(9) {
+                roomViewModel.findNextRoom()
+            }
         }
     }
 
