@@ -1,7 +1,6 @@
 package com.digginroom.digginroom.views.customView.roomview
 
 import android.content.Context
-import android.view.View
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.digginroom.digginroom.views.model.RoomModel
@@ -11,58 +10,61 @@ class YoutubeRoomView(context: Context) :
     private var videoId = ""
 
     init {
-        setOnTouchListener { v, event -> true }
-        isClickable = false
-        isContextClickable = false
-        isFocusableInTouchMode = false
-        focusable = View.NOT_FOCUSABLE
+//        setOnTouchListener { v, event -> true }
+//        isClickable = false
+//        isContextClickable = false
+//        isFocusableInTouchMode = false
+//        focusable = View.NOT_FOCUSABLE
         val iframe = """
             <!DOCTYPE html>
             <html lang="en">
               <script>
-                  var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/4cc5d082\/www-widgetapi.vflset\/www-widgetapi.js';try{var ttPolicy=window.trustedTypes.createPolicy("youtube-widget-api",{createScriptURL:function(x){return x}});scriptUrl=ttPolicy.createScriptURL(scriptUrl)}catch(e){}var YT;if(!window["YT"])YT={loading:0,loaded:0};var YTConfig;if(!window["YTConfig"])YTConfig={"host":"https://www.youtube.com"};
-                  if(!YT.loading){YT.loading=1;(function(){var l=[];YT.ready=function(f){if(YT.loaded)f();else l.push(f)};window.onYTReady=function(){YT.loaded=1;var i=0;for(;i<l.length;i++)try{l[i]()}catch(e${'$'}m864811347${'$'}0){}};YT.setConfig=function(c){var k;for(k in c)if(c.hasOwnProperty(k))YTConfig[k]=c[k]};var a=document.createElement("script");a.type="text/javascript";a.id="www-widgetapi-script";a.src=scriptUrl;a.async=true;var c=document.currentScript;if(c){var n=c.nonce||c.getAttribute("nonce");if(n)a.setAttribute("nonce",
-                  n)}var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})()};
-                      
-                var player = new YT.Player('player', {
-                  events: {
-                    'onReady': onPlayerReady
-                  },
-                  videoId: 'bHQqvYy5KYo',
-                  playerVars: {
-                    autoplay: 1,
-                    controls: 0,
-                    disablekb: 1,
-                    fs: 0,
-                    loop: 1,
-                    //modestbranding: 1,
-                    rel: 0,
-                    showinfo: 0,
-                    mute: 0,
-                    autohide: 1,
-                  },
-                })
+                var tag = document.createElement('script');
+
+                tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
                 var isPlayerLoaded = false
-                
+                var player
+
                 function play() {
                     if (!isPlayerLoaded) return
                     player.playVideo()
                 }
-                
+
                 function pause() {
                     if (!isPlayerLoaded) return
                     player.pauseVideo()
                 }
-                
+
                 function navigate(videoId) {
                     if (!isPlayerLoaded) return
+                    console.log('system navigate')
                     player.loadVideoById(videoId, 0, 'large')
                 }
-                
+
                 function onYouTubeIframeAPIReady() {
-                    console.log('system onYoutbuawe')
+                    player = new YT.Player('player', {
+                        events: {
+                            'onReady': onPlayerReady
+                        },
+                        videoId: 'bHQqvYy5KYo',
+                        playerVars: {
+                            autoplay: 1,
+                            controls: 0,
+                            disablekb: 1,
+                            fs: 0,
+                            loop: 1,
+                            //modestbranding: 1,
+                            rel: 0,
+                            showinfo: 0,
+                            mute: 0,
+                            autohide: 1,
+                        },
+                    })
                 }
-                
+
                 function onPlayerReady() {
                     Player.onLoaded()
                     isPlayerLoaded = true
@@ -104,6 +106,7 @@ class YoutubeRoomView(context: Context) :
                 fun onLoaded() {
                     if (videoId.isEmpty()) return
                     this@YoutubeRoomView.post {
+                        println(videoId)
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
@@ -125,6 +128,7 @@ class YoutubeRoomView(context: Context) :
 
     override fun navigate(room: RoomModel) {
         if (videoId.isNotEmpty()) {
+            println(room.videoId)
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId

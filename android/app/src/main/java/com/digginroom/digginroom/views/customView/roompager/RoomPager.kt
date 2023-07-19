@@ -2,38 +2,43 @@ package com.digginroom.digginroom.views.customView.roompager
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.widget.LinearLayout
-import androidx.viewpager2.widget.ViewPager2
+import android.widget.ScrollView
+import com.digginroom.digginroom.views.customView.roomview.YoutubeRoomView
 import com.digginroom.digginroom.views.model.RoomModel
 
 class RoomPager(
     context: Context,
     attributeSet: AttributeSet
-) : LinearLayout(context, attributeSet) {
-    private val viewPager2: ViewPager2 = ViewPager2(context, attributeSet)
-    private val gestureDetector = ScrollGestureListener(viewPager2)
+) : ScrollView(context, attributeSet) {
     var rooms: List<RoomModel> = emptyList()
-
-    var currentEvent: MotionEvent = MotionEvent.obtain(0, 0, 0, 0.0f, 0.0f, 0)
+    private val roomViews: List<YoutubeRoomView> = (0 until 5).map {
+        YoutubeRoomView(context)
+    }
 
     init {
-        viewPager2.adapter = RoomPagerAdapter(rooms)
-        addView(viewPager2)
-
-        viewPager2.getChildAt(0).setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP || event.action == MotionEvent.ACTION_DOWN) {
-                gestureDetector.onDown(event)
-            } else if (event.action == MotionEvent.ACTION_MOVE) {
-                gestureDetector.onScroll(currentEvent, event, 0.0f, 0.0f)
-            }
-            currentEvent = event
-            performClick()
+        val linearLayout = LinearLayout(context)
+        linearLayout.layoutParams = LinearLayout.LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT
+        )
+        linearLayout.orientation = LinearLayout.VERTICAL
+        roomViews.map {
+            it.layoutParams = LinearLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                1000
+            )
+            linearLayout.addView(it)
         }
+        addView(linearLayout)
     }
 
     fun updateData(rooms: List<RoomModel>) {
         this.rooms = rooms
-        (viewPager2.adapter as RoomPagerAdapter).setData(rooms)
+        rooms.mapIndexed { index, roomModel ->
+            if (roomViews.size > index) {
+                roomViews[index].navigate(roomModel)
+            }
+        }
     }
 }
