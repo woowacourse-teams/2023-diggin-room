@@ -25,12 +25,12 @@ public class RoomController {
 
     @PostMapping("/scrap")
     @ResponseStatus(HttpStatus.CREATED)
-    public void scrap(@Auth final Long memberId, @RequestBody RoomRequest roomRequest) {
+    public void scrap(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
         roomService.scrap(memberId, roomRequest.roomId());
     }
 
     @DeleteMapping("/scrap")
-    public void showRandomRoom(@Auth final Long memberId, @RequestBody RoomRequest roomRequest) {
+    public void showRandomRoom(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
         roomService.unscrap(memberId, roomRequest.roomId());
     }
 }
