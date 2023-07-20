@@ -11,11 +11,19 @@ object RoomPagerBindingAdapter {
         when (roomState) {
             is RoomState.Error -> {
             }
+
             RoomState.Loading -> {
             }
+
             is RoomState.Success -> {
                 roomPager.updateData(roomState.rooms)
             }
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:onNextRoom")
+    fun onNextRoom(roomPager: RoomPager, nextRoom: () -> Unit) {
+        roomPager.onNextRoom = nextRoom
     }
 }

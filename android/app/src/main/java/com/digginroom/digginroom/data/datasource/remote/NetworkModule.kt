@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.data.datasource.remote
 
 import com.digginroom.digginroom.data.service.AccountService
+import com.digginroom.digginroom.data.service.RoomService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -20,4 +21,5 @@ object NetworkModule {
     }
 
     val accountService: AccountService = retrofit.create(AccountService::class.java)
+    val roomService: RoomService = retrofit.create(RoomService::class.java)
 }
