@@ -21,4 +21,11 @@ public abstract class MemberException extends DigginRoomException {
             super("회원 정보가 없습니다.", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public static class NoAuthorizationException extends MemberException {
+
+        public NoAuthorizationException() {
+            super("회원 인증 정보가 존재하지 않습니다.", HttpStatus.UNAUTHORIZED);
+        }
+    }
 }

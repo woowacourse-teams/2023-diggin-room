@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/join")
 @RequiredArgsConstructor
-public class MemberController {
+@RequestMapping("/join")
+public class MemberJoinController {
 
     private final MemberService memberService;
 

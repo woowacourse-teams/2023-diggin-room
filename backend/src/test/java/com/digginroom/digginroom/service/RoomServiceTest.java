@@ -1,10 +1,13 @@
 package com.digginroom.digginroom.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
+import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -57,9 +60,9 @@ class RoomServiceTest {
         Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
 
         roomService.scrap(member.getId(), room.getId());
-        roomService.scrap(member.getId(), room.getId());
-
-        assertThat(member.getScraps()).hasSize(1);
+        assertThatThrownBy(() -> roomService.scrap(member.getId(), room.getId()))
+                .isInstanceOf(AlreadyScrappedException.class)
+                .hasMessageContaining("이미 스크랩된 룸입니다.");
     }
 
     @Test
@@ -83,8 +86,8 @@ class RoomServiceTest {
         roomService.scrap(member.getId(), otherRoom.getId());
 
         roomService.unscrap(member.getId(), room.getId());
-        roomService.unscrap(member.getId(), room.getId());
-
-        assertThat(member.getScraps()).hasSize(1);
+        assertThatThrownBy(() -> roomService.unscrap(member.getId(), room.getId()))
+                .isInstanceOf(NotScrappedException.class)
+                .hasMessageContaining("스크랩되지 않은 룸입니다.");
     }
 }
