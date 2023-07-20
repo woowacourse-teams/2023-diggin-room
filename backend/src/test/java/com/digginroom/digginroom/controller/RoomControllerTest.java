@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.controller.dto.RoomRequest;
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -72,5 +73,54 @@ class RoomControllerTest extends ControllerTest {
                 .get("/room")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void 룸을_스크랩할_수_있다() {
+        Response response = RestAssured.given().log().all()
+                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    void 룸_스크랩을_취소할_수_있다() {
+        Response response = RestAssured.given().log().all()
+                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .delete("/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
     }
 }
