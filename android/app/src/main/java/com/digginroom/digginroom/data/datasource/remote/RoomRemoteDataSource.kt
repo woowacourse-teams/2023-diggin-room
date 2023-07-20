@@ -6,7 +6,7 @@ import com.digginroom.digginroom.data.service.RoomService
 import retrofit2.Response
 
 class RoomRemoteDataSource(
-    private val roomService: RoomService = NetworkModule.roomService
+    private val roomService: RoomService
 ) {
     suspend fun findNext(cookie: String): RoomResponse {
         val response: Response<RoomResponse> = roomService.findNext(cookie)

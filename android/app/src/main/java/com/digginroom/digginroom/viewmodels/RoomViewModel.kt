@@ -23,11 +23,9 @@ class RoomViewModel(
     fun findNextRoom() {
         viewModelScope.launch {
             roomRepository.findNext().onSuccess { room ->
-                println("system:room:${room.videoId}")
                 rooms.add(room)
                 _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
             }.onFailure {
-                println("system:error:${it.message}")
                 _cachedRoom.value = RoomState.Error(it)
             }
         }

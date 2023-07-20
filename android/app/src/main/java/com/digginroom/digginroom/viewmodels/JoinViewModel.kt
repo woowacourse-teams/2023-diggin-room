@@ -3,11 +3,7 @@ package com.digginroom.digginroom.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.digginroom.digginroom.data.repository.DefaultAccountRepository
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
@@ -111,15 +107,5 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
             }
             _isLoading.value = false
         }
-    }
-
-    companion object {
-
-        fun getJoinViewModelFactory(): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    JoinViewModel(DefaultAccountRepository())
-                }
-            }
     }
 }

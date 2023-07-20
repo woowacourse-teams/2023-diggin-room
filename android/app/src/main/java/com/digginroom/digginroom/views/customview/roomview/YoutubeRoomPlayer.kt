@@ -70,7 +70,7 @@ class YoutubeRoomPlayer(context: Context) :
                             disablekb: 1,
                             fs: 0,
                             loop: 1,
-                            //modestbranding: 1,
+                            modestbranding: 1,
                             rel: 0,
                             showinfo: 0,
                             mute: 1,
@@ -123,7 +123,6 @@ class YoutubeRoomPlayer(context: Context) :
                 fun onLoaded() {
                     if (videoId.isEmpty()) return
                     this@YoutubeRoomPlayer.post {
-                        println(videoId)
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }

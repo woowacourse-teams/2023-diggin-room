@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DefaultAccountRepository(
-    private val accountRemoteDataSource: AccountRemoteDataSource = AccountRemoteDataSource(),
+    private val accountRemoteDataSource: AccountRemoteDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AccountRepository {
 

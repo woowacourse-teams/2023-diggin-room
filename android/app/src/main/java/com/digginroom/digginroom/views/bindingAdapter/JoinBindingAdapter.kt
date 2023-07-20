@@ -6,7 +6,6 @@ import com.digginroom.digginroom.views.activity.ResultListener
 
 object JoinBindingAdapter {
 
-    // todo: false로하면 왜 타입 애러가 생길까요?
     @JvmStatic
     @BindingAdapter(
         value = ["onClickWithResult", "resultListener", "flag"],

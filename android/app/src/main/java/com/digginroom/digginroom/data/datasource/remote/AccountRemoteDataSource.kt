@@ -8,7 +8,7 @@ import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
 class AccountRemoteDataSource(
-    private val accountService: AccountService = NetworkModule.accountService
+    private val accountService: AccountService
 ) {
 
     suspend fun postJoin(id: String, password: String) {
