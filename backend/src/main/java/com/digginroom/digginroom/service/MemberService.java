@@ -1,12 +1,11 @@
 package com.digginroom.digginroom.service;
 
-import static com.digginroom.digginroom.exception.MemberException.NotFoundException;
-
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
+import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
