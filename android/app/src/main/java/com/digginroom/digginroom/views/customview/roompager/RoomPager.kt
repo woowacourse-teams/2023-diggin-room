@@ -2,14 +2,16 @@ package com.digginroom.digginroom.views.customview.roompager
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Point
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.GridLayout
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.ScrollView
-import android.widget.TextView
+import androidx.core.view.forEachIndexed
 import androidx.core.view.size
+import com.digginroom.digginroom.views.customview.roomview.RoomPlayer
 import com.digginroom.digginroom.views.customview.roomview.YoutubeRoomPlayer
 import com.digginroom.digginroom.views.model.RoomModel
 
@@ -21,16 +23,14 @@ class RoomPager(
 
     private val horizontalScrollView: HorizontalScrollView = HorizontalScrollView(context)
     private val gridLayout: GridLayout = GridLayout(context)
-    private var rooms: List<RoomModel> = emptyList()
-    private val roomViews: List<YoutubeRoomPlayer> = (0 until 9).map {
+    private val roomPlayers: List<YoutubeRoomPlayer> = (0 until GRID_SIZE * GRID_SIZE).map {
         YoutubeRoomPlayer(context)
     }
-    private val imageViews: List<TextView> = (0 until 9).map {
-        TextView(context)
-    }
 
-    private val screenWidthSize = resources.displayMetrics.widthPixels
-    private val screenHeightSize = resources.displayMetrics.heightPixels
+    private val scrollPosition: Point = Point(0, 0)
+    private var targetRooms: List<Point> = listOf(Point(0, 0), Point(0, 1), Point(1, 0))
+    private var rooms: List<RoomModel> = emptyList()
+    var onNextRoom: () -> Unit = { }
     var currentRoomPosition = 0
 
     init {
@@ -42,18 +42,15 @@ class RoomPager(
 
     fun updateData(rooms: List<RoomModel>) {
         this.rooms = rooms
-        rooms.mapIndexed { index, roomModel ->
-            if (roomViews.size > index) {
-                roomViews[index].navigate(roomModel)
-            }
-        }
+        navigateRooms()
     }
 
     private fun initScrollView() {
         var pagingState = PagingState.CURRENT
-        var scrollPosition = 0
+        val screenHeightSize = resources.displayMetrics.heightPixels
+
         setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            val headPosition = scrollPosition * screenHeightSize
+            val headPosition = scrollPosition.y * screenHeightSize
             val pagingBaseline = (screenHeightSize / PAGE_THRESHOLD)
             pagingState = if (scrollY < headPosition - pagingBaseline) {
                 PagingState.PREVIOUS
@@ -63,45 +60,57 @@ class RoomPager(
                 PagingState.CURRENT
             }
         }
+
         setOnTouchListener { _, event ->
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             when (pagingState) {
                 PagingState.PREVIOUS -> {
                     currentRoomPosition--
-                    scrollPosition--
+                    scrollPosition.y--
                 }
 
                 PagingState.CURRENT -> {}
                 PagingState.NEXT -> {
                     currentRoomPosition++
-                    scrollPosition++
+                    scrollPosition.y++
                 }
             }
 
             if (currentRoomPosition <= 0) {
                 currentRoomPosition = 0
-            } else if (scrollPosition <= 0) {
+            } else if (scrollPosition.y <= 0) {
                 repeat(GRID_SIZE) {
                     val child = gridLayout.getChildAt(gridLayout.size - 1)
                     gridLayout.removeView(child)
                     gridLayout.addView(child, 0)
                 }
-                scrollPosition++
-                scrollTo(0, (scrollPosition + 1) * screenHeightSize)
-            } else if (scrollPosition >= GRID_SIZE - 1) {
+
+                scrollPosition.y++
+
+                scrollBy(0, screenHeightSize)
+            } else if (scrollPosition.y >= GRID_SIZE - 1) {
+                onNextRoom()
                 repeat(GRID_SIZE) {
                     val child = gridLayout.getChildAt(0)
                     gridLayout.removeView(child)
                     gridLayout.addView(child)
                 }
-                scrollPosition--
-                scrollTo(0, (scrollPosition - 1) * screenHeightSize)
+
+                scrollPosition.y--
+
+                scrollBy(0, -screenHeightSize)
             }
 
+            targetRooms = listOf(
+                Point(scrollPosition.x, scrollPosition.y - 1),
+                Point(scrollPosition.x, scrollPosition.y),
+                Point(scrollPosition.x, scrollPosition.y + 1)
+            )
+
+            playCurrentRoomPlayer()
             post {
-                smoothScrollTo(0, scrollPosition * screenHeightSize)
+                smoothScrollTo(0, scrollPosition.y * screenHeightSize)
             }
-
             false
         }
 
@@ -110,9 +119,10 @@ class RoomPager(
 
     private fun initHorizontalScrollView() {
         var pagingState = PagingState.CURRENT
-        var scrollPosition = 0
+        val screenWidthSize = resources.displayMetrics.widthPixels
+
         horizontalScrollView.setOnScrollChangeListener { _, scrollX, _, _, _ ->
-            val headPosition = scrollPosition * screenWidthSize
+            val headPosition = scrollPosition.x * screenWidthSize
             val pagingBaseline = (screenWidthSize / PAGE_THRESHOLD)
             pagingState = if (scrollX < headPosition - pagingBaseline) {
                 PagingState.PREVIOUS
@@ -127,45 +137,56 @@ class RoomPager(
             when (pagingState) {
                 PagingState.PREVIOUS -> {
                     currentRoomPosition--
-                    scrollPosition--
+                    scrollPosition.x--
                 }
 
                 PagingState.CURRENT -> {}
                 PagingState.NEXT -> {
                     currentRoomPosition++
-                    scrollPosition++
+                    scrollPosition.x++
                 }
             }
 
             if (currentRoomPosition <= 0) {
                 currentRoomPosition = 0
-            } else if (scrollPosition <= 0) {
+            } else if (scrollPosition.x <= 0) {
                 repeat(GRID_SIZE) {
                     val child = gridLayout.getChildAt(it * GRID_SIZE + (GRID_SIZE - 1))
                     gridLayout.removeView(child)
                     gridLayout.addView(child, it * GRID_SIZE)
                 }
-                scrollPosition++
-                horizontalScrollView.scrollTo(
-                    (scrollPosition + 1) * screenWidthSize,
+
+                scrollPosition.x++
+
+                horizontalScrollView.scrollBy(
+                    screenWidthSize,
                     0
                 )
-            } else if (scrollPosition >= GRID_SIZE - 1) {
+            } else if (scrollPosition.x >= GRID_SIZE - 1) {
+                onNextRoom()
                 repeat(GRID_SIZE) {
                     val child = gridLayout.getChildAt(it * GRID_SIZE)
                     gridLayout.removeView(child)
                     gridLayout.addView(child, it * GRID_SIZE + (GRID_SIZE - 1))
                 }
-                scrollPosition--
-                horizontalScrollView.scrollTo(
-                    (scrollPosition - 1) * screenWidthSize,
+
+                scrollPosition.x--
+
+                horizontalScrollView.scrollBy(
+                    -screenWidthSize,
                     0
                 )
             }
 
+            targetRooms = listOf(
+                Point(scrollPosition.x - 1, scrollPosition.y),
+                Point(scrollPosition.x, scrollPosition.y),
+                Point(scrollPosition.x + 1, scrollPosition.y)
+            )
+            playCurrentRoomPlayer()
             horizontalScrollView.post {
                 horizontalScrollView.smoothScrollTo(
-                    scrollPosition * screenWidthSize,
+                    scrollPosition.x * screenWidthSize,
                     0
                 )
             }
@@ -180,6 +201,26 @@ class RoomPager(
         addView(horizontalScrollView)
     }
 
+    private fun playCurrentRoomPlayer() {
+        gridLayout.forEachIndexed { index, view ->
+            if (index == scrollPosition.y * GRID_SIZE + scrollPosition.x) {
+                (view as YoutubeRoomPlayer).play()
+            } else {
+                (view as YoutubeRoomPlayer).pause()
+            }
+        }
+    }
+
+    private fun navigateRooms() {
+        targetRooms.forEachIndexed { index, point ->
+            (
+                gridLayout.getChildAt(
+                    pointToScalar(point)
+                ) as RoomPlayer
+                ).navigate(rooms[currentRoomPosition + index - 1])
+        }
+    }
+
     private fun initGridLayout() {
         gridLayout.columnCount = GRID_SIZE
         gridLayout.rowCount = GRID_SIZE
@@ -192,15 +233,17 @@ class RoomPager(
     }
 
     private fun initContentView() {
-        imageViews.mapIndexed { index, it ->
+        roomPlayers.map {
             it.layoutParams = LinearLayout.LayoutParams(
-                screenWidthSize,
-                screenHeightSize
+                resources.displayMetrics.widthPixels,
+                resources.displayMetrics.heightPixels
             )
-            it.text = index.toString()
-            it.textSize = 500f
             gridLayout.addView(it)
         }
+    }
+
+    private fun pointToScalar(point: Point): Int {
+        return point.y * GRID_SIZE + point.x
     }
 
     companion object {

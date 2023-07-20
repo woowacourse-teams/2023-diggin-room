@@ -12,7 +12,7 @@
     <com.digginroom.digginroom.views.customview.roompager.RoomPager
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:rooms="@{roomViewModel.cachedRoom}" />
-
+        app:rooms="@{roomViewModel.cachedRoom}"
+        app:onNextRoom="@{() -> roomViewModel.findNextRoom()}" />
 
 </layout>
