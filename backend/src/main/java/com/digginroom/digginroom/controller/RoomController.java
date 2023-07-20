@@ -13,7 +13,7 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/room")
-    public RoomResponse showRandomRoom() {
-        return roomService.pickRandom();
+    public RoomResponse showRandomRoom(@Auth final Long memberId) {
+        return roomService.pickRandom(memberId);
     }
 }
