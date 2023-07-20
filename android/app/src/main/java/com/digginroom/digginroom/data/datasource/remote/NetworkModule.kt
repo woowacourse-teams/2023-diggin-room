@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 @OptIn(ExperimentalSerializationApi::class)
 object NetworkModule {
 
-    private const val URL = "https://ec2-43-200-158-138.ap-northeast-2.compute.amazonaws.com"
+    private const val URL = ""
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()

@@ -11,11 +11,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
 import com.digginroom.digginroom.data.repository.DefaultTokenRepository
-import com.digginroom.digginroom.model.user.Account
-import com.digginroom.digginroom.model.user.Id
-import com.digginroom.digginroom.model.user.Password
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
+import com.digginroom.digginroom.views.activity.LoginState
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -23,26 +21,21 @@ class LoginViewModel(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    private val _isLoginSucceed: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoginSucceed: LiveData<Boolean>
-        get() = _isLoginSucceed
-
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
+    private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.START)
+    val state: LiveData<LoginState>
+        get() = _state
 
     fun login(id: String, password: String) {
+        _state.value = LoginState.LOADING
         viewModelScope.launch {
             accountRepository.postLogIn(
-                Account(
-                    id = Id(id),
-                    password = Password(password)
-                )
+                id = id,
+                password = password
             ).onSuccess {
-                _isLoginSucceed.value = true
+                _state.value = LoginState.SUCCEED
                 tokenRepository.save(it)
             }.onFailure {
-                _isLoginSucceed.value = false
+                _state.value = LoginState.FAILED
             }
         }
     }
