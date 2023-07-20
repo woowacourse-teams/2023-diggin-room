@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("login")
+@RequestMapping("/login")
 public class MemberLoginController {
 
     private static final int PERSISTENT_TIME = 0;
@@ -29,6 +29,7 @@ public class MemberLoginController {
             final HttpSession httpSession
     ) {
         Member member = memberService.loginMember(memberLoginRequest);
+
         httpSession.setAttribute("memberId", member.getId());
         httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
         return ResponseEntity.status(HttpStatus.OK).build();
