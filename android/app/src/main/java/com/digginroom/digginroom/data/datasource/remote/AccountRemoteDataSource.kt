@@ -3,6 +3,7 @@ package com.digginroom.digginroom.data.datasource.remote
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinErrorResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
+import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
@@ -25,8 +26,10 @@ class AccountRemoteDataSource(
 
     suspend fun postLogin(id: String, password: String): String {
         val response = accountService.postLogin(
-            id = id,
-            password = password
+            LoginRequest(
+                id = id,
+                password = password
+            )
         )
 
         if (response.isSuccessful) {

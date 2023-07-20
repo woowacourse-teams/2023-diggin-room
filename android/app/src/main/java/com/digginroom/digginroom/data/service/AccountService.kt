@@ -2,6 +2,7 @@ package com.digginroom.digginroom.data.service
 
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
+import com.digginroom.digginroom.data.entity.LoginRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,8 +18,7 @@ interface AccountService {
 
     @POST("/login")
     suspend fun postLogin(
-        @Query("id") id: String,
-        @Query("password") password: String
+        @Body loginRequest: LoginRequest
     ): Response<Void>
 
     @GET("/join/exist")
