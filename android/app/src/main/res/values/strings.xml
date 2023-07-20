@@ -12,6 +12,9 @@
     <string name="join_id_duplicated">중복된 아이디입니다.</string>
     <string name="join_password_rule_description">비밀번호는 영문, 숫자 조합의 8자 이상 15자 이하입니다.</string>
     <string name="join_password_not_equal_description">비밀번호가 일치하지 않습니다.</string>
+    <string name="common_login">로그인</string>
+    <string name="login_forgot_account">로그인 정보를 잊으셨나요?</string>
+    <string name="login_separator">|</string>
     <string name="join_duplication_check">중복 확인</string>
     <string name="join_tv_available_id">사용가능한 아이디입니다.</string>
 </resources>

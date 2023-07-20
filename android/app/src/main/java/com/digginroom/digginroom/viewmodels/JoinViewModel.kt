@@ -97,7 +97,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         _isLoading.value = true
 
         viewModelScope.launch {
-            accountRepository.saveAccount(
+            accountRepository.postJoin(
                 Account(
                     id = Id(id),
                     password = Password(password)

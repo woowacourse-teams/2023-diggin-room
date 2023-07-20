@@ -13,6 +13,12 @@ interface AccountService {
         @Query("password") password: String
     ): Response<Void>
 
+    @POST("/login")
+    suspend fun postLogin(
+        @Query("id") id: String,
+        @Query("password") password: String
+    ): Response<Void>
+
     @POST("/join/checkMemberIdDuplication")
     suspend fun fetchIsDuplicatedId(
         @Query("memberId")
