@@ -20,6 +20,10 @@
             type="String" />
 
         <variable
+            name="reInputPassword"
+            type="String" />
+
+        <variable
             name="viewModel"
             type="com.digginroom.digginroom.viewmodels.JoinViewModel" />
     </data>
@@ -200,11 +204,12 @@
             android:layout_width="300dp"
             android:layout_height="52dp"
             android:layout_marginTop="54dp"
-            android:afterTextChanged="@{(reInputPassword) -> viewModel.validatePasswordEquality(password, String.valueOf(reInputPassword))}"
+            android:afterTextChanged="@{(inputPassword) -> viewModel.validatePasswordEquality(password, String.valueOf(inputPassword))}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_requset_reinput_password"
             android:inputType="textPassword"
             android:padding="14dp"
+            android:text="@={reInputPassword}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"

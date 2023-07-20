@@ -23,20 +23,20 @@ class DefaultAccountRepository(
             }
         }
 
+    override suspend fun postLogIn(id: String, password: String): Result<String> =
+        withContext(ioDispatcher) {
+            runCatching {
+                accountRemoteDataSource.postLogin(
+                    id = id,
+                    password = password
+                )
+            }
+        }
+
     override suspend fun fetchIsDuplicatedId(id: Id): Result<Boolean> =
         withContext(ioDispatcher) {
             runCatching {
                 accountRemoteDataSource.fetchIsDuplicatedId(id.value).isDuplicated
-            }
-        }
-
-    override suspend fun postLogIn(account: Account): Result<String> =
-        withContext(ioDispatcher) {
-            runCatching {
-                accountRemoteDataSource.postLogin(
-                    id = account.id.value,
-                    password = account.password.value
-                )
             }
         }
 }

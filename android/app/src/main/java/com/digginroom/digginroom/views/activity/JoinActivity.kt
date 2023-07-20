@@ -37,7 +37,7 @@ class JoinActivity : AppCompatActivity(), ResultListener {
     }
 
     override fun onSucceed() {
-        RoomActivity.start(this)
+        LoginActivity.start(this)
         finish()
     }
 
