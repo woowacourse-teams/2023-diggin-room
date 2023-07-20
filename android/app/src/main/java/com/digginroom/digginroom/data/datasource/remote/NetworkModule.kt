@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 @OptIn(ExperimentalSerializationApi::class)
 object NetworkModule {
 
-    private const val URL = "https://0ef57b14-a1be-4ad1-92fc-df196b820d0a.mock.pstmn.io"
+    private const val URL = ""
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
