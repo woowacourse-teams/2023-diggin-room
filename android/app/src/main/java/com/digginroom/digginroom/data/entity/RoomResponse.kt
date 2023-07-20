@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RoomResponse(
+    @SerialName("roomId")
+    val roomId: Long,
     @SerialName("videoId")
     val videoId: String,
     @SerialName("isScrapped")

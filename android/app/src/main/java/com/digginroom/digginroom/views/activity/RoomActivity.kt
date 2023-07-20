@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.digginroom.digginroom.R
+import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.data.repository.DefaultRoomRepository
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
@@ -20,7 +21,10 @@ class RoomActivity : AppCompatActivity() {
         binding.roomViewModel = RoomViewModel(
             mutableListOf(),
             DefaultRoomRepository(
-                RoomRemoteDataSource()
+                RoomRemoteDataSource(),
+                TokenLocalDataSource(this).apply {
+                    save("JSESSIONID=09479AC32EC361B97D0E82E2A27BDADE")
+                }
             )
         ).also { roomViewModel ->
             repeat(9) {

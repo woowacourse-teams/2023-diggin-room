@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
@@ -10,12 +11,13 @@ import kotlinx.coroutines.withContext
 
 class DefaultRoomRepository(
     private val roomRemoteDataSource: RoomRemoteDataSource,
+    private val tokenLocalDataSource: TokenLocalDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RoomRepository {
     override suspend fun findNext(): Result<Room> {
         return withContext(ioDispatcher) {
             runCatching {
-                roomRemoteDataSource.findNext().toDomain()
+                roomRemoteDataSource.findNext(tokenLocalDataSource.fetch()).toDomain()
             }
         }
     }
