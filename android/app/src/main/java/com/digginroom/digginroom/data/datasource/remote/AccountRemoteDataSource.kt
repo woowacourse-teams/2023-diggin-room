@@ -2,6 +2,7 @@ package com.digginroom.digginroom.data.datasource.remote
 
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinErrorResponse
+import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
@@ -10,9 +11,11 @@ class AccountRemoteDataSource(
 ) {
 
     suspend fun postJoin(id: String, password: String) {
-        val response: Response<Void> = accountService.saveAccount(
-            id = id,
-            password = password
+        val response: Response<Void> = accountService.postJoin(
+            JoinRequest(
+                id = id,
+                password = password
+            )
         )
 
         if (!response.isSuccessful) {
