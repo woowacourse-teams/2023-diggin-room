@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException;
@@ -71,6 +72,35 @@ class MemberServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> memberService.findMember(1L))
+                .isInstanceOf(MemberException.NotFoundException.class)
+                .hasMessageContaining("회원 정보가 없습니다.");
+    }
+
+    @Test
+    void 회원_정보가_있다면_로그인_할_수_있다() {
+        Member power = new Member("power", "power123!");
+        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
+
+        assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), power.getPassword())))
+                .isEqualTo(power);
+    }
+
+    @Test
+    void 회원_정보가_없다면_로그인_할_수_없다() {
+        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> memberService.loginMember(new MemberLoginRequest("power", "power123!")))
+                .isInstanceOf(MemberException.NotFoundException.class)
+                .hasMessageContaining("회원 정보가 없습니다.");
+    }
+
+    @Test
+    void 비밀번호가_틀리면_로그인_할_수_없다() {
+        Member power = new Member("power", "power123!");
+        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
+
+        assertThatThrownBy(() -> memberService.loginMember(
+                new MemberLoginRequest(power.getUsername(), power.getPassword() + "asd")))
                 .isInstanceOf(MemberException.NotFoundException.class)
                 .hasMessageContaining("회원 정보가 없습니다.");
     }
