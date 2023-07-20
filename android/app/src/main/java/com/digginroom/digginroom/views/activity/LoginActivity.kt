@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
+import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityLoginBinding
 import com.digginroom.digginroom.viewmodels.LoginViewModel
 
@@ -16,7 +17,7 @@ class LoginActivity : AppCompatActivity(), ResultListener {
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
             this,
-            LoginViewModel.getLoginViewModelFactory(application)
+            ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
         )[LoginViewModel::class.java]
     }
 
@@ -27,14 +28,14 @@ class LoginActivity : AppCompatActivity(), ResultListener {
     }
 
     private fun initLoginBinding() {
-        binding = DataBindingUtil
-            .setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
-            .also {
-                it.lifecycleOwner = this
-                it.resultListener = this
-                it.navigateToJoinView = ::onStartJoin
-                it.viewModel = loginViewModel
-            }
+        binding =
+            DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
+                .also {
+                    it.lifecycleOwner = this
+                    it.resultListener = this
+                    it.navigateToJoinView = ::onStartJoin
+                    it.viewModel = loginViewModel
+                }
     }
 
     private fun onStartJoin() {

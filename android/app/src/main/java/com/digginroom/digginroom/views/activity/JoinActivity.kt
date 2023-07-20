@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
+import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
 import com.digginroom.digginroom.viewmodels.JoinViewModel
 
@@ -16,7 +17,7 @@ class JoinActivity : AppCompatActivity(), ResultListener {
     private val joinViewModel: JoinViewModel by lazy {
         ViewModelProvider(
             this,
-            JoinViewModel.getJoinViewModelFactory()
+            ViewModelFactory.getInstance(applicationContext).joinViewModelFactory
         )[JoinViewModel::class.java]
     }
 
@@ -27,9 +28,8 @@ class JoinActivity : AppCompatActivity(), ResultListener {
     }
 
     private fun initJoinBinding() {
-        binding = DataBindingUtil
-            .setContentView<ActivityJoinBinding>(this, R.layout.activity_join)
-            .also {
+        binding =
+            DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
                 it.resultListener = this
                 it.viewModel = joinViewModel
