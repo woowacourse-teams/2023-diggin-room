@@ -22,9 +22,9 @@ public abstract class MemberException extends DigginRoomException {
         }
     }
 
-    public static class UnAuthorizationException extends MemberException {
+    public static class NoAuthorizationException extends MemberException {
 
-        public UnAuthorizationException() {
+        public NoAuthorizationException() {
             super("회원 인증 정보가 존재하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
     }
