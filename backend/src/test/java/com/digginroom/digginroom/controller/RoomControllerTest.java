@@ -51,7 +51,7 @@ class RoomControllerTest extends ControllerTest {
                 .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/join/login");
+                .post("/login");
 
         String cookie = response.header("Set-Cookie");
 
