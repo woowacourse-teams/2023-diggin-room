@@ -28,7 +28,7 @@ class RoomPager(
     }
 
     private val scrollPosition: Point = Point(0, 0)
-    private var targetRooms: List<Point> = listOf(Point(0, 0), Point(0, 1))
+    private var targetRooms: List<Point> = listOf(Point(0, 0), Point(0, 1), Point(1, 0))
     private var rooms: List<RoomModel> = emptyList()
     var onNextRoom: () -> Unit = { }
     var currentRoomPosition = 0
