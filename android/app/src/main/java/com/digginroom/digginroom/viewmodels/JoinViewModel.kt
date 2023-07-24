@@ -8,6 +8,7 @@ import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
 import com.digginroom.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.views.activity.JoinState
 import kotlinx.coroutines.launch
 
 class JoinViewModel(private val accountRepository: AccountRepository) : ViewModel() {
@@ -36,13 +37,9 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
     val isJoinAble: LiveData<Boolean>
         get() = _isJoinAble
 
-    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
-
-    private val _isJoinSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isJoinSucceed: LiveData<Boolean>
-        get() = _isJoinSucceed
+    private val _state: MutableLiveData<JoinState> = MutableLiveData(JoinState.Start)
+    val state: LiveData<JoinState>
+        get() = _state
 
     fun validateId(id: String) {
         _isRedundancyChecked.value = false
@@ -92,7 +89,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
     }
 
     fun join(id: String, password: String) {
-        _isLoading.value = true
+        _state.value = JoinState.Loading
 
         viewModelScope.launch {
             accountRepository.postJoin(
@@ -101,11 +98,10 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
                     password = Password(password)
                 )
             ).onSuccess {
-                _isJoinSucceed.value = true
+                _state.value = JoinState.Succeed
             }.onFailure {
-                _isJoinSucceed.value = false
+                _state.value = JoinState.Failed()
             }
-            _isLoading.value = false
         }
     }
 }

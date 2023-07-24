@@ -63,6 +63,8 @@
             android:layout_marginTop="300dp"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/common_id"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:padding="14dp"
             android:text="@={id}"
             android:textColor="@color/white"
@@ -78,6 +80,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/common_password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
             android:padding="14dp"
             android:text="@={password}"
@@ -113,7 +116,7 @@
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
             app:listener="@{resultListener}"
             app:loginState="@{viewModel.state}"
-            app:onClick="@{() -> viewModel.login(id, password)}" />
+            app:onClickForLoginState="@{() -> viewModel.login(id, password)}" />
 
         <TextView
             android:id="@+id/login_tv_join"

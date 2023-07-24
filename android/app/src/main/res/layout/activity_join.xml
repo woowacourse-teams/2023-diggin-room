@@ -38,17 +38,18 @@
             android:id="@+id/join_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibleOnLoading="@{viewModel.state}" />
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/common_back_button_description"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -129,6 +130,8 @@
             android:afterTextChanged="@{(inputId) -> viewModel.validateId(String.valueOf(inputId))}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_request_input_id"
+            android:importantForAutofill="no"
+            android:inputType="text"
             android:maxLength="11"
             android:padding="14dp"
             android:text="@={id}"
@@ -165,9 +168,10 @@
             android:layout_width="300dp"
             android:layout_height="52dp"
             android:layout_marginTop="54dp"
-            android:afterTextChanged="@{(inputPassword) -> viewModel.validatePassword(String.valueOf(inputPassword))}"
+            android:afterTextChanged="@{(inputText) -> viewModel.validatePassword(String.valueOf(inputText))}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_request_input_password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
             android:maxLength="15"
             android:padding="14dp"
@@ -206,7 +210,10 @@
             android:layout_marginTop="54dp"
             android:afterTextChanged="@{(inputPassword) -> viewModel.validatePasswordEquality(password, String.valueOf(inputPassword))}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:focusable="@{viewModel.isValidPassword}"
+            android:focusableInTouchMode="@{viewModel.isValidPassword}"
             android:hint="@string/join_requset_reinput_password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
             android:padding="14dp"
             android:text="@={reInputPassword}"
@@ -237,11 +244,11 @@
             android:text="@string/common_join"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:flag="@{viewModel.isJoinSucceed}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/join_et_re_input_password"
-            app:onClickWithResult="@{() -> viewModel.join(id, password)}"
-            app:resultListener="@{resultListener}" />
+            app:onClickForJoinState="@{() -> viewModel.join(id, password)}"
+            app:resultListener="@{resultListener}"
+            app:state="@{viewModel.state}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
