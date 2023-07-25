@@ -22,9 +22,7 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
     }
 
     override fun post(action: () -> Unit) {
-        post {
-            action()
-        }
+        post(Runnable(action))
     }
 
     override fun setOnScrollChangeListener(listener: (Int) -> Unit) {

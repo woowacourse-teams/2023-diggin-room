@@ -24,9 +24,7 @@ class HorizontalScrollPager(
     }
 
     override fun post(action: () -> Unit) {
-        post {
-            action()
-        }
+        post(Runnable(action))
     }
 
     override fun setOnScrollChangeListener(listener: (Int) -> Unit) {
@@ -49,6 +47,4 @@ class HorizontalScrollPager(
     override fun calculateEndChildPosition(index: Int, size: Int): Int {
         return index * size + (size - 1)
     }
-
-
 }
