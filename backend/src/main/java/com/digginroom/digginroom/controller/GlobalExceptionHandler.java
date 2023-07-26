@@ -20,6 +20,15 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnexpectedException(final Exception e) {
+        log.error(e.getMessage(), e);
+
+        return ResponseEntity
+                .status(INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(LocalDateTime.now(), "예상하지 못한 예외가 발생했습니다.(☎ 01049245690)"));
+    }
+
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ErrorResponse> handleNoHandlerFoundException() {
         return ResponseEntity
