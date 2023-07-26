@@ -32,6 +32,7 @@ class JoinActivity : AppCompatActivity(), ResultListener {
             DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
                 it.resultListener = this
+                it.navigator = DefaultJoinNavigator(this)
                 it.viewModel = joinViewModel
             }
     }

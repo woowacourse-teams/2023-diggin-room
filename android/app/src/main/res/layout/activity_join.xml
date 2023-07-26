@@ -16,6 +16,10 @@
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.viewmodels.JoinViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.digginroom.digginroom.views.activity.JoinNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,6 +45,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/common_back_button_description"
+            android:onClick="@{() -> navigator.navigateToLoginView()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
