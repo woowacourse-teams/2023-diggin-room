@@ -18,14 +18,6 @@
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.viewmodels.LoginViewModel" />
-
-        <variable
-            name="id"
-            type="String" />
-
-        <variable
-            name="password"
-            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,7 +76,7 @@
             android:inputType="text"
             android:paddingHorizontal="22dp"
             android:paddingVertical="16dp"
-            android:text="@={id}"
+            android:text="@={viewModel.id}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +96,7 @@
             android:inputType="textPassword"
             android:paddingHorizontal="22dp"
             android:paddingVertical="16dp"
-            android:text="@={password}"
+            android:text="@={viewModel.password}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +132,7 @@
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
             app:listener="@{resultListener}"
             app:loginState="@{viewModel.state}"
-            app:onClickForLoginState="@{() -> viewModel.login(id, password)}" />
+            app:onClickForLoginState="@{() -> viewModel.login()}" />
 
         <TextView
             android:id="@+id/login_tv_join"
