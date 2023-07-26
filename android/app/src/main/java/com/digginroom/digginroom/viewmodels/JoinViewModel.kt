@@ -13,6 +13,10 @@ import kotlinx.coroutines.launch
 
 class JoinViewModel(private val accountRepository: AccountRepository) : ViewModel() {
 
+    val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
+    val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
+    val reInputPassword: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
+
     private val _isValidId = MutableLiveData(false)
     val isValidId: LiveData<Boolean>
         get() = _isValidId
@@ -41,10 +45,10 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
     val state: LiveData<JoinState>
         get() = _state
 
-    fun validateId(id: String) {
+    fun validateId() {
         _isRedundancyChecked.value = false
         runCatching {
-            Id(id)
+            Id(id.value)
         }.onSuccess {
             _isValidId.value = true
         }.onFailure {
@@ -53,9 +57,9 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         validateJoinAble()
     }
 
-    fun validateIdRedundancy(id: String) {
+    fun validateIdRedundancy() {
         viewModelScope.launch {
-            accountRepository.fetchIsDuplicatedId(Id(id))
+            accountRepository.fetchIsDuplicatedId(Id(id.value))
                 .onSuccess {
                     _isUniqueId.value = !it
                 }.onFailure {
@@ -65,19 +69,19 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         }
     }
 
-    fun validatePassword(password: String) {
+    fun validatePassword() {
         runCatching {
-            Password(password)
+            Password(password.value)
         }.onSuccess {
             _isValidPassword.value = true
         }.onFailure {
             _isValidPassword.value = false
         }
-        validateJoinAble()
+        validatePasswordEquality()
     }
 
-    fun validatePasswordEquality(password: String, reInputPassword: String) {
-        _isEqualPassword.value = password == reInputPassword
+    fun validatePasswordEquality() {
+        _isEqualPassword.value = password.value == reInputPassword.value
         validateJoinAble()
     }
 
@@ -88,14 +92,14 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
             _isUniqueId.value == true
     }
 
-    fun join(id: String, password: String) {
+    fun join() {
         _state.value = JoinState.Loading
 
         viewModelScope.launch {
             accountRepository.postJoin(
                 Account(
-                    id = Id(id),
-                    password = Password(password)
+                    id = Id(id.value),
+                    password = Password(password.value)
                 )
             ).onSuccess {
                 _state.value = JoinState.Succeed
@@ -103,5 +107,9 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
                 _state.value = JoinState.Failed()
             }
         }
+    }
+
+    companion object {
+        private const val EMPTY_STRING = ""
     }
 }
