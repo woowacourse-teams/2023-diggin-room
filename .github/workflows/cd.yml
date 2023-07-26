@@ -1,0 +1,23 @@
+name: Java CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["backend"]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: development
+    steps:
+      - uses: actions/checkout@v3
+      - name: gradle bootjar
+        working-directory: ./backend
+        run: |
+          chmod +x ./gradlew
+          ./gradlew bootjar
+        
+      - name: deploy
+        working-directory: ./backend
+        run: |
+          sudo java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
