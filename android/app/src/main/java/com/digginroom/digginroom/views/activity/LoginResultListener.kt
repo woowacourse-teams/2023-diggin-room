@@ -10,6 +10,7 @@ class LoginResultListener(
 
     override fun onSucceed() {
         RoomActivity.start(context)
+        (context as? LoginActivity)?.finish()
     }
 
     override fun onFailed() {

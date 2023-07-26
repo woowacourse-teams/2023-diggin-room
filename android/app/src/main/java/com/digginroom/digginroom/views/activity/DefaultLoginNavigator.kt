@@ -8,5 +8,6 @@ class DefaultLoginNavigator(
 
     override fun navigateToJoinView() {
         JoinActivity.start(context)
+        (context as? LoginActivity)?.finish()
     }
 }
