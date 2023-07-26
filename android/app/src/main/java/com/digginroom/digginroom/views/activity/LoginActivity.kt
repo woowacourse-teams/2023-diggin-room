@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
@@ -13,6 +15,7 @@ import com.digginroom.digginroom.viewmodels.LoginViewModel
 
 class LoginActivity : AppCompatActivity(), ResultListener {
 
+    private lateinit var splashScreen: SplashScreen
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
@@ -24,7 +27,12 @@ class LoginActivity : AppCompatActivity(), ResultListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initSplashScreen()
         initLoginBinding()
+    }
+
+    private fun initSplashScreen() {
+        splashScreen = installSplashScreen()
     }
 
     private fun initLoginBinding() {

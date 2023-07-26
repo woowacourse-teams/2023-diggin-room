@@ -64,6 +64,8 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
+    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
+
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

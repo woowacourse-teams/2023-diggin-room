@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DigginRoom" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.DigginRoom" parent="Base.Theme.DigginRoom" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
+        <!-- Splash 화면의 백그라운드 컬러 지정 -->
+        <item name="windowSplashScreenBackground">@color/indigo</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.DigginRoom</item>
+    </style>
 </resources>
