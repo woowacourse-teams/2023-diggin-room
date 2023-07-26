@@ -8,8 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="navigateToJoinView"
-            type="kotlin.jvm.functions.Function0" />
+            name="navigator"
+            type="com.digginroom.digginroom.views.activity.LoginNavigator" />
 
         <variable
             name="resultListener"
@@ -50,12 +50,12 @@
             android:layout_height="150dp"
             android:layout_marginStart="45dp"
             android:layout_marginTop="50dp"
+            android:contentDescription="@string/common_diggin_room_logo"
             android:scaleType="fitStart"
             android:src="@drawable/ic_diggin_room_logo1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/common_diggin_room_logo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/login_tv_login"
@@ -146,7 +146,7 @@
             android:id="@+id/login_tv_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> navigateToJoinView.invoke()}"
+            android:onClick="@{() -> navigator.navigateToJoinView()}"
             android:text="@string/common_join"
             android:textColor="#90909F"
             app:layout_constraintBaseline_toBaselineOf="@+id/login_separator"
