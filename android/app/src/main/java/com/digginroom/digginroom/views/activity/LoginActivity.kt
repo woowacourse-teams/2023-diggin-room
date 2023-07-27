@@ -11,7 +11,7 @@ import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityLoginBinding
 import com.digginroom.digginroom.viewmodels.LoginViewModel
 
-class LoginActivity : AppCompatActivity(), ResultListener {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by lazy {
@@ -32,25 +32,16 @@ class LoginActivity : AppCompatActivity(), ResultListener {
             DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
                 .also {
                     it.lifecycleOwner = this
-                    it.resultListener = this
-                    it.navigateToJoinView = ::onStartJoin
+                    it.resultListener = LoginResultListener(
+                        context = this,
+                        inputTexts = listOf(
+                            it.loginEtInputPassword,
+                            it.loginEtInputPassword
+                        )
+                    )
+                    it.navigator = LoginNavigator(this)
                     it.viewModel = loginViewModel
                 }
-    }
-
-    private fun onStartJoin() {
-        JoinActivity.start(this)
-    }
-
-    override fun onSucceed() {
-        RoomActivity.start(this)
-    }
-
-    override fun onFailed() {
-        with(binding) {
-            loginEtInputId.text.clear()
-            loginEtInputPassword.text.clear()
-        }
     }
 
     companion object {
