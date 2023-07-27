@@ -1,0 +1,53 @@
+name: Development CD
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "android" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+       java-version: 1.8
+     
+    - name: Create config.properties
+      working-directory: ./android
+      run: echo "server.url=\"${{ secrets.SERVER_URL }}\"" > config.properties
+    
+    - name: Build APK
+      working-directory: ./android
+      run: bash ./gradlew assembleRelease --stacktrace
+     
+     
+    - run: './gradlew assembleRelease'
+    - uses: MeilCli/slack-upload-file@v1
+      with:
+        slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }}
+        channels: ${{ secrets.SLACK_CHANNEL_DEPLOY }}
+        file_path: 'android/app/build/outputs/apk/release/app-release-unsigned.apk'
+        file_name: 'app-release-unsigned.apk'
+        file_type: 'apk'
+        initial_comment: '${{ github.ref }} 테스트 앱 슬랙 배포 성공'
+
+
+    - name: 테스트용 apk artifact 업로드
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release-unsigned.apk
+        path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+        
+    - name: action-slack
+      uses: 8398a7/action-slack@v3.8.0
+      with:
+        status: ${{ job.status }}
+        author_name: 빌드 알림
+      env:
+         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
