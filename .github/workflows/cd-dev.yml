@@ -1,4 +1,4 @@
-name: Java CD
+name: Development CD
 
 on:
   workflow_dispatch:
