@@ -14,16 +14,20 @@ class LoginViewModel(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
+    val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY)
+    val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY)
+
     private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.START)
     val state: LiveData<LoginState>
         get() = _state
 
-    fun login(id: String, password: String) {
+    fun login() {
         _state.value = LoginState.LOADING
+
         viewModelScope.launch {
             accountRepository.postLogIn(
-                id = id,
-                password = password
+                id = id.value,
+                password = password.value
             ).onSuccess {
                 _state.value = LoginState.SUCCEED
                 tokenRepository.save(it)
@@ -31,5 +35,10 @@ class LoginViewModel(
                 _state.value = LoginState.FAILED
             }
         }
+    }
+
+    companion object {
+
+        private const val EMPTY = ""
     }
 }

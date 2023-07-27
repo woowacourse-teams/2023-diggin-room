@@ -11,10 +11,10 @@ object LoginBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["onClick", "listener", "loginState"],
+        value = ["onClickForLoginState", "listener", "loginState"],
         requireAll = false
     )
-    fun onClickForResultListener(
+    fun onClickForLoginState(
         button: Button,
         onClick: () -> Unit,
         listener: ResultListener,
