@@ -2,8 +2,8 @@ name: Development CD
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
+  pull_request:
+    branches: [ "android" ]
     
 jobs:
   build:
