@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                             it.loginEtInputPassword
                         )
                     )
-                    it.navigator = DefaultLoginNavigator(this)
+                    it.navigator = LoginNavigator(this)
                     it.viewModel = loginViewModel
                 }
     }

@@ -1,6 +1,13 @@
 package com.digginroom.digginroom.views.activity
 
-interface LoginNavigator {
+import android.content.Context
 
-    fun navigateToJoinView()
+class LoginNavigator(
+    private val context: Context
+) : LoginNavigationHandler {
+
+    override fun navigateToJoinView() {
+        JoinActivity.start(context)
+        (context as? LoginActivity)?.finish()
+    }
 }
