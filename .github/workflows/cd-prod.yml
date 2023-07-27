@@ -1,0 +1,23 @@
+name: Production CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: production
+    steps:
+      - uses: actions/checkout@v3
+      - name: gradle bootjar
+        working-directory: ./backend
+        run: |
+          chmod +x ./gradlew
+          ./gradlew bootjar
+        
+      - name: deploy
+        working-directory: ./backend
+        run: |
+          java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
