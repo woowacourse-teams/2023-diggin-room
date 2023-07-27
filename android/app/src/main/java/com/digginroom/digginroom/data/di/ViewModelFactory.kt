@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.digginroom.digginroom.viewmodels.JoinViewModel
 import com.digginroom.digginroom.viewmodels.LoginViewModel
 import com.digginroom.digginroom.viewmodels.RoomViewModel
+import com.digginroom.digginroom.viewmodels.ScrapViewModel
 
 class ViewModelFactory(context: Context) {
     private val repositoryProvider = RepositoryProvider(context)
@@ -30,6 +31,15 @@ class ViewModelFactory(context: Context) {
     val roomViewModelFactory = viewModelFactory {
         initializer {
             RoomViewModel(
+                rooms = mutableListOf(),
+                roomRepository = repositoryProvider.roomRepository
+            )
+        }
+    }
+
+    val scrapViewModelFactory = viewModelFactory {
+        initializer {
+            ScrapViewModel(
                 rooms = mutableListOf(),
                 roomRepository = repositoryProvider.roomRepository
             )
