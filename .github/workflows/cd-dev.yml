@@ -12,42 +12,42 @@ jobs:
   build:
     runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - name: set up JDK 17
+      uses: actions/setup-java@v3
       with:
-       java-version: 1.8
-     
-    - name: Create config.properties
-      working-directory: ./android
-      run: echo "server.url=\"${{ secrets.SERVER_URL }}\"" > config.properties
+        java-version: '17'
+        distribution: 'adopt'
     
-    - name: Build APK
-      working-directory: ./android
-      run: bash ./gradlew assembleRelease --stacktrace
-     
-     
-    - run: './gradlew assembleRelease'
-    - uses: MeilCli/slack-upload-file@v1
-      with:
-        slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }}
-        channels: ${{ secrets.SLACK_CHANNEL_DEPLOY }}
-        file_path: 'android/app/build/outputs/apk/release/app-release-unsigned.apk'
-        file_name: 'app-release-unsigned.apk'
-        file_type: 'apk'
-        initial_comment: '${{ github.ref }} 테스트 앱 슬랙 배포 성공'
+    - name: Create config.properties
+      run: |
+        cd android && echo "server.url=\"${{ secrets.SERVER_URL }}\"" > config.properties
 
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./android/gradlew
+      
+    - name: Init with Gradle
+      run: ./android/gradlew init
+      
+    - name: Build with Gradle
+      run: ./android/gradlew build
+      
+    - name: Build APK
+      run: cd android && ./gradlew assembleDebug --stacktrace
 
     - name: 테스트용 apk artifact 업로드
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: app-release-unsigned.apk
-        path: android/app/build/outputs/apk/release/app-release-unsigned.apk
-        
-    - name: action-slack
-      uses: 8398a7/action-slack@v3.8.0
-      with:
-        status: ${{ job.status }}
-        author_name: 빌드 알림
-      env:
-         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        name: apk-artifact
+        path: ./android/app/build/outputs/apk/debug/app-debug.apk
+    
+    - name: Slack 업로드 APK 
+      uses: MeilCli/slack-upload-file@v1.0.0 
+      with: 
+        slack_token: ${{ secrets.SLACK_READ_WRITE_TOKEN }} 
+        channels: ${{ secrets.SLACK_CHANNEL_DEPOLY }}
+        initial_comment: 'APK File Upload' 
+        file_type: 'apk' 
+        file_name: 'app-debug.apk' 
+        file_path: './android/app/build/outputs/apk/debug/app-debug.apk'
+         
