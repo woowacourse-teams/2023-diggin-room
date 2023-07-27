@@ -18,4 +18,5 @@
     <string name="join_duplication_check">중복 확인</string>
     <string name="join_tv_available_id">사용가능한 아이디입니다.</string>
     <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
+    <string name="scrap_scrap_description">스크랩</string>
 </resources>
