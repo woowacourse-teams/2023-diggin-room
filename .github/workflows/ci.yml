@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: jolla-ppalla
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
