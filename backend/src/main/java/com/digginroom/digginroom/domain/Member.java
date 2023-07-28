@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.domain;
 
+import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
@@ -28,7 +29,9 @@ public class Member {
     @NonNull
     private String password;
     @ManyToMany
-    private final List<Room> scraps = new ArrayList<>();
+    private final List<Room> scrapRooms = new ArrayList<>();
+    @ManyToMany
+    private final List<Room> dislikeRooms = new ArrayList<>();
 
     public Member(@NonNull final String username, @NonNull final String password) {
         this.username = username;
@@ -41,16 +44,17 @@ public class Member {
 
     public void scrap(final Room room) {
         validateUnscrapped(room);
-        scraps.add(room);
+        validateUnDisliked(room);
+        scrapRooms.add(room);
     }
 
     public void unscrap(final Room room) {
         validateScrapped(room);
-        scraps.remove(room);
+        scrapRooms.remove(room);
     }
 
     public boolean hasScrapped(final Room room) {
-        return scraps.contains(room);
+        return scrapRooms.contains(room);
     }
 
     private void validateUnscrapped(final Room room) {
@@ -63,5 +67,21 @@ public class Member {
         if (!hasScrapped(room)) {
             throw new NotScrappedException();
         }
+    }
+
+    public void dislike(final Room room) {
+        validateUnscrapped(room);
+        validateUnDisliked(room);
+        dislikeRooms.add(room);
+    }
+
+    private void validateUnDisliked(final Room room) {
+        if (hasDislike(room)) {
+            throw new AlreadyDislikeException();
+        }
+    }
+
+    private boolean hasDislike(final Room room) {
+        return dislikeRooms.contains(room);
     }
 }

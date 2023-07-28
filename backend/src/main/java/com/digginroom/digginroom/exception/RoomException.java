@@ -42,4 +42,11 @@ public abstract class RoomException extends DigginRoomException {
             super("스크랩되지 않은 룸입니다.", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public static class AlreadyDislikeException extends RoomException {
+
+        public AlreadyDislikeException() {
+            super("이미 싫어요한 룸입니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
