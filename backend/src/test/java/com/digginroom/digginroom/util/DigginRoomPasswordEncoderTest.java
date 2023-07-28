@@ -2,22 +2,21 @@ package com.digginroom.digginroom.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.service.DigginRoomPasswordEncodingService;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class DigginRoomPasswordEncodingServiceTest {
+class DigginRoomPasswordEncoderTest {
 
-    DigginRoomPasswordEncodingService digginRoomPasswordEncodingService = new DigginRoomPasswordEncodingService();
+    DigginRoomPasswordEncoder digginRoomPasswordEncoder = new DigginRoomPasswordEncoder();
 
     @Test
     void 비밀번호를_암호화한다() {
         String plainText = "파워";
 
-        String encoded = digginRoomPasswordEncodingService.encode(plainText);
+        String encoded = digginRoomPasswordEncoder.encode(plainText);
 
         assertThat(encoded).hasSize(100);
         assertThat(encoded).doesNotContain(plainText);
@@ -26,8 +25,8 @@ class DigginRoomPasswordEncodingServiceTest {
     @Test
     void 비밀번호가_올바른지_확인한다() {
         String plainText = "파워";
-        String encoded = digginRoomPasswordEncodingService.encode(plainText);
+        String encoded = digginRoomPasswordEncoder.encode(plainText);
 
-        assertThat(digginRoomPasswordEncodingService.matches(plainText, encoded)).isTrue();
+        assertThat(digginRoomPasswordEncoder.matches(plainText, encoded)).isTrue();
     }
 }

@@ -1,22 +1,20 @@
-package com.digginroom.digginroom.service;
+package com.digginroom.digginroom.util;
 
 import com.digginroom.digginroom.util.HashAlgorithm;
 import java.util.UUID;
-import org.springframework.stereotype.Component;
 
-@Component
-public class DigginRoomPasswordEncodingService {
+public class DigginRoomPasswordEncoder {
 
     private static final int SALT_LENGTH = 36;
     private static final int SALT_START_INDEX = 0;
 
-    public String encode(String plainText) {
+    public static String encode(String plainText) {
         UUID salt = UUID.randomUUID();
         String hashed = HashAlgorithm.encrypt(salt + plainText);
         return salt + hashed;
     }
 
-    public boolean matches(String plainText, String encoded) {
+    public static boolean matches(String plainText, String encoded) {
         String salt = encoded.substring(SALT_START_INDEX, SALT_LENGTH);
         String hashed = HashAlgorithm.encrypt(salt + plainText);
         return (salt + hashed).equals(encoded);

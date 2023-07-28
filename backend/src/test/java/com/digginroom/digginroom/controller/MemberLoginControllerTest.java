@@ -19,22 +19,23 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberLoginControllerTest extends ControllerTest {
 
+    private static final String MEMBER_PASSWORD = "power1234@";
+    private static final String MEMBER_USERNAME = "power2";
+
     @Autowired
     private MemberRepository memberRepository;
-    private Member member;
 
     @Override
     @BeforeEach
     void setUp() {
         super.setUp();
-        member = new Member("power2", "power1234@");
-        memberRepository.save(member);
+        memberRepository.save(new Member(MEMBER_USERNAME, MEMBER_PASSWORD));
     }
 
     @Test
     void 회원가입한_사용자는_로그인을_할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -58,7 +59,7 @@ class MemberLoginControllerTest extends ControllerTest {
     @Test
     void 비밀번호가_틀린_사용자는_로그인을_할_수_없다() {
         RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), "kong123!"))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, "kong123!"))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login")
@@ -71,13 +72,13 @@ class MemberLoginControllerTest extends ControllerTest {
     @Test
     void 회원가입한_사용자는_로그인을_연속으로_할_수_있다() {
         RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
 
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");

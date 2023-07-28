@@ -23,6 +23,9 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RoomControllerTest extends ControllerTest {
 
+    private static final String MEMBER_PASSWORD = "power1234@";
+    private static final String MEMBER_USERNAME = "power2";
+
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
@@ -36,7 +39,7 @@ class RoomControllerTest extends ControllerTest {
     @BeforeEach
     void setUp() {
         super.setUp();
-        member = new Member("power", "power1234@");
+        member = new Member(MEMBER_USERNAME, MEMBER_PASSWORD);
         memberRepository.save(member);
         room1 = new Room(new MediaSource("room1"));
         room2 = new Room(new MediaSource("room2"));
@@ -49,7 +52,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 로그인된_사용자는_룸을_탐색할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -78,7 +81,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 룸을_스크랩할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -98,7 +101,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 룸_스크랩을_취소할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");

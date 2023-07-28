@@ -48,14 +48,9 @@ public class MemberService {
         }
 
         Member member = findMember.get();
-        if (isNotSamePassword(request, member)) {
+        if (member.hasDifferentPassword(request.password())) {
             throw new NotFoundException();
         }
         return member;
-    }
-
-    private boolean isNotSamePassword(final MemberLoginRequest request, final Member member) {
-        return !member.getPassword()
-                .equals(request.password());
     }
 }
