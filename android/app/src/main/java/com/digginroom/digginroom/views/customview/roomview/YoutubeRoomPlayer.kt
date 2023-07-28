@@ -8,6 +8,7 @@ import com.digginroom.digginroom.views.model.RoomModel
 class YoutubeRoomPlayer(context: Context) :
     WebView(context), RoomPlayer {
     private var videoId = ""
+    private var isPlayerLoaded = false
 
     init {
         setOnTouchListener { _, _ -> true }
@@ -121,6 +122,7 @@ class YoutubeRoomPlayer(context: Context) :
             object {
                 @JavascriptInterface
                 fun onLoaded() {
+                    isPlayerLoaded = true
                     if (videoId.isEmpty()) return
                     this@YoutubeRoomPlayer.post {
                         loadUrl("javascript:navigate(\"$videoId\")")
@@ -146,7 +148,7 @@ class YoutubeRoomPlayer(context: Context) :
         if (videoId == room.videoId) {
             return
         }
-        if (videoId.isNotEmpty()) {
+        if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId

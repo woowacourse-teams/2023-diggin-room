@@ -1,22 +1,22 @@
 package com.digginroom.digginroom.views.customview.roompager
 
 import android.content.Context
-import android.graphics.Point
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import androidx.core.view.forEachIndexed
-import com.digginroom.digginroom.views.customview.roomview.RoomPlayer
 import com.digginroom.digginroom.views.customview.roomview.YoutubeRoomPlayer
 import com.digginroom.digginroom.views.model.RoomModel
 
 class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(context) {
 
     var currentRoomPosition = 0
-    private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize * gridSize).map {
-        YoutubeRoomPlayer(context)
-    }
-    private var targetRooms: List<Point> = listOf(Point(0, 0), Point(0, 1), Point(1, 0))
+    private val roomPlayers: List<YoutubeRoomPlayer> =
+        (0 until gridSize * gridSize).mapIndexed { index, view ->
+            YoutubeRoomPlayer(context).apply {
+                tag = index
+            }
+        }
     private var rooms: List<RoomModel> = emptyList()
 
     init {
@@ -42,32 +42,33 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
 
     fun updateData(rooms: List<RoomModel>) {
         this.rooms = rooms
-        navigateRooms()
     }
 
     fun playCurrentRoomPlayer(target: Int) {
         forEachIndexed { index, view ->
+            view as YoutubeRoomPlayer
             if (index == target) {
-                (view as YoutubeRoomPlayer).play()
+                view.play()
             } else {
-                (view as YoutubeRoomPlayer).pause()
+                view.pause()
             }
         }
     }
 
-    private fun navigateRooms() {
-        targetRooms.forEachIndexed { index, point ->
-            val recyclePosition = currentRoomPosition + index - 1
-            if (recyclePosition in rooms.indices) {
-                (getChildAt(pointToScalar(point)) as RoomPlayer).navigate(
-                    rooms[recyclePosition]
-                )
-            }
+    fun navigateRooms(target: Int) {
+        (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
+        if (target - 1 >= 0 && rooms.size > currentRoomPosition - 1) {
+            (getChildAt(target - 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
         }
-    }
-
-    private fun pointToScalar(point: Point): Int {
-        return point.y * gridSize + point.x
+        if (target + 1 < gridSize * gridSize && rooms.size > currentRoomPosition + 1) {
+            (getChildAt(target + 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition + 1])
+        }
+        if (target - gridSize >= 0 && rooms.size > currentRoomPosition - 1) {
+            (getChildAt(target - gridSize) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
+        }
+        if (target + gridSize < gridSize * gridSize && rooms.size > currentRoomPosition + 1) {
+            (getChildAt(target + gridSize) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition + 1])
+        }
     }
 
     private fun initLayout() {

@@ -25,6 +25,7 @@ class RoomPager(
 
     fun updateData(rooms: List<RoomModel>) {
         roomRecycler.updateData(rooms)
+        navigateTargetRoom()
     }
 
     private fun initVerticalScrollView() {
@@ -39,11 +40,10 @@ class RoomPager(
 
     private fun initHorizontalScrollView() {
         initScrollPager(horizontalScrollPager)
-        horizontalScrollPager.layoutParams =
-            LinearLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT
-            )
+        horizontalScrollPager.layoutParams = LinearLayout.LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT
+        )
         verticalScrollPager.addView(horizontalScrollPager)
     }
 
@@ -102,20 +102,27 @@ class RoomPager(
             scrollPager.scrollPosition++
             scrollPager.scrollBy(scrollPager.screenSize)
         } else if (scrollPager.scrollPosition >= GRID_SIZE - 1) {
-            // loadNextRoom()
             roomRecycler.recycleNextRooms(scrollPager)
             scrollPager.scrollPosition--
             scrollPager.scrollBy(-scrollPager.screenSize)
+            loadNextRoom()
         }
     }
 
     private fun pageToTargetRoom(scrollPager: ScrollPager) {
-        roomRecycler.playCurrentRoomPlayer(verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition)
+        navigateTargetRoom()
         scrollPager.post {
             scrollPager.smoothScrollTo(
                 scrollPager.scrollPosition * scrollPager.screenSize
             )
         }
+    }
+
+    private fun navigateTargetRoom() {
+        val target =
+            verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition
+        roomRecycler.playCurrentRoomPlayer(target)
+        roomRecycler.navigateRooms(target)
     }
 
     companion object {
