@@ -20,6 +20,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class JoinViewModelTest {
 
     private lateinit var joinViewModel: JoinViewModel
@@ -28,7 +29,6 @@ class JoinViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
@@ -36,7 +36,6 @@ class JoinViewModelTest {
         joinViewModel = JoinViewModel(accountRepository)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun tearDown() {
         Dispatchers.resetMain()
@@ -47,12 +46,12 @@ class JoinViewModelTest {
         // given
         val id = VALID_ID
 
-        // when
         joinViewModel.id.value = id
 
-        // then
+        // when
         joinViewModel.validateId()
 
+        // then
         assertEquals(joinViewModel.isValidId.value, true)
     }
 
@@ -61,12 +60,12 @@ class JoinViewModelTest {
         // given
         val id = INVALID_ID
 
-        // when
         joinViewModel.id.value = id
 
-        // then
+        // when
         joinViewModel.validateId()
 
+        // then
         assertEquals(joinViewModel.isValidId.value, false)
     }
 
@@ -75,12 +74,12 @@ class JoinViewModelTest {
         // given
         val id = INVALID_ID
 
-        // when
         joinViewModel.id.value = id
 
-        // then
+        // when
         joinViewModel.validateId()
 
+        // then
         assertEquals(joinViewModel.isJoinAble.value, false)
     }
 
@@ -93,12 +92,12 @@ class JoinViewModelTest {
             accountRepository.fetchIsDuplicatedId(id)
         } returns Result.success(true)
 
-        // when
         joinViewModel.id.value = id.value
 
-        // then
+        // when
         joinViewModel.validateIdRedundancy()
 
+        // then
         assertEquals(joinViewModel.isUniqueId.value, false)
     }
 
@@ -111,12 +110,12 @@ class JoinViewModelTest {
             accountRepository.fetchIsDuplicatedId(id)
         } returns Result.success(true)
 
-        // when
         joinViewModel.id.value = id.value
 
-        // then
+        // when
         joinViewModel.validateIdRedundancy()
 
+        // then
         assertEquals(joinViewModel.isUniqueId.value, false)
     }
 
@@ -129,12 +128,12 @@ class JoinViewModelTest {
             accountRepository.fetchIsDuplicatedId(id)
         } returns Result.success(true)
 
-        // when
         joinViewModel.id.value = id.value
 
-        // then
+        // when
         joinViewModel.validateIdRedundancy()
 
+        // then
         assertEquals(joinViewModel.isJoinAble.value, false)
     }
 
@@ -143,12 +142,12 @@ class JoinViewModelTest {
         // given
         val password = INVALID_PASSWORD
 
-        // when
         joinViewModel.password.value = password
 
-        // then
+        // when
         joinViewModel.validatePassword()
 
+        // then
         assertEquals(joinViewModel.isValidPassword.value, false)
     }
 
@@ -157,12 +156,12 @@ class JoinViewModelTest {
         // given
         val password = INVALID_PASSWORD
 
-        // when
         joinViewModel.password.value = password
 
-        // then
+        // when
         joinViewModel.validatePassword()
 
+        // then
         assertEquals(joinViewModel.isJoinAble.value, false)
     }
 
@@ -171,12 +170,12 @@ class JoinViewModelTest {
         // given
         val password = VALID_PASSWORD
 
-        // when
         joinViewModel.password.value = password
 
-        // then
+        // when
         joinViewModel.validatePassword()
 
+        // then
         assertEquals(true, joinViewModel.isValidPassword.value)
     }
 
@@ -186,13 +185,13 @@ class JoinViewModelTest {
         val password = VALID_PASSWORD
         val reInputPassword = VALID_PASSWORD
 
-        // when
         joinViewModel.password.value = password
         joinViewModel.reInputPassword.value = reInputPassword
 
-        // then
+        // when
         joinViewModel.isEqualPassword
 
+        // then
         assertEquals(joinViewModel.isEqualPassword.value, true)
     }
 
@@ -202,13 +201,13 @@ class JoinViewModelTest {
         val password = VALID_PASSWORD
         val reInputPassword = INVALID_PASSWORD
 
-        // when
         joinViewModel.password.value = password
         joinViewModel.reInputPassword.value = reInputPassword
 
-        // then
+        // when
         joinViewModel.validatePasswordEquality()
 
+        // then
         assertEquals(joinViewModel.isJoinAble.value, false)
     }
 
@@ -227,13 +226,13 @@ class JoinViewModelTest {
             )
         } returns Result.success(Unit)
 
-        // when
         joinViewModel.id.value = id.value
         joinViewModel.password.value = password.value
 
-        // then
+        // when
         joinViewModel.join()
 
+        // then
         assertEquals(JoinState.Succeed, joinViewModel.state.value)
     }
 
@@ -250,15 +249,15 @@ class JoinViewModelTest {
                     password = password
                 )
             )
-        } returns Result.failure(IllegalArgumentException())
+        } returns Result.failure(Throwable())
 
-        // when
         joinViewModel.id.value = id.value
         joinViewModel.password.value = password.value
 
-        // then
+        // when
         joinViewModel.join()
 
+        // then
         assertEquals(JoinState.Failed(), joinViewModel.state.value)
     }
 
