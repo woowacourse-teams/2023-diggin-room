@@ -57,13 +57,13 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
 
     fun navigateRooms(target: Int) {
         (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
-        if (target - 1 >= 0 && rooms.size > currentRoomPosition - 1) {
+        if (target - 1 >= 0 && 0 <= currentRoomPosition - 1) {
             (getChildAt(target - 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
         }
         if (target + 1 < gridSize * gridSize && rooms.size > currentRoomPosition + 1) {
             (getChildAt(target + 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition + 1])
         }
-        if (target - gridSize >= 0 && rooms.size > currentRoomPosition - 1) {
+        if (target - gridSize >= 0 && 0 <= currentRoomPosition - 1) {
             (getChildAt(target - gridSize) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
         }
         if (target + gridSize < gridSize * gridSize && rooms.size > currentRoomPosition + 1) {

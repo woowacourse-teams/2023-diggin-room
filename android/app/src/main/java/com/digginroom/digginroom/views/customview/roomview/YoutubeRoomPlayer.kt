@@ -55,7 +55,7 @@ class YoutubeRoomPlayer(context: Context) :
                 function navigate(videoId) {
                     if (!isPlayerLoaded) return
                     realPlay = false
-                    player.loadVideoById(videoId, 0, 'large')
+                    player.loadVideoById(videoId, 0, 'highres')
                 }
 
                 function onYouTubeIframeAPIReady() {
@@ -86,6 +86,8 @@ class YoutubeRoomPlayer(context: Context) :
                 }
                 
                 function onPlayerStateChange(event) {
+                    if (event.data == 0)
+                        player.playVideo()
                 }
               </script>
               <style>
@@ -131,6 +133,7 @@ class YoutubeRoomPlayer(context: Context) :
             },
             "Player"
         )
+        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
         settings.javaScriptEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
         loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
