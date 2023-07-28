@@ -19,8 +19,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.temporal.ValueRange
-
 
 class JoinViewModelTest {
 
@@ -213,7 +211,6 @@ class JoinViewModelTest {
 
         assertEquals(joinViewModel.isJoinAble.value, false)
     }
-
 
     @Test
     fun `회원가입 성공시 회원가입 상태를 나타내는 변수가 suceed로 설정된다`() {
