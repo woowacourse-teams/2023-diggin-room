@@ -87,9 +87,10 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
 
     private fun validateJoinAble() {
         _isJoinAble.value = _isValidId.value == true &&
-            _isValidPassword.value == true &&
-            _isEqualPassword.value == true &&
-            _isUniqueId.value == true
+                _isRedundancyChecked.value == true &&
+                _isValidPassword.value == true &&
+                _isEqualPassword.value == true &&
+                _isUniqueId.value == true
     }
 
     fun join() {
