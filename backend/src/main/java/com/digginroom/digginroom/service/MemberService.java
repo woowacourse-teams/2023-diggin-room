@@ -42,12 +42,9 @@ public class MemberService {
     }
 
     public Member loginMember(final MemberLoginRequest request) {
-        Optional<Member> findMember = memberRepository.findMemberByUsername(request.username());
-        if (findMember.isEmpty()) {
-            throw new NotFoundException();
-        }
+        Member member = memberRepository.findMemberByUsername(request.username())
+                .orElseThrow(NotFoundException::new);
 
-        Member member = findMember.get();
         if (member.hasDifferentPassword(request.password())) {
             throw new NotFoundException();
         }
