@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="navigateToJoinView"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="resultListener"
+            type="com.digginroom.digginroom.views.activity.ResultListener" />
+
+        <variable
+            name="viewModel"
+            type="com.digginroom.digginroom.viewmodels.LoginViewModel" />
+
+        <variable
+            name="id"
+            type="String" />
+
+        <variable
+            name="password"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#110B2E"
+        tools:context=".views.activity.LoginActivity">
+
+        <ProgressBar
+            android:id="@+id/login_pb"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibleOnLoading="@{viewModel.state}" />
+
+        <TextView
+            android:id="@+id/login_tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="18dp"
+            android:text="@string/common_login"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/login_et_input_id"
+            app:layout_constraintStart_toStartOf="@id/login_et_input_id" />
+
+        <EditText
+            android:id="@+id/login_et_input_id"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="300dp"
+            android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:hint="@string/common_id"
+            android:padding="14dp"
+            android:text="@={id}"
+            android:textColor="@color/white"
+            android:textColorHint="#9E9EAE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/login_et_input_password"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:hint="@string/common_password"
+            android:inputType="textPassword"
+            android:padding="14dp"
+            android:text="@={password}"
+            android:textColor="@color/white"
+            android:textColorHint="#9E9EAE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_id" />
+
+        <TextView
+            android:id="@+id/login_tv_login_failed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_check_account"
+            android:textColor="#AF1B1B"
+            app:layout_constraintBottom_toTopOf="@id/login_button"
+            app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
+            app:visibleOnFailed="@{viewModel.state}" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login_button"
+            android:layout_width="300dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_gradient_blue_radius"
+            android:text="@string/common_login"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
+            app:listener="@{resultListener}"
+            app:loginState="@{viewModel.state}"
+            app:onClick="@{() -> viewModel.login(id, password)}" />
+
+        <TextView
+            android:id="@+id/login_tv_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:onClick="@{() -> navigateToJoinView.invoke()}"
+            android:text="@string/common_join"
+            android:textColor="#90909F"
+            app:layout_constraintEnd_toEndOf="@id/login_button"
+            app:layout_constraintTop_toBottomOf="@id/login_button" />
+
+        <TextView
+            android:id="@+id/login_tv_forgot_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="124dp"
+            android:text="@string/login_forgot_account"
+            android:textColor="#90909F"
+            app:layout_constraintEnd_toEndOf="@id/login_button"
+            app:layout_constraintTop_toBottomOf="@id/login_button" />
+
+        <TextView
+            android:id="@+id/login_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_separator"
+            app:layout_constraintEnd_toStartOf="@id/login_tv_join"
+            app:layout_constraintStart_toEndOf="@id/login_tv_forgot_account"
+            app:layout_constraintTop_toTopOf="@id/login_tv_forgot_account" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
