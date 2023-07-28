@@ -22,8 +22,8 @@ object RoomPagerBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("app:onNextRoom")
-    fun onNextRoom(roomPager: RoomPager, nextRoom: () -> Unit) {
-        roomPager.onNextRoom = nextRoom
+    @BindingAdapter("app:onLoadNextRoom")
+    fun onLoadNextRoom(roomPager: RoomPager, loadNextRoom: () -> Unit) {
+        roomPager.loadNextRoom = loadNextRoom
     }
 }

@@ -13,7 +13,6 @@ import com.digginroom.digginroom.views.model.RoomModel
 class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(context) {
 
     var currentRoomPosition = 0
-    var onNextRoom: () -> Unit = { }
     private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize * gridSize).map {
         YoutubeRoomPlayer(context)
     }
@@ -25,11 +24,19 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
         initContentView()
     }
 
-    fun recycleView(scrollPager: ScrollPager) {
+    fun recyclePreviousRooms(scrollPager: ScrollPager) {
         repeat(gridSize) {
             val child = getChildAt(scrollPager.calculateEndChildPosition(it, gridSize))
             removeView(child)
             addView(child, scrollPager.calculateStartChildPosition(it, gridSize))
+        }
+    }
+
+    fun recycleNextRooms(scrollPager: ScrollPager) {
+        repeat(gridSize) {
+            val child = getChildAt(scrollPager.calculateStartChildPosition(it, gridSize))
+            removeView(child)
+            addView(child, scrollPager.calculateEndChildPosition(it, gridSize))
         }
     }
 

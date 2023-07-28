@@ -15,6 +15,7 @@ class RoomPager(
     private val verticalScrollPager: VerticalScrollPager = VerticalScrollPager(context)
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
+    var loadNextRoom: () -> Unit = { }
 
     init {
         initVerticalScrollView()
@@ -28,9 +29,7 @@ class RoomPager(
 
     private fun initVerticalScrollView() {
         initScrollPager(verticalScrollPager)
-
         isVerticalScrollBarEnabled = false
-
         verticalScrollPager.layoutParams = LinearLayout.LayoutParams(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
@@ -40,11 +39,11 @@ class RoomPager(
 
     private fun initHorizontalScrollView() {
         initScrollPager(horizontalScrollPager)
-
-        horizontalScrollPager.layoutParams = LinearLayout.LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT
-        )
+        horizontalScrollPager.layoutParams =
+            LinearLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT
+            )
         verticalScrollPager.addView(horizontalScrollPager)
     }
 
@@ -53,6 +52,11 @@ class RoomPager(
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {
+        initScrollMotionEvent(scrollPager)
+        initScrollEndEvent(scrollPager)
+    }
+
+    private fun initScrollMotionEvent(scrollPager: ScrollPager) {
         val pagingBaseline = (scrollPager.screenSize / PAGE_THRESHOLD)
         scrollPager.setOnScrollChangeListener { scroll ->
             val headPosition = scrollPager.scrollPosition * scrollPager.screenSize
@@ -64,49 +68,53 @@ class RoomPager(
                 PagingState.CURRENT
             }
         }
+    }
 
+    private fun initScrollEndEvent(scrollPager: ScrollPager) {
         scrollPager.setOnTouchListener { event ->
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener
-            when (scrollPager.pagingState) {
-                PagingState.PREVIOUS -> {
-                    roomRecycler.currentRoomPosition--
-                    scrollPager.scrollPosition--
-                }
+            determinePosition(scrollPager)
+            recycleRooms(scrollPager)
+            pageToTargetRoom(scrollPager)
+        }
+    }
 
-                PagingState.CURRENT -> {}
-                PagingState.NEXT -> {
-                    roomRecycler.currentRoomPosition++
-                    scrollPager.scrollPosition++
-                }
-            }
-
-            if (roomRecycler.currentRoomPosition <= 0) {
-                roomRecycler.currentRoomPosition = 0
-            } else if (scrollPager.scrollPosition <= 0) {
-                roomRecycler.recycleView(scrollPager)
-
-                scrollPager.scrollPosition++
-
-                scrollPager.scrollBy(
-                    scrollPager.screenSize
-                )
-            } else if (scrollPager.scrollPosition >= GRID_SIZE - 1) {
-                roomRecycler.onNextRoom()
-                roomRecycler.recycleView(scrollPager)
-
+    private fun determinePosition(scrollPager: ScrollPager) {
+        when (scrollPager.pagingState) {
+            PagingState.PREVIOUS -> {
+                roomRecycler.currentRoomPosition--
                 scrollPager.scrollPosition--
-
-                scrollPager.scrollBy(
-                    -scrollPager.screenSize
-                )
             }
 
-            roomRecycler.playCurrentRoomPlayer(verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition)
-            scrollPager.post {
-                scrollPager.smoothScrollTo(
-                    scrollPager.scrollPosition * scrollPager.screenSize
-                )
+            PagingState.CURRENT -> Unit
+            PagingState.NEXT -> {
+                roomRecycler.currentRoomPosition++
+                scrollPager.scrollPosition++
             }
+        }
+    }
+
+    private fun recycleRooms(scrollPager: ScrollPager) {
+        if (roomRecycler.currentRoomPosition <= 0) {
+            roomRecycler.currentRoomPosition = 0
+        } else if (scrollPager.scrollPosition <= 0) {
+            roomRecycler.recyclePreviousRooms(scrollPager)
+            scrollPager.scrollPosition++
+            scrollPager.scrollBy(scrollPager.screenSize)
+        } else if (scrollPager.scrollPosition >= GRID_SIZE - 1) {
+            // loadNextRoom()
+            roomRecycler.recycleNextRooms(scrollPager)
+            scrollPager.scrollPosition--
+            scrollPager.scrollBy(-scrollPager.screenSize)
+        }
+    }
+
+    private fun pageToTargetRoom(scrollPager: ScrollPager) {
+        roomRecycler.playCurrentRoomPlayer(verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition)
+        scrollPager.post {
+            scrollPager.smoothScrollTo(
+                scrollPager.scrollPosition * scrollPager.screenSize
+            )
         }
     }
 
