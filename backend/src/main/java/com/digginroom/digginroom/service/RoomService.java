@@ -67,4 +67,12 @@ public class RoomService {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException(roomId));
     }
+
+    @Transactional
+    public void dislike(final Long memberId, final Long roomId) {
+        Room room = findRoom(roomId);
+        Member member = memberService.findMember(memberId);
+
+        member.dislike(room);
+    }
 }

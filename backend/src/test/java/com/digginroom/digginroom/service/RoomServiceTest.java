@@ -2,10 +2,12 @@ package com.digginroom.digginroom.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.repository.MemberRepository;
@@ -89,5 +91,49 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService.unscrap(member.getId(), room.getId()))
                 .isInstanceOf(NotScrappedException.class)
                 .hasMessageContaining("스크랩되지 않은 룸입니다.");
+    }
+
+    @Test
+    void 사용자는_싫어요한_룸을_스크랩할_수_없다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+
+        roomService.dislike(member.getId(), room.getId());
+
+        assertThatThrownBy(() -> roomService.scrap(member.getId(), room.getId()))
+                .isInstanceOf(AlreadyDislikeException.class)
+                .hasMessageContaining("이미 싫어요한 룸입니다.");
+    }
+
+    @Test
+    void 사용자는_룸을_싫어요_할_수_있다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+
+        assertDoesNotThrow(() -> roomService.dislike(member.getId(), room.getId()));
+    }
+
+    @Test
+    void 사용자는_이미_싫어요한_룸을_싫어요할_수_없다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+
+        roomService.dislike(member.getId(), room.getId());
+
+        assertThatThrownBy(() -> roomService.dislike(member.getId(), room.getId()))
+                .isInstanceOf(AlreadyDislikeException.class)
+                .hasMessageContaining("이미 싫어요한 룸입니다.");
+    }
+
+    @Test
+    void 사용자는_스크랩한_룸을_싫어요할_수_없다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+
+        roomService.scrap(member.getId(), room.getId());
+
+        assertThatThrownBy(() -> roomService.dislike(member.getId(), room.getId()))
+                .isInstanceOf(AlreadyScrappedException.class)
+                .hasMessageContaining("이미 스크랩된 룸입니다.");
     }
 }
