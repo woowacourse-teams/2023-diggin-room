@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingLeft="@dimen/scrap_right_margin"
+    android:layout_height="wrap_content"
+    android:paddingBottom="34dp">
+
+    <ImageView
+        android:id="@+id/iv_music"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:src="@drawable/music_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9.75dp"
+        android:text="Illusion"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/iv_music"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Illusion" />
+
+    <TextView
+        android:id="@+id/tv_title_artist_divide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9.75dp"
+        android:text="-"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/tv_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9.75dp"
+        android:text="에스파"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="에스파" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="댄스"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/iv_music"
+        app:layout_constraintTop_toBottomOf="@id/iv_music" />
+</androidx.constraintlayout.widget.ConstraintLayout>

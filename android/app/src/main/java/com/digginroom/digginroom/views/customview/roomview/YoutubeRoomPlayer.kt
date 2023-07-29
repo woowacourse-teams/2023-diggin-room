@@ -1,15 +1,25 @@
 package com.digginroom.digginroom.views.customview.roomview
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
+import android.view.LayoutInflater
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.digginroom.digginroom.R
+import com.digginroom.digginroom.views.customview.ScrapToggle
 import com.digginroom.digginroom.views.model.RoomModel
 
-class YoutubeRoomPlayer(context: Context) :
-    WebView(context), RoomPlayer {
+class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
     private var videoId = ""
 
     init {
+        initScrapToggleView()
+        initRoomInfoLayoutView()
+
         setOnTouchListener { _, _ -> true }
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
@@ -126,8 +136,7 @@ class YoutubeRoomPlayer(context: Context) :
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
-            },
-            "Player"
+            }, "Player"
         )
         settings.javaScriptEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
@@ -135,6 +144,7 @@ class YoutubeRoomPlayer(context: Context) :
     }
 
     override fun play() {
+        Log.d("HKHK", parent.toString())
         loadUrl("javascript:play()")
     }
 
@@ -150,5 +160,13 @@ class YoutubeRoomPlayer(context: Context) :
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
+    }
+
+    private fun initScrapToggleView() {
+        addView(ScrapToggle(context))
+    }
+
+    private fun initRoomInfoLayoutView() {
+        addView(RoomInfoLayout(context))
     }
 }
