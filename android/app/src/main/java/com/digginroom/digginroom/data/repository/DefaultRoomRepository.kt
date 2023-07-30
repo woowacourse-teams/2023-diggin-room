@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import android.util.Log
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.model.room.Room
@@ -22,7 +23,15 @@ class DefaultRoomRepository(
         }
     }
 
-    override fun updateScrapById(id: Long, value: Boolean) {
+    override suspend fun scrap(): Result<Unit> {
+        return withContext(ioDispatcher) {
+            runCatching {
+                roomRemoteDataSource.scrap(tokenLocalDataSource.fetch())
+            }
+        }
+    }
+
+    override suspend fun cancelScrap() {
         TODO("Not yet implemented")
     }
 

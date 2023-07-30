@@ -1,25 +1,19 @@
 package com.digginroom.digginroom.views.customview.roomview
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
-import android.view.LayoutInflater
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
-import com.digginroom.digginroom.R
-import com.digginroom.digginroom.views.customview.ScrapToggle
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.digginroom.digginroom.views.model.RoomModel
+import com.digginroom.digginroom.views.model.SongModel
 
 class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
     private var videoId = ""
 
-    init {
-        initScrapToggleView()
-        initRoomInfoLayoutView()
+    private lateinit var roomInfo: RoomInfo
 
+    init {
+        addRoomInfoView()
         setOnTouchListener { _, _ -> true }
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
@@ -143,8 +137,18 @@ class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
         loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
     }
 
+    private fun addRoomInfoView() {
+        roomInfo = RoomInfo(context)
+        val myLayoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
+        roomInfo.layoutParams = myLayoutParams
+        roomInfo.y = resources.displayMetrics.heightPixels.toFloat() - roomInfo.myHeight
+        addView(roomInfo)
+    }
+
     override fun play() {
-        Log.d("HKHK", parent.toString())
         loadUrl("javascript:play()")
     }
 
@@ -160,13 +164,12 @@ class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
-    }
-
-    private fun initScrapToggleView() {
-        addView(ScrapToggle(context))
-    }
-
-    private fun initRoomInfoLayoutView() {
-        addView(RoomInfoLayout(context))
+        roomInfo.setRoomInfo(
+            RoomModel(
+                room.videoId,
+                SongModel("spicy", "앨범명", "에스파", listOf(), listOf()),
+                true
+            )
+        )
     }
 }

@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import android.util.Log
 import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id

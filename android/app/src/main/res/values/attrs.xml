@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="RoomInfo">
-        <attr name="songTitle" format="string|reference"/>
-        <attr name="artist" format="string|reference"/>
-        <attr name="description" format="string|reference"/>
-    </declare-styleable>
-</resources>

@@ -5,12 +5,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/scrap_right_margin"
+        android:paddingBottom="@dimen/scrap_bottom_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/iv_scrap"
+            app:layout_constraintEnd_toStartOf="@+id/scrapToggle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -27,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9.75dp"
-                android:text="Illusion"
                 android:textColor="@color/white"
+                android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_music"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Illusion" />
@@ -40,6 +42,7 @@
                 android:layout_marginLeft="9.75dp"
                 android:text="-"
                 android:textColor="@color/white"
+                android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/tv_title"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,8 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9.75dp"
-                android:text="에스파"
                 android:textColor="@color/white"
+                android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="에스파" />
@@ -59,17 +62,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="댄스"
                 android:textColor="@color/white"
+                android:textSize="17sp"
                 app:layout_constraintStart_toStartOf="@id/iv_music"
                 app:layout_constraintTop_toBottomOf="@id/iv_music" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@id/iv_scrap"
+        <com.digginroom.digginroom.views.customview.roomview.ScrapToggle
+            android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/unscrap_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
