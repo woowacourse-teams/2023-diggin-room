@@ -8,6 +8,7 @@ import com.digginroom.digginroom.views.model.RoomModel
 class YoutubeRoomPlayer(context: Context) :
     WebView(context), RoomPlayer {
     private var videoId = ""
+    private var isPlayerLoaded = false
 
     init {
         setOnTouchListener { _, _ -> true }
@@ -54,7 +55,7 @@ class YoutubeRoomPlayer(context: Context) :
                 function navigate(videoId) {
                     if (!isPlayerLoaded) return
                     realPlay = false
-                    player.loadVideoById(videoId, 0, 'large')
+                    player.loadVideoById(videoId, 0, 'highres')
                 }
 
                 function onYouTubeIframeAPIReady() {
@@ -85,6 +86,8 @@ class YoutubeRoomPlayer(context: Context) :
                 }
                 
                 function onPlayerStateChange(event) {
+                    if (event.data == 0)
+                        player.playVideo()
                 }
               </script>
               <style>
@@ -121,6 +124,7 @@ class YoutubeRoomPlayer(context: Context) :
             object {
                 @JavascriptInterface
                 fun onLoaded() {
+                    isPlayerLoaded = true
                     if (videoId.isEmpty()) return
                     this@YoutubeRoomPlayer.post {
                         loadUrl("javascript:navigate(\"$videoId\")")
@@ -129,6 +133,7 @@ class YoutubeRoomPlayer(context: Context) :
             },
             "Player"
         )
+        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
         settings.javaScriptEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
         loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
@@ -146,7 +151,7 @@ class YoutubeRoomPlayer(context: Context) :
         if (videoId == room.videoId) {
             return
         }
-        if (videoId.isNotEmpty()) {
+        if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
