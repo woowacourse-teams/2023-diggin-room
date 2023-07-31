@@ -5,31 +5,21 @@ import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
 import com.digginroom.digginroom.views.model.mapper.RoomMapper.toDomain
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class DefaultRoomRepository(
     private val roomRemoteDataSource: RoomRemoteDataSource,
-    private val tokenLocalDataSource: TokenLocalDataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val tokenLocalDataSource: TokenLocalDataSource
 ) : RoomRepository {
 
-    override suspend fun findNext(): Result<Room> {
-        return withContext(ioDispatcher) {
-            runCatching {
-                roomRemoteDataSource.findNext(tokenLocalDataSource.fetch()).toDomain()
-            }
+    override suspend fun findNext(): Result<Room> =
+        runCatching {
+            roomRemoteDataSource.findNext(tokenLocalDataSource.fetch()).toDomain()
         }
-    }
 
-    override suspend fun findScrapped(): Result<List<Room>> {
-        return withContext(ioDispatcher) {
-            runCatching {
-                roomRemoteDataSource.findScrapped()
-            }
+    override suspend fun findScrapped(): Result<List<Room>> =
+        runCatching {
+            roomRemoteDataSource.findScrapped()
         }
-    }
 
     override fun updateScrapById(id: Long, value: Boolean) {
         TODO("Not yet implemented")
