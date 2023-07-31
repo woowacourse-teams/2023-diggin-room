@@ -3,7 +3,7 @@ name: Development CD
 on:
   workflow_dispatch:
   push:
-    branches: ["backend"]
+    branches: [ "backend" ]
 permissions:
   contents: read
 jobs:
@@ -16,8 +16,19 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew bootjar
-        
+
+      - name: kill previous process
+        run: |
+          JAR_NAME="DigginRoom-0.0.1-SNAPSHOT.jar"
+          PROCESS_ID=$(pgrep -f "$JAR_NAME")
+          if [ -n "$PROCESS_ID" ]; then
+            sudo kill -9 $PROCESS_ID
+            echo "구동중인 애플리케이션을 종료했습니다. (pid : $PROCESS_ID)\n"
+          fi
+
       - name: deploy
         working-directory: ./backend
+        env:
+          RUNNER_TRACKING_ID: ""
         run: |
           nohup java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
