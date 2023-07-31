@@ -9,7 +9,7 @@
 
         <variable
             name="navigator"
-            type="com.digginroom.digginroom.views.activity.LoginNavigationHandler" />
+            type="com.digginroom.digginroom.views.activity.LoginNavigator" />
 
         <variable
             name="resultListener"

@@ -19,7 +19,7 @@
 
         <variable
             name="navigator"
-            type="com.digginroom.digginroom.views.activity.JoinNavigationHandler" />
+            type="com.digginroom.digginroom.views.activity.JoinNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

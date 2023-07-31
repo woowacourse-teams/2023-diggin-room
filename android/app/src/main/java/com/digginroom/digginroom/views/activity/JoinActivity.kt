@@ -31,7 +31,7 @@ class JoinActivity : AppCompatActivity() {
         binding =
             DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
-                it.navigator = JoinNavigator(this)
+                it.navigator = DefaultJoinNavigator(this)
                 it.resultListener = JoinResultListener(
                     context = this,
                     inputTexts = listOf(
