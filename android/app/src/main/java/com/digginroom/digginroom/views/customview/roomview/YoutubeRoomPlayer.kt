@@ -72,18 +72,15 @@ class YoutubeRoomPlayer(
 
                 var isPlayerLoaded = false
                 var player
-                var realPlay = false
 
                 function play() {
                     if (!isPlayerLoaded) return
-                    realPlay = true
                     player.playVideo()
                     player.unMute()
                 }
                 
                 function pause() {
                     if (!isPlayerLoaded) return
-                    //player.pauseVideo()
                     player.mute()
                 }
                 
@@ -99,7 +96,6 @@ class YoutubeRoomPlayer(
 
                 function navigate(videoId) {
                     if (!isPlayerLoaded) return
-                    realPlay = false
                     player.loadVideoById(videoId, 0, 'highres')
                 }
 
@@ -109,7 +105,7 @@ class YoutubeRoomPlayer(
                             'onReady': onPlayerReady,
                             'onStateChange': onPlayerStateChange
                         },
-                        videoId: 'bHQqvYy5KYo',
+                        videoId: '',
                         playerVars: {
                             autoplay: 1,
                             controls: 0,

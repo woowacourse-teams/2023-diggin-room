@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import androidx.core.view.forEachIndexed
 import com.digginroom.digginroom.views.customview.roomview.YoutubeRoomPlayer
 import com.digginroom.digginroom.views.model.RoomModel
 
@@ -45,12 +44,12 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
     }
 
     fun playCurrentRoomPlayer(target: Int) {
-        forEachIndexed { index, view ->
-            view as YoutubeRoomPlayer
-            if (index == target) {
-                view.play()
+        repeat(9) {
+            val room = getChildAt(it) as YoutubeRoomPlayer
+            if (it == target) {
+                room.play()
             } else {
-                view.pause()
+                room.pause()
             }
         }
     }
