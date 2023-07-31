@@ -20,4 +20,4 @@ jobs:
       - name: deploy
         working-directory: ./backend
         run: |
-          java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
+          nohup java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
