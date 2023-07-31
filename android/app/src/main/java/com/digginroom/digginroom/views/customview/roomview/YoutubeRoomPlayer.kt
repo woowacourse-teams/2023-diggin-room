@@ -130,7 +130,8 @@ class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
-            }, "Player"
+            },
+            "Player",
         )
         settings.javaScriptEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
@@ -141,7 +142,7 @@ class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
         roomInfo = RoomInfo(context)
         val myLayoutParams = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
+            ConstraintLayout.LayoutParams.WRAP_CONTENT,
         )
         roomInfo.layoutParams = myLayoutParams
         roomInfo.y = resources.displayMetrics.heightPixels.toFloat() - roomInfo.myHeight
@@ -168,8 +169,8 @@ class YoutubeRoomPlayer(context: Context) : WebView(context), RoomPlayer {
             RoomModel(
                 room.videoId,
                 SongModel("spicy", "앨범명", "에스파", listOf(), listOf()),
-                true
-            )
+                true,
+            ),
         )
     }
 }
