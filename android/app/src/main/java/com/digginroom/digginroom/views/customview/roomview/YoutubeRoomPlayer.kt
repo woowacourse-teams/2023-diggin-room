@@ -1,24 +1,65 @@
 package com.digginroom.digginroom.views.customview.roomview
 
 import android.content.Context
+import android.view.ViewGroup.LayoutParams
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import android.widget.FrameLayout
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.digginroom.digginroom.views.model.RoomModel
 
-class YoutubeRoomPlayer(context: Context) :
-    WebView(context), RoomPlayer {
+class YoutubeRoomPlayer(
+    context: Context
+) : WebView(context), RoomPlayer {
 
-    private val thumbnail: ImageView = ImageView(context)
+    private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
     private var videoId = ""
     private var isPlayerLoaded = false
 
     init {
+        preventTouchEvent()
+        initThumbnail()
+        initYoutubePlayer()
+    }
+
+    override fun play() {
+        loadUrl("javascript:play()")
+    }
+
+    override fun pause() {
+        loadUrl("javascript:pause()")
+    }
+
+    override fun navigate(room: RoomModel) {
+        if (videoId == room.videoId) {
+            return
+        }
+
+        thumbnail.load(room)
+
+        if (isPlayerLoaded) {
+            loadUrl("javascript:navigate(\"${room.videoId}\")")
+        }
+        videoId = room.videoId
+    }
+
+    private fun preventTouchEvent() {
         setOnTouchListener { _, _ -> true }
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
+    }
+
+    private fun initThumbnail() {
+        thumbnail.scaleType = ImageView.ScaleType.CENTER_CROP
+        thumbnail.layoutParams = LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        addView(thumbnail)
+    }
+
+    private fun initYoutubePlayer() {
         val iframe = """
             <!DOCTYPE html>
             <html lang="en">
@@ -92,6 +133,8 @@ class YoutubeRoomPlayer(context: Context) :
                 function onPlayerStateChange(event) {
                     if (event.data == 0)
                         player.playVideo()
+                    if (event.data == 1)
+                        Player.onPlay()
                 }
               </script>
               <style>
@@ -124,6 +167,14 @@ class YoutubeRoomPlayer(context: Context) :
             </html>
         """.trimIndent()
 
+        initJavascriptInterface()
+        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
+        settings.javaScriptEnabled = true
+        settings.mediaPlaybackRequiresUserGesture = false
+        loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
+    }
+
+    private fun initJavascriptInterface() {
         addJavascriptInterface(
             object {
                 @JavascriptInterface
@@ -134,36 +185,15 @@ class YoutubeRoomPlayer(context: Context) :
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
+
+                @JavascriptInterface
+                fun onPlay() {
+                    thumbnail.post {
+                        thumbnail.turnOff()
+                    }
+                }
             },
             "Player"
         )
-        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
-        settings.javaScriptEnabled = true
-        settings.mediaPlaybackRequiresUserGesture = false
-        loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
-    }
-
-    override fun play() {
-        loadUrl("javascript:play()")
-    }
-
-    override fun pause() {
-        loadUrl("javascript:pause()")
-    }
-
-    override fun navigate(room: RoomModel) {
-        if (videoId == room.videoId) {
-            return
-        }
-        loadThumbnail(room)
-        if (isPlayerLoaded) {
-            loadUrl("javascript:navigate(\"${room.videoId}\")")
-        }
-        videoId = room.videoId
-    }
-
-    private fun loadThumbnail(room: RoomModel) {
-        thumbnail.visibility = VISIBLE
-        Glide.with(this).load("https://img.youtube.com/vi/${room.videoId}/0.jpg").into(thumbnail)
     }
 }
