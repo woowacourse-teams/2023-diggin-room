@@ -1,0 +1,8 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: ${DEV_DATASOURCE_URL}
+    username: ${DEV_DATASOURCE_USERNAME}
+    password: ${DEV_DATASOURCE_PASSWORD}
