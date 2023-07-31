@@ -35,7 +35,7 @@ jobs:
       run: cd android && ./gradlew assembleDebug --stacktrace
       
     - name: Run ktlint
-      run: ./gradlew ktlintCheck
+      run: ./android/gradlew ktlintCheck
 
     - name: apk artifact Upload
       uses: actions/upload-artifact@v3
