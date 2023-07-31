@@ -4,6 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
     id "com.google.gms.google-services"
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -73,6 +74,8 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
     implementation "com.google.firebase:firebase-firestore-ktx"
+
+    implementation 'com.google.firebase:firebase-crashlytics'
 
     implementation project(':domain')
 }
