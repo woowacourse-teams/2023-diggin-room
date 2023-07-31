@@ -19,5 +19,7 @@ jobs:
         
       - name: deploy
         working-directory: ./backend
+        env:
+          RUNNER_TRACKING_ID=""
         run: |
           nohup java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
