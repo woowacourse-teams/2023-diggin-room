@@ -31,4 +31,9 @@ jobs:
         env:
           RUNNER_TRACKING_ID: ""
         run: |
-          nohup java -jar build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
+          nohup java -jar \
+          -Dspring.profiles.active=production \
+          -DPROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
+          -DPROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
+          -DPROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
+          build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
