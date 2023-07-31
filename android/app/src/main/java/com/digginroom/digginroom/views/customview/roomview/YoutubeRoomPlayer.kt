@@ -3,10 +3,14 @@ package com.digginroom.digginroom.views.customview.roomview
 import android.content.Context
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.digginroom.digginroom.views.model.RoomModel
 
 class YoutubeRoomPlayer(context: Context) :
     WebView(context), RoomPlayer {
+
+    private val thumbnail: ImageView = ImageView(context)
     private var videoId = ""
     private var isPlayerLoaded = false
 
@@ -151,9 +155,15 @@ class YoutubeRoomPlayer(context: Context) :
         if (videoId == room.videoId) {
             return
         }
+        loadThumbnail(room)
         if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
+    }
+
+    private fun loadThumbnail(room: RoomModel) {
+        thumbnail.visibility = VISIBLE
+        Glide.with(this).load("https://img.youtube.com/vi/${room.videoId}/0.jpg").into(thumbnail)
     }
 }
