@@ -28,12 +28,18 @@ class LoginViewModel(
             accountRepository.postLogIn(
                 id = id.value,
                 password = password.value
-            ).onSuccess {
-                _state.value = LoginState.SUCCEED
-                tokenRepository.save(it)
+            ).onSuccess { token ->
+                saveToken(token)
             }.onFailure {
                 _state.value = LoginState.FAILED
             }
+        }
+    }
+
+    private fun saveToken(token: String) {
+        viewModelScope.launch {
+            tokenRepository.save(token)
+            _state.value = LoginState.SUCCEED
         }
     }
 

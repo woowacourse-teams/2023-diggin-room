@@ -1,6 +1,8 @@
 package com.digginroom.digginroom.data.repository
 
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
+import com.digginroom.digginroom.logging.LogResult
+import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.repository.TokenRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,16 +11,16 @@ class DefaultTokenRepository(
     private val tokenLocalDataSource: TokenLocalDataSource
 ) : TokenRepository {
 
-    override suspend fun save(token: String) =
+    override suspend fun save(token: String): LogResult<Unit> =
         withContext(Dispatchers.IO) {
-            runCatching {
+            logRunCatching {
                 tokenLocalDataSource.save(token)
             }
         }
 
-    override suspend fun fetch(): Result<String> =
+    override suspend fun fetch(): LogResult<String> =
         withContext(Dispatchers.IO) {
-            runCatching {
+            logRunCatching {
                 tokenLocalDataSource.fetch()
             }
         }

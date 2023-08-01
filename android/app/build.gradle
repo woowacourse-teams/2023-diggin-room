@@ -16,6 +16,10 @@ android {
     buildFeatures {
         buildConfig true
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     defaultConfig {
         applicationId "com.digginroom.digginroom"
         minSdk 26
