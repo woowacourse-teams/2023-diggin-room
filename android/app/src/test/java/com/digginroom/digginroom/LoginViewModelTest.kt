@@ -3,7 +3,6 @@ package com.digginroom.digginroom
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.digginroom.digginroom.feature.login.LoginState
 import com.digginroom.digginroom.feature.login.LoginViewModel
-import com.digginroom.digginroom.logging.DefaultLogResult
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
 import io.mockk.coEvery
@@ -56,7 +55,7 @@ class LoginViewModelTest {
                 id = EXAMPLE_ID,
                 password = EXAMPLE_PASSWORD
             )
-        } returns DefaultLogResult.failure(Throwable())
+        } returns LogResult.failure()
 
         loginViewModel.id.value = EXAMPLE_ID
         loginViewModel.password.value = EXAMPLE_PASSWORD
@@ -76,7 +75,7 @@ class LoginViewModelTest {
                 id = EXAMPLE_ID,
                 password = EXAMPLE_PASSWORD
             )
-        } returns DefaultLogResult.success(TOKEN)
+        } returns LogResult.success(TOKEN)
 
         loginViewModel.id.value = EXAMPLE_ID
         loginViewModel.password.value = EXAMPLE_PASSWORD
@@ -96,7 +95,7 @@ class LoginViewModelTest {
                 id = EXAMPLE_ID,
                 password = EXAMPLE_PASSWORD
             )
-        } returns DefaultLogResult.success(TOKEN)
+        } returns LogResult.success(TOKEN)
 
         loginViewModel.id.value = EXAMPLE_ID
         loginViewModel.password.value = EXAMPLE_PASSWORD

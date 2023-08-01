@@ -3,7 +3,6 @@ package com.digginroom.digginroom
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.digginroom.digginroom.feature.join.JoinState
 import com.digginroom.digginroom.feature.join.JoinViewModel
-import com.digginroom.digginroom.logging.DefaultLogResult
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
@@ -33,14 +32,8 @@ class JoinViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        accountRepository = mockk()
+        accountRepository = mockk(relaxed = true)
         joinViewModel = JoinViewModel(accountRepository)
-
-//        mockkStatic(Log::class)
-//        every { Log.v(any(), any()) } returns 0
-//        every { Log.d(any(), any()) } returns 0
-//        every { Log.i(any(), any()) } returns 0
-//        every { Log.e(any(), any()) } returns 0
     }
 
     @After
@@ -97,7 +90,7 @@ class JoinViewModelTest {
 
         coEvery {
             accountRepository.fetchIsDuplicatedId(id)
-        } returns DefaultLogResult.success(true)
+        } returns LogResult.success(true)
 
         joinViewModel.id.value = id.value
 
@@ -115,7 +108,7 @@ class JoinViewModelTest {
 
         coEvery {
             accountRepository.fetchIsDuplicatedId(id)
-        } returns DefaultLogResult.success(true)
+        } returns LogResult.success(true)
 
         joinViewModel.id.value = id.value
 
@@ -133,7 +126,7 @@ class JoinViewModelTest {
 
         coEvery {
             accountRepository.fetchIsDuplicatedId(id)
-        } returns DefaultLogResult.success(true)
+        } returns LogResult.success(true)
 
         joinViewModel.id.value = id.value
 
@@ -231,7 +224,7 @@ class JoinViewModelTest {
                     password = password
                 )
             )
-        } returns DefaultLogResult.success(Unit)
+        } returns LogResult.success(Unit)
 
         joinViewModel.id.value = id.value
         joinViewModel.password.value = password.value
@@ -256,7 +249,7 @@ class JoinViewModelTest {
                     password = password
                 )
             )
-        } returns DefaultLogResult.failure(Throwable())
+        } returns LogResult.failure()
 
         joinViewModel.id.value = id.value
         joinViewModel.password.value = password.value
