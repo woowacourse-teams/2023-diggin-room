@@ -4,6 +4,10 @@ import android.content.Context
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import androidx.lifecycle.ViewModelProvider
+import com.digginroom.digginroom.data.di.ViewModelFactory
+import com.digginroom.digginroom.feature.room.RoomActivity
+import com.digginroom.digginroom.feature.room.RoomViewModel
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.model.RoomModel
@@ -13,12 +17,21 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
     var currentRoomPosition = 0
     private val roomPlayers: List<YoutubeRoomPlayer> =
         (0 until gridSize * gridSize).map {
-            YoutubeRoomPlayer(context) {
+            YoutubeRoomPlayer(context, {
                 playCurrentRoomPlayer(currentRoomPlayerPosition)
+            }) {
+                roomViewModel.scrapRoom(it)
             }
         }
     private var rooms: List<RoomModel> = emptyList()
     private var currentRoomPlayerPosition: Int = 0
+    private val roomViewModel: RoomViewModel by lazy {
+        ViewModelProvider(
+            context as RoomActivity,
+            ViewModelFactory.getInstance(context).roomViewModelFactory,
+        )[RoomViewModel::class.java]
+    }
+    var onScrapClickListener: (Long) -> Unit = {}
 
     init {
         initLayout()

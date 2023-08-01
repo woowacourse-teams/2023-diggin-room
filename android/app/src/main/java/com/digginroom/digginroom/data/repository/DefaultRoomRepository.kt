@@ -18,13 +18,13 @@ class DefaultRoomRepository(
         }
     }
 
-    override suspend fun scrap(): LogResult<Unit> {
+    override suspend fun scrapById(roomId: Long): LogResult<Unit> {
         return logRunCatching {
-            roomRemoteDataSource.scrap(tokenLocalDataSource.fetch())
+            roomRemoteDataSource.scrapById(tokenLocalDataSource.fetch(), roomId)
         }
     }
 
-    override suspend fun cancelScrap() {
+    override suspend fun unScrapById(roomId: Long): LogResult<Unit> {
         TODO("Not yet implemented")
     }
 

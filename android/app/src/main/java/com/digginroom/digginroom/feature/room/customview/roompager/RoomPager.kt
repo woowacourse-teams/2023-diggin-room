@@ -20,6 +20,7 @@ class RoomPager(
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
+    var onScrapClickListener: (Long) -> Unit = { }
 
     init {
         initVerticalScrollView()
@@ -53,6 +54,7 @@ class RoomPager(
 
     private fun initRoomRecycler() {
         horizontalScrollPager.addView(roomRecycler)
+        roomRecycler.onScrapClickListener = onScrapClickListener
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {

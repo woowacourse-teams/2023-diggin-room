@@ -13,6 +13,7 @@ object RoomMapper {
             videoId,
             song.toDomain(),
             isScrapped,
+            roomId,
         )
     }
 
@@ -21,6 +22,7 @@ object RoomMapper {
             videoId,
             song.toModel(),
             isScrapped,
+            roomId,
         )
     }
 
@@ -35,6 +37,7 @@ object RoomMapper {
                 emptyList(),
             ),
             isScrapped,
+            roomId,
         )
     }
 }

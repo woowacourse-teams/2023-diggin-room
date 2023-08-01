@@ -20,6 +20,7 @@ class ScrapToggle(
             }
             field = value
         }
+    var onScrapClickListener: () -> Unit = {}
 
     init {
         isClickable = true
@@ -35,5 +36,6 @@ class ScrapToggle(
 
     private fun toggle() {
         isScrapped = !isScrapped
+        onScrapClickListener()
     }
 }

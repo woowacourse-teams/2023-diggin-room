@@ -1,7 +1,9 @@
 package com.digginroom.digginroom.data.service
 
 import com.digginroom.digginroom.data.entity.RoomResponse
+import com.digginroom.digginroom.data.entity.ScrapRequest
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -11,16 +13,18 @@ interface RoomService {
 
     @GET("/room")
     suspend fun findNext(
-        @Header("cookie") token: String
+        @Header("cookie") token: String,
     ): Response<RoomResponse>
 
     @POST("/scrap")
-    suspend fun scrap(
-        @Header("cookie") token: String
+    suspend fun scrapById(
+        @Header("cookie") token: String,
+        @Body scrapRequest: ScrapRequest,
     ): Response<Void>
 
     @DELETE("/scrap")
-    suspend fun cancelScrap(
-        @Header("cookie") token: String
+    suspend fun unScrapById(
+        @Header("cookie") token: String,
+        @Body scrapRequest: ScrapRequest,
     ): Response<Void>
 }

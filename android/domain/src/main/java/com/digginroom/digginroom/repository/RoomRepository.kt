@@ -6,7 +6,7 @@ import com.digginroom.digginroom.model.room.Room
 interface RoomRepository {
 
     suspend fun findNext(): LogResult<Room>
-    suspend fun scrap(): LogResult<Unit>
-    suspend fun cancelScrap()
+    suspend fun scrapById(roomId: Long): LogResult<Unit>
+    suspend fun unScrapById(roomId: Long): LogResult<Unit>
     fun updateWeightById(id: Long, value: Double)
 }

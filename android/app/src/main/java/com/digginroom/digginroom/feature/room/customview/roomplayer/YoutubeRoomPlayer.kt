@@ -15,13 +15,15 @@ import com.digginroom.digginroom.views.customview.roomview.RoomInfo
 class YoutubeRoomPlayer(
     context: Context,
     private val onYoutubePlay: () -> Unit,
+    private val onScrapClickListener: (Long) -> Unit,
 ) : WebView(context), RoomPlayer {
 
     private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
     private var videoId = ""
     private var isPlayerLoaded = false
+    private var roomId = 0L
 
-    private lateinit var roomInfo: RoomInfo
+    lateinit var roomInfo: RoomInfo
 
     init {
         addRoomInfoView()
@@ -54,8 +56,10 @@ class YoutubeRoomPlayer(
                 room.videoId,
                 SongModel("spicy", "앨범명", "에스파", listOf(), listOf()),
                 true,
+                room.roomId,
             ),
         )
+        roomId = room.roomId
     }
 
     private fun preventTouchEvent() {
@@ -211,13 +215,13 @@ class YoutubeRoomPlayer(
     }
 
     private fun addRoomInfoView() {
-        roomInfo = RoomInfo(context)
+        roomInfo = RoomInfo(context) { onScrapClickListener(roomId) }
         val myLayoutParams = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.WRAP_CONTENT,
         )
         roomInfo.layoutParams = myLayoutParams
-        roomInfo.y = resources.displayMetrics.heightPixels.toFloat() - roomInfo.myHeight
+        roomInfo.y = resources.displayMetrics.heightPixels.toFloat() - roomInfo.layoutHeight
         addView(roomInfo)
     }
 }

@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.room
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,14 @@ class RoomViewModel(
                 _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
             }.onFailure {
                 _cachedRoom.value = RoomState.Error(it)
+            }
+        }
+    }
+    fun scrapRoom(roomId: Long) {
+        Log.d("HKHK", "scrap $roomId")
+        viewModelScope.launch {
+            roomRepository.scrapById(roomId).onSuccess {
+            }.onFailure {
             }
         }
     }
