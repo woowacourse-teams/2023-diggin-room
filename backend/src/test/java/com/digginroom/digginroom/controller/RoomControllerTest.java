@@ -119,7 +119,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 싫어요한_룸을_스크랩_할_수_없다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -148,7 +148,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 룸을_싫어요_할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -168,7 +168,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 싫어요한_룸을_다시_싫어요_할_수_없다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -197,7 +197,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 스크랩한_룸을_다시_싫어요_할_수_없다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -226,7 +226,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 싫어요한_룸을_취소할_수_있디() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -255,7 +255,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 싫어요하지_않은_룸은_싫어요_취소할_수_없다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
