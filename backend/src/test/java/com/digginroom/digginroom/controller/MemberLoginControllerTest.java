@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.controller;
 
+import static com.digginroom.digginroom.controller.TestFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -19,9 +20,6 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberLoginControllerTest extends ControllerTest {
 
-    private static final String MEMBER_PASSWORD = "power1234@";
-    private static final String MEMBER_USERNAME = "power2";
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -29,13 +27,13 @@ class MemberLoginControllerTest extends ControllerTest {
     @BeforeEach
     void setUp() {
         super.setUp();
-        memberRepository.save(new Member(MEMBER_USERNAME, MEMBER_PASSWORD));
+        memberRepository.save(파워());
     }
 
     @Test
     void 회원가입한_사용자는_로그인을_할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -59,7 +57,7 @@ class MemberLoginControllerTest extends ControllerTest {
     @Test
     void 비밀번호가_틀린_사용자는_로그인을_할_수_없다() {
         RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, "kong123!"))
+                .body(new MemberLoginRequest(파워().getUsername(), "kong123!"))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login")
@@ -72,13 +70,13 @@ class MemberLoginControllerTest extends ControllerTest {
     @Test
     void 회원가입한_사용자는_로그인을_연속으로_할_수_있다() {
         RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
 
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");

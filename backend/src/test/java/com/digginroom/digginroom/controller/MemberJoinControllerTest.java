@@ -12,12 +12,12 @@ import org.springframework.test.annotation.DirtiesContext;
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberJoinControllerTest extends ControllerTest {
-
+    
     @Test
     void 회원가입을_할_수_있다() {
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new MemberSaveRequest("power", "power123#"))
+                .body(TestFixture.MEMBER_SAVE_REQUEST)
                 .when().post("/join")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
@@ -37,7 +37,7 @@ class MemberJoinControllerTest extends ControllerTest {
     void 아이디_중복_여부를_알_수_있다_중복인_경우() {
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new MemberSaveRequest("power", "power123#"))
+                .body(TestFixture.MEMBER_SAVE_REQUEST)
                 .when().post("/join")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());

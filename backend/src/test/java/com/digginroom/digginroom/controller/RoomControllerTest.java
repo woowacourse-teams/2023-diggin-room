@@ -1,12 +1,12 @@
 package com.digginroom.digginroom.controller;
 
+import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.RoomRequest;
 import com.digginroom.digginroom.domain.MediaSource;
-import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
@@ -23,36 +23,25 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RoomControllerTest extends ControllerTest {
 
-    private static final String MEMBER_PASSWORD = "power1234@";
-    private static final String MEMBER_USERNAME = "power2";
-
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
     private RoomRepository roomRepository;
-    private Member member;
     private Room room1;
-    private Room room2;
-    private Room room3;
 
     @Override
     @BeforeEach
     void setUp() {
         super.setUp();
-        member = new Member(MEMBER_USERNAME, MEMBER_PASSWORD);
-        memberRepository.save(member);
-        room1 = new Room(new MediaSource("room1"));
-        room2 = new Room(new MediaSource("room2"));
-        room3 = new Room(new MediaSource("room3"));
-        roomRepository.save(room1);
-        roomRepository.save(room2);
-        roomRepository.save(room3);
+        memberRepository.save(파워());
+        room1 = roomRepository.save(new Room(new MediaSource("room1")));
+        roomRepository.save(new Room(new MediaSource("room2")));
     }
 
     @Test
     void 로그인된_사용자는_룸을_탐색할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -81,7 +70,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 룸을_스크랩할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -101,7 +90,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 룸_스크랩을_취소할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
