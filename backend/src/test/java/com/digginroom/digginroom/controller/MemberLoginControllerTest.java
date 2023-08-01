@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.repository.MemberRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

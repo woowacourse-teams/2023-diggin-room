@@ -1,6 +1,5 @@
 package com.digginroom.digginroom.util;
 
-import com.digginroom.digginroom.util.HashAlgorithm;
 import java.util.UUID;
 
 public class DigginRoomPasswordEncoder {
