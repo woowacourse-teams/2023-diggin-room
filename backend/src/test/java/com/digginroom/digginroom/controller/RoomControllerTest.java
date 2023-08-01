@@ -82,7 +82,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
     }
@@ -102,7 +102,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -111,8 +111,164 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .delete("/scrap")
+                .delete("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 싫어요한_룸을_스크랩_할_수_없다() {
+        Response response = RestAssured.given().log().all()
+                .body(MEMBER_LOGIN_REQUEST)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 룸을_싫어요_할_수_있다() {
+        Response response = RestAssured.given().log().all()
+                .body(MEMBER_LOGIN_REQUEST)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    void 싫어요한_룸을_다시_싫어요_할_수_없다() {
+        Response response = RestAssured.given().log().all()
+                .body(MEMBER_LOGIN_REQUEST)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 스크랩한_룸을_다시_싫어요_할_수_없다() {
+        Response response = RestAssured.given().log().all()
+                .body(MEMBER_LOGIN_REQUEST)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 싫어요한_룸을_취소할_수_있디() {
+        Response response = RestAssured.given().log().all()
+                .body(MEMBER_LOGIN_REQUEST)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .delete("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 싫어요하지_않은_룸은_싫어요_취소할_수_없다() {
+        Response response = RestAssured.given().log().all()
+                .body(MEMBER_LOGIN_REQUEST)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .delete("/room/dislike")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

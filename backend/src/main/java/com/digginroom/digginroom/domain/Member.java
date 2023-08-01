@@ -1,5 +1,8 @@
 package com.digginroom.digginroom.domain;
 
+import static com.digginroom.digginroom.exception.RoomException.NotDislikedException;
+
+import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
@@ -28,7 +31,9 @@ public class Member {
     @NonNull
     private String password;
     @ManyToMany
-    private final List<Room> scraps = new ArrayList<>();
+    private final List<Room> scrapRooms = new ArrayList<>();
+    @ManyToMany
+    private final List<Room> dislikeRooms = new ArrayList<>();
 
     public Member(@NonNull final String username, @NonNull final String password) {
         this.username = username;
@@ -41,16 +46,8 @@ public class Member {
 
     public void scrap(final Room room) {
         validateUnscrapped(room);
-        scraps.add(room);
-    }
-
-    public void unscrap(final Room room) {
-        validateScrapped(room);
-        scraps.remove(room);
-    }
-
-    public boolean hasScrapped(final Room room) {
-        return scraps.contains(room);
+        validateUndisliked(room);
+        scrapRooms.add(room);
     }
 
     private void validateUnscrapped(final Room room) {
@@ -59,9 +56,45 @@ public class Member {
         }
     }
 
+    private void validateUndisliked(final Room room) {
+        if (hasDisliked(room)) {
+            throw new AlreadyDislikeException();
+        }
+    }
+
+    public void unscrap(final Room room) {
+        validateScrapped(room);
+        scrapRooms.remove(room);
+    }
+
     private void validateScrapped(final Room room) {
         if (!hasScrapped(room)) {
             throw new NotScrappedException();
+        }
+    }
+
+    public boolean hasScrapped(final Room room) {
+        return scrapRooms.contains(room);
+    }
+
+    public void dislike(final Room room) {
+        validateUnscrapped(room);
+        validateUndisliked(room);
+        dislikeRooms.add(room);
+    }
+
+    private boolean hasDisliked(final Room room) {
+        return dislikeRooms.contains(room);
+    }
+
+    public void undislike(final Room room) {
+        validateDisliked(room);
+        dislikeRooms.remove(room);
+    }
+
+    private void validateDisliked(final Room room) {
+        if (!hasDisliked(room)) {
+            throw new NotDislikedException();
         }
     }
 }
