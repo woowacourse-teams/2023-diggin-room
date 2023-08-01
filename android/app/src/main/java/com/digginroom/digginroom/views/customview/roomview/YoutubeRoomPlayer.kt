@@ -9,7 +9,8 @@ import android.widget.ImageView
 import com.digginroom.digginroom.views.model.RoomModel
 
 class YoutubeRoomPlayer(
-    context: Context
+    context: Context,
+    private val onYoutubePlay: () -> Unit
 ) : WebView(context), RoomPlayer {
 
     private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
@@ -185,6 +186,7 @@ class YoutubeRoomPlayer(
                 @JavascriptInterface
                 fun onPlay() {
                     thumbnail.post {
+                        onYoutubePlay()
                         thumbnail.turnOff()
                     }
                 }

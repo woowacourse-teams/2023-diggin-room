@@ -11,12 +11,13 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
 
     var currentRoomPosition = 0
     private val roomPlayers: List<YoutubeRoomPlayer> =
-        (0 until gridSize * gridSize).mapIndexed { index, view ->
-            YoutubeRoomPlayer(context).apply {
-                tag = index
+        (0 until gridSize * gridSize).map {
+            YoutubeRoomPlayer(context) {
+                playCurrentRoomPlayer(currentRoomPlayerPosition)
             }
         }
     private var rooms: List<RoomModel> = emptyList()
+    private var currentRoomPlayerPosition: Int = 0
 
     init {
         initLayout()
@@ -44,7 +45,8 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
     }
 
     fun playCurrentRoomPlayer(target: Int) {
-        repeat(9) {
+        currentRoomPlayerPosition = target
+        repeat(gridSize * gridSize) {
             val room = getChildAt(it) as YoutubeRoomPlayer
             if (it == target) {
                 room.play()
@@ -55,7 +57,9 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
     }
 
     fun navigateRooms(target: Int) {
-        (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
+        if (target in (0 until gridSize * gridSize) && rooms.size > currentRoomPosition) {
+            (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
+        }
         if (target - 1 >= 0 && 0 <= currentRoomPosition - 1) {
             (getChildAt(target - 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
         }
