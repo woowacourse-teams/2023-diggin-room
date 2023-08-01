@@ -9,7 +9,7 @@ public class HashAlgorithm {
     private static final String ALGORITHM = "SHA-256";
     private static final String BYTE_TO_HEX_FORMAT = "%02x";
 
-    public static String encrypt(String text) {
+    public static String encrypt(final String text) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance(ALGORITHM);
             messageDigest.update(text.getBytes());
@@ -19,7 +19,7 @@ public class HashAlgorithm {
         }
     }
 
-    private static String bytesToHex(byte[] bytes) {
+    private static String bytesToHex(final byte[] bytes) {
         StringBuilder builder = new StringBuilder();
         for (byte singleByte : bytes) {
             builder.append(String.format(BYTE_TO_HEX_FORMAT, singleByte));

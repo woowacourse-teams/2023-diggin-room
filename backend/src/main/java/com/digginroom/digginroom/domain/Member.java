@@ -35,7 +35,7 @@ public class Member {
         this.password = DigginRoomPasswordEncoder.encode(password);
     }
 
-    public boolean hasDifferentPassword(String password) {
+    public boolean hasDifferentPassword(final String password) {
         return !DigginRoomPasswordEncoder.matches(password, this.password);
     }
 
@@ -53,13 +53,13 @@ public class Member {
         return scraps.contains(room);
     }
 
-    private void validateUnscrapped(Room room) {
+    private void validateUnscrapped(final Room room) {
         if (hasScrapped(room)) {
             throw new AlreadyScrappedException();
         }
     }
 
-    private void validateScrapped(Room room) {
+    private void validateScrapped(final Room room) {
         if (!hasScrapped(room)) {
             throw new NotScrappedException();
         }
