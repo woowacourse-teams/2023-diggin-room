@@ -75,4 +75,12 @@ public class RoomService {
 
         member.dislike(room);
     }
+
+    @Transactional
+    public void undislike(final Long memberId, final Long roomId) {
+        Room room = findRoom(roomId);
+        Member member = memberService.findMember(memberId);
+
+        member.undislike(room);
+    }
 }

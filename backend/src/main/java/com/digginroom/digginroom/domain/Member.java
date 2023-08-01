@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.domain;
 
+import static com.digginroom.digginroom.exception.RoomException.NotDislikedException;
+
 import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
@@ -83,5 +85,16 @@ public class Member {
 
     private boolean hasDisliked(final Room room) {
         return dislikeRooms.contains(room);
+    }
+
+    public void undislike(final Room room) {
+        validateDisliked(room);
+        dislikeRooms.remove(room);
+    }
+
+    private void validateDisliked(final Room room) {
+        if (!hasDisliked(room)) {
+            throw new NotDislikedException();
+        }
     }
 }
