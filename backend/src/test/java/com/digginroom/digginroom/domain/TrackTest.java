@@ -38,6 +38,6 @@ class TrackTest {
                 String.class,
                 track.getId()
         );
-        assertThat(subGenre).isEqualTo("Alternative Rock,Noise Rock");
+        assertThat(subGenre).isEqualTo("[\"Alternative Rock\",\"Noise Rock\"]");
     }
 }
