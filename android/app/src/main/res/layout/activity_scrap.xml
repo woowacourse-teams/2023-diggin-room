@@ -7,18 +7,18 @@
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.ScrapViewModel" />
+            type="com.digginroom.digginroom.feature.scrap.ScrapViewModel" />
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.views.activity.ScrapAdapter" />
+            type="com.digginroom.digginroom.feature.scrap.ScrapAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        tools:context=".views.activity.ScrapActivity">
+        tools:context=".feature.scrap.ScrapActivity">
 
         <ImageView
             android:layout_width="40dp"

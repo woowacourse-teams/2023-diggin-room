@@ -1,12 +1,12 @@
 package com.digginroom.digginroom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.join.JoinState
+import com.digginroom.digginroom.feature.join.JoinViewModel
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
 import com.digginroom.digginroom.repository.AccountRepository
-import com.digginroom.digginroom.viewmodels.JoinViewModel
-import com.digginroom.digginroom.views.activity.JoinState
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

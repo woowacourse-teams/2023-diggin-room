@@ -2,24 +2,25 @@ package com.digginroom.digginroom.data.repository
 
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
+import com.digginroom.digginroom.logging.LogResult
+import com.digginroom.digginroom.logging.logRunCatching
+import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.views.model.mapper.RoomMapper.toDomain
 
 class DefaultRoomRepository(
     private val roomRemoteDataSource: RoomRemoteDataSource,
     private val tokenLocalDataSource: TokenLocalDataSource
 ) : RoomRepository {
-
-    override suspend fun findNext(): Result<Room> =
-        runCatching {
+    override suspend fun findNext(): LogResult<Room> {
+        return logRunCatching {
             roomRemoteDataSource.findNext(tokenLocalDataSource.fetch()).toDomain()
         }
+    }
 
-    override suspend fun findScrapped(): Result<List<Room>> =
-        runCatching {
-            roomRemoteDataSource.findScrapped()
-        }
+    override suspend fun findScrapped(): Result<List<Room>> {
+        TODO("Not yet implemented")
+    }
 
     override fun updateScrapById(id: Long, value: Boolean) {
         TODO("Not yet implemented")

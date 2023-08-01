@@ -7,20 +7,20 @@
 
         <import type="android.view.View" />
 
-        <import type="com.digginroom.digginroom.views.activity.LoginState" />
+        <import type="com.digginroom.digginroom.feature.login.LoginState" />
 
 
         <variable
             name="navigator"
-            type="com.digginroom.digginroom.views.activity.LoginNavigator" />
+            type="com.digginroom.digginroom.feature.login.navigator.LoginNavigator" />
 
         <variable
             name="resultListener"
-            type="com.digginroom.digginroom.views.activity.ResultListener" />
+            type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.LoginViewModel" />
+            type="com.digginroom.digginroom.feature.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,6 +113,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
+            android:visibility="@{viewModel.state == LoginState.FAILED ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />

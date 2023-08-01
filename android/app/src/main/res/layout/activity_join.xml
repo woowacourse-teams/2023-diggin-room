@@ -11,15 +11,15 @@
 
         <variable
             name="resultListener"
-            type="com.digginroom.digginroom.views.activity.ResultListener" />
+            type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.JoinViewModel" />
+            type="com.digginroom.digginroom.feature.join.JoinViewModel" />
 
         <variable
             name="navigator"
-            type="com.digginroom.digginroom.views.activity.JoinNavigator" />
+            type="com.digginroom.digginroom.feature.join.navigator.JoinNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

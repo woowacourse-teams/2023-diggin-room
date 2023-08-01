@@ -6,10 +6,10 @@
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.ScrapViewModel" />
+            type="com.digginroom.digginroom.feature.scrap.ScrapViewModel" />
     </data>
 
-    <com.digginroom.digginroom.views.customview.roompager.ScrappedRoomPager
+    <com.digginroom.digginroom.feature.room.customview.scrollpager.ScrappedRoomPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:rooms="@{viewModel.scrappedRooms}" />

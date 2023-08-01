@@ -1,9 +1,9 @@
 package com.digginroom.digginroom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.scrap.ScrapViewModel
+import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.viewmodels.ScrapViewModel
-import com.digginroom.digginroom.views.model.mapper.RoomMapper.toModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

@@ -1,13 +1,13 @@
 package com.digginroom.digginroom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.login.LoginState
+import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
-import com.digginroom.digginroom.viewmodels.LoginViewModel
-import com.digginroom.digginroom.views.activity.LoginState
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -104,7 +104,7 @@ class LoginViewModelTest {
         loginViewModel.login()
 
         // then
-        verify { tokenRepository.save(TOKEN) }
+        coVerify { tokenRepository.save(TOKEN) }
     }
 
     companion object {
