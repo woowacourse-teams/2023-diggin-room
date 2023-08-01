@@ -3,9 +3,9 @@ package com.digginroom.digginroom.data.di
 import android.content.Context
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.digginroom.digginroom.viewmodels.JoinViewModel
-import com.digginroom.digginroom.viewmodels.LoginViewModel
-import com.digginroom.digginroom.viewmodels.RoomViewModel
+import com.digginroom.digginroom.feature.join.JoinViewModel
+import com.digginroom.digginroom.feature.login.LoginViewModel
+import com.digginroom.digginroom.feature.room.RoomViewModel
 
 class ViewModelFactory(context: Context) {
     private val repositoryProvider = RepositoryProvider(context)

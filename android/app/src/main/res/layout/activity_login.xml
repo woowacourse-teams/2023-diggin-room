@@ -9,22 +9,22 @@
 
         <variable
             name="navigator"
-            type="com.digginroom.digginroom.views.activity.LoginNavigationHandler" />
+            type="com.digginroom.digginroom.feature.login.navigator.LoginNavigationHandler" />
 
         <variable
             name="resultListener"
-            type="com.digginroom.digginroom.views.activity.ResultListener" />
+            type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.LoginViewModel" />
+            type="com.digginroom.digginroom.feature.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        tools:context=".views.activity.LoginActivity">
+        tools:context=".feature.login.LoginActivity">
 
         <ProgressBar
             android:id="@+id/login_pb"
