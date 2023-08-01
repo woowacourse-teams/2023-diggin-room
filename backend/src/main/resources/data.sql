@@ -71,3 +71,11 @@ INSERT INTO ROOM(media_source_id) VALUES(33);
 INSERT INTO ROOM(media_source_id) VALUES(34);
 INSERT INTO ROOM(media_source_id) VALUES(35);
 INSERT INTO ROOM(media_source_id) VALUES(36);
+
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Speak to me', 'Zaumne', 'Sounds and Effects', 'Outsider House,ASMR,Ambient House,Ambient Dub,Spoken Word');
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Friends', 'Zaumne', 'Sounds and Effects', 'Outsider House,ASMR,Ambient House,Ambient Dub,Spoken Word');
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Hand in Hand', 'Zaumne', 'Sounds and Effects', 'Outsider House,ASMR,Ambient House,Ambient Dub,Spoken Word');
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Valis', 'Félicia Atkinson', 'Sounds and Effects', 'Electroacoustic,Ambient,ASMR,Spoken,Drone');
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Monstera deliciosa', 'Félicia Atkinson', 'Sounds and Effects', 'Electroacoustic,Ambient,ASMR,Spoken,Drone');
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Curious in Epidavros', 'Félicia Atkinson', 'Sounds and Effects', 'Electroacoustic,Ambient,ASMR,Spoken,Drone');
+INSERT INTO track(title, artist, super_genre, sub_genres) VALUES ('Born Under Punches (The Heat Goes On)', 'Talking Heads', 'Punk', 'New Wave,Post-Punk,Funk,Afrobeat,Experimental Rock,Dance-Punk');
