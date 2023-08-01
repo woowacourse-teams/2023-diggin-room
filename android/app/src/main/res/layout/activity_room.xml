@@ -6,10 +6,10 @@
 
         <variable
             name="roomViewModel"
-            type="com.digginroom.digginroom.viewmodels.RoomViewModel" />
+            type="com.digginroom.digginroom.feature.room.RoomViewModel" />
     </data>
 
-    <com.digginroom.digginroom.views.customview.roompager.RoomPager
+    <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:onLoadNextRoom="@{() -> roomViewModel.findNextRoom()}"
