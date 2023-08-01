@@ -2,9 +2,11 @@ package com.digginroom.digginroom.controller;
 
 import com.digginroom.digginroom.controller.dto.RoomRequest;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
 import com.digginroom.digginroom.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,12 @@ public class RoomController {
     @GetMapping("/room")
     public RoomResponse showRandomRoom(@Auth final Long memberId) {
         return roomService.pickRandom(memberId);
+    }
+
+    @GetMapping("/room/scrap")
+    public ResponseEntity<ScrappedRoomsResponse> findScrapRooms(@Auth final Long memberId) {
+        ScrappedRoomsResponse scrappedRooms = roomService.findScrappedRooms(memberId);
+        return ResponseEntity.ok().body(scrappedRooms);
     }
 
     @PostMapping("/scrap")

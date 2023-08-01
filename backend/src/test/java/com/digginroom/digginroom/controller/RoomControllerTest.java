@@ -1,6 +1,8 @@
 package com.digginroom.digginroom.controller;
 
+import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
@@ -13,6 +15,7 @@ import com.digginroom.digginroom.repository.RoomRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,5 +125,61 @@ class RoomControllerTest extends ControllerTest {
                 .delete("/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 스크랩을_하지_않은_유저는_빈_스크랩_목록을_조회할_수_있다() {
+        Response response = RestAssured.given().log().all()
+                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .get("/room/scrap")
+                .then().log().all()
+                .body("scrappedRooms", emptyCollectionOf(List.class));
+    }
+
+    @Test
+    void 스크랩을_한_유저는_스크랩_목록을_조회할_수_있다() {
+        Response response = RestAssured.given().log().all()
+                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room2.getId()))
+                .post("/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .get("/room/scrap")
+                .then().log().all()
+                .body("scrappedRooms", hasSize(2));
     }
 }
