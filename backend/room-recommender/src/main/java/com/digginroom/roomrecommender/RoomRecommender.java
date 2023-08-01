@@ -5,7 +5,23 @@ import java.util.Random;
 
 public class RoomRecommender {
 
-    public static MemberGenre genreRecommend(List<MemberGenre> superGenres) {
+    private GenreRequest genreRequest;
+    private TrackRequest trackRequest;
+
+
+    public RoomRecommender(GenreRequest genreRequest, TrackRequest trackRequest) {
+        this.genreRequest = genreRequest;
+        this.trackRequest = trackRequest;
+    }
+
+    public Track recommend() {
+        MemberGenre recommendedGenre = genreRecommend();
+        Track recommendedTrack = trackRecommend(recommendedGenre);
+        return recommendedTrack;
+    }
+
+    private MemberGenre genreRecommend() {
+        List<MemberGenre> superGenres = genreRequest.getSuperGenres();
         int weightSum = superGenres.stream()
                 .mapToInt(MemberGenre::getWeight)
                 .sum();
@@ -20,18 +36,9 @@ public class RoomRecommender {
         return superGenres.get(superGenres.size() - 1);
     }
 
-    public static Track trackRecommend(List<Track> tracks) {
+    private Track trackRecommend(MemberGenre genre) {
+        List<Track> tracks = trackRequest.getTracksByGenre(genre);
         int randomInt = new Random().nextInt(tracks.size());
         return tracks.get(randomInt);
-    }
-
-    public static MemberGenre increaseWeight(MemberGenre targetGenre) {
-        targetGenre.increaseWeight();
-        return targetGenre;
-    }
-
-    public static MemberGenre decreaseWeight(MemberGenre targetGenre) {
-        targetGenre.decreaseWeight();
-        return targetGenre;
     }
 }
