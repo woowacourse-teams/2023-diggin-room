@@ -44,7 +44,7 @@ public class Member {
 
     public void scrap(final Room room) {
         validateUnscrapped(room);
-        validateUnDisliked(room);
+        validateUndisliked(room);
         scrapRooms.add(room);
     }
 
@@ -54,8 +54,8 @@ public class Member {
         }
     }
 
-    private void validateUnDisliked(final Room room) {
-        if (hasDislike(room)) {
+    private void validateUndisliked(final Room room) {
+        if (hasDisliked(room)) {
             throw new AlreadyDislikeException();
         }
     }
@@ -77,11 +77,11 @@ public class Member {
 
     public void dislike(final Room room) {
         validateUnscrapped(room);
-        validateUnDisliked(room);
+        validateUndisliked(room);
         dislikeRooms.add(room);
     }
 
-    private boolean hasDislike(final Room room) {
+    private boolean hasDisliked(final Room room) {
         return dislikeRooms.contains(room);
     }
 }
