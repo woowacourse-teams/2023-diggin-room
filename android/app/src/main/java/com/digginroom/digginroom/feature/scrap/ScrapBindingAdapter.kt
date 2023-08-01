@@ -5,7 +5,6 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrappedRoomPager
 import com.digginroom.digginroom.model.RoomModel
 
 object ScrapBindingAdapter {
@@ -30,11 +29,5 @@ object ScrapBindingAdapter {
             .fallback(R.drawable.ic_error_24)
             .error(R.drawable.ic_error_24)
             .into(imageView)
-    }
-
-    @JvmStatic
-    @BindingAdapter("app:rooms")
-    fun rooms(roomPager: ScrappedRoomPager, rooms: List<RoomModel>) {
-        roomPager.updateData(rooms)
     }
 }

@@ -25,9 +25,6 @@
         </activity>
 
         <activity
-            android:name=".feature.scrap.ScrappedRoomActivity"
-            android:exported="true" />
-        <activity
             android:name=".feature.scrap.ScrapActivity"
             android:exported="true" />
         <activity

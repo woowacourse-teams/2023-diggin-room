@@ -52,7 +52,7 @@ class JoinViewModelTest {
         joinViewModel.validateId()
 
         // then
-        assertEquals(joinViewModel.isValidId.value, true)
+        assertEquals(joinViewModel.idVerification.value?.isValid, true)
     }
 
     @Test
@@ -66,7 +66,7 @@ class JoinViewModelTest {
         joinViewModel.validateId()
 
         // then
-        assertEquals(joinViewModel.isValidId.value, false)
+        assertEquals(joinViewModel.idVerification.value?.isValid, false)
     }
 
     @Test
@@ -98,7 +98,7 @@ class JoinViewModelTest {
         joinViewModel.validateIdRedundancy()
 
         // then
-        assertEquals(joinViewModel.isUniqueId.value, false)
+        assertEquals(joinViewModel.idVerification.value?.isCheckedDuplication, true)
     }
 
     @Test
@@ -116,7 +116,7 @@ class JoinViewModelTest {
         joinViewModel.validateIdRedundancy()
 
         // then
-        assertEquals(joinViewModel.isUniqueId.value, false)
+        assertEquals(joinViewModel.idVerification.value?.isDuplicated, true)
     }
 
     @Test
@@ -148,7 +148,7 @@ class JoinViewModelTest {
         joinViewModel.validatePassword()
 
         // then
-        assertEquals(joinViewModel.isValidPassword.value, false)
+        assertEquals(joinViewModel.passwordVerification.value?.isValid, false)
     }
 
     @Test
@@ -176,23 +176,23 @@ class JoinViewModelTest {
         joinViewModel.validatePassword()
 
         // then
-        assertEquals(true, joinViewModel.isValidPassword.value)
+        assertEquals(true, joinViewModel.passwordVerification.value?.isValid)
     }
 
     @Test
     fun `재입력한 비밀번호와 기존에 입력한 비밀번호가 일치하지 않을 시 비밀번호가 일치하는 지에 대한 상태를 나타내는 변수가 false로 설정된다`() {
         // given
         val password = VALID_PASSWORD
-        val reInputPassword = VALID_PASSWORD
+        val reInputPassword = INVALID_PASSWORD
 
         joinViewModel.password.value = password
         joinViewModel.reInputPassword.value = reInputPassword
 
         // when
-        joinViewModel.isEqualPassword
+        joinViewModel.validatePasswordEquality()
 
         // then
-        assertEquals(joinViewModel.isEqualPassword.value, true)
+        assertEquals(joinViewModel.passwordVerification.value?.isEqualReInput, false)
     }
 
     @Test
