@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.IdVerification
 import com.digginroom.digginroom.model.user.Password
+import com.digginroom.digginroom.model.user.PasswordVerification
 import com.digginroom.digginroom.repository.AccountRepository
 import kotlinx.coroutines.launch
 
@@ -17,25 +19,15 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
     val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
     val reInputPassword: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
 
-    private val _isValidId = MutableLiveData(false)
-    val isValidId: LiveData<Boolean>
-        get() = _isValidId
+    private val _idVerification: NonNullMutableLiveData<IdVerification> =
+        NonNullMutableLiveData(IdVerification())
+    val idVerification: LiveData<IdVerification>
+        get() = _idVerification
 
-    private val _isRedundancyChecked: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isRedundancyChecked: LiveData<Boolean>
-        get() = _isRedundancyChecked
-
-    private val _isUniqueId: MutableLiveData<Boolean> = MutableLiveData()
-    val isUniqueId: LiveData<Boolean>
-        get() = _isUniqueId
-
-    private val _isValidPassword = MutableLiveData(false)
-    val isValidPassword: LiveData<Boolean>
-        get() = _isValidPassword
-
-    private val _isEqualPassword: MutableLiveData<Boolean> = MutableLiveData(true)
-    val isEqualPassword: LiveData<Boolean>
-        get() = _isEqualPassword
+    private val _passwordVerification: NonNullMutableLiveData<PasswordVerification> =
+        NonNullMutableLiveData(PasswordVerification())
+    val passwordVerification: LiveData<PasswordVerification>
+        get() = _passwordVerification
 
     private val _isJoinAble: MutableLiveData<Boolean> = MutableLiveData(false)
     val isJoinAble: LiveData<Boolean>
@@ -46,13 +38,9 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         get() = _state
 
     fun validateId() {
-        _isRedundancyChecked.value = false
-        runCatching {
-            Id(id.value)
-        }.onSuccess {
-            _isValidId.value = true
-        }.onFailure {
-            _isValidId.value = false
+        with(_idVerification) {
+            value = value.setIsCheckedDuplication(false)
+                .checkIsValid(id.value)
         }
         validateJoinAble()
     }
@@ -61,35 +49,31 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         viewModelScope.launch {
             accountRepository.fetchIsDuplicatedId(Id(id.value))
                 .onSuccess {
-                    _isUniqueId.value = !it
+                    _idVerification.value = _idVerification.value.setIsDuplicated(it)
                 }.onFailure {
                 }
-            _isRedundancyChecked.value = true
+            _idVerification.value = _idVerification.value.setIsCheckedDuplication(true)
             validateJoinAble()
         }
     }
 
     fun validatePassword() {
-        runCatching {
-            Password(password.value)
-        }.onSuccess {
-            _isValidPassword.value = true
-        }.onFailure {
-            _isValidPassword.value = false
+        with(_passwordVerification) {
+            value = value.checkIsValid(password.value)
         }
         validatePasswordEquality()
     }
 
     fun validatePasswordEquality() {
-        _isEqualPassword.value = password.value == reInputPassword.value
+        with(_passwordVerification) {
+            value = value.setIsEqualReInput(password.value == reInputPassword.value)
+        }
         validateJoinAble()
     }
 
     private fun validateJoinAble() {
-        _isJoinAble.value = _isValidId.value == true &&
-            _isValidPassword.value == true &&
-            _isEqualPassword.value == true &&
-            _isUniqueId.value == true
+        _isJoinAble.value =
+            _idVerification.value.isVerified && _passwordVerification.value.isVerified
     }
 
     fun join() {

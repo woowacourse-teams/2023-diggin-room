@@ -7,9 +7,12 @@
 
         <import type="android.view.View" />
 
+        <import type="com.digginroom.digginroom.feature.login.LoginState" />
+
+
         <variable
             name="navigator"
-            type="com.digginroom.digginroom.feature.login.navigator.LoginNavigationHandler" />
+            type="com.digginroom.digginroom.feature.login.navigator.LoginNavigator" />
 
         <variable
             name="resultListener"
@@ -24,17 +27,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        tools:context=".feature.login.LoginActivity">
+        app:loginState="@{viewModel.state}"
+        app:loginStateListener="@{resultListener}"
+        tools:context=".views.activity.LoginActivity">
 
         <ProgressBar
             android:id="@+id/login_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="@{viewModel.state == LoginState.LOADING ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:visibleOnLoading="@{viewModel.state}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/login_iv_diggin_room_logo"
@@ -110,10 +115,10 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
+            android:visibility="@{viewModel.state == LoginState.FAILED ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
-            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
-            app:visibleOnFailed="@{viewModel.state}" />
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login_button"
@@ -123,16 +128,14 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="45dp"
             android:background="@drawable/bg_gradient_blue_radius"
+            android:onClick="@{() -> viewModel.login()}"
             android:paddingVertical="16dp"
             android:text="@string/common_login"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
-            app:listener="@{resultListener}"
-            app:loginState="@{viewModel.state}"
-            app:onClickForLoginState="@{() -> viewModel.login()}" />
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
 
         <TextView
             android:id="@+id/login_tv_join"

@@ -1,0 +1,19 @@
+name: "⚙️ 기능 개발"
+description: "개발 시간 🫡"
+body:
+  - type: textarea
+    attributes:
+      label: 기능 설명
+  - type: textarea
+    attributes:
+      label: 개발 일정
+      description: 개발 일정을 적어주세요.
+  - type: textarea
+    attributes:
+      label: 자식 이슈
+      description: 현재 이슈의 하위 이슈를 링크해주세요.
+      description: 개발할 기능에 대한 설명을 적어주세요.
+  - type: textarea
+    attributes:
+      label: 부가 설명
+      description: 기타 부가적인 설명을 적어주세요.

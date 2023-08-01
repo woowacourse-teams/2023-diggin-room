@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityLoginBinding
-import com.digginroom.digginroom.feature.login.navigator.LoginNavigator
+import com.digginroom.digginroom.feature.login.navigator.DefaultLoginNavigator
 
 class LoginActivity : AppCompatActivity() {
 
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                             it.loginEtInputPassword
                         )
                     )
-                    it.navigator = LoginNavigator(this)
+                    it.navigator = DefaultLoginNavigator(this)
                     it.viewModel = loginViewModel
                 }
     }
