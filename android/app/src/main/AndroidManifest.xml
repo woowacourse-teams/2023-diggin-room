@@ -14,11 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
-
+        <activity
+            android:name=".views.activity.ScrappedRoomActivity"
+            android:exported="true" />
         <activity
             android:name=".views.activity.ScrapActivity"
             android:exported="true" />
-
         <activity
             android:name=".views.activity.LoginActivity"
             android:exported="true">
@@ -28,11 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.activity.RoomActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name=".views.activity.JoinActivity"
             android:exported="true" />
