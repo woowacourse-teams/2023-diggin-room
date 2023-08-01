@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/room")
 public class RoomController {
 
     private final RoomService roomService;
 
-    @GetMapping("/room")
+    @GetMapping
     public ResponseEntity<RoomResponse> showRandomRoom(@Auth final Long memberId) {
         return ResponseEntity.ok().body(roomService.pickRandom(memberId));
     }

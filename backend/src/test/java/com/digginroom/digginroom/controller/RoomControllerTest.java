@@ -82,7 +82,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
     }
@@ -102,7 +102,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -111,7 +111,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .delete("/scrap")
+                .delete("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -131,7 +131,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/dislike")
+                .post("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -140,7 +140,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
@@ -160,7 +160,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/dislike")
+                .post("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
     }
@@ -180,7 +180,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/dislike")
+                .post("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -189,7 +189,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/dislike")
+                .post("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
@@ -209,7 +209,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -218,7 +218,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/dislike")
+                .post("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
