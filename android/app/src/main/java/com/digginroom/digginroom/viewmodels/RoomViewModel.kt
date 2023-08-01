@@ -21,6 +21,7 @@ class RoomViewModel(
         get() = _cachedRoom
 
     fun findNextRoom() {
+        _cachedRoom.value = RoomState.Loading
         viewModelScope.launch {
             roomRepository.findNext().onSuccess { room ->
                 rooms.add(room)

@@ -110,6 +110,7 @@ class RoomPager(
     }
 
     private fun pageToTargetRoom(scrollPager: ScrollPager) {
+        playCurrentRoom()
         navigateTargetRoom()
         scrollPager.post {
             scrollPager.smoothScrollTo(
@@ -118,12 +119,20 @@ class RoomPager(
         }
     }
 
+    private fun playCurrentRoom() {
+        val target = calculateCurrentPosition()
+        roomRecycler.post {
+            roomRecycler.playCurrentRoomPlayer(target)
+        }
+    }
+
     private fun navigateTargetRoom() {
-        val target =
-            verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition
-        roomRecycler.playCurrentRoomPlayer(target)
+        val target = calculateCurrentPosition()
         roomRecycler.navigateRooms(target)
     }
+
+    private fun calculateCurrentPosition(): Int =
+        verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition
 
     companion object {
         private const val GRID_SIZE = 3

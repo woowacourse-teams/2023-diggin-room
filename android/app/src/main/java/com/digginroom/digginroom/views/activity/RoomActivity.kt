@@ -26,7 +26,7 @@ class RoomActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_room)
         binding.lifecycleOwner = this
         binding.roomViewModel = roomViewModel.also { roomViewModel ->
-            repeat(9) {
+            repeat(3) {
                 roomViewModel.findNextRoom()
             }
         }

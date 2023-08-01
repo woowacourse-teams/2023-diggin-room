@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import androidx.core.view.forEachIndexed
 import com.digginroom.digginroom.views.customview.roomview.YoutubeRoomPlayer
 import com.digginroom.digginroom.views.model.RoomModel
 
@@ -12,12 +11,13 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
 
     var currentRoomPosition = 0
     private val roomPlayers: List<YoutubeRoomPlayer> =
-        (0 until gridSize * gridSize).mapIndexed { index, view ->
-            YoutubeRoomPlayer(context).apply {
-                tag = index
+        (0 until gridSize * gridSize).map {
+            YoutubeRoomPlayer(context) {
+                playCurrentRoomPlayer(currentRoomPlayerPosition)
             }
         }
     private var rooms: List<RoomModel> = emptyList()
+    private var currentRoomPlayerPosition: Int = 0
 
     init {
         initLayout()
@@ -45,18 +45,21 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
     }
 
     fun playCurrentRoomPlayer(target: Int) {
-        forEachIndexed { index, view ->
-            view as YoutubeRoomPlayer
-            if (index == target) {
-                view.play()
+        currentRoomPlayerPosition = target
+        repeat(gridSize * gridSize) {
+            val room = getChildAt(it) as YoutubeRoomPlayer
+            if (it == target) {
+                room.play()
             } else {
-                view.pause()
+                room.pause()
             }
         }
     }
 
     fun navigateRooms(target: Int) {
-        (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
+        if (target in (0 until gridSize * gridSize) && rooms.size > currentRoomPosition) {
+            (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
+        }
         if (target - 1 >= 0 && 0 <= currentRoomPosition - 1) {
             (getChildAt(target - 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
         }
