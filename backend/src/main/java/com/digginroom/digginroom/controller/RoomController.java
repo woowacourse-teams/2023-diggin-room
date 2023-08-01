@@ -43,7 +43,7 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/undislike")
+    @DeleteMapping("/dislike")
     public ResponseEntity<Void> unDislike(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
         roomService.undislike(memberId, roomRequest.roomId());
         return ResponseEntity.ok().build();

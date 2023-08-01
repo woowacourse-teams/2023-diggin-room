@@ -247,7 +247,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/room/undislike")
+                .delete("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -267,7 +267,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/room/undislike")
+                .delete("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
