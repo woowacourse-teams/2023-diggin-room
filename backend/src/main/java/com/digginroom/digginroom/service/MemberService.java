@@ -2,6 +2,7 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
@@ -41,7 +42,7 @@ public class MemberService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Member loginMember(final MemberLoginRequest request) {
+    public MemberLoginResponse loginMember(final MemberLoginRequest request) {
         Optional<Member> findMember = memberRepository.findMemberByUsername(request.username());
         if (findMember.isEmpty()) {
             throw new NotFoundException();
@@ -51,7 +52,7 @@ public class MemberService {
         if (isNotSamePassword(request, member)) {
             throw new NotFoundException();
         }
-        return member;
+        return new MemberLoginResponse(member.getId());
     }
 
     private boolean isNotSamePassword(final MemberLoginRequest request, final Member member) {

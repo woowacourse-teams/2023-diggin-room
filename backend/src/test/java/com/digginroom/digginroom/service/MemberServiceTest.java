@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException;
@@ -82,7 +83,7 @@ class MemberServiceTest {
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
         assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), power.getPassword())))
-                .isEqualTo(power);
+                .isEqualTo(new MemberLoginResponse(power.getId()));
     }
 
     @Test
