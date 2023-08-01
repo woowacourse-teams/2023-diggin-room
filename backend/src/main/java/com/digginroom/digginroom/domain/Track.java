@@ -29,7 +29,7 @@ public class Track {
     private List<String> subGenres;
 
     @Builder
-    public Track(final String title, final String artist, final String superGenre, final List<String> subGenres) {
+    private Track(final String title, final String artist, final String superGenre, final List<String> subGenres) {
         this.title = title;
         this.artist = artist;
         this.superGenre = superGenre;
