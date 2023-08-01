@@ -48,19 +48,21 @@ public class Member {
         scrapRooms.add(room);
     }
 
-    public void unscrap(final Room room) {
-        validateScrapped(room);
-        scrapRooms.remove(room);
-    }
-
-    public boolean hasScrapped(final Room room) {
-        return scrapRooms.contains(room);
-    }
-
     private void validateUnscrapped(final Room room) {
         if (hasScrapped(room)) {
             throw new AlreadyScrappedException();
         }
+    }
+
+    private void validateUnDisliked(final Room room) {
+        if (hasDislike(room)) {
+            throw new AlreadyDislikeException();
+        }
+    }
+
+    public void unscrap(final Room room) {
+        validateScrapped(room);
+        scrapRooms.remove(room);
     }
 
     private void validateScrapped(final Room room) {
@@ -69,16 +71,14 @@ public class Member {
         }
     }
 
+    public boolean hasScrapped(final Room room) {
+        return scrapRooms.contains(room);
+    }
+
     public void dislike(final Room room) {
         validateUnscrapped(room);
         validateUnDisliked(room);
         dislikeRooms.add(room);
-    }
-
-    private void validateUnDisliked(final Room room) {
-        if (hasDislike(room)) {
-            throw new AlreadyDislikeException();
-        }
     }
 
     private boolean hasDislike(final Room room) {
