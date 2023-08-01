@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.feature.login
 
-import android.widget.Button
+import android.view.View
 import androidx.databinding.BindingAdapter
 import com.digginroom.digginroom.feature.ResultListener
 
@@ -8,18 +8,14 @@ object LoginBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["onClickForLoginState", "listener", "loginState"],
+        value = ["loginStateListener", "loginState"],
         requireAll = false
     )
     fun onClickForLoginState(
-        button: Button,
-        onClick: () -> Unit,
+        view: View,
         listener: ResultListener,
         loginState: LoginState
     ) {
-        button.setOnClickListener {
-            onClick()
-        }
         when (loginState) {
             LoginState.SUCCEED -> listener.onSucceed()
             LoginState.FAILED -> listener.onFailed()
