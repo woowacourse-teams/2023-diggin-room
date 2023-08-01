@@ -3,6 +3,8 @@ package com.digginroom.digginroom.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.digginroom.digginroom.controller.dto.ScrappedRoomResponse;
+import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -10,6 +12,8 @@ import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedExceptio
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -42,6 +46,37 @@ class RoomServiceTest {
         final var pickedRoom = roomService.pickRandom(member.getId());
 
         assertThat(pickedRoom).isNotNull();
+    }
+
+    @Test
+    void 스크랩_항목이_있는_경우_멤버가_스크랩한_룸_목록을_조회할_수_있다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+        Room 나무 = new Room(new MediaSource("lQcnNPqy2Ww"));
+        Room 가까운듯먼그대여 = new Room(new MediaSource("2VkWaOOF4Rc"));
+        roomRepository.save(나무);
+        roomRepository.save(가까운듯먼그대여);
+        member.scrap(나무);
+        member.scrap(가까운듯먼그대여);
+
+        ScrappedRoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
+
+        assertThat(scrappedRooms.scrappedRooms())
+                .usingRecursiveComparison()
+                .isEqualTo(List.of(
+                        new ScrappedRoomResponse(나무.getId(), 나무.getMediaSource().getIdentifier()),
+                        new ScrappedRoomResponse(가까운듯먼그대여.getId(), 가까운듯먼그대여.getMediaSource().getIdentifier()))
+                );
+    }
+
+    @Test
+    void 스크랩_항목이_없는_경우_멤버가_빈_룸_목록을_조회할_수_있다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+
+        ScrappedRoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
+
+        assertThat(scrappedRooms.scrappedRooms())
+                .usingRecursiveComparison()
+                .isEqualTo(Collections.emptyList());
     }
 
     @Test

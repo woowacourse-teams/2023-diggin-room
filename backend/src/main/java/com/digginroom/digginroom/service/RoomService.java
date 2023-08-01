@@ -1,6 +1,8 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.ScrappedRoomResponse;
+import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.exception.RoomException.EmptyException;
@@ -45,6 +47,14 @@ public class RoomService {
                 .stream()
                 .findFirst()
                 .orElseThrow(EmptyException::new);
+    }
+
+    // pull 이후 transactional 정리
+    public ScrappedRoomsResponse findScrappedRooms(final Long memberId) {
+        Member member = memberService.findMember(memberId);
+        return new ScrappedRoomsResponse(member.getScraps().stream()
+                .map(room -> new ScrappedRoomResponse(room.getId(), room.getMediaSource().getIdentifier()))
+                .toList());
     }
 
     @Transactional
