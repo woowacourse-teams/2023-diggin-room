@@ -1,8 +1,8 @@
 package com.digginroom.digginroom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.join.JoinViewModel
 import com.digginroom.digginroom.repository.AccountRepository
-import com.digginroom.digginroom.viewmodels.JoinViewModel
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -123,7 +123,7 @@ class JoinViewModelTest : TestWatcher() {
         // when
         joinViewModel.validatePasswordEquality(
             password = password,
-            reInputPassword = reInputPassword
+            reInputPassword = reInputPassword,
         )
 
         // then

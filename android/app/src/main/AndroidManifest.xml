@@ -15,21 +15,21 @@
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
         <activity
-            android:name=".views.activity.LoginActivity"
+            android:name=".feature.login.LoginActivity"
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.activity.RoomActivity"
+            android:name=".feature.room.RoomActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".views.activity.JoinActivity"
+            android:name=".feature.join.JoinActivity"
             android:exported="true" />
     </application>
 

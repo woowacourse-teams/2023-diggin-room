@@ -3,9 +3,9 @@ package com.digginroom.digginroom.data.di
 import android.content.Context
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.digginroom.digginroom.viewmodels.JoinViewModel
-import com.digginroom.digginroom.viewmodels.LoginViewModel
-import com.digginroom.digginroom.viewmodels.RoomViewModel
+import com.digginroom.digginroom.feature.join.JoinViewModel
+import com.digginroom.digginroom.feature.login.LoginViewModel
+import com.digginroom.digginroom.feature.room.RoomViewModel
 
 class ViewModelFactory(context: Context) {
     private val repositoryProvider = RepositoryProvider(context)
@@ -13,7 +13,7 @@ class ViewModelFactory(context: Context) {
     val joinViewModelFactory = viewModelFactory {
         initializer {
             JoinViewModel(
-                accountRepository = repositoryProvider.accountRepository
+                accountRepository = repositoryProvider.accountRepository,
             )
         }
     }
@@ -22,7 +22,7 @@ class ViewModelFactory(context: Context) {
         initializer {
             LoginViewModel(
                 accountRepository = repositoryProvider.accountRepository,
-                tokenRepository = repositoryProvider.tokenRepository
+                tokenRepository = repositoryProvider.tokenRepository,
             )
         }
     }
@@ -31,7 +31,7 @@ class ViewModelFactory(context: Context) {
         initializer {
             RoomViewModel(
                 rooms = mutableListOf(),
-                roomRepository = repositoryProvider.roomRepository
+                roomRepository = repositoryProvider.roomRepository,
             )
         }
     }

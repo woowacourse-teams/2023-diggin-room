@@ -7,7 +7,7 @@
 
         <variable
             name="roomModel"
-            type="com.digginroom.digginroom.views.model.RoomModel" />
+            type="com.digginroom.digginroom.model.RoomModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

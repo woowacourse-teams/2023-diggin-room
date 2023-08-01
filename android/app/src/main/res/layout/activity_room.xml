@@ -6,13 +6,13 @@
 
         <variable
             name="roomViewModel"
-            type="com.digginroom.digginroom.viewmodels.RoomViewModel" />
+            type="com.digginroom.digginroom.feature.room.RoomViewModel" />
     </data>
 
-    <com.digginroom.digginroom.views.customview.roompager.RoomPager
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:rooms="@{roomViewModel.cachedRoom}"
-        app:onNextRoom="@{() -> roomViewModel.findNextRoom()}" />
+    <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onLoadNextRoom="@{() -> roomViewModel.findNextRoom()}"
+        app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>
