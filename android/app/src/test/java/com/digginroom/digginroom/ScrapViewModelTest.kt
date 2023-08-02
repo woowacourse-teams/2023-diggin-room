@@ -56,9 +56,9 @@ class ScrapViewModelTest {
             rooms = mutableListOf(),
             roomRepository = roomRepository
         )
-        val roomModels = rooms.map { it.toModel() }
+        val expected = rooms.map { it.toModel() }
 
         // then
-        assertEquals(viewModel.scrappedRooms.value, roomModels)
+        assertEquals(expected, viewModel.scrappedRooms.value)
     }
 }

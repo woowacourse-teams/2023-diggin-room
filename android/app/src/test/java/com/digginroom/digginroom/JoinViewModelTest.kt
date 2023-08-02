@@ -98,7 +98,10 @@ class JoinViewModelTest {
         joinViewModel.validateIdRedundancy()
 
         // then
-        assertEquals(joinViewModel.idVerification.value?.isCheckedDuplication, true)
+        assertEquals(
+            true,
+            joinViewModel.idVerification.value?.isCheckedDuplication
+        )
     }
 
     @Test
@@ -116,7 +119,10 @@ class JoinViewModelTest {
         joinViewModel.validateIdRedundancy()
 
         // then
-        assertEquals(joinViewModel.idVerification.value?.isDuplicated, true)
+        assertEquals(
+            true,
+            joinViewModel.idVerification.value?.isDuplicated
+        )
     }
 
     @Test
@@ -134,7 +140,7 @@ class JoinViewModelTest {
         joinViewModel.validateIdRedundancy()
 
         // then
-        assertEquals(joinViewModel.isJoinAble.value, false)
+        assertEquals(false, joinViewModel.isJoinAble.value)
     }
 
     @Test
@@ -148,7 +154,10 @@ class JoinViewModelTest {
         joinViewModel.validatePassword()
 
         // then
-        assertEquals(joinViewModel.passwordVerification.value?.isValid, false)
+        assertEquals(
+            false,
+            joinViewModel.passwordVerification.value?.isValid
+        )
     }
 
     @Test
@@ -162,7 +171,7 @@ class JoinViewModelTest {
         joinViewModel.validatePassword()
 
         // then
-        assertEquals(joinViewModel.isJoinAble.value, false)
+        assertEquals(false, joinViewModel.isJoinAble.value)
     }
 
     @Test
@@ -176,7 +185,7 @@ class JoinViewModelTest {
         joinViewModel.validatePassword()
 
         // then
-        assertEquals(true, joinViewModel.passwordVerification.value?.isValid)
+        assertEquals(joinViewModel.passwordVerification.value?.isValid, true)
     }
 
     @Test
@@ -192,7 +201,10 @@ class JoinViewModelTest {
         joinViewModel.validatePasswordEquality()
 
         // then
-        assertEquals(joinViewModel.passwordVerification.value?.isEqualReInput, false)
+        assertEquals(
+            false,
+            joinViewModel.passwordVerification.value?.isEqualReInput
+        )
     }
 
     @Test
@@ -208,7 +220,10 @@ class JoinViewModelTest {
         joinViewModel.validatePasswordEquality()
 
         // then
-        assertEquals(joinViewModel.isJoinAble.value, false)
+        assertEquals(
+            false,
+            joinViewModel.isJoinAble.value
+        )
     }
 
     @Test
