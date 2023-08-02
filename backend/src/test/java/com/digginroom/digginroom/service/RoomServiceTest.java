@@ -39,7 +39,7 @@ class RoomServiceTest {
         roomRepository.save(나무);
         roomRepository.save(가까운듯먼그대여);
 
-        final var pickedRoom = roomService.pickRandom(member.getId());
+        final var pickedRoom = roomService.recommend(member.getId());
 
         assertThat(pickedRoom).isNotNull();
     }

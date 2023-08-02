@@ -19,8 +19,8 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/room")
-    public RoomResponse showRandomRoom(@Auth final Long memberId) {
-        return roomService.pickRandom(memberId);
+    public RoomResponse showRecommendedRoom(@Auth final Long memberId) {
+        return roomService.recommend(memberId);
     }
 
     @PostMapping("/scrap")
@@ -30,7 +30,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/scrap")
-    public void showRandomRoom(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
+    public void unscrap(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
         roomService.unscrap(memberId, roomRequest.roomId());
     }
 }
