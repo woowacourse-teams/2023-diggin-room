@@ -1,8 +1,7 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.feature.join
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.join.JoinState
-import com.digginroom.digginroom.feature.join.JoinViewModel
+import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
