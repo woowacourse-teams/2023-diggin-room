@@ -7,27 +7,30 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.digginroom.digginroom.feature.room.RoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.model.RoomModel
 
 class YoutubeRoomPlayer(
     context: Context,
-    private val onYoutubePlay: () -> Unit,
-    private val onScrapClickListener: (Long) -> Unit
+    private val onYoutubePlay: () -> Unit
 ) : WebView(context), RoomPlayer {
 
     private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
+    private val roomInfoView: RoomInfoView = RoomInfoView(context)
+
     private var videoId = ""
     private var isPlayerLoaded = false
-    private var roomId = 0L
-
-    lateinit var roomInfo: RoomInfo
 
     init {
         addRoomInfoView()
         preventTouchEvent()
         initThumbnail()
         initYoutubePlayer()
+    }
+
+    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
+        roomInfoView.setRoomInfoListener(onRoomInfoListener)
     }
 
     override fun play() {
@@ -49,12 +52,10 @@ class YoutubeRoomPlayer(
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
-        roomInfo.setRoomInfo(room)
-        roomId = room.roomId
+        roomInfoView.setRoomInfo(room)
     }
 
     private fun preventTouchEvent() {
-        addRoomInfoView()
         setOnTouchListener { _, _ -> true }
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
@@ -206,13 +207,12 @@ class YoutubeRoomPlayer(
     }
 
     private fun addRoomInfoView() {
-        roomInfo = RoomInfo(context) { onScrapClickListener(roomId) }
         val myLayoutParams = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
             ConstraintLayout.LayoutParams.WRAP_CONTENT
         )
-        roomInfo.layoutParams = myLayoutParams
-        roomInfo.y = resources.displayMetrics.heightPixels.toFloat() - roomInfo.layoutHeight
-        addView(roomInfo)
+        roomInfoView.layoutParams = myLayoutParams
+        roomInfoView.y = resources.displayMetrics.heightPixels.toFloat() - roomInfoView.layoutHeight
+        addView(roomInfoView)
     }
 }

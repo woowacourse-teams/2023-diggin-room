@@ -1,31 +1,38 @@
 package com.digginroom.digginroom.feature.room.customview
 
 import android.content.Context
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import com.digginroom.digginroom.feature.room.RoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.model.RoomModel
 
-class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(context) {
+class RoomRecycler(
+    context: Context,
+    private val gridSize: Int
+) : GridLayout(context) {
 
-    var onScrap: (Long) -> Unit = {}
     var currentRoomPosition = 0
-    private val roomPlayers: List<YoutubeRoomPlayer> =
-        (0 until gridSize * gridSize).map {
-            YoutubeRoomPlayer(context, {
-                playCurrentRoomPlayer(currentRoomPlayerPosition)
-            }) {
-                onScrap(it)
-            }
+    private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize * gridSize).map {
+        YoutubeRoomPlayer(context) {
+            playCurrentRoomPlayer(currentRoomPlayerPosition)
         }
+    }
     private var rooms: List<RoomModel> = emptyList()
     private var currentRoomPlayerPosition: Int = 0
 
     init {
         initLayout()
         initContentView()
+    }
+
+    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
+        roomPlayers.forEach {
+            it.setRoomInfoListener(onRoomInfoListener)
+        }
     }
 
     fun recyclePreviousRooms(scrollPager: ScrollPager) {
@@ -82,16 +89,14 @@ class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(con
         columnCount = gridSize
         rowCount = gridSize
         layoutParams = LinearLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
+            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT
         )
     }
 
     private fun initContentView() {
         roomPlayers.map {
             it.layoutParams = LinearLayout.LayoutParams(
-                resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels
+                resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels
             )
             addView(it)
         }

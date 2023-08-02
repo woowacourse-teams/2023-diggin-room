@@ -2,9 +2,11 @@ package com.digginroom.digginroom.feature.room.customview.roomplayer
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
 import com.digginroom.digginroom.R
+import com.digginroom.digginroom.feature.room.RoomInfoListener
 
 class ScrapToggle(
     context: Context,
@@ -12,7 +14,11 @@ class ScrapToggle(
 ) :
     AppCompatImageView(context, attributeSet) {
     var isScrapped: Boolean = false
-    var onScrapClickListener: () -> Unit = {}
+
+    var roomInfoListener: RoomInfoListener = object : RoomInfoListener {
+        override fun scrap(roomId: Long) {}
+        override fun cancelScrap(roomId: Long) {}
+    }
 
     init {
         isClickable = true
@@ -27,12 +33,13 @@ class ScrapToggle(
     }
 
     private fun toggle() {
-        if (isScrapped) {
+        if (!isScrapped) {
+            roomInfoListener.scrap(0)
             setImageResource(R.drawable.scrap_icon)
         } else {
+            roomInfoListener.cancelScrap(0)
             setImageResource(R.drawable.unscrap_icon)
         }
         isScrapped = !isScrapped
-        onScrapClickListener()
     }
 }

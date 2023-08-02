@@ -21,14 +21,12 @@ class DefaultRoomRepository(
 
     override suspend fun scrapById(roomId: Long): LogResult<Unit> {
         return logRunCatching {
-            Log.d("HKHK", "스크랩 호출")
             roomRemoteDataSource.scrapById(tokenLocalDataSource.fetch(), roomId)
         }
     }
 
     override suspend fun cancelScrapById(roomId: Long): LogResult<Unit> {
         return logRunCatching {
-            Log.d("HKHK", "스크랩 취소 호출")
             roomRemoteDataSource.cancelScrapById(tokenLocalDataSource.fetch(), roomId)
         }
     }

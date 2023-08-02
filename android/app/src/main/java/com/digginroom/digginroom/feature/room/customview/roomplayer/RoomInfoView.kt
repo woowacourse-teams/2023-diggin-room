@@ -4,9 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.digginroom.digginroom.databinding.RoomInfoBinding
+import com.digginroom.digginroom.feature.room.RoomInfoListener
 import com.digginroom.digginroom.model.RoomModel
 
-class RoomInfo(context: Context, private val onScrapClickListener: () -> Unit) : ConstraintLayout(context) {
+class RoomInfoView(context: Context) : ConstraintLayout(context) {
     private val binding: RoomInfoBinding =
         RoomInfoBinding.inflate(LayoutInflater.from(context), this, true)
     var layoutHeight = 0
@@ -17,6 +18,10 @@ class RoomInfo(context: Context, private val onScrapClickListener: () -> Unit) :
         layoutHeight = measuredHeight
     }
 
+    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
+        binding.scrapToggle.roomInfoListener = onRoomInfoListener
+    }
+
     fun setRoomInfo(room: RoomModel) {
         binding.roomModel = room
         setScrap(room.isScrapped)
@@ -24,6 +29,5 @@ class RoomInfo(context: Context, private val onScrapClickListener: () -> Unit) :
 
     private fun setScrap(isScrapped: Boolean) {
         binding.scrapToggle.isScrapped = isScrapped
-        binding.scrapToggle.onScrapClickListener = onScrapClickListener
     }
 }

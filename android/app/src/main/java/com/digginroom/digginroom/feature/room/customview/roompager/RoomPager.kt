@@ -2,9 +2,11 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.digginroom.digginroom.feature.room.RoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
@@ -20,7 +22,6 @@ class RoomPager(
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
-    var onScrap: (Long) -> Unit = { }
 
     init {
         initVerticalScrollView()
@@ -31,6 +32,10 @@ class RoomPager(
     fun updateData(rooms: List<RoomModel>) {
         roomRecycler.updateData(rooms)
         navigateTargetRoom()
+    }
+
+    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
+        roomRecycler.setRoomInfoListener(onRoomInfoListener)
     }
 
     private fun initVerticalScrollView() {
