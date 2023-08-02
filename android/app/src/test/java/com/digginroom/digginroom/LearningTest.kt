@@ -6,10 +6,10 @@ import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-@Serializable
-data class Project(val name: String, val language: String)
-
 class LearningTest {
+    @Serializable
+    data class Project(val name: String, val language: String)
+
     @Test
     fun kotlinx_serialization_test() {
         val data = Project("kotlinx.serialization", "Kotlin")

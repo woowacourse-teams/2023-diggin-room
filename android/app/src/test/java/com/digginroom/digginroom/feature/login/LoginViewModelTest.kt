@@ -1,8 +1,7 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.feature.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.login.LoginState
-import com.digginroom.digginroom.feature.login.LoginViewModel
+import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
 import io.mockk.coEvery
