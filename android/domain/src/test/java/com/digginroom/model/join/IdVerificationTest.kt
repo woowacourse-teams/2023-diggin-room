@@ -82,7 +82,7 @@ class IdVerificationTest {
         val actual = idVerification.checkIsValid(id)
             .setIsCheckedDuplication(true)
             .setIsDuplicated(false)
-            .isValid
+            .isVerified
 
         // then
         val expected = true

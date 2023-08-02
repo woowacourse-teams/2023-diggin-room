@@ -66,7 +66,7 @@ class PasswordVerificationTest {
         // when
         val actual = passwordVerification.checkIsValid(password)
             .setIsEqualReInput(true)
-            .isValid
+            .isVerified
 
         // then
         val expected = true
