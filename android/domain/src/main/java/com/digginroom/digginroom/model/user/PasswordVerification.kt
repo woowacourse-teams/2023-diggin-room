@@ -8,18 +8,14 @@ data class PasswordVerification(
     val isVerified = isValid && isEqualReInput
 
     fun checkIsValid(password: String): PasswordVerification {
+        var isValid = false
+
         runCatching {
             Password(password)
         }.onSuccess {
-            return PasswordVerification(
-                isValid = true,
-                isEqualReInput = false
-            )
+            isValid = true
         }
-        return PasswordVerification(
-            isValid = false,
-            isEqualReInput = false
-        )
+        return PasswordVerification(isValid)
     }
 
     fun setIsEqualReInput(value: Boolean) =

@@ -73,6 +73,23 @@ class IdVerificationTest {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun `id 규칙 검사, 중복 검사에 대한 여부, 중복이 아닌지에 대한 여부가 검증이 되었다면 검증된 아이디이다`() {
+        // given
+        val id = VALID_ID
+
+        // when
+        val actual = idVerification.checkIsValid(id)
+            .setIsCheckedDuplication(true)
+            .setIsDuplicated(false)
+            .isValid
+
+        // then
+        val expected = true
+
+        assertEquals(expected, actual)
+    }
+
     companion object {
 
         private const val INVALID_ID = "abc"
