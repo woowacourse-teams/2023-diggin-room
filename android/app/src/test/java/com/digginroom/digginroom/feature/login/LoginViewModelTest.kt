@@ -1,6 +1,9 @@
 package com.digginroom.digginroom.feature.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_ID
+import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_PASSWORD
+import com.digginroom.digginroom.fixture.AccountFixture.TOKEN
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
@@ -104,12 +107,5 @@ class LoginViewModelTest {
 
         // then
         coVerify { tokenRepository.save(TOKEN) }
-    }
-
-    companion object {
-
-        private const val EXAMPLE_ID = "digginroom"
-        private const val EXAMPLE_PASSWORD = "digginroom"
-        private const val TOKEN = ""
     }
 }

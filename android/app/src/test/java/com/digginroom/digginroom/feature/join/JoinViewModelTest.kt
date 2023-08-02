@@ -1,6 +1,12 @@
 package com.digginroom.digginroom.feature.join
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.fixture.AccountFixture.DUPLICATED_ID
+import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_ID
+import com.digginroom.digginroom.fixture.AccountFixture.INVALID_ID
+import com.digginroom.digginroom.fixture.AccountFixture.INVALID_PASSWORD
+import com.digginroom.digginroom.fixture.AccountFixture.VALID_ID
+import com.digginroom.digginroom.fixture.AccountFixture.VALID_PASSWORD
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
@@ -253,8 +259,8 @@ class JoinViewModelTest {
     @Test
     fun `회원가입 실패시 회원가입 실패 상태가 된다`() {
         // given
-        val id = Id(EXAMPLE_ID)
-        val password = Password(EXAMPLE_PASSWORD)
+        val id = Id(VALID_ID)
+        val password = Password(VALID_PASSWORD)
 
         coEvery {
             accountRepository.postJoin(
@@ -273,19 +279,5 @@ class JoinViewModelTest {
 
         // then
         assertEquals(JoinState.Failed(), joinViewModel.state.value)
-    }
-
-    companion object {
-
-        private const val VALID_ID = "jinuk99"
-        private const val VALID_PASSWORD = "s7730857!"
-
-        private const val INVALID_ID = "abc"
-        private const val INVALID_PASSWORD = "123"
-
-        private const val EXAMPLE_ID = "qwer7772"
-        private const val EXAMPLE_PASSWORD = "qwer7772!"
-
-        private const val DUPLICATED_ID = "jinuk99"
     }
 }
