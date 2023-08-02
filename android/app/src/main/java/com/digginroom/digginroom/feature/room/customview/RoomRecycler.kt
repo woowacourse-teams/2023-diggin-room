@@ -1,7 +1,6 @@
 package com.digginroom.digginroom.feature.room.customview
 
 import android.content.Context
-import android.util.Log
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
@@ -89,14 +88,16 @@ class RoomRecycler(
         columnCount = gridSize
         rowCount = gridSize
         layoutParams = LinearLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
         )
     }
 
     private fun initContentView() {
         roomPlayers.map {
             it.layoutParams = LinearLayout.LayoutParams(
-                resources.displayMetrics.widthPixels, resources.displayMetrics.heightPixels
+                resources.displayMetrics.widthPixels,
+                resources.displayMetrics.heightPixels
             )
             addView(it)
         }

@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.bindingAdapter
+package com.digginroom.digginroom.feature.room.bindingadapter
 
 import androidx.databinding.BindingAdapter
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer

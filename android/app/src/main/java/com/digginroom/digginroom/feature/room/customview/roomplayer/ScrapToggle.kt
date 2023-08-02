@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.room.customview.roomplayer
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
 import com.digginroom.digginroom.R

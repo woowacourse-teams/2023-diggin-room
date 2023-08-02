@@ -23,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".feature.scrap.ScrapActivity"
+            android:exported="true" />
         <activity
             android:name=".feature.room.RoomActivity"
             android:exported="true">

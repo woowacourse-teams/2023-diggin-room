@@ -1,6 +1,5 @@
 package com.digginroom.digginroom.data.repository
 
-import android.util.Log
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
@@ -17,6 +16,10 @@ class DefaultRoomRepository(
         return logRunCatching {
             roomRemoteDataSource.findNext(tokenLocalDataSource.fetch()).toDomain()
         }
+    }
+
+    override suspend fun findScrapped(): Result<List<Room>> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun scrapById(roomId: Long): LogResult<Unit> {

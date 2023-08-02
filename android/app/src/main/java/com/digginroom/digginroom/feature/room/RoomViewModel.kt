@@ -1,6 +1,5 @@
 package com.digginroom.digginroom.feature.room
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
-import com.digginroom.digginroom.model.room.Song
 import com.digginroom.digginroom.repository.RoomRepository
 import kotlinx.coroutines.launch
 
