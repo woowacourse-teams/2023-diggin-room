@@ -1,6 +1,9 @@
 package com.digginroom.digginroom.feature.login
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_ID
+import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_PASSWORD
+import com.digginroom.digginroom.fixture.AccountFixture.TOKEN
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
@@ -47,7 +50,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `로그인 실패시 로그인 상태를 나타내는 변수를 failed로 바꾼다`() {
+    fun `로그인 실패시 로그인 실패 상태가 된다`() {
         // given
         coEvery {
             accountRepository.postLogIn(
@@ -67,7 +70,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `로그인 성공시 로그인 상태를 나타내는 변수를 sucess로 바꾼다`() {
+    fun `로그인 성공시 로그인 성공 상태이다`() {
         // given
         coEvery {
             accountRepository.postLogIn(
@@ -87,7 +90,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `로그인 성공시 로그인 상태를 나타내는 token값을 토큰 저장소에 저장한다`() {
+    fun `로그인 성공시 토큰 값을 저장한다`() {
         // given
         coEvery {
             accountRepository.postLogIn(
@@ -104,12 +107,5 @@ class LoginViewModelTest {
 
         // then
         coVerify { tokenRepository.save(TOKEN) }
-    }
-
-    companion object {
-
-        private const val EXAMPLE_ID = "digginroom"
-        private const val EXAMPLE_PASSWORD = "digginroom"
-        private const val TOKEN = ""
     }
 }

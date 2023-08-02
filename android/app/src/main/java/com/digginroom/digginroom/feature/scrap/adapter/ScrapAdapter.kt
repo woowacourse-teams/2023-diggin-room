@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.scrap
+package com.digginroom.digginroom.feature.scrap.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

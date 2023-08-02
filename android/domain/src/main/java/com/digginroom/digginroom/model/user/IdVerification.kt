@@ -8,17 +8,15 @@ data class IdVerification(
     val isVerified: Boolean = isValid && isCheckedDuplication && !isDuplicated
 
     fun checkIsValid(id: String): IdVerification {
+        var isValid = false
+
         runCatching {
             Id(id)
         }.onSuccess {
-            return IdVerification(
-                isValid = true,
-                isCheckedDuplication = isCheckedDuplication,
-                isDuplicated = isDuplicated
-            )
+            isValid = true
         }
         return IdVerification(
-            isValid = false,
+            isValid = isValid,
             isCheckedDuplication = isCheckedDuplication,
             isDuplicated = isDuplicated
         )

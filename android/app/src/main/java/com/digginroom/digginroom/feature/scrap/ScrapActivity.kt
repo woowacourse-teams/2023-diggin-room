@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapBinding
+import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 
 class ScrapActivity : AppCompatActivity() {
 

@@ -45,7 +45,7 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         validateJoinAble()
     }
 
-    fun validateIdRedundancy() {
+    fun validateIdDuplication() {
         viewModelScope.launch {
             accountRepository.fetchIsDuplicatedId(Id(id.value))
                 .onSuccess {
