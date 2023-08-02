@@ -11,7 +11,7 @@
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.feature.scrap.ScrapAdapter" />
+            type="com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.scrap
+package com.digginroom.digginroom.feature.scrap.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.digginroom.digginroom.model.RoomModel
