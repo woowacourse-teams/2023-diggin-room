@@ -48,7 +48,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `로그인 실패시 로그인 상태를 나타내는 변수를 failed로 바꾼다`() {
+    fun `로그인 실패시 로그인 실패 상태가 된다`() {
         // given
         coEvery {
             accountRepository.postLogIn(
@@ -68,7 +68,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `로그인 성공시 로그인 상태를 나타내는 변수를 sucess로 바꾼다`() {
+    fun `로그인 성공시 로그인 성공 상태이다`() {
         // given
         coEvery {
             accountRepository.postLogIn(
@@ -88,7 +88,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `로그인 성공시 로그인 상태를 나타내는 token값을 토큰 저장소에 저장한다`() {
+    fun `로그인 성공시 토큰 값을 저장한다`() {
         // given
         coEvery {
             accountRepository.postLogIn(

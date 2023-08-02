@@ -46,16 +46,16 @@ class ScrapViewModelTest {
     fun `뷰모델이 생성될 때 스크랩된 룸들에 대한 목록을 받아온다`() {
         // given
         val rooms = RoomFixture.createRooms()
+        val viewModel = ScrapViewModel(
+            rooms = mutableListOf(),
+            roomRepository = roomRepository
+        )
 
         coEvery {
             roomRepository.findScrapped()
         } returns Result.success(rooms)
 
         // when
-        val viewModel = ScrapViewModel(
-            rooms = mutableListOf(),
-            roomRepository = roomRepository
-        )
         val expected = rooms.map { it.toModel() }
 
         // then

@@ -14,8 +14,8 @@ class LoginViewModel(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY)
-    val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY)
+    val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
+    val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
 
     private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.START)
     val state: LiveData<LoginState>
@@ -45,6 +45,6 @@ class LoginViewModel(
 
     companion object {
 
-        private const val EMPTY = ""
+        private const val EMPTY_STRING = ""
     }
 }
