@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.controller.TestFixture.*;
+import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 

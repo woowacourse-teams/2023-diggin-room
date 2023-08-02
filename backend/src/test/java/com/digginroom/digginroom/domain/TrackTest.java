@@ -26,7 +26,7 @@ class TrackTest {
         Track track = Track.builder()
                 .artist("코건")
                 .title("Lost Child")
-                .superGenre("Rock")
+                .superGenre(Genre.ROCK)
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
                 .build();
 

@@ -21,8 +21,8 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
-    public ResponseEntity<RoomResponse> showRandomRoom(@Auth final Long memberId) {
-        return ResponseEntity.ok().body(roomService.pickRandom(memberId));
+    public ResponseEntity<RoomResponse> showRecommendedRoom(@Auth final Long memberId) {
+        return ResponseEntity.ok().body(roomService.recommend(memberId));
     }
 
     @PostMapping("/scrap")
@@ -32,7 +32,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/scrap")
-    public ResponseEntity<Void> showRandomRoom(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
+    public ResponseEntity<Void> unscrap(@Auth final Long memberId, @RequestBody final RoomRequest roomRequest) {
         roomService.unscrap(memberId, roomRequest.roomId());
         return ResponseEntity.ok().build();
     }
