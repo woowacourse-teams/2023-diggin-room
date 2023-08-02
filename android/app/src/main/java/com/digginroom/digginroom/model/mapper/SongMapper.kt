@@ -13,7 +13,7 @@ object SongMapper {
             albumTitle,
             artist,
             genres.map { it.toDomain() },
-            tags,
+            tags
         )
     }
 
@@ -23,7 +23,7 @@ object SongMapper {
             albumTitle,
             artist,
             genres.map { it.toModel() },
-            tags,
+            tags
         )
     }
 }

@@ -17,7 +17,7 @@ class JoinActivity : AppCompatActivity() {
     private val joinViewModel: JoinViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).joinViewModelFactory,
+            ViewModelFactory.getInstance(applicationContext).joinViewModelFactory
         )[JoinViewModel::class.java]
     }
 
@@ -37,8 +37,8 @@ class JoinActivity : AppCompatActivity() {
                     inputTexts = listOf(
                         it.joinEtInputId,
                         it.joinEtInputPassword,
-                        it.joinEtReInputPassword,
-                    ),
+                        it.joinEtReInputPassword
+                    )
                 )
                 it.viewModel = joinViewModel
             }

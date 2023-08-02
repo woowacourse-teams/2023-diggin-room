@@ -7,13 +7,13 @@ object GenreMapper {
 
     fun GenreModel.toDomain(): Genre {
         return Genre(
-            title,
+            title
         )
     }
 
     fun Genre.toModel(): GenreModel {
         return GenreModel(
-            title,
+            title
         )
     }
 }

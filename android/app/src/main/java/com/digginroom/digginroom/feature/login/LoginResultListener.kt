@@ -7,7 +7,7 @@ import com.digginroom.digginroom.feature.room.RoomActivity
 
 class LoginResultListener(
     private val context: Context,
-    private val inputTexts: List<EditText>,
+    private val inputTexts: List<EditText>
 ) : ResultListener {
 
     override fun onSucceed() {

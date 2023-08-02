@@ -99,8 +99,8 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
             accountRepository.postJoin(
                 Account(
                     id = Id(id.value),
-                    password = Password(password.value),
-                ),
+                    password = Password(password.value)
+                )
             ).onSuccess {
                 _state.value = JoinState.Succeed
             }.onFailure {

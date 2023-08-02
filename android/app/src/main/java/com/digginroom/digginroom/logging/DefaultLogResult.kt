@@ -2,7 +2,7 @@ package com.digginroom.digginroom.logging
 
 class DefaultLogResult<out T>(
     val value: T? = null,
-    private val exception: Throwable? = null,
+    private val exception: Throwable? = null
 ) : LogResult<T> {
 
     override fun onFailure(action: (exception: Throwable) -> Unit): DefaultLogResult<T> {

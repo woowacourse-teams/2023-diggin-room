@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 class DefaultAccountRepository(
     private val accountRemoteDataSource: AccountRemoteDataSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AccountRepository {
 
     override suspend fun postJoin(account: Account): Result<Unit> =
@@ -18,7 +18,7 @@ class DefaultAccountRepository(
             runCatching {
                 accountRemoteDataSource.postJoin(
                     id = account.id.value,
-                    password = account.password.value,
+                    password = account.password.value
                 )
             }
         }
@@ -28,7 +28,7 @@ class DefaultAccountRepository(
             runCatching {
                 accountRemoteDataSource.postLogin(
                     id = id,
-                    password = password,
+                    password = password
                 )
             }
         }

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:onLoadNextRoom="@{() -> roomViewModel.findNextRoom()}"
-        app:onScrapRoom="@{roomViewModel::scrapRoom}"
+        app:onScrapRoom="@{(id) -> roomViewModel.scrapRoom(id)}"
         app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>

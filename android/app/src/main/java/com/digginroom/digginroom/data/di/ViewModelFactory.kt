@@ -13,7 +13,7 @@ class ViewModelFactory(context: Context) {
     val joinViewModelFactory = viewModelFactory {
         initializer {
             JoinViewModel(
-                accountRepository = repositoryProvider.accountRepository,
+                accountRepository = repositoryProvider.accountRepository
             )
         }
     }
@@ -22,7 +22,7 @@ class ViewModelFactory(context: Context) {
         initializer {
             LoginViewModel(
                 accountRepository = repositoryProvider.accountRepository,
-                tokenRepository = repositoryProvider.tokenRepository,
+                tokenRepository = repositoryProvider.tokenRepository
             )
         }
     }
@@ -31,7 +31,7 @@ class ViewModelFactory(context: Context) {
         initializer {
             RoomViewModel(
                 rooms = mutableListOf(),
-                roomRepository = repositoryProvider.roomRepository,
+                roomRepository = repositoryProvider.roomRepository
             )
         }
     }

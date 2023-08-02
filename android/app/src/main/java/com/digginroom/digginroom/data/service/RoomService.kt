@@ -13,18 +13,18 @@ interface RoomService {
 
     @GET("/room")
     suspend fun findNext(
-        @Header("cookie") token: String,
+        @Header("cookie") token: String
     ): Response<RoomResponse>
 
     @POST("/scrap")
     suspend fun scrapById(
         @Header("cookie") token: String,
-        @Body scrapRequest: ScrapRequest,
+        @Body scrapRequest: ScrapRequest
     ): Response<Void>
 
     @DELETE("/scrap")
     suspend fun unScrapById(
         @Header("cookie") token: String,
-        @Body scrapRequest: ScrapRequest,
+        @Body scrapRequest: ScrapRequest
     ): Response<Void>
 }

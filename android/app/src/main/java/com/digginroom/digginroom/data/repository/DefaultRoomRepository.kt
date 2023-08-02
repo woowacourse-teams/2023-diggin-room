@@ -10,7 +10,7 @@ import com.digginroom.digginroom.repository.RoomRepository
 
 class DefaultRoomRepository(
     private val roomRemoteDataSource: RoomRemoteDataSource,
-    private val tokenLocalDataSource: TokenLocalDataSource,
+    private val tokenLocalDataSource: TokenLocalDataSource
 ) : RoomRepository {
     override suspend fun findNext(): LogResult<Room> {
         return logRunCatching {

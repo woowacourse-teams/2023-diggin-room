@@ -27,14 +27,14 @@ object RoomPagerBindingAdapter {
         roomPager.loadNextRoom = loadNextRoom
     }
 
-    interface ScrapListener {
+    fun interface ScrapListener {
         fun onScrap(roomId: Long)
     }
 
     @JvmStatic
     @BindingAdapter("app:onScrapRoom")
     fun onScrapRoom(roomPager: RoomPager, scrapListener: ScrapListener) {
-        roomPager.onScrapClickListener = {
+        roomPager.onScrap = {
             scrapListener.onScrap(it)
         }
     }

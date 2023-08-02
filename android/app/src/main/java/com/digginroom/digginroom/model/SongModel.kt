@@ -5,5 +5,5 @@ data class SongModel(
     val albumTitle: String,
     val artist: String,
     val genres: List<GenreModel>,
-    val tags: List<String>,
+    val tags: List<String>
 )

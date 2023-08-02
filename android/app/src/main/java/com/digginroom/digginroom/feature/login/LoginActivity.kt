@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).loginViewModelFactory,
+            ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
         )[LoginViewModel::class.java]
     }
 
@@ -36,8 +36,8 @@ class LoginActivity : AppCompatActivity() {
                         context = this,
                         inputTexts = listOf(
                             it.loginEtInputPassword,
-                            it.loginEtInputPassword,
-                        ),
+                            it.loginEtInputPassword
+                        )
                     )
                     it.navigator = LoginNavigator(this)
                     it.viewModel = loginViewModel

@@ -4,5 +4,5 @@ import kotlinx.serialization.SerialName
 
 data class ScrapRequest(
     @SerialName("roomId")
-    val roomId: Long,
+    val roomId: Long
 )

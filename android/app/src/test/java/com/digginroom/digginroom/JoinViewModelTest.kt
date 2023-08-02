@@ -123,7 +123,7 @@ class JoinViewModelTest : TestWatcher() {
         // when
         joinViewModel.validatePasswordEquality(
             password = password,
-            reInputPassword = reInputPassword,
+            reInputPassword = reInputPassword
         )
 
         // then

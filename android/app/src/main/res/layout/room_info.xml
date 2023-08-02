@@ -58,9 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9.75dp"
+                android:text="@{roomModel.song.artist}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                android:text="@{roomModel.song.artist}"
                 app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="에스파" />
@@ -76,10 +76,11 @@
                 app:layout_constraintTop_toBottomOf="@id/iv_music" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.digginroom.digginroom.views.customview.roomview.ScrapToggle
+        <com.digginroom.digginroom.feature.room.customview.roomplayer.ScrapToggle
             android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            app:isScrapped="@{roomModel.scrapped}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

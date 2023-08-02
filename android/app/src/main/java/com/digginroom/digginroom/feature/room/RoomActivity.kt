@@ -16,7 +16,7 @@ class RoomActivity : AppCompatActivity() {
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).roomViewModelFactory,
+            ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
     }
 

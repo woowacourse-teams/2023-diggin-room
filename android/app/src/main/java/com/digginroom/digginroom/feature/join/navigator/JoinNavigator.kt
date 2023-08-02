@@ -5,7 +5,7 @@ import com.digginroom.digginroom.feature.join.JoinActivity
 import com.digginroom.digginroom.feature.login.LoginActivity
 
 class JoinNavigator(
-    private val context: Context,
+    private val context: Context
 ) : JoinNavigationHandler {
 
     override fun navigateToLoginView() {

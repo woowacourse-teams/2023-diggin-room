@@ -6,7 +6,7 @@ import android.widget.HorizontalScrollView
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
 
 class HorizontalScrollPager(
-    context: Context,
+    context: Context
 ) : ScrollPager, HorizontalScrollView(context) {
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0

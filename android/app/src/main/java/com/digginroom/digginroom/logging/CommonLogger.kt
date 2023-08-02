@@ -3,7 +3,7 @@ package com.digginroom.digginroom.logging
 object CommonLogger {
     private val loggers: List<Logger> = listOf(
         ConsoleLogger(),
-        FirebaseLogger(),
+        FirebaseLogger()
     )
 
     fun log(logMessage: LogMessage) {

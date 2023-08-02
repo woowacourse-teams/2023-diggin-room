@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomPlayerThumbnail(
-    context: Context,
+    context: Context
 ) : AppCompatImageView(context) {
 
     fun load(room: RoomModel) {

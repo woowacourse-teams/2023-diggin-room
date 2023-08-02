@@ -13,14 +13,14 @@ import com.digginroom.digginroom.model.RoomModel
 
 class RoomPager(
     context: Context,
-    attributeSet: AttributeSet,
+    attributeSet: AttributeSet
 ) : FrameLayout(context, attributeSet) {
 
     private val verticalScrollPager: VerticalScrollPager = VerticalScrollPager(context)
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
-    var onScrapClickListener: (Long) -> Unit = { }
+    var onScrap: (Long) -> Unit = { }
 
     init {
         initVerticalScrollView()
@@ -38,7 +38,7 @@ class RoomPager(
         isVerticalScrollBarEnabled = false
         verticalScrollPager.layoutParams = LinearLayout.LayoutParams(
             LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
         )
         addView(verticalScrollPager)
     }
@@ -47,14 +47,13 @@ class RoomPager(
         initScrollPager(horizontalScrollPager)
         horizontalScrollPager.layoutParams = LinearLayout.LayoutParams(
             LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
         )
         verticalScrollPager.addView(horizontalScrollPager)
     }
 
     private fun initRoomRecycler() {
         horizontalScrollPager.addView(roomRecycler)
-        roomRecycler.onScrapClickListener = onScrapClickListener
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {
@@ -120,7 +119,7 @@ class RoomPager(
         navigateTargetRoom()
         scrollPager.post {
             scrollPager.smoothScrollTo(
-                scrollPager.scrollPosition * scrollPager.screenSize,
+                scrollPager.scrollPosition * scrollPager.screenSize
             )
         }
     }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val accountRepository: AccountRepository,
-    private val tokenRepository: TokenRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY)
@@ -27,7 +27,7 @@ class LoginViewModel(
         viewModelScope.launch {
             accountRepository.postLogIn(
                 id = id.value,
-                password = password.value,
+                password = password.value
             ).onSuccess {
                 _state.value = LoginState.SUCCEED
                 tokenRepository.save(it)

@@ -4,5 +4,5 @@ data class Room(
     val videoId: String,
     val song: Song,
     val isScrapped: Boolean,
-    val roomId: Long,
+    val roomId: Long
 )

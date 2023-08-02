@@ -11,13 +11,13 @@ object JoinBindingAdapter {
     @JvmStatic
     @BindingAdapter(
         value = ["onClickForJoinState", "resultListener", "state"],
-        requireAll = false,
+        requireAll = false
     )
     fun onClickForJoinState(
         button: Button,
         onClicked: () -> Unit,
         resultListener: ResultListener,
-        state: JoinState,
+        state: JoinState
     ) {
         button.setOnClickListener {
             onClicked()
