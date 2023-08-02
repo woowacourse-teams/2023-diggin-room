@@ -7,6 +7,6 @@ interface RoomRepository {
 
     suspend fun findNext(): LogResult<Room>
     suspend fun scrapById(roomId: Long): LogResult<Unit>
-    suspend fun unScrapById(roomId: Long): LogResult<Unit>
+    suspend fun cancelScrapById(roomId: Long): LogResult<Unit>
     fun updateWeightById(id: Long, value: Double)
 }

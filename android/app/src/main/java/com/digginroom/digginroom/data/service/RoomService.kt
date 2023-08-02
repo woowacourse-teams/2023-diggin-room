@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.service
 
+import com.digginroom.digginroom.data.entity.CancelScrapRequest
 import com.digginroom.digginroom.data.entity.RoomResponse
 import com.digginroom.digginroom.data.entity.ScrapRequest
 import retrofit2.Response
@@ -23,8 +24,8 @@ interface RoomService {
     ): Response<Void>
 
     @DELETE("/scrap")
-    suspend fun unScrapById(
+    suspend fun cancelScrapById(
         @Header("cookie") token: String,
-        @Body scrapRequest: ScrapRequest
+        @Body cancelScrapRequest: CancelScrapRequest
     ): Response<Void>
 }

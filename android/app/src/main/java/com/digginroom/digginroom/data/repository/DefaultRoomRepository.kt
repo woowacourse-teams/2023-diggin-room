@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import android.util.Log
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
@@ -20,12 +21,16 @@ class DefaultRoomRepository(
 
     override suspend fun scrapById(roomId: Long): LogResult<Unit> {
         return logRunCatching {
+            Log.d("HKHK", "스크랩 호출")
             roomRemoteDataSource.scrapById(tokenLocalDataSource.fetch(), roomId)
         }
     }
 
-    override suspend fun unScrapById(roomId: Long): LogResult<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun cancelScrapById(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            Log.d("HKHK", "스크랩 취소 호출")
+            roomRemoteDataSource.cancelScrapById(tokenLocalDataSource.fetch(), roomId)
+        }
     }
 
     override fun updateWeightById(id: Long, value: Double) {
