@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="roomModel"
-            type="com.digginroom.digginroom.model.RoomModel" />
+            name="trackModel"
+            type="com.digginroom.digginroom.model.TrackModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="9.75dp"
-            android:text="@{roomModel.song.title}"
+            android:text="@{trackModel.title}"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/iv_music"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="9.75dp"
-            android:text="@{roomModel.song.artist}"
+            android:text="@{trackModel.artist}"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
@@ -62,7 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="sdgsdfsdfsdfsdfsddsf"
             android:textColor="@color/black"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="@id/iv_music"

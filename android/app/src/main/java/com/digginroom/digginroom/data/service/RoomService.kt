@@ -18,13 +18,13 @@ interface RoomService {
         @Header("cookie") token: String
     ): Response<RoomResponse>
 
-    @POST("/scrap")
+    @POST("/room/scrap")
     suspend fun scrapById(
         @Header("cookie") token: String,
         @Body scrapRequest: ScrapRequest
     ): Response<Void>
 
-    @DELETE("/scrap")
+    @DELETE("/room/scrap")
     suspend fun cancelScrapById(
         @Header("cookie") token: String,
         @Body cancelScrapRequest: CancelScrapRequest

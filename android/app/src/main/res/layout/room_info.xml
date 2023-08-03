@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="trackModel"
+            type="com.digginroom.digginroom.model.TrackModel" />
+
+        <variable
             name="roomModel"
             type="com.digginroom.digginroom.model.RoomModel" />
 
@@ -54,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9.75dp"
-                android:text="@{roomModel.song.title}"
+                android:text="@{roomModel.trackModel.title}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_music"
@@ -76,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9.75dp"
-                android:text="@{roomModel.song.artist}"
+                android:text="@{roomModel.trackModel.artist}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
@@ -89,7 +93,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="20dp"
-            android:onClick="@{()->showRoomInfoListener.show()}"
+            android:onClick="@{()->showRoomInfoListener.show(trackModel)}"
             android:src="@drawable/info"
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
             app:layout_constraintEnd_toEndOf="@+id/scrapToggle" />

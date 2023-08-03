@@ -9,7 +9,7 @@ import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.service.RoomService
 import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Room
-import com.digginroom.digginroom.model.room.Song
+import com.digginroom.digginroom.model.room.Track
 import retrofit2.Response
 
 class RoomRemoteDataSource(
@@ -28,195 +28,123 @@ class RoomRemoteDataSource(
         return listOf(
             Room(
                 videoId = "-hyQf_7KsPc",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "_x3IbCecuuk",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "ovlka1CxCrY",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "Jsm1qk2avyw",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "-hyQf_7KsPc",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "_x3IbCecuuk",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "ovlka1CxCrY",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "Jsm1qk2avyw",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "-hyQf_7KsPc",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "_x3IbCecuuk",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "ovlka1CxCrY",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "Jsm1qk2avyw",
-                song = Song(
-                    title = "예시 제목",
-                    albumTitle = "예시 앨범 타이틀",
-                    artist = "예시 아티스트",
-                    genres = List(3) {
-                        Genre("예시 장르$it")
-                    },
-                    tags = List(5) {
-                        "예시 태그$it"
-                    }
-                ),
                 isScrapped = true,
-                0
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
             )
         )
     }
