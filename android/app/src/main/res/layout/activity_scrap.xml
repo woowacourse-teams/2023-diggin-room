@@ -27,6 +27,7 @@
         tools:context=".feature.scrap.activity.ScrapListActivity">
 
         <ImageView
+            android:id="@+id/scrap_iv_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"

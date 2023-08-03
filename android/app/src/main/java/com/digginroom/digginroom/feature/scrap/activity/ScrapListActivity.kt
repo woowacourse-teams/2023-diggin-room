@@ -43,6 +43,7 @@ class ScrapListActivity : AppCompatActivity() {
                     it.viewModel = scrapViewModel
                     it.adapter = ScrapAdapter()
                     it.navigateToScrapRoomView = DefaultScrapNavigator(this)::navigate
+                    it.scrapIvBack.setOnClickListener { finish() }
                 }
     }
 
