@@ -11,7 +11,7 @@ import com.digginroom.digginroom.repository.RoomRepository
 import kotlinx.coroutines.launch
 
 class ScrapViewModel(
-    private var rooms: MutableList<Room>,
+    private var rooms: List<Room>,
     private val roomRepository: RoomRepository
 ) : ViewModel() {
 
@@ -22,7 +22,7 @@ class ScrapViewModel(
     fun findScrappedRooms() {
         viewModelScope.launch {
             roomRepository.findScrapped().onSuccess { scrappedRooms ->
-                rooms.addAll(scrappedRooms)
+                rooms = scrappedRooms
                 _scrappedRooms.value = rooms.map { it.toModel() }
             }.onFailure {
             }

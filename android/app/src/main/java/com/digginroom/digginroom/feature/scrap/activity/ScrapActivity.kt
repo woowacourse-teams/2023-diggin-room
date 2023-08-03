@@ -21,6 +21,12 @@ class ScrapActivity : AppCompatActivity() {
         )[ScrapViewModel::class.java]
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        scrapViewModel.findScrappedRooms()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +38,7 @@ class ScrapActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<ActivityScrapBinding>(this, R.layout.activity_scrap)
                 .also {
                     it.lifecycleOwner = this
-                    it.viewModel = scrapViewModel.apply { findScrappedRooms() }
+                    it.viewModel = scrapViewModel
                     it.adapter = ScrapAdapter()
                     it.navigateToScrapRoomView = DefaultScrapNavigator(this)::navigate
                 }
