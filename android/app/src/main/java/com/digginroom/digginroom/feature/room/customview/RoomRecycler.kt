@@ -84,6 +84,15 @@ class RoomRecycler(
         }
     }
 
+    fun isLastRoom(): Boolean = rooms.size - 1 <= currentRoomPosition
+    fun navigateFirstRoom() {
+        currentRoomPosition = 0
+    }
+
+    fun navigateLastRoom() {
+        currentRoomPosition = rooms.size - 1
+    }
+
     private fun initLayout() {
         columnCount = gridSize
         rowCount = gridSize

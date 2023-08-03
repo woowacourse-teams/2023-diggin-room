@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
+import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
 import com.digginroom.digginroom.model.RoomModel
 
 class YoutubeRoomPlayer(
