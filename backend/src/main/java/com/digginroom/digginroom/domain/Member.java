@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.domain;
 
+import com.digginroom.digginroom.exception.MemberGenreException.NotFoundException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
@@ -50,6 +51,12 @@ public class Member {
     public void scrap(final Room room) {
         validateNotDisliked(room);
         scraps.scrap(room);
+        Genre superGenre = room.getTrack().getSuperGenre();
+        MemberGenre targetMemberGenre = memberGenres.stream()
+                .filter(it -> it.isSameGenre(superGenre))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(superGenre));
+        targetMemberGenre.increaseWeight();
     }
 
     private void validateNotDisliked(final Room room) {
@@ -60,6 +67,12 @@ public class Member {
 
     public void unscrap(final Room room) {
         scraps.unscrap(room);
+        Genre superGenre = room.getTrack().getSuperGenre();
+        MemberGenre targetMemberGenre = memberGenres.stream()
+                .filter(it -> it.isSameGenre(superGenre))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(superGenre));
+        targetMemberGenre.decreaseWeight();
     }
 
     public void dislike(final Room room) {

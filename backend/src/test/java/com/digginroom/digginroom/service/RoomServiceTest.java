@@ -6,6 +6,7 @@ import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
@@ -158,5 +159,39 @@ class RoomServiceTest {
         assertThatThrownBy(() -> roomService.undislike(member.getId(), room.getId()))
                 .isInstanceOf(NotDislikedException.class)
                 .hasMessageContaining("싫어요하지 않은 룸입니다.");
+    }
+
+    @Test
+    void 멤버가_룸을_스크랩하면_가중치가_올라간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+
+        roomService.scrap(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isGreaterThan(originalWeight);
+    }
+
+    @Test
+    void 멤버가_룸을_스크랩을_취소하면_가중치가_내려간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        roomService.scrap(member.getId(), room.getId());
+        int originalWeight = getWeight(member, targetGenre);
+
+        roomService.unscrap(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isLessThan(originalWeight);
+    }
+
+    private int getWeight(final Member member, final Genre targetGenre) {
+        return member.getMemberGenres().stream()
+                .filter(it -> it.isSameGenre(targetGenre))
+                .findFirst()
+                .get().getWeight();
     }
 }
