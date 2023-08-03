@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.data.entity.RoomResponse
+import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.mapper.TrackMapper.toDomain
 import com.digginroom.digginroom.model.mapper.TrackMapper.toModel
@@ -29,5 +30,9 @@ object RoomMapper {
             isScrapped,
             track.toDomain()
         )
+    }
+
+    fun ScrappedRoomsResponse.toDomain(): List<Room> {
+        return scrappedRooms.map { it.toDomain() }
     }
 }
