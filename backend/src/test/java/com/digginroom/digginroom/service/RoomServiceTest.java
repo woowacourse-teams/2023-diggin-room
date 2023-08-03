@@ -1,10 +1,15 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.controller.TestFixture.나무;
+import static com.digginroom.digginroom.controller.TestFixture.차이;
+import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.digginroom.digginroom.controller.dto.ScrappedRoomResponse;
-import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
+import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.RoomsResponse;
+import com.digginroom.digginroom.controller.dto.TrackResponse;
+import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -39,11 +44,9 @@ class RoomServiceTest {
 
     @Test
     void 페이징을_사용하여_여러_룸_중_랜덤으로_하나를_선택한다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room 나무 = new Room(new MediaSource("lQcnNPqy2Ww"));
-        Room 가까운듯먼그대여 = new Room(new MediaSource("2VkWaOOF4Rc"));
-        roomRepository.save(나무);
-        roomRepository.save(가까운듯먼그대여);
+        Member member = memberRepository.save(파워());
+        roomRepository.save(나무());
+        roomRepository.save(차이());
 
         final var pickedRoom = roomService.recommend(member.getId());
 
@@ -84,17 +87,55 @@ class RoomServiceTest {
     @Test
     void 멤버는_룸을_스크랩할_수_있다() {
         Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Room 나무 = 나무();
+        Room 차이 = 차이();
+        roomRepository.save(나무);
+        roomRepository.save(차이);
+        member.scrap(나무);
+        member.scrap(차이);
+
+        RoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
+
+        assertThat(scrappedRooms.rooms())
+                .usingRecursiveComparison()
+                .isEqualTo(List.of(
+                        new RoomResponse(
+                                나무.getId(),
+                                나무.getMediaSource().getIdentifier(),
+                                true,
+                                TrackResponse.of(나무.getTrack())),
+                        new RoomResponse(차이.getId(),
+                                차이.getMediaSource().getIdentifier(),
+                                true,
+                                TrackResponse.of(차이.getTrack()))
+                ));
+    }
+
+    @Test
+    void 스크랩_항목이_없는_경우_멤버가_빈_룸_목록을_조회할_수_있다() {
+        Member member = memberRepository.save(new Member("member", "1234"));
+
+        RoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
+
+        assertThat(scrappedRooms.rooms())
+                .usingRecursiveComparison()
+                .isEqualTo(Collections.emptyList());
+    }
+
+    @Test
+    void 멤버는_룸을_스크랩할_수_있다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         roomService.scrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms()).contains(room);
+        assertThat(member.getScrapRooms().getScrapRooms()).contains(room);
     }
 
     @Test
     void 이미_스크랩된_룸은_다시_스크랩되지_않는다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         roomService.scrap(member.getId(), room.getId());
         assertThatThrownBy(() -> roomService.scrap(member.getId(), room.getId()))
@@ -104,20 +145,20 @@ class RoomServiceTest {
 
     @Test
     void 멤버는_룸스크랩을_취소할_수_있다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
         roomService.scrap(member.getId(), room.getId());
 
         roomService.unscrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms()).isEmpty();
+        assertThat(member.getScrapRooms().getScrapRooms()).isEmpty();
     }
 
     @Test
     void 이미_스크랩_취소된_룸은_다시_취소되지_않는다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
-        Room otherRoom = roomRepository.save(new Room(new MediaSource("lQcnNPqy3Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Room otherRoom = roomRepository.save(나무());
 
         roomService.scrap(member.getId(), room.getId());
         roomService.scrap(member.getId(), otherRoom.getId());
@@ -130,8 +171,8 @@ class RoomServiceTest {
 
     @Test
     void 사용자는_싫어요한_룸을_스크랩할_수_없다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         roomService.dislike(member.getId(), room.getId());
 
@@ -142,18 +183,18 @@ class RoomServiceTest {
 
     @Test
     void 사용자는_룸을_싫어요_할_수_있다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms()).isNotEmpty();
+        assertThat(member.getDislikeRooms().getDislikeRooms()).isNotEmpty();
     }
 
     @Test
     void 사용자는_이미_싫어요한_룸을_싫어요할_수_없다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         roomService.dislike(member.getId(), room.getId());
 
@@ -164,8 +205,8 @@ class RoomServiceTest {
 
     @Test
     void 사용자는_스크랩한_룸을_싫어요할_수_없다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         roomService.scrap(member.getId(), room.getId());
 
@@ -176,22 +217,83 @@ class RoomServiceTest {
 
     @Test
     void 사용자는_싫어요한_룸을_취소할_수_있다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
         roomService.dislike(member.getId(), room.getId());
 
         roomService.undislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms()).isEmpty();
+        assertThat(member.getDislikeRooms().getDislikeRooms()).isEmpty();
     }
 
     @Test
     void 사용자는_싫어요하지_않은_룸을_취소할_수_없다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
-        Room room = roomRepository.save(new Room(new MediaSource("lQcnNPqy2Ww")));
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
 
         assertThatThrownBy(() -> roomService.undislike(member.getId(), room.getId()))
                 .isInstanceOf(NotDislikedException.class)
                 .hasMessageContaining("싫어요하지 않은 룸입니다.");
+    }
+
+    @Test
+    void 멤버가_룸을_스크랩하면_가중치가_올라간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+
+        roomService.scrap(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isGreaterThan(originalWeight);
+    }
+
+    private int getWeight(final Member member, final Genre targetGenre) {
+        return member.getMemberGenres().getMemberGenres().stream()
+                .filter(it -> it.isSameGenre(targetGenre))
+                .findFirst()
+                .get().getWeight();
+    }
+
+    @Test
+    void 멤버가_룸을_스크랩을_취소하면_가중치가_돌아간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+        roomService.scrap(member.getId(), room.getId());
+
+        roomService.unscrap(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isEqualTo(originalWeight);
+    }
+
+    @Test
+    void 멤버가_룸을_싫어요하면_가중치가_내려간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+
+        roomService.dislike(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isLessThan(originalWeight);
+    }
+
+    @Test
+    void 멤버가_룸을_싫어요를_취소하면_가중치가_돌아간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+        roomService.dislike(member.getId(), room.getId());
+
+        roomService.undislike(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isEqualTo(originalWeight);
     }
 }

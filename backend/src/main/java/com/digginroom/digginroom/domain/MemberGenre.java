@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberGenre {
 
-    private static final int DEFAULT_WEIGHT = 1000;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +27,15 @@ public class MemberGenre {
 
     public MemberGenre(final Genre genre, final Member member) {
         this.genre = genre;
-        this.weight = DEFAULT_WEIGHT;
+        this.weight = Weight.DEFAULT.getWeight();
         this.member = member;
+    }
+
+    public boolean isSameGenre(final Genre genre) {
+        return this.genre == genre;
+    }
+
+    public void adjustWeight(final Weight weight) {
+        this.weight = Integer.max(Weight.LOWER_BOUND.getWeight(), this.weight + weight.getWeight());
     }
 }
