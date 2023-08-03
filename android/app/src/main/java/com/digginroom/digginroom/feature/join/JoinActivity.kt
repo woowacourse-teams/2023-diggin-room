@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
-import com.digginroom.digginroom.feature.join.navigator.JoinNavigator
+import com.digginroom.digginroom.feature.join.navigator.DefaultJoinNavigator
 
 class JoinActivity : AppCompatActivity() {
 
@@ -31,7 +31,7 @@ class JoinActivity : AppCompatActivity() {
         binding =
             DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
-                it.navigator = JoinNavigator(this)
+                it.navigator = DefaultJoinNavigator(this)
                 it.resultListener = JoinResultListener(
                     context = this,
                     inputTexts = listOf(

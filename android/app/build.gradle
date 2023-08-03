@@ -16,6 +16,10 @@ android {
     buildFeatures {
         buildConfig true
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     defaultConfig {
         applicationId "com.digginroom.digginroom"
         minSdk 26
@@ -48,10 +52,6 @@ android {
     }
 }
 
-tasks.withType(Test) {
-    useJUnitPlatform()
-}
-
 dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -67,8 +67,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+    testImplementation "io.mockk:mockk:1.13.5"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation platform("com.google.firebase:firebase-bom:32.2.0")
