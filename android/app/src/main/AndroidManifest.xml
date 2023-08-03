@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.scrap.activity.ScrapActivity"
+            android:name=".feature.scrap.activity.ScrapListActivity"
             android:exported="true" />
 
         <activity

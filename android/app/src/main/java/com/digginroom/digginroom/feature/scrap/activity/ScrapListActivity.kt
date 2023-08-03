@@ -11,7 +11,7 @@ import com.digginroom.digginroom.feature.scrap.ScrapViewModel
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 import com.digginroom.digginroom.feature.scrap.navigator.DefaultScrapNavigator
 
-class ScrapActivity : AppCompatActivity() {
+class ScrapListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityScrapBinding
     private val scrapViewModel: ScrapViewModel by lazy {

@@ -15,9 +15,9 @@ object ScrapBindingAdapter {
     @BindingAdapter("app:items")
     fun setItems(
         recyclerView: RecyclerView,
-        rooms: List<RoomModel>
+        rooms: List<RoomModel>?
     ) {
-        (recyclerView.adapter as? ScrapAdapter)?.submitList(rooms.toMutableList())
+        (recyclerView.adapter as? ScrapAdapter)?.submitList(rooms?.toMutableList())
     }
 
     @JvmStatic

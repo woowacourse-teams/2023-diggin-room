@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        tools:context=".feature.scrap.activity.ScrapActivity">
+        tools:context=".feature.scrap.activity.ScrapListActivity">
 
         <ImageView
             android:layout_width="40dp"
