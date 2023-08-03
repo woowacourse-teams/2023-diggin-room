@@ -18,14 +18,25 @@ class DefaultRoomRepository(
         }
     }
 
+    override suspend fun scrapById(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.scrapById(
+                cookie = tokenLocalDataSource.fetch(),
+                roomId = roomId
+            )
+        }
+    }
+
     override suspend fun findScrapped(): LogResult<List<Room>> {
         return logRunCatching {
             roomRemoteDataSource.findScrapped(tokenLocalDataSource.fetch()).toDomain()
         }
     }
 
-    override fun updateScrapById(id: Long, value: Boolean) {
-        TODO("Not yet implemented")
+    override suspend fun cancelScrapById(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.cancelScrapById(tokenLocalDataSource.fetch(), roomId)
+        }
     }
 
     override fun updateWeightById(id: Long, value: Double) {

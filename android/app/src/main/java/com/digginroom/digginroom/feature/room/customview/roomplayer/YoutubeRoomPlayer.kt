@@ -6,6 +6,8 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.model.RoomModel
 
@@ -15,13 +17,25 @@ class YoutubeRoomPlayer(
 ) : WebView(context), RoomPlayer {
 
     private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
+    private val roomInfoView: RoomInfoView = RoomInfoView(context)
+
     private var videoId = ""
     private var isPlayerLoaded = false
+    private var onScrapListener: ScrapListener = object : ScrapListener {
+        override fun scrap(roomId: Long) {}
+
+        override fun cancelScrap(roomId: Long) {}
+    }
 
     init {
+        addRoomInfoView()
         preventTouchEvent()
         initThumbnail()
         initYoutubePlayer()
+    }
+
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+        this.onScrapListener = onScrapListener
     }
 
     override fun play() {
@@ -43,6 +57,7 @@ class YoutubeRoomPlayer(
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
+        roomInfoView.setRoomInfo(room, onScrapListener)
     }
 
     private fun preventTouchEvent() {
@@ -194,5 +209,14 @@ class YoutubeRoomPlayer(
             },
             "Player"
         )
+    }
+
+    private fun addRoomInfoView() {
+        val myLayoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT
+        )
+        roomInfoView.layoutParams = myLayoutParams
+        addView(roomInfoView)
     }
 }

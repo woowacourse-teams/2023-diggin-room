@@ -17,6 +17,7 @@
         app:roomPosition="@{0}"
         app:onLoadNextRoom="@{() -> roomViewModel.findNextRoom()}"
         app:orientation="@{PagingOrientation.BOTH}"
+        app:onRoomInfoListener="@{roomViewModel}"
         app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>

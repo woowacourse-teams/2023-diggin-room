@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
@@ -71,6 +72,10 @@ class RoomPager(
         if (viewGroup.childCount > 0) {
             viewGroup.removeViewAt(0)
         }
+    }
+
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+        roomRecycler.setRoomInfoListener(onScrapListener)
     }
 
     private fun initVerticalScrollView() {

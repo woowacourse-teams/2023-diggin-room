@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.feature.scrap.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -42,5 +44,12 @@ class ScrapListActivity : AppCompatActivity() {
                     it.adapter = ScrapAdapter()
                     it.navigateToScrapRoomView = DefaultScrapNavigator(this)::navigate
                 }
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, ScrapListActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

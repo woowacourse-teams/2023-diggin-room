@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class RoomViewModel(
     private val rooms: MutableList<Room>,
     private val roomRepository: RoomRepository
-) : ViewModel() {
+) : ViewModel(), ScrapListener {
 
     private val _cachedRoom: MutableLiveData<RoomState> =
         MutableLiveData(RoomState.Loading)
@@ -29,6 +29,18 @@ class RoomViewModel(
             }.onFailure {
                 _cachedRoom.value = RoomState.Error(it)
             }
+        }
+    }
+
+    override fun scrap(roomId: Long) {
+        viewModelScope.launch {
+            roomRepository.scrapById(roomId)
+        }
+    }
+
+    override fun cancelScrap(roomId: Long) {
+        viewModelScope.launch {
+            roomRepository.cancelScrapById(roomId)
         }
     }
 }
