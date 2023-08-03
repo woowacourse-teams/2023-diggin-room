@@ -34,7 +34,7 @@ object RoomFixture {
 
     fun Rooms(): List<Room> = listOf(
         Room(
-            videoId = "-hyQf_7KsPc",
+            videoId = "r8kxr39UVg8",
             song = Song(
                 title = "예시 제목",
                 albumTitle = "예시 앨범 타이틀",
@@ -55,7 +55,7 @@ object RoomFixture {
             isScrapped = true
         ),
         Room(
-            videoId = "-hyQf_7KsPc",
+            videoId = "cfES5D7CbMA",
             song = Song(
                 title = "예시 제목",
                 albumTitle = "예시 앨범 타이틀",
@@ -76,7 +76,7 @@ object RoomFixture {
             isScrapped = true
         ),
         Room(
-            videoId = "-hyQf_7KsPc",
+            videoId = "13aOJlKChVI",
             song = Song(
                 title = "예시 제목",
                 albumTitle = "예시 앨범 타이틀",
@@ -97,7 +97,7 @@ object RoomFixture {
             isScrapped = true
         ),
         Room(
-            videoId = "-hyQf_7KsPc",
+            videoId = "L6MkDEKLq0g",
             song = Song(
                 title = "예시 제목",
                 albumTitle = "예시 앨범 타이틀",
@@ -118,7 +118,7 @@ object RoomFixture {
             isScrapped = true
         ),
         Room(
-            videoId = "-hyQf_7KsPc",
+            videoId = "VtAieLbbxek",
             song = Song(
                 title = "예시 제목",
                 albumTitle = "예시 앨범 타이틀",
