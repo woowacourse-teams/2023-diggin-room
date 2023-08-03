@@ -10,10 +10,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/scrapToggle"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/iv_music"
@@ -25,36 +28,15 @@
             app:tint="@color/black" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_title_artist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="9.75dp"
-            android:text="@{trackModel.title}"
+            android:layout_marginLeft="@dimen/scrap_right_margin"
+            android:includeFontPadding="false"
+            android:text="@{@string/title_artist_format(trackModel.title, trackModel.artist)}"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/iv_music"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_title_artist_divide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="9.75dp"
-            android:text="-"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/tv_title"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9.75dp"
-            android:text="@{trackModel.artist}"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -66,6 +48,5 @@
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="@id/iv_music"
             app:layout_constraintTop_toBottomOf="@id/iv_music" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
