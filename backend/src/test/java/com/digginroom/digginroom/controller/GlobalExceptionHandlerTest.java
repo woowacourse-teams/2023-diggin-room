@@ -1,11 +1,11 @@
 package com.digginroom.digginroom.controller;
 
+import static org.hamcrest.Matchers.equalTo;
+
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-
-import static org.hamcrest.Matchers.equalTo;
 
 @SuppressWarnings("NonAsciiCharacters")
 class GlobalExceptionHandlerTest extends ControllerTest {

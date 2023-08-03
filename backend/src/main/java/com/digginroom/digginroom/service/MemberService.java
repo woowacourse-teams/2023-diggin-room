@@ -8,7 +8,6 @@ import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.repository.MemberRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,20 +42,12 @@ public class MemberService {
     }
 
     public MemberLoginResponse loginMember(final MemberLoginRequest request) {
-        Optional<Member> findMember = memberRepository.findMemberByUsername(request.username());
-        if (findMember.isEmpty()) {
-            throw new NotFoundException();
-        }
+        Member member = memberRepository.findMemberByUsername(request.username())
+                .orElseThrow(NotFoundException::new);
 
-        Member member = findMember.get();
-        if (isNotSamePassword(request, member)) {
+        if (member.hasDifferentPassword(request.password())) {
             throw new NotFoundException();
         }
         return new MemberLoginResponse(member.getId());
-    }
-
-    private boolean isNotSamePassword(final MemberLoginRequest request, final Member member) {
-        return !member.getPassword()
-                .equals(request.password());
     }
 }
