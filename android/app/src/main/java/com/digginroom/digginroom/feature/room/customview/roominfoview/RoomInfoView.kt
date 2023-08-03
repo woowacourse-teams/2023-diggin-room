@@ -1,11 +1,11 @@
-package com.digginroom.digginroom.feature.room.customview.roomplayer
+package com.digginroom.digginroom.feature.room.customview.roominfoview
 
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.digginroom.digginroom.databinding.RoomInfoBinding
 import com.digginroom.digginroom.feature.room.ScrapListener
-import com.digginroom.digginroom.feature.room.customview.roomplayer.navigator.DefaultRoomNavigator
+import com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.DefaultRoomNavigator
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomInfoView(context: Context) : ConstraintLayout(context) {

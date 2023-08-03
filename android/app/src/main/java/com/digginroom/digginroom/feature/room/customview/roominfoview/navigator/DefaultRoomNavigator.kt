@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roomplayer.navigator
+package com.digginroom.digginroom.feature.room.customview.roominfoview.navigator
 
 import android.content.Context
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity

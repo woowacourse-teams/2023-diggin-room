@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roomplayer
+package com.digginroom.digginroom.feature.room.customview.roominfoview
 
 import android.os.Bundle
 import android.view.LayoutInflater
