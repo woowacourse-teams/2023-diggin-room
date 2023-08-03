@@ -2,141 +2,74 @@ package com.digginroom.digginroom.fixture
 
 import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Room
-import com.digginroom.digginroom.model.room.Song
+import com.digginroom.digginroom.model.room.Track
 
 object RoomFixture {
 
-    fun Room(
-        videoId: String = "-hyQf_7KsPc",
-        song: Song = Song(
-            title = "예시 제목",
-            albumTitle = "예시 앨범 타이틀",
-            artist = "예시 아티스트",
-            genres = listOf(
-                Genre("예시 장르 1"),
-                Genre("예시 장르 2"),
-                Genre("예시 장르 3")
-            ),
-            tags = listOf(
-                "예시 태그 1",
-                "예시 태그 2",
-                "예시 태그 3",
-                "예시 태그 4",
-                "예시 태그 5"
-            )
-        ),
-        isScrapped: Boolean = true
-    ) = com.digginroom.digginroom.model.room.Room(
-        videoId = videoId,
-        song = song,
-        isScrapped = isScrapped
+    fun Room() = Room(
+        videoId = "Jsm1qk2avyw",
+        isScrapped = true,
+        track = Track(
+            title = "예시 제목1",
+            artist = "예시 아티스트1",
+            superGenre = Genre("예시 장르1")
+        )
     )
 
     fun Rooms(): List<Room> = listOf(
         Room(
-            videoId = "r8kxr39UVg8",
-            song = Song(
-                title = "예시 제목",
-                albumTitle = "예시 앨범 타이틀",
-                artist = "예시 아티스트",
-                genres = listOf(
-                    Genre("예시 장르 1"),
-                    Genre("예시 장르 2"),
-                    Genre("예시 장르 3")
-                ),
-                tags = listOf(
-                    "예시 태그 1",
-                    "예시 태그 2",
-                    "예시 태그 3",
-                    "예시 태그 4",
-                    "예시 태그 5"
-                )
-            ),
-            isScrapped = true
+            videoId = "Jsm1qk2avyw1",
+            isScrapped = true,
+            track = Track(
+                title = "예시 제목2",
+                artist = "예시 아티스트2",
+                superGenre = Genre("예시 장르2")
+            )
         ),
         Room(
-            videoId = "cfES5D7CbMA",
-            song = Song(
-                title = "예시 제목",
-                albumTitle = "예시 앨범 타이틀",
-                artist = "예시 아티스트",
-                genres = listOf(
-                    Genre("예시 장르 1"),
-                    Genre("예시 장르 2"),
-                    Genre("예시 장르 3")
-                ),
-                tags = listOf(
-                    "예시 태그 1",
-                    "예시 태그 2",
-                    "예시 태그 3",
-                    "예시 태그 4",
-                    "예시 태그 5"
-                )
-            ),
-            isScrapped = true
+            videoId = "Jsm1qk2avyw2",
+            isScrapped = true,
+            track = Track(
+                title = "예시 제목3",
+                artist = "예시 아티스트3",
+                superGenre = Genre("예시 장르3")
+            )
         ),
         Room(
-            videoId = "13aOJlKChVI",
-            song = Song(
-                title = "예시 제목",
-                albumTitle = "예시 앨범 타이틀",
-                artist = "예시 아티스트",
-                genres = listOf(
-                    Genre("예시 장르 1"),
-                    Genre("예시 장르 2"),
-                    Genre("예시 장르 3")
-                ),
-                tags = listOf(
-                    "예시 태그 1",
-                    "예시 태그 2",
-                    "예시 태그 3",
-                    "예시 태그 4",
-                    "예시 태그 5"
-                )
-            ),
-            isScrapped = true
+            videoId = "Jsm1qk2avyw3",
+            isScrapped = true,
+            track = Track(
+                title = "예시 제목4",
+                artist = "예시 아티스트4",
+                superGenre = Genre("예시 장르4")
+            )
         ),
         Room(
-            videoId = "L6MkDEKLq0g",
-            song = Song(
-                title = "예시 제목",
-                albumTitle = "예시 앨범 타이틀",
-                artist = "예시 아티스트",
-                genres = listOf(
-                    Genre("예시 장르 1"),
-                    Genre("예시 장르 2"),
-                    Genre("예시 장르 3")
-                ),
-                tags = listOf(
-                    "예시 태그 1",
-                    "예시 태그 2",
-                    "예시 태그 3",
-                    "예시 태그 4",
-                    "예시 태그 5"
-                )
-            ),
-            isScrapped = true
+            videoId = "Jsm1qk2avyw4",
+            isScrapped = true,
+            track = Track(
+                title = "예시 제목5",
+                artist = "예시 아티스트5",
+                superGenre = Genre("예시 장르5")
+            )
         ),
         Room(
-            videoId = "VtAieLbbxek",
-            song = Song(
-                title = "예시 제목",
-                albumTitle = "예시 앨범 타이틀",
-                artist = "예시 아티스트",
-                genres = listOf(
-                    Genre("예시 장르 1"),
-                    Genre("예시 장르 2"),
-                    Genre("예시 장르 3")
-                ),
-                tags = listOf(
-                    "예시 태그 1",
-                    "예시 태그 2",
-                    "예시 태그 3",
-                    "예시 태그 4",
-                    "예시 태그 5"
-                )
-            ),
-            isScrapped = true
+            videoId = "Jsm1qk2avyw5",
+            isScrapped = true,
+            track = Track(
+                title = "예시 제목6",
+                artist = "예시 아티스트6",
+                superGenre = Genre("예시 장르6")
+            )
+        ),
+        Room(
+            videoId = "Jsm1qk2avyw6",
+            isScrapped = true,
+            track = Track(
+                title = "예시 제목7",
+                artist = "예시 아티스트7",
+                superGenre = Genre("예시 장르7")
+            )
         )
     )
 }
