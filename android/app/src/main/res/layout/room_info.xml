@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -41,6 +40,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/scrap_right_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/scrapToggle"
             app:layout_constraintStart_toStartOf="parent">
@@ -50,49 +50,29 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:src="@drawable/music_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_title_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9.75dp"
-                android:text="@{roomModel.trackModel.title}"
+                android:layout_marginLeft="@dimen/scrap_right_margin"
+                android:includeFontPadding="false"
+                android:text="@{@string/title_artist_format(roomModel.trackModel.title, roomModel.trackModel.artist)}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_music"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_title_artist_divide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="9.75dp"
-                android:text="-"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/tv_title"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9.75dp"
-                android:text="@{roomModel.trackModel.artist}"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@+id/tv_title_artist_divide"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="에스파" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/ima_info"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="15dp"
             android:onClick="@{()->showRoomInfoListener.show(trackModel)}"
             android:src="@drawable/info"
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
