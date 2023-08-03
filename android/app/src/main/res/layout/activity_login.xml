@@ -7,80 +7,101 @@
 
         <import type="android.view.View" />
 
+        <import type="com.digginroom.digginroom.feature.login.LoginState" />
+
+
         <variable
-            name="navigateToJoinView"
-            type="kotlin.jvm.functions.Function0" />
+            name="navigator"
+            type="com.digginroom.digginroom.feature.login.navigator.LoginNavigator" />
 
         <variable
             name="resultListener"
-            type="com.digginroom.digginroom.views.activity.ResultListener" />
+            type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.LoginViewModel" />
-
-        <variable
-            name="id"
-            type="String" />
-
-        <variable
-            name="password"
-            type="String" />
+            type="com.digginroom.digginroom.feature.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
+        app:loginState="@{viewModel.state}"
+        app:loginStateListener="@{resultListener}"
         tools:context=".views.activity.LoginActivity">
 
         <ProgressBar
             android:id="@+id/login_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="@{viewModel.state == LoginState.LOADING ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:visibleOnLoading="@{viewModel.state}" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/login_iv_diggin_room_logo"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="50dp"
+            android:contentDescription="@string/common_diggin_room_logo"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_diggin_room_logo1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/login_tv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="26dp"
             android:layout_marginBottom="18dp"
             android:text="@string/common_login"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@id/login_et_input_id"
-            app:layout_constraintStart_toStartOf="@id/login_et_input_id" />
+            app:layout_constraintStart_toStartOf="@id/login_et_input_id"
+            app:layout_constraintTop_toBottomOf="@id/login_iv_diggin_room_logo" />
 
         <EditText
             android:id="@+id/login_et_input_id"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="300dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="45dp"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/common_id"
-            android:padding="14dp"
-            android:text="@={id}"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingHorizontal="22dp"
+            android:paddingVertical="16dp"
+            android:text="@={viewModel.id}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/login_tv_login" />
 
         <EditText
             android:id="@+id/login_et_input_password"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="45dp"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/common_password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:padding="14dp"
-            android:text="@={password}"
+            android:paddingHorizontal="22dp"
+            android:paddingVertical="16dp"
+            android:text="@={viewModel.password}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,58 +115,58 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
+            android:visibility="@{viewModel.state == LoginState.FAILED ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
-            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
-            app:visibleOnFailed="@{viewModel.state}" />
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login_button"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="45dp"
             android:background="@drawable/bg_gradient_blue_radius"
+            android:onClick="@{() -> viewModel.login()}"
+            android:paddingVertical="16dp"
             android:text="@string/common_login"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_et_input_password"
-            app:listener="@{resultListener}"
-            app:loginState="@{viewModel.state}"
-            app:onClick="@{() -> viewModel.login(id, password)}" />
+            app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
 
         <TextView
             android:id="@+id/login_tv_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="24dp"
-            android:onClick="@{() -> navigateToJoinView.invoke()}"
+            android:onClick="@{() -> navigator.navigateToJoinView()}"
             android:text="@string/common_join"
             android:textColor="#90909F"
-            app:layout_constraintEnd_toEndOf="@id/login_button"
-            app:layout_constraintTop_toBottomOf="@id/login_button" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/login_separator"
+            app:layout_constraintEnd_toEndOf="@+id/login_button"
+            app:layout_constraintStart_toEndOf="@+id/login_separator" />
 
         <TextView
             android:id="@+id/login_tv_forgot_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="124dp"
             android:text="@string/login_forgot_account"
             android:textColor="#90909F"
-            app:layout_constraintEnd_toEndOf="@id/login_button"
-            app:layout_constraintTop_toBottomOf="@id/login_button" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/login_separator"
+            app:layout_constraintEnd_toStartOf="@+id/login_separator"
+            app:layout_constraintStart_toStartOf="@+id/login_button" />
 
         <TextView
             android:id="@+id/login_separator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/login_separator"
-            app:layout_constraintEnd_toStartOf="@id/login_tv_join"
-            app:layout_constraintStart_toEndOf="@id/login_tv_forgot_account"
-            app:layout_constraintTop_toTopOf="@id/login_tv_forgot_account" />
+            app:layout_constraintEnd_toStartOf="@+id/login_tv_join"
+            app:layout_constraintStart_toEndOf="@+id/login_tv_forgot_account"
+            app:layout_constraintTop_toBottomOf="@id/login_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

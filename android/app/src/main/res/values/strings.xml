@@ -1,21 +1,30 @@
 <resources>
     <string name="app_name">DigginRoom</string>
+
+    <string name="common_login">로그인</string>
     <string name="common_join">회원가입</string>
     <string name="common_id">아이디</string>
     <string name="common_password">비밀번호</string>
+    <string name="common_thumbnail">https://img.youtube.com/vi/%s/0.jpg</string>
 
     <string name="join_request_input_id">아이디를 입력하세요</string>
     <string name="join_request_input_password">비밀번호를 입력하세요</string>
     <string name="join_reinput_password">비밀번호 재입력</string>
     <string name="join_requset_reinput_password">비밀번호를 다시 한번 입력하세요</string>
-    <string name="join_id_rule_description">아이디의 길이는 5자 이상 11자 이하입니다.</string>
+    <string name="join_id_rule_description">아이디의 길이는 5자 이상 20자 이하입니다.</string>
     <string name="join_id_duplicated">중복된 아이디입니다.</string>
-    <string name="join_password_rule_description">비밀번호는 영문, 숫자 조합의 8자 이상 15자 이하입니다.</string>
+    <string name="join_password_rule_description">비밀번호는 영문, 숫자, 특수문자 조합의 8자 이상 16자 이하입니다.</string>
     <string name="join_password_not_equal_description">비밀번호가 일치하지 않습니다.</string>
-    <string name="common_login">로그인</string>
     <string name="login_forgot_account">로그인 정보를 잊으셨나요?</string>
     <string name="login_separator">|</string>
     <string name="join_duplication_check">중복 확인</string>
     <string name="join_tv_available_id">사용가능한 아이디입니다.</string>
     <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
+    <string name="common_back_button_description">image_of_back_button</string>
+    <string name="common_diggin_room_logo">Diggin\' Room Logo</string>
+    <string name="scrap_scrap_description">스크랩</string>
+    <string name="scrap_thumbnail_description">thumbnail of scrapped room</string>
+    <string name="title_artist_format">%s - %s</string>
+    <string name="fake_description">장르: %s \n \n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.</string>
+
 </resources>

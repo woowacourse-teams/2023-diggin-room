@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="room"
+            type="com.digginroom.digginroom.model.RoomModel" />
+
+        <variable
+            name="listener"
+            type="com.digginroom.digginroom.feature.scrap.adapter.ScrapRoomClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <ImageView
+            android:id="@+id/scrap_iv_scrapped_thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="@string/scrap_thumbnail_description"
+            android:onClick="@{() -> listener.onClick(position)}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_scrapped_room_example"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="9:16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:thumbnail="@{room.videoId}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

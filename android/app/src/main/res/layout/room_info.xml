@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="trackModel"
+            type="com.digginroom.digginroom.model.TrackModel" />
+
+        <variable
+            name="roomModel"
+            type="com.digginroom.digginroom.model.RoomModel" />
+
+        <variable
+            name="showRoomInfoListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
+
+        <variable
+            name="roomNavigator"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.RoomNavigator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/scrap_right_margin"
+        android:paddingTop="@dimen/scrap_right_margin"
+        android:paddingBottom="@dimen/scrap_bottom_margin">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{()->roomNavigator.navigateToScrap()}"
+            android:src="@drawable/icon_cube"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/scrap_right_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/scrapToggle"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_music"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@drawable/music_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/scrap_right_margin"
+                android:includeFontPadding="false"
+                android:text="@{@string/title_artist_format(roomModel.trackModel.title, roomModel.trackModel.artist)}"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/iv_music"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/ima_info"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="15dp"
+            android:onClick="@{()->showRoomInfoListener.show(trackModel)}"
+            android:src="@drawable/info"
+            app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
+            app:layout_constraintEnd_toEndOf="@+id/scrapToggle" />
+
+        <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
+            android:id="@id/scrapToggle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:isScrapped="@{roomModel.scrapped}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

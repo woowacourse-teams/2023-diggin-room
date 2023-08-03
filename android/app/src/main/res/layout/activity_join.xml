@@ -7,71 +7,61 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
+        <import type="com.digginroom.digginroom.feature.join.JoinState" />
+
         <variable
             name="resultListener"
-            type="com.digginroom.digginroom.views.activity.ResultListener" />
-
-        <variable
-            name="id"
-            type="String" />
-
-        <variable
-            name="password"
-            type="String" />
-
-        <variable
-            name="reInputPassword"
-            type="String" />
+            type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.viewmodels.JoinViewModel" />
+            type="com.digginroom.digginroom.feature.join.JoinViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.digginroom.digginroom.feature.join.navigator.JoinNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
+        app:joinState="@{viewModel.state}"
+        app:joinStateListener="@{resultListener}"
         tools:context=".views.activity.JoinActivity">
 
         <ProgressBar
             android:id="@+id/join_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="@{viewModel.state instanceof JoinState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/join_iv_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
+            android:contentDescription="@string/common_back_button_description"
+            android:onClick="@{() -> navigator.navigateToLoginView()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/join_tv_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:text="@string/join_id_rule_description"
-            android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.isValidId ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="@id/join_et_input_id"
-            app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
-
-        <TextView
             android:id="@+id/join_tv_id_form_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
             android:text="@string/join_id_rule_description"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.isValidId ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{TextUtils.isEmpty(viewModel.id) | viewModel.idVerification.valid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
 
@@ -80,9 +70,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
+            android:layout_marginTop="5dp"
             android:text="@string/join_id_duplicated"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.isValidId &amp; !viewModel.isUniqueId &amp; viewModel.isRedundancyChecked ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.idVerification.valid &amp; viewModel.idVerification.duplicated &amp; viewModel.idVerification.checkedDuplication ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
 
@@ -90,10 +81,11 @@
             android:id="@+id/join_tv_available_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
             android:text="@string/join_tv_available_id"
             android:textColor="#00FF00"
-            android:visibility="@{viewModel.isValidId &amp; viewModel.isUniqueId &amp; viewModel.isRedundancyChecked ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.idVerification.verified ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
 
@@ -114,7 +106,7 @@
             android:id="@+id/join_tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/common_id"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/join_et_input_id"
@@ -122,39 +114,47 @@
 
         <EditText
             android:id="@+id/join_et_input_id"
-            android:layout_width="238dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="107dp"
-            android:afterTextChanged="@{(inputId) -> viewModel.validateId(String.valueOf(inputId))}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="80dp"
+            android:afterTextChanged="@{() -> viewModel.validateId()}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_request_input_id"
-            android:maxLength="11"
-            android:padding="14dp"
-            android:text="@={id}"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLength="20"
+            android:paddingHorizontal="12sp"
+            android:paddingVertical="16sp"
+            android:text="@={viewModel.id}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
+            app:layout_constraintEnd_toStartOf="@id/join_button_redundancy_check"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/join_tv_join" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="90dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/bg_gradient_blue_radius"
-            android:enabled="@{viewModel.isValidId}"
-            android:onClick="@{() -> viewModel.validateIdRedundancy(id)}"
+            android:id="@+id/join_button_redundancy_check"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/button_selector"
+            android:enabled="@{viewModel.idVerification.valid}"
+            android:onClick="@{() -> viewModel.validateIdDuplication()}"
             android:text="@string/join_duplication_check"
             android:textColor="@color/white"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/join_et_input_id"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/join_et_input_id"
-            app:layout_constraintTop_toTopOf="@id/join_et_input_id" />
+            app:layout_constraintTop_toTopOf="@+id/join_et_input_id" />
 
         <TextView
             android:id="@+id/join_tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/common_password"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/join_et_input_password"
@@ -162,18 +162,22 @@
 
         <EditText
             android:id="@+id/join_et_input_password"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="54dp"
-            android:afterTextChanged="@{(inputPassword) -> viewModel.validatePassword(String.valueOf(inputPassword))}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="40dp"
+            android:afterTextChanged="@{() -> viewModel.validatePassword()}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
             android:hint="@string/join_request_input_password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:maxLength="15"
-            android:padding="14dp"
-            android:text="@={password}"
+            android:maxLength="16"
+            android:paddingHorizontal="12sp"
+            android:paddingVertical="16sp"
+            android:text="@={viewModel.password}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
@@ -182,10 +186,12 @@
             android:id="@+id/join_tv_password_form_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
             android:text="@string/join_password_rule_description"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.isValidPassword ? View.INVISIBLE : View.VISIBLE}"
+            android:textSize="13sp"
+            android:visibility="@{TextUtils.isEmpty(viewModel.password) | viewModel.passwordVerification.valid ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@id/join_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
 
@@ -193,7 +199,7 @@
             android:id="@+id/join_tv_reinput_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:text="@string/join_reinput_password"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/join_et_re_input_password"
@@ -201,17 +207,24 @@
 
         <EditText
             android:id="@+id/join_et_re_input_password"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="54dp"
-            android:afterTextChanged="@{(inputPassword) -> viewModel.validatePasswordEquality(password, String.valueOf(inputPassword))}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="40dp"
+            android:afterTextChanged="@{() -> viewModel.validatePasswordEquality()}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:focusable="@{viewModel.passwordVerification.valid}"
+            android:focusableInTouchMode="@{viewModel.passwordVerification.valid}"
             android:hint="@string/join_requset_reinput_password"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:padding="14dp"
-            android:text="@={reInputPassword}"
+            android:maxLength="16"
+            android:paddingHorizontal="12sp"
+            android:paddingVertical="16sp"
+            android:text="@={viewModel.reInputPassword}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
 
@@ -219,29 +232,29 @@
             android:id="@+id/join_tv_password_not_equal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
             android:text="@string/join_password_not_equal_description"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.isEqualPassword ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{TextUtils.isEmpty(viewModel.reInputPassword) | viewModel.passwordVerification.equalReInput ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@id/join_et_re_input_password"
             app:layout_constraintTop_toBottomOf="@id/join_et_re_input_password" />
 
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/join_button_join"
-            android:layout_width="300dp"
-            android:layout_height="52dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
-            android:background="@drawable/bg_gradient_blue_radius"
+            android:background="@drawable/button_selector"
             android:enabled="@{viewModel.isJoinAble}"
+            android:onClick="@{() -> viewModel.join()}"
+            android:paddingVertical="16sp"
             android:text="@string/common_join"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:flag="@{viewModel.isJoinSucceed}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/join_et_re_input_password"
-            app:onClickWithResult="@{() -> viewModel.join(id, password)}"
-            app:resultListener="@{resultListener}" />
+            app:layout_constraintEnd_toEndOf="@+id/join_et_re_input_password"
+            app:layout_constraintStart_toStartOf="@+id/join_et_re_input_password"
+            app:layout_constraintTop_toBottomOf="@id/join_et_re_input_password" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

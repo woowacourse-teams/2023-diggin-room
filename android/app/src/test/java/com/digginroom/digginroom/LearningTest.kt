@@ -3,13 +3,13 @@ package com.digginroom.digginroom
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-
-@Serializable
-data class Project(val name: String, val language: String)
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class LearningTest {
+    @Serializable
+    data class Project(val name: String, val language: String)
+
     @Test
     fun kotlinx_serialization_test() {
         val data = Project("kotlinx.serialization", "Kotlin")

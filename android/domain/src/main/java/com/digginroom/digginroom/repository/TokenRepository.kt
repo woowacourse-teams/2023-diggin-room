@@ -1,8 +1,10 @@
 package com.digginroom.digginroom.repository
 
+import com.digginroom.digginroom.logging.LogResult
+
 interface TokenRepository {
 
-    fun save(token: String)
+    suspend fun save(token: String): LogResult<Unit>
 
-    fun fetch(): String
+    suspend fun fetch(): LogResult<String>
 }
