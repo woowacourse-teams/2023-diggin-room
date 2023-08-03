@@ -30,6 +30,7 @@ class ScrapRoomActivity : AppCompatActivity() {
             this,
             R.layout.activity_scrap_room
         ).also {
+            it.initialPosition = intent.getIntExtra(KEY_INITIAL_POSITION, DEFAULT_POSITION)
             it.lifecycleOwner = this
             it.viewModel = scrapRoomViewModel
         }
@@ -39,8 +40,7 @@ class ScrapRoomActivity : AppCompatActivity() {
         scrapRoomViewModel = ViewModelProvider(
             this,
             ViewModelFactory.getInstance(applicationContext).scrapRoomViewModelFactory(
-                intent.getSerializableCompat(KEY_ROOMS) ?: return finish(),
-                intent.getIntExtra(KEY_INITIAL_POSITION, DEFAULT_POSITION)
+                intent.getSerializableCompat(KEY_ROOMS) ?: return finish()
             )
         )[ScrapRoomViewModel::class.java]
     }

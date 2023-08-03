@@ -49,13 +49,13 @@ class ViewModelFactory(context: Context) {
         }
     }
 
-    val scrapRoomViewModelFactory: (rooms: RoomModels, position: Int) -> ViewModelProvider.Factory =
-        { rooms, position ->
+    val scrapRoomViewModelFactory: (rooms: RoomModels) -> ViewModelProvider.Factory =
+        { rooms ->
             viewModelFactory {
                 initializer {
                     ScrapRoomViewModel(
                         rooms = rooms.value,
-                        initialPosition = position
+                        roomRepository = repositoryProvider.roomRepository
                     )
                 }
             }

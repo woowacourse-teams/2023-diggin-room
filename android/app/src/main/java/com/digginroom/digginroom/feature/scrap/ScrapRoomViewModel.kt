@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.repository.RoomRepository
 
 class ScrapRoomViewModel(
     rooms: List<RoomModel>,
-    val initialPosition: Int
+    private val roomRepository: RoomRepository
 ) : ViewModel() {
 
     private val _scrappedRooms: MutableLiveData<RoomState> =

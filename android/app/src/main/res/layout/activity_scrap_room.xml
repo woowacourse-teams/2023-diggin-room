@@ -10,6 +10,10 @@
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel" />
+
+        <variable
+            name="initialPosition"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +26,7 @@
             android:layout_height="match_parent"
             app:rooms="@{viewModel.scrappedRooms}"
             app:orientation="@{PagingOrientation.VERTICAL}"
-            app:roomPosition="@{viewModel.initialPosition}" />
+            app:roomPosition="@{initialPosition}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
