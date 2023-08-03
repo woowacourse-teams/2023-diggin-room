@@ -32,7 +32,7 @@ public class Member {
     @Embedded
     private final MemberGenres memberGenres = new MemberGenres(this);
 
-    public Member(@NonNull final String username, @NonNull final String password) {
+    public Member(final String username, final String password) {
         this.username = username;
         this.password = DigginRoomPasswordEncoder.encode(password);
     }
