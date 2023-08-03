@@ -53,7 +53,7 @@ class RoomServiceTest {
 
         roomService.scrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms()).contains(room);
+        assertThat(member.getScraps().getScrapRooms()).contains(room);
     }
 
     @Test
@@ -75,7 +75,7 @@ class RoomServiceTest {
 
         roomService.unscrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms()).isEmpty();
+        assertThat(member.getScraps().getScrapRooms()).isEmpty();
     }
 
     @Test
@@ -112,7 +112,7 @@ class RoomServiceTest {
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms()).isNotEmpty();
+        assertThat(member.getDislikes().getDislikeRooms()).isNotEmpty();
     }
 
     @Test
@@ -147,7 +147,7 @@ class RoomServiceTest {
 
         roomService.undislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms()).isEmpty();
+        assertThat(member.getDislikes().getDislikeRooms()).isEmpty();
     }
 
     @Test
