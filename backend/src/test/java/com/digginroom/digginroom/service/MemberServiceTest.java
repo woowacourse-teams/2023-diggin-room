@@ -82,7 +82,7 @@ class MemberServiceTest {
         Member power = new Member("power", "power123!");
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
-        assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), power.getPassword())))
+        assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
                 .isEqualTo(new MemberLoginResponse(power.getId()));
     }
 

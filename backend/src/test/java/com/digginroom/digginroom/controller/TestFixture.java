@@ -12,8 +12,8 @@ import java.util.List;
 @SuppressWarnings("NonAsciiCharacters")
 public class TestFixture {
 
-    private static final String MEMBER_PASSWORD = "power1234@";
-    private static final String MEMBER_USERNAME = "power";
+    public static final String MEMBER_PASSWORD = "power1234@";
+    public static final String MEMBER_USERNAME = "power";
     public static final MemberLoginRequest MEMBER_LOGIN_REQUEST = new MemberLoginRequest(MEMBER_USERNAME,
             MEMBER_PASSWORD);
     public static final MemberSaveRequest MEMBER_SAVE_REQUEST = new MemberSaveRequest(MEMBER_USERNAME, MEMBER_PASSWORD);

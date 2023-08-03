@@ -1,13 +1,17 @@
 package com.digginroom.digginroom.controller;
 
-import static org.hamcrest.Matchers.emptyCollectionOf;
 import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.controller.TestFixture.MEMBER_PASSWORD;
+import static com.digginroom.digginroom.controller.TestFixture.MEMBER_USERNAME;
 import static com.digginroom.digginroom.controller.TestFixture.나무;
+import static com.digginroom.digginroom.controller.TestFixture.차이;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
+import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.RoomRequest;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
@@ -31,6 +35,7 @@ class RoomControllerTest extends ControllerTest {
     @Autowired
     private RoomRepository roomRepository;
     private Room room1;
+    private Room room2;
 
     @Override
     @BeforeEach
@@ -38,6 +43,7 @@ class RoomControllerTest extends ControllerTest {
         super.setUp();
         memberRepository.save(파워());
         room1 = roomRepository.save(나무());
+        room2 = roomRepository.save(차이());
     }
 
     @Test
@@ -277,7 +283,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 스크랩을_하지_않은_유저는_빈_스크랩_목록을_조회할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -296,7 +302,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 스크랩을_한_유저는_스크랩_목록을_조회할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(member.getUsername(), member.getPassword()))
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -308,7 +314,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room1.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -317,7 +323,7 @@ class RoomControllerTest extends ControllerTest {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(new RoomRequest(room2.getId()))
-                .post("/scrap")
+                .post("/room/scrap")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 

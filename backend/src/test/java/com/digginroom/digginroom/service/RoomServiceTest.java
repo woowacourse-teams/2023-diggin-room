@@ -6,10 +6,9 @@ import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.controller.dto.ScrappedRoomResponse;
 import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
-import com.digginroom.digginroom.domain.MediaSource;
+import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
@@ -55,12 +54,12 @@ class RoomServiceTest {
     @Test
     void 스크랩_항목이_있는_경우_멤버가_스크랩한_룸_목록을_조회할_수_있다() {
         Member member = memberRepository.save(new Member("member", "1234"));
-        Room 나무 = new Room(new MediaSource("lQcnNPqy2Ww"));
-        Room 가까운듯먼그대여 = new Room(new MediaSource("2VkWaOOF4Rc"));
+        Room 나무 = 나무();
+        Room 차이 = 차이();
         roomRepository.save(나무);
-        roomRepository.save(가까운듯먼그대여);
+        roomRepository.save(차이);
         member.scrap(나무);
-        member.scrap(가까운듯먼그대여);
+        member.scrap(차이);
 
         ScrappedRoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
 
@@ -68,7 +67,7 @@ class RoomServiceTest {
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(
                         new ScrappedRoomResponse(나무.getId(), 나무.getMediaSource().getIdentifier()),
-                        new ScrappedRoomResponse(가까운듯먼그대여.getId(), 가까운듯먼그대여.getMediaSource().getIdentifier()))
+                        new ScrappedRoomResponse(차이.getId(), 차이.getMediaSource().getIdentifier()))
                 );
     }
 
