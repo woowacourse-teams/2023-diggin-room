@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ScrappedRoomsResponse(
-    @SerialName("scrappedRooms")
+    @SerialName("rooms")
     val scrappedRooms: List<RoomResponse>
 )
