@@ -19,7 +19,7 @@ interface RoomService {
         @Header("cookie") token: String
     ): Response<RoomResponse>
 
-    @POST("/dislike")
+    @POST("/room/dislike")
     suspend fun postDislike(
         @Header("cookie") token: String,
         @Body dislikeRequest: DislikeRequest

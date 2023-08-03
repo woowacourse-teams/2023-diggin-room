@@ -34,6 +34,7 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
 
     override fun setOnTouchListener(listener: (MotionEvent) -> Unit) {
         setOnTouchListener { _, event ->
+            if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
             false
         }

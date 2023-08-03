@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -22,7 +21,6 @@ class RoomPager(
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
-    var dislikeRoom: (Long) -> Unit = { }
 
     init {
         initVerticalScrollView()
@@ -79,7 +77,7 @@ class RoomPager(
 
     fun updateDislikeListener(onDislike: (Long) -> Unit) {
         horizontalScrollPager.dislikeRoom = {
-            dislikeRoom(roomRecycler.currentRoomPlayerRoomId())
+            onDislike(roomRecycler.currentRoomPlayerRoomId())
         }
     }
 
@@ -121,7 +119,6 @@ class RoomPager(
 
     private fun initScrollEndEvent(scrollPager: ScrollPager) {
         scrollPager.setOnTouchListener { event ->
-            if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener
             determinePosition(scrollPager)
             recycleRooms(scrollPager)
             pageToTargetRoom(scrollPager)
@@ -144,12 +141,9 @@ class RoomPager(
     }
 
     private fun recycleRooms(scrollPager: ScrollPager) {
-        if (roomRecycler.currentRoomPosition <= 0) {
+        if (roomRecycler.currentRoomPosition < 0) {
             scrollPager.scrollPosition = 0
             roomRecycler.navigateFirstRoom()
-        } else if (roomRecycler.isLastRoom()) {
-            scrollPager.scrollPosition--
-            roomRecycler.navigateLastRoom()
         } else if (scrollPager.scrollPosition <= 0) {
             roomRecycler.recyclePreviousRooms(scrollPager)
             scrollPager.scrollPosition++
