@@ -26,13 +26,11 @@ class RoomPager(
     init {
         initVerticalScrollView()
         initHorizontalScrollView()
-        initRoomRecycler()
     }
 
     fun updateData(rooms: List<RoomModel>) {
         Log.d("woogi", "init: $rooms")
         roomRecycler.updateData(rooms)
-        println(rooms)
         navigateTargetRoom()
     }
 
@@ -90,9 +88,6 @@ class RoomPager(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         )
-    }
-
-    private fun initRoomRecycler() {
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {
