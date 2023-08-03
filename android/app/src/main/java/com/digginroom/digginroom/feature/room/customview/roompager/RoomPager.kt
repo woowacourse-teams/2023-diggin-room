@@ -2,6 +2,7 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -29,6 +30,7 @@ class RoomPager(
     }
 
     fun updateData(rooms: List<RoomModel>) {
+        Log.d("woogi", "init: $rooms")
         roomRecycler.updateData(rooms)
         println(rooms)
         navigateTargetRoom()
@@ -57,6 +59,8 @@ class RoomPager(
 
     fun updateRoomPosition(position: Int) {
         roomRecycler.currentRoomPosition = position
+        playCurrentRoom()
+        navigateTargetRoom()
     }
 
     private fun clearViewHierarchy() {
