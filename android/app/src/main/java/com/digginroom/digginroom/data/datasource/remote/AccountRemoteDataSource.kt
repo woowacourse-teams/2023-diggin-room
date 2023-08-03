@@ -3,6 +3,7 @@ package com.digginroom.digginroom.data.datasource.remote
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinErrorResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
+import com.digginroom.digginroom.data.entity.LoginErrorResponse
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
@@ -20,7 +21,7 @@ class AccountRemoteDataSource(
         )
 
         if (!response.isSuccessful) {
-            throw JoinErrorResponse.from(response.code())
+            throw JoinErrorResponse.Default()
         }
     }
 
@@ -33,19 +34,18 @@ class AccountRemoteDataSource(
         )
 
         if (response.isSuccessful) {
-            return response.headers().get(SET_COOKIE)
-                ?: throw JoinErrorResponse.from(response.code())
+            return response.headers().get(SET_COOKIE) ?: throw LoginErrorResponse.EmptyToken()
         }
-        throw JoinErrorResponse.from(response.code())
+        throw LoginErrorResponse.NoSuchAccount()
     }
 
     suspend fun fetchIsDuplicatedId(id: String): IdDuplicationResponse {
         val response: Response<IdDuplicationResponse> = accountService.fetchIsDuplicatedId(id)
 
         if (response.isSuccessful) {
-            return response.body() ?: throw JoinErrorResponse.from(response.code())
+            return response.body() ?: throw JoinErrorResponse.FailedCheckDuplicatedId()
         }
-        throw JoinErrorResponse.from(response.code())
+        throw JoinErrorResponse.FailedCheckDuplicatedId()
     }
 
     companion object {
