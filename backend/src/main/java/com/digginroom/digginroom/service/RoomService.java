@@ -1,10 +1,13 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.MemberGenres;
 import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.domain.ScrapRooms;
 import com.digginroom.digginroom.domain.Track;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.RoomRepository;
@@ -16,18 +19,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class RoomService {
 
     private final RoomRepository roomRepository;
     private final TrackRepository trackRepository;
     private final MemberService memberService;
 
+    @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
         Member member = memberService.findMember(memberId);
+        MemberGenres memberGenres = member.getMemberGenres();
         try {
-            Genre recommendedGenre = new GenreRecommender().recommend(member.getMemberGenres());
+            Genre recommendedGenre = new GenreRecommender().recommend(memberGenres.getMemberGenres());
             Track recommendedTrack = recommendTrack(recommendedGenre);
             Room recommendedRoom = recommendedTrack.recommendRoom();
 
@@ -49,7 +54,20 @@ public class RoomService {
         return tracks.get(pickedIndex);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
+    public RoomsResponse findScrappedRooms(final Long memberId) {
+        Member member = memberService.findMember(memberId);
+        ScrapRooms scrapRooms = member.getScrapRooms();
+        return new RoomsResponse(scrapRooms.getScrapRooms().stream()
+                .map(room -> new RoomResponse(
+                        room.getId(),
+                        room.getMediaSource().getIdentifier(),
+                        member.hasScrapped(room),
+                        TrackResponse.of(room.getTrack())
+                ))
+                .toList());
+    }
+
     public void scrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
@@ -57,7 +75,6 @@ public class RoomService {
         member.scrap(room);
     }
 
-    @Transactional
     public void unscrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
@@ -70,7 +87,6 @@ public class RoomService {
                 .orElseThrow(() -> new NotFoundException(roomId));
     }
 
-    @Transactional
     public void dislike(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
@@ -78,7 +94,6 @@ public class RoomService {
         member.dislike(room);
     }
 
-    @Transactional
     public void undislike(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);

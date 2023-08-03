@@ -2,6 +2,7 @@ package com.digginroom.digginroom.controller;
 
 import com.digginroom.digginroom.controller.dto.RoomRequest;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,12 @@ public class RoomController {
     @GetMapping
     public ResponseEntity<RoomResponse> showRecommendedRoom(@Auth final Long memberId) {
         return ResponseEntity.ok().body(roomService.recommend(memberId));
+    }
+
+    @GetMapping("/scrap")
+    public ResponseEntity<RoomsResponse> findScrappedRooms(@Auth final Long memberId) {
+        RoomsResponse scrappedRooms = roomService.findScrappedRooms(memberId);
+        return ResponseEntity.ok().body(scrappedRooms);
     }
 
     @PostMapping("/scrap")
