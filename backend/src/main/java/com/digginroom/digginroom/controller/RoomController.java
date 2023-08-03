@@ -27,7 +27,7 @@ public class RoomController {
     }
 
     @GetMapping("/scrap")
-    public ResponseEntity<RoomsResponse> findScrapRooms(@Auth final Long memberId) {
+    public ResponseEntity<RoomsResponse> findScrappedRooms(@Auth final Long memberId) {
         RoomsResponse scrappedRooms = roomService.findScrappedRooms(memberId);
         return ResponseEntity.ok().body(scrappedRooms);
     }
