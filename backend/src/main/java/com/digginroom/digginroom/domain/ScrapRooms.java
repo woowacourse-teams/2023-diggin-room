@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Scraps {
+public class ScrapRooms {
 
     @ManyToMany
     private final List<Room> scrapRooms = new ArrayList<>();
