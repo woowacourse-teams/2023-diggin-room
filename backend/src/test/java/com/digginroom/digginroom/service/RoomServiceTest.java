@@ -6,8 +6,9 @@ import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.digginroom.digginroom.controller.dto.ScrappedRoomResponse;
-import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
+import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.RoomsResponse;
+import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -61,23 +62,30 @@ class RoomServiceTest {
         member.scrap(나무);
         member.scrap(차이);
 
-        ScrappedRoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
+        RoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
 
-        assertThat(scrappedRooms.scrappedRooms())
+        assertThat(scrappedRooms.rooms())
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(
-                        new ScrappedRoomResponse(나무.getId(), 나무.getMediaSource().getIdentifier()),
-                        new ScrappedRoomResponse(차이.getId(), 차이.getMediaSource().getIdentifier()))
-                );
+                        new RoomResponse(
+                                나무.getId(),
+                                나무.getMediaSource().getIdentifier(),
+                                true,
+                                TrackResponse.of(나무.getTrack())),
+                        new RoomResponse(차이.getId(),
+                                차이.getMediaSource().getIdentifier(),
+                                true,
+                                TrackResponse.of(차이.getTrack()))
+                ));
     }
 
     @Test
     void 스크랩_항목이_없는_경우_멤버가_빈_룸_목록을_조회할_수_있다() {
         Member member = memberRepository.save(new Member("member", "1234"));
 
-        ScrappedRoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
+        RoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
 
-        assertThat(scrappedRooms.scrappedRooms())
+        assertThat(scrappedRooms.rooms())
                 .usingRecursiveComparison()
                 .isEqualTo(Collections.emptyList());
     }

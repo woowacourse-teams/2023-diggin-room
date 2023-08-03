@@ -298,7 +298,7 @@ class RoomControllerTest extends ControllerTest {
                 .contentType(ContentType.JSON)
                 .get("/room/scrap")
                 .then().log().all()
-                .body("scrappedRooms", emptyCollectionOf(List.class));
+                .body("rooms", emptyCollectionOf(List.class));
     }
 
     @Test
@@ -335,6 +335,6 @@ class RoomControllerTest extends ControllerTest {
                 .contentType(ContentType.JSON)
                 .get("/room/scrap")
                 .then().log().all()
-                .body("scrappedRooms", hasSize(2));
+                .body("rooms", hasSize(2));
     }
 }

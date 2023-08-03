@@ -1,8 +1,7 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
-import com.digginroom.digginroom.controller.dto.ScrappedRoomResponse;
-import com.digginroom.digginroom.controller.dto.ScrappedRoomsResponse;
+import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
@@ -56,11 +55,16 @@ public class RoomService {
     }
 
     @Transactional(readOnly = true)
-    public ScrappedRoomsResponse findScrappedRooms(final Long memberId) {
+    public RoomsResponse findScrappedRooms(final Long memberId) {
         Member member = memberService.findMember(memberId);
         ScrapRooms scrapRooms = member.getScrapRooms();
-        return new ScrappedRoomsResponse(scrapRooms.getScrapRooms().stream()
-                .map(room -> new ScrappedRoomResponse(room.getId(), room.getMediaSource().getIdentifier()))
+        return new RoomsResponse(scrapRooms.getScrapRooms().stream()
+                .map(room -> new RoomResponse(
+                        room.getId(),
+                        room.getMediaSource().getIdentifier(),
+                        member.hasScrapped(room),
+                        TrackResponse.of(room.getTrack())
+                ))
                 .toList());
     }
 
