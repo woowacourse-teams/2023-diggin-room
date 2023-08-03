@@ -24,6 +24,7 @@
         <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:onRoomInfoListener="@{viewModel}"
             app:rooms="@{viewModel.scrappedRooms}"
             app:orientation="@{PagingOrientation.VERTICAL}"
             app:roomPosition="@{initialPosition}" />

@@ -6,8 +6,8 @@ import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -24,7 +24,7 @@ interface RoomService {
         @Body scrapRequest: ScrapRequest
     ): Response<Void>
 
-    @DELETE("/room/scrap")
+    @HTTP(method = "DELETE", path = "/room/scrap", hasBody = true)
     suspend fun cancelScrapById(
         @Header("cookie") token: String,
         @Body cancelScrapRequest: CancelScrapRequest

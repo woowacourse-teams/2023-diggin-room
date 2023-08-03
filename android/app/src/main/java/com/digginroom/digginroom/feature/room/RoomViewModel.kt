@@ -35,12 +35,18 @@ class RoomViewModel(
     override fun scrap(roomId: Long) {
         viewModelScope.launch {
             roomRepository.scrapById(roomId)
+                .onSuccess {
+                }.onFailure {
+                }
         }
     }
 
     override fun cancelScrap(roomId: Long) {
         viewModelScope.launch {
             roomRepository.cancelScrapById(roomId)
+                .onSuccess {
+                }.onFailure {
+                }
         }
     }
 }
