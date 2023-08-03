@@ -20,7 +20,7 @@ public class MemberGenres {
 
     public MemberGenres(final Member member) {
         memberGenres = Arrays.stream(Genre.values())
-                .map(it -> new MemberGenre(it, member))
+                .map(genre -> new MemberGenre(genre, member))
                 .toList();
     }
 
@@ -31,7 +31,7 @@ public class MemberGenres {
 
     private MemberGenre getTargetMemberGenre(final Genre genre) {
         return memberGenres.stream()
-                .filter(it -> it.isSameGenre(genre))
+                .filter(memberGenre -> memberGenre.isSameGenre(genre))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(genre));
     }
