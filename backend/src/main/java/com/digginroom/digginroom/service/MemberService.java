@@ -2,12 +2,12 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.repository.MemberRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,21 +41,13 @@ public class MemberService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Member loginMember(final MemberLoginRequest request) {
-        Optional<Member> findMember = memberRepository.findMemberByUsername(request.username());
-        if (findMember.isEmpty()) {
+    public MemberLoginResponse loginMember(final MemberLoginRequest request) {
+        Member member = memberRepository.findMemberByUsername(request.username())
+                .orElseThrow(NotFoundException::new);
+
+        if (member.hasDifferentPassword(request.password())) {
             throw new NotFoundException();
         }
-
-        Member member = findMember.get();
-        if (isNotSamePassword(request, member)) {
-            throw new NotFoundException();
-        }
-        return member;
-    }
-
-    private boolean isNotSamePassword(final MemberLoginRequest request, final Member member) {
-        return !member.getPassword()
-                .equals(request.password());
+        return new MemberLoginResponse(member.getId());
     }
 }

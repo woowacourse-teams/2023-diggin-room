@@ -1,0 +1,39 @@
+name: Production CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: production
+    steps:
+      - uses: actions/checkout@v3
+      - name: gradle bootjar
+        working-directory: ./backend
+        run: |
+          chmod +x ./gradlew
+          ./gradlew bootjar
+
+      - name: kill previous process
+        run: |
+          JAR_NAME="DigginRoom-0.0.1-SNAPSHOT.jar"
+          PROCESS_ID=$(pgrep -f "$JAR_NAME")
+          if [ -n "$PROCESS_ID" ]; then
+            sudo kill -9 $PROCESS_ID
+            echo "구동중인 애플리케이션을 종료했습니다. (pid : $PROCESS_ID)\n"
+          fi
+
+      - name: deploy
+        working-directory: ./backend
+        env:
+          RUNNER_TRACKING_ID: ""
+        run: |
+          nohup java -jar \
+          -Dspring.profiles.active=production \
+          -DPROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
+          -DPROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
+          -DPROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
+          build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &

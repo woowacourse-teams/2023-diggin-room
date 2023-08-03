@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.controller;
 
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -24,13 +24,12 @@ public class MemberLoginController {
 
     @PostMapping
     public ResponseEntity<Void> login(
-            @RequestBody @Valid
-            final MemberLoginRequest memberLoginRequest,
+            @RequestBody @Valid final MemberLoginRequest memberLoginRequest,
             final HttpSession httpSession
     ) {
-        Member member = memberService.loginMember(memberLoginRequest);
+        MemberLoginResponse member = memberService.loginMember(memberLoginRequest);
 
-        httpSession.setAttribute("memberId", member.getId());
+        httpSession.setAttribute("memberId", member.memberId());
         httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
