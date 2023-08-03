@@ -49,7 +49,7 @@ class RoomViewModelTest {
         } returns LogResult.success(actual)
 
         // when
-        roomViewModel.findNextRoom()
+        roomViewModel.findNext()
 
         // then
         val expected = Room()
@@ -69,7 +69,7 @@ class RoomViewModelTest {
         } returns LogResult.failure()
 
         // when
-        roomViewModel.findNextRoom()
+        roomViewModel.findNext()
 
         // then
         assert(roomViewModel.cachedRoom.value is RoomState.Error)

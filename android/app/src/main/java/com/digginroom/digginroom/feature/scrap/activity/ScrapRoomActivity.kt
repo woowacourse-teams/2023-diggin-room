@@ -11,7 +11,7 @@ import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapRoomBinding
 import com.digginroom.digginroom.feature.getSerializableCompat
 import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
-import com.digginroom.digginroom.model.RoomModels
+import com.digginroom.digginroom.model.RoomsModel
 
 class ScrapRoomActivity : AppCompatActivity() {
 
@@ -53,7 +53,7 @@ class ScrapRoomActivity : AppCompatActivity() {
 
         fun start(
             context: Context,
-            rooms: RoomModels,
+            rooms: RoomsModel,
             position: Int
         ) {
             val intent = Intent(context, ScrapRoomActivity::class.java).apply {

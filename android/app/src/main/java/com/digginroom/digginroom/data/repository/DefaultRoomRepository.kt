@@ -18,6 +18,12 @@ class DefaultRoomRepository(
         }
     }
 
+    override suspend fun postDislike(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.postDislike(tokenLocalDataSource.fetch(), roomId)
+        }
+    }
+
     override suspend fun scrapById(roomId: Long): LogResult<Unit> {
         return logRunCatching {
             roomRemoteDataSource.scrapById(

@@ -93,6 +93,8 @@ class RoomRecycler(
         currentRoomPosition = rooms.size - 1
     }
 
+    fun currentRoomPlayerRoomId(): Long = roomPlayers[currentRoomPlayerPosition].currentRoomId
+
     private fun initLayout() {
         columnCount = gridSize
         rowCount = gridSize

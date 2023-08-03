@@ -17,6 +17,9 @@ class YoutubeRoomPlayer(
     private val onYoutubePlay: () -> Unit
 ) : WebView(context), RoomPlayer {
 
+    val currentRoomId: Long
+        get() = roomInfoView.roomId
+
     private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
     private val roomInfoView: RoomInfoView = RoomInfoView(context)
 

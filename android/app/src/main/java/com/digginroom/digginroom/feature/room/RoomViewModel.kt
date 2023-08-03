@@ -13,14 +13,13 @@ import kotlinx.coroutines.launch
 class RoomViewModel(
     private val rooms: MutableList<Room>,
     private val roomRepository: RoomRepository
-) : ViewModel(), ScrapListener {
+) : ViewModel(), ScrapListener, DislikeListener {
 
-    private val _cachedRoom: MutableLiveData<RoomState> =
-        MutableLiveData(RoomState.Loading)
+    private val _cachedRoom: MutableLiveData<RoomState> = MutableLiveData(RoomState.Loading)
     val cachedRoom: LiveData<RoomState>
         get() = _cachedRoom
 
-    fun findNextRoom() {
+    fun findNext() {
         _cachedRoom.value = RoomState.Loading
         viewModelScope.launch {
             roomRepository.findNext().onSuccess { room ->
@@ -32,21 +31,21 @@ class RoomViewModel(
         }
     }
 
+    override fun postDislike(roomId: Long) {
+        viewModelScope.launch {
+            roomRepository.postDislike(roomId).onSuccess {}.onFailure {}
+        }
+    }
+
     override fun scrap(roomId: Long) {
         viewModelScope.launch {
-            roomRepository.scrapById(roomId)
-                .onSuccess {
-                }.onFailure {
-                }
+            roomRepository.scrapById(roomId).onSuccess {}.onFailure {}
         }
     }
 
     override fun cancelScrap(roomId: Long) {
         viewModelScope.launch {
-            roomRepository.cancelScrapById(roomId)
-                .onSuccess {
-                }.onFailure {
-                }
+            roomRepository.cancelScrapById(roomId).onSuccess {}.onFailure {}
         }
     }
 }
