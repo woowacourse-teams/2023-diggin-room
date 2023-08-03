@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import com.digginroom.digginroom.feature.room.RoomInfoListener
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.model.RoomModel
@@ -28,9 +28,9 @@ class RoomRecycler(
         initContentView()
     }
 
-    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
         roomPlayers.forEach {
-            it.setRoomInfoListener(onRoomInfoListener)
+            it.setRoomInfoListener(onScrapListener)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.feature.scrap
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -33,5 +35,12 @@ class ScrapActivity : AppCompatActivity() {
                     it.viewModel = scrapViewModel
                     it.adapter = ScrapAdapter()
                 }
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, ScrapActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

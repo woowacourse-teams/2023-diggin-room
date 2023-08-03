@@ -7,9 +7,11 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.digginroom.digginroom.feature.room.RoomInfoListener
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
+import com.digginroom.digginroom.model.GenreModel
 import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.SongModel
 
 class YoutubeRoomPlayer(
     context: Context,
@@ -29,8 +31,8 @@ class YoutubeRoomPlayer(
         initYoutubePlayer()
     }
 
-    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
-        roomInfoView.setRoomInfoListener(onRoomInfoListener)
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+        roomInfoView.setRoomInfoListener(onScrapListener)
     }
 
     override fun play() {
@@ -51,8 +53,21 @@ class YoutubeRoomPlayer(
         if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
+        // TODO: 추후 삭제 요망
+        val customRoom = RoomModel(
+            room.videoId,
+            SongModel(
+                "super shy",
+                "뉴진스",
+                "뉴진스",
+                listOf(GenreModel("케이팝"), GenreModel("댄스")),
+                listOf("발라드", "트로트", "락")
+            ),
+            false,
+            0
+        )
         videoId = room.videoId
-        roomInfoView.setRoomInfo(room)
+        roomInfoView.setRoomInfo(customRoom)
     }
 
     private fun preventTouchEvent() {
@@ -209,10 +224,9 @@ class YoutubeRoomPlayer(
     private fun addRoomInfoView() {
         val myLayoutParams = ConstraintLayout.LayoutParams(
             ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.WRAP_CONTENT
+            ConstraintLayout.LayoutParams.MATCH_PARENT
         )
         roomInfoView.layoutParams = myLayoutParams
-        roomInfoView.y = resources.displayMetrics.heightPixels.toFloat() - roomInfoView.layoutHeight
         addView(roomInfoView)
     }
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class RoomViewModel(
     private val rooms: MutableList<Room>,
     private val roomRepository: RoomRepository
-) : ViewModel(), RoomInfoListener {
+) : ViewModel(), ScrapListener {
 
     private val _cachedRoom: MutableLiveData<RoomState> =
         MutableLiveData(RoomState.Loading)

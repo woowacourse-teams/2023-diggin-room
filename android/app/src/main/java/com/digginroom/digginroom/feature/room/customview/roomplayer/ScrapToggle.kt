@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.feature.room.RoomInfoListener
+import com.digginroom.digginroom.feature.room.ScrapListener
 
 class ScrapToggle(
     context: Context,
@@ -14,7 +14,7 @@ class ScrapToggle(
     AppCompatImageView(context, attributeSet) {
     var isScrapped: Boolean = false
 
-    var roomInfoListener: RoomInfoListener = object : RoomInfoListener {
+    var scrapListener: ScrapListener = object : ScrapListener {
         override fun scrap(roomId: Long) {}
         override fun cancelScrap(roomId: Long) {}
     }
@@ -33,10 +33,10 @@ class ScrapToggle(
 
     private fun toggle() {
         if (!isScrapped) {
-            roomInfoListener.scrap(0)
+            scrapListener.scrap(0)
             setImageResource(R.drawable.scrap_icon)
         } else {
-            roomInfoListener.cancelScrap(0)
+            scrapListener.cancelScrap(0)
             setImageResource(R.drawable.unscrap_icon)
         }
         isScrapped = !isScrapped

@@ -3,31 +3,34 @@ package com.digginroom.digginroom.feature.room.customview.roomplayer
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.digginroom.digginroom.databinding.DialogTrackInfoLayoutBinding
 import com.digginroom.digginroom.databinding.RoomInfoBinding
-import com.digginroom.digginroom.feature.room.RoomInfoListener
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomInfoView(context: Context) : ConstraintLayout(context) {
-    private val binding: RoomInfoBinding =
+    private val roomInfoBinding: RoomInfoBinding =
         RoomInfoBinding.inflate(LayoutInflater.from(context), this, true)
-    var layoutHeight = 0
-        private set
+    private val dialogBinding: DialogTrackInfoLayoutBinding =
+        DialogTrackInfoLayoutBinding.inflate(LayoutInflater.from(context), this, true)
 
     init {
         measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
-        layoutHeight = measuredHeight
+        roomInfoBinding.showRoomInfoListener = DefaultShowDetailListener(context)
+        roomInfoBinding.roomNavigator = DefaultRoomNavigator(context)
     }
 
-    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
-        binding.scrapToggle.roomInfoListener = onRoomInfoListener
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+        roomInfoBinding.scrapToggle.scrapListener = onScrapListener
     }
 
     fun setRoomInfo(room: RoomModel) {
-        binding.roomModel = room
+        roomInfoBinding.roomModel = room
+        dialogBinding.roomModel = room
         setScrap(room.isScrapped)
     }
 
     private fun setScrap(isScrapped: Boolean) {
-        binding.scrapToggle.isScrapped = isScrapped
+        roomInfoBinding.scrapToggle.isScrapped = isScrapped
     }
 }
