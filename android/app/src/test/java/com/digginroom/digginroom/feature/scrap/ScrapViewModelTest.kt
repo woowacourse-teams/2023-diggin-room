@@ -1,7 +1,7 @@
-package com.digginroom.digginroom
+package com.digginroom.digginroom.feature.scrap
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.scrap.ScrapViewModel
+import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.fixture.RoomFixture.Rooms
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.repository.RoomRepository
@@ -44,22 +44,19 @@ class ScrapViewModelTest {
     }
 
     @Test
-    fun `뷰모델이 생성될 때 스크랩된 룸들에 대한 목록을 받아온다`() {
+    fun `스크랩된 룸들에 대한 목록을 받아온다`() {
         // given
         val rooms = Rooms()
 
         coEvery {
             roomRepository.findScrapped()
-        } returns Result.success(rooms)
+        } returns LogResult.success(rooms)
 
         // when
-        val viewModel = ScrapViewModel(
-            rooms = mutableListOf(),
-            roomRepository = roomRepository
-        )
+        scrapViewModel.findScrappedRooms()
 
         // then
         val expected = rooms.map { it.toModel() }
-        assertEquals(expected, viewModel.scrappedRooms.value)
+        assertEquals(expected, scrapViewModel.scrappedRooms.value)
     }
 }

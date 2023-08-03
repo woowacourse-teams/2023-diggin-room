@@ -13,7 +13,7 @@ interface RoomService {
         @Header("cookie") token: String
     ): Response<RoomResponse>
 
-    @GET("/room")
+    @GET("/room/scrap")
     suspend fun findScrapped(
         @Header("cookie") token: String
     ): Response<ScrappedRoomsResponse>
