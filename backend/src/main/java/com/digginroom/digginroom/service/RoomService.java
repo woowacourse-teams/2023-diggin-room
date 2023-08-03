@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
+import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -33,7 +34,8 @@ public class RoomService {
             return new RoomResponse(
                     recommendedRoom.getId(),
                     recommendedRoom.getMediaSource().getIdentifier(),
-                    member.hasScrapped(recommendedRoom)
+                    member.hasScrapped(recommendedRoom),
+                    TrackResponse.of(recommendedRoom.getTrack())
             );
         } catch (IllegalArgumentException e) {
             return this.recommend(memberId);

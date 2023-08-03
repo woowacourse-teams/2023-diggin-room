@@ -2,10 +2,9 @@ package com.digginroom.digginroom.controller;
 
 import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 
 import com.digginroom.digginroom.controller.dto.RoomRequest;
+import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
@@ -13,6 +12,7 @@ import com.digginroom.digginroom.repository.RoomRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +54,10 @@ class RoomControllerTest extends ControllerTest {
                 .get("/room")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
-                .body("roomId", notNullValue(Long.class))
-                .body("isScrapped", equalTo(false));
+                .body("track.title", Matchers.notNullValue())
+                .body("track.artist", Matchers.notNullValue())
+                .body("track.superGenre", Matchers.notNullValue())
+                .extract().as(RoomResponse.class);
     }
 
     @Test
