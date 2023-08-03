@@ -2,11 +2,12 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.digginroom.digginroom.feature.room.RoomInfoListener
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
@@ -26,10 +27,10 @@ class RoomPager(
     init {
         initVerticalScrollView()
         initHorizontalScrollView()
-        initRoomRecycler()
     }
 
     fun updateData(rooms: List<RoomModel>) {
+        Log.d("woogi", "init: $rooms")
         roomRecycler.updateData(rooms)
         navigateTargetRoom()
     }
@@ -57,6 +58,8 @@ class RoomPager(
 
     fun updateRoomPosition(position: Int) {
         roomRecycler.currentRoomPosition = position
+        playCurrentRoom()
+        navigateTargetRoom()
     }
 
     private fun clearViewHierarchy() {
@@ -71,8 +74,8 @@ class RoomPager(
         }
     }
 
-    fun setRoomInfoListener(onRoomInfoListener: RoomInfoListener) {
-        roomRecycler.setRoomInfoListener(onRoomInfoListener)
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+        roomRecycler.setRoomInfoListener(onScrapListener)
     }
 
     private fun initVerticalScrollView() {
@@ -90,9 +93,6 @@ class RoomPager(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         )
-    }
-
-    private fun initRoomRecycler() {
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {
@@ -140,7 +140,11 @@ class RoomPager(
 
     private fun recycleRooms(scrollPager: ScrollPager) {
         if (roomRecycler.currentRoomPosition <= 0) {
-            roomRecycler.currentRoomPosition = 0
+            scrollPager.scrollPosition = 0
+            roomRecycler.navigateFirstRoom()
+        } else if (roomRecycler.isLastRoom()) {
+            scrollPager.scrollPosition--
+            roomRecycler.navigateLastRoom()
         } else if (scrollPager.scrollPosition <= 0) {
             roomRecycler.recyclePreviousRooms(scrollPager)
             scrollPager.scrollPosition++

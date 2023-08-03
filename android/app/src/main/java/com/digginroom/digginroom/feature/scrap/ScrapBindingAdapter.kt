@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
+import com.digginroom.digginroom.feature.scrap.adapter.ScrapRoomClickListener
 import com.digginroom.digginroom.model.RoomModel
 
 object ScrapBindingAdapter {
@@ -14,9 +15,9 @@ object ScrapBindingAdapter {
     @BindingAdapter("app:items")
     fun setItems(
         recyclerView: RecyclerView,
-        items: List<RoomModel>
+        rooms: List<RoomModel>?
     ) {
-        (recyclerView.adapter as? ScrapAdapter)?.submitList(items.toMutableList())
+        (recyclerView.adapter as? ScrapAdapter)?.submitList(rooms?.toMutableList())
     }
 
     @JvmStatic
@@ -30,5 +31,17 @@ object ScrapBindingAdapter {
             .fallback(R.drawable.ic_error_24)
             .error(R.drawable.ic_error_24)
             .into(imageView)
+    }
+
+    @JvmStatic
+    @BindingAdapter("onScrapRoomClick")
+    fun onScrapRoomClick(
+        recyclerView: RecyclerView,
+        onClick: (position: Int) -> Unit
+    ) {
+        (recyclerView.adapter as? ScrapAdapter)?.itemClickListener =
+            ScrapRoomClickListener { position ->
+                onClick(position)
+            }
     }
 }

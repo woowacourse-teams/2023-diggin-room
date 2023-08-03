@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.room.bindingadapter
 
 import androidx.databinding.BindingAdapter
-import com.digginroom.digginroom.feature.room.RoomInfoListener
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
@@ -44,7 +44,7 @@ object RoomPagerBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("app:onRoomInfoListener")
-    fun onRoomInfoListener(roomPager: RoomPager, onRoomInfoListener: RoomInfoListener) {
-        roomPager.setRoomInfoListener(onRoomInfoListener)
+    fun onRoomInfoListener(roomPager: RoomPager, onScrapListener: ScrapListener) {
+        roomPager.setRoomInfoListener(onScrapListener)
     }
 }

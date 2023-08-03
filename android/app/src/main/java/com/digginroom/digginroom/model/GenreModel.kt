@@ -1,3 +1,5 @@
 package com.digginroom.digginroom.model
 
-data class GenreModel(val title: String)
+import java.io.Serializable
+
+data class GenreModel(val title: String) : Serializable

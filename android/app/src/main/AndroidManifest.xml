@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
         <activity
+            android:name=".feature.scrap.activity.ScrapRoomActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.login.LoginActivity"
             android:exported="true">
 
@@ -25,8 +28,9 @@
         </activity>
 
         <activity
-            android:name=".feature.scrap.ScrapActivity"
+            android:name=".feature.scrap.activity.ScrapListActivity"
             android:exported="true" />
+
         <activity
             android:name=".feature.room.RoomActivity"
             android:exported="true">

@@ -1,18 +1,18 @@
 package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.data.entity.RoomResponse
+import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
 import com.digginroom.digginroom.model.RoomModel
-import com.digginroom.digginroom.model.mapper.SongMapper.toDomain
-import com.digginroom.digginroom.model.mapper.SongMapper.toModel
+import com.digginroom.digginroom.model.mapper.TrackMapper.toDomain
+import com.digginroom.digginroom.model.mapper.TrackMapper.toModel
 import com.digginroom.digginroom.model.room.Room
-import com.digginroom.digginroom.model.room.Song
 
 object RoomMapper {
     fun RoomModel.toDomain(): Room {
         return Room(
             videoId,
-            song.toDomain(),
             isScrapped,
+            trackModel.toDomain(),
             roomId
         )
     }
@@ -20,8 +20,8 @@ object RoomMapper {
     fun Room.toModel(): RoomModel {
         return RoomModel(
             videoId,
-            song.toModel(),
             isScrapped,
+            track.toModel(),
             roomId
         )
     }
@@ -29,15 +29,13 @@ object RoomMapper {
     fun RoomResponse.toDomain(): Room {
         return Room(
             videoId,
-            Song(
-                "",
-                "",
-                "",
-                emptyList(),
-                emptyList()
-            ),
             isScrapped,
+            track.toDomain(),
             roomId
         )
+    }
+
+    fun ScrappedRoomsResponse.toDomain(): List<Room> {
+        return scrappedRooms.map { it.toDomain() }
     }
 }

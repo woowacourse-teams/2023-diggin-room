@@ -1,8 +1,8 @@
-package com.digginroom.digginroom.feature.room.bindingAdapter
+package com.digginroom.digginroom.feature.room.bindingadapter
 
 import androidx.databinding.BindingAdapter
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.feature.room.customview.roomplayer.ScrapToggle
+import com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
 
 object RoomInfoBindingAdapter {
     @JvmStatic

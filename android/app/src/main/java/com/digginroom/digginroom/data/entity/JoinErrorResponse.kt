@@ -6,19 +6,18 @@ sealed class JoinErrorResponse(override val message: String) : Throwable() {
         override val message: String = ERROR_MESSAGE_DUPLICATED_ID
     ) : JoinErrorResponse(message)
 
-    data class Unknown(
-        override val message: String = ERROR_MESSAGE_UNKNOWN
+    data class FailedCheckDuplicatedId(
+        override val message: String = ERROR_MESSAGE_CANNOT_CHECK_DUPLICATED
+    ) : JoinErrorResponse(message)
+
+    data class Default(
+        override val message: String = ERROR_MESSAGE_DEFAULT
     ) : JoinErrorResponse(message)
 
     companion object {
 
+        private const val ERROR_MESSAGE_CANNOT_CHECK_DUPLICATED = "아이디가 중복되었는지 확인할 수 없습니다."
         private const val ERROR_MESSAGE_DUPLICATED_ID = "아이디가 중복되었습니다."
-        private const val ERROR_MESSAGE_UNKNOWN = "알 수 없는 에러"
-
-        fun from(code: Int): JoinErrorResponse =
-            when (code) {
-                400 -> DuplicatedId()
-                else -> Unknown()
-            }
+        private const val ERROR_MESSAGE_DEFAULT = "회원 가입을 실패했습니다."
     }
 }
