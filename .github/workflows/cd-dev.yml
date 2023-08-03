@@ -18,6 +18,7 @@ jobs:
           ./gradlew bootjar
 
       - name: kill previous process
+        shell: bash {0}
         run: |
           JAR_NAME="DigginRoom-0.0.1-SNAPSHOT.jar"
           PROCESS_ID=$(pgrep -f "$JAR_NAME")
