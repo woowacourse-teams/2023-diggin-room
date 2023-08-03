@@ -1,36 +1,25 @@
-package com.digginroom.digginroom.feature.room
+package com.digginroom.digginroom.feature.scrap
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
-import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
-import com.digginroom.digginroom.model.room.Room
+import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.repository.RoomRepository
 import kotlinx.coroutines.launch
 
-class RoomViewModel(
-    private val rooms: MutableList<Room>,
+class ScrapRoomViewModel(
+    rooms: List<RoomModel>,
     private val roomRepository: RoomRepository
 ) : ViewModel(), ScrapListener {
 
-    private val _cachedRoom: MutableLiveData<RoomState> =
-        MutableLiveData(RoomState.Loading)
-    val cachedRoom: LiveData<RoomState>
-        get() = _cachedRoom
+    private val _scrappedRooms: MutableLiveData<RoomState> =
+        MutableLiveData(RoomState.Success(rooms))
 
-    fun findNextRoom() {
-        _cachedRoom.value = RoomState.Loading
-        viewModelScope.launch {
-            roomRepository.findNext().onSuccess { room ->
-                rooms.add(room)
-                _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
-            }.onFailure {
-                _cachedRoom.value = RoomState.Error(it)
-            }
-        }
-    }
+    val scrappedRooms: LiveData<RoomState>
+        get() = _scrappedRooms
 
     override fun scrap(roomId: Long) {
         viewModelScope.launch {

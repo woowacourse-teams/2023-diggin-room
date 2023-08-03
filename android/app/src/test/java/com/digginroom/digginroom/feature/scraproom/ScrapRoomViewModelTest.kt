@@ -1,11 +1,9 @@
-package com.digginroom.digginroom.feature.scrap
+package com.digginroom.digginroom.feature.scraproom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.fixture.LogResult
-import com.digginroom.digginroom.fixture.RoomFixture.Rooms
-import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
+import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
 import com.digginroom.digginroom.repository.RoomRepository
-import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,16 +11,15 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ScrapViewModelTest {
+class ScrapRoomViewModelTest {
 
-    private lateinit var scrapViewModel: ScrapViewModel
     private lateinit var roomRepository: RoomRepository
+    private lateinit var scrapRoomViewModel: ScrapRoomViewModel
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -31,8 +28,8 @@ class ScrapViewModelTest {
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        roomRepository = mockk()
-        scrapViewModel = ScrapViewModel(
+        roomRepository = mockk(relaxed = true)
+        scrapRoomViewModel = ScrapRoomViewModel(
             rooms = mutableListOf(),
             roomRepository = roomRepository
         )
@@ -44,19 +41,26 @@ class ScrapViewModelTest {
     }
 
     @Test
-    fun `스크랩된 룸들에 대한 목록을 받아온다`() {
+    fun `룸 스크랩 요청을 보낸다`() {
         // given
-        val rooms = Rooms()
-
-        coEvery {
-            roomRepository.findScrapped()
-        } returns LogResult.success(rooms)
+        val roomId: Long = 10
 
         // when
-        scrapViewModel.findScrappedRooms()
+        scrapRoomViewModel.scrap(roomId)
 
         // then
-        val expected = rooms.map { it.toModel() }
-        assertEquals(expected, scrapViewModel.scrappedRooms.value)
+        coVerify { roomRepository.scrapById(roomId) }
+    }
+
+    @Test
+    fun `룸 스크랩 취소 요청을 보낸다`() {
+        // given
+        val roomId: Long = 10
+
+        // when
+        scrapRoomViewModel.cancelScrap(roomId)
+
+        // then
+        coVerify { roomRepository.cancelScrapById(roomId) }
     }
 }

@@ -1,11 +1,11 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.navigator
 
 import android.content.Context
-import com.digginroom.digginroom.feature.scrap.ScrapActivity
+import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 
 class DefaultRoomNavigator(private val context: Context) : RoomNavigator {
     override fun navigateToScrap() {
-        ScrapActivity.start(context)
-        (context as? ScrapActivity)?.finish()
+        ScrapListActivity.start(context)
+        (context as? ScrapListActivity)?.finish()
     }
 }

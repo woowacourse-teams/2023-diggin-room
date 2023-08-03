@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="kotlin.jvm.functions.Function2" />
+
+        <variable
+            name="navigateToScrapRoomView"
+            type="Function2" />
+
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.feature.scrap.ScrapViewModel" />
@@ -18,9 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        tools:context=".feature.scrap.ScrapActivity">
+        tools:context=".feature.scrap.activity.ScrapListActivity">
 
         <ImageView
+            android:id="@+id/scrap_iv_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
@@ -53,7 +60,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/scrap_tv_scrap"
-            app:spanCount="2"
+            app:onScrapRoomClick="@{(position) -> navigateToScrapRoomView.invoke(viewModel.scrappedRooms, position)}"
+            app:spanCount="3"
             tools:listitem="@layout/item_scrapped_room" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

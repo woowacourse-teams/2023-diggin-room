@@ -11,28 +11,21 @@ import com.digginroom.digginroom.repository.RoomRepository
 import kotlinx.coroutines.launch
 
 class ScrapViewModel(
-    private var rooms: MutableList<Room>,
+    private var rooms: List<Room>,
     private val roomRepository: RoomRepository
 ) : ViewModel() {
 
-    private val _scrappedRooms: MutableLiveData<List<RoomModel>> = MutableLiveData(listOf())
+    private val _scrappedRooms: MutableLiveData<List<RoomModel>> = MutableLiveData()
     val scrappedRooms: LiveData<List<RoomModel>>
         get() = _scrappedRooms
 
-    init {
-        findScrappedRooms()
-    }
-
     fun findScrappedRooms() {
         viewModelScope.launch {
-            roomRepository.findScrapped()
-                .onSuccess {
-                    rooms.addAll(it)
-                    _scrappedRooms.value = rooms.map { room ->
-                        room.toModel()
-                    }
-                }.onFailure {
-                }
+            roomRepository.findScrapped().onSuccess { scrappedRooms ->
+                rooms = scrappedRooms
+                _scrappedRooms.value = rooms.map { it.toModel() }
+            }.onFailure {
+            }
         }
     }
 }
