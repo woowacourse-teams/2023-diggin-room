@@ -4,7 +4,7 @@ import android.content.Context
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.model.TrackModel
 
-class DefaultShowDetailListener(private val context: Context) : ShowDetailListener {
+class DefaultShowRoomInfoListener(private val context: Context) : ShowRoomInfoListener {
     override fun show(trackModel: TrackModel) {
         val dialog = TrackInfoDialog(trackModel)
         dialog.isCancelable = true

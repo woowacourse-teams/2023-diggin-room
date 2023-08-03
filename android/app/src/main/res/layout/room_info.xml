@@ -15,11 +15,11 @@
 
         <variable
             name="showRoomInfoListener"
-            type="com.digginroom.digginroom.feature.room.customview.roomplayer.ShowDetailListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roomplayer.ShowRoomInfoListener" />
 
         <variable
             name="roomNavigator"
-            type="com.digginroom.digginroom.feature.room.customview.roomplayer.RoomNavigator" />
+            type="com.digginroom.digginroom.feature.room.customview.roomplayer.navigator.RoomNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
