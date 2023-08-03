@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roomplayer
+package com.digginroom.digginroom.feature.room.customview.scraptoggle
 
 import android.content.Context
 import android.util.AttributeSet

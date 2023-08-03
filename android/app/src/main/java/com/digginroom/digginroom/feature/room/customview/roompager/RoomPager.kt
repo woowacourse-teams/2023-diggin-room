@@ -138,7 +138,11 @@ class RoomPager(
 
     private fun recycleRooms(scrollPager: ScrollPager) {
         if (roomRecycler.currentRoomPosition <= 0) {
-            roomRecycler.currentRoomPosition = 0
+            scrollPager.scrollPosition = 0
+            roomRecycler.navigateFirstRoom()
+        } else if (roomRecycler.isLastRoom()) {
+            scrollPager.scrollPosition--
+            roomRecycler.navigateLastRoom()
         } else if (scrollPager.scrollPosition <= 0) {
             roomRecycler.recyclePreviousRooms(scrollPager)
             scrollPager.scrollPosition++

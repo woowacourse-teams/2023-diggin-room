@@ -14,11 +14,11 @@
 
         <variable
             name="showRoomInfoListener"
-            type="com.digginroom.digginroom.feature.room.customview.roomplayer.ShowRoomInfoListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
 
         <variable
             name="roomNavigator"
-            type="com.digginroom.digginroom.feature.room.customview.roomplayer.navigator.RoomNavigator" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.RoomNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,7 +78,7 @@
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
             app:layout_constraintEnd_toEndOf="@+id/scrapToggle" />
 
-        <com.digginroom.digginroom.feature.room.customview.roomplayer.ScrapToggle
+        <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
             android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
