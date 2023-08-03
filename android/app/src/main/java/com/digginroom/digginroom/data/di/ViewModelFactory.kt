@@ -9,7 +9,7 @@ import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.feature.room.RoomViewModel
 import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
 import com.digginroom.digginroom.feature.scrap.ScrapViewModel
-import com.digginroom.digginroom.model.RoomModels
+import com.digginroom.digginroom.model.RoomsModel
 
 class ViewModelFactory(context: Context) {
     private val repositoryProvider = RepositoryProvider(context)
@@ -49,7 +49,7 @@ class ViewModelFactory(context: Context) {
         }
     }
 
-    val scrapRoomViewModelFactory: (rooms: RoomModels) -> ViewModelProvider.Factory =
+    val scrapRoomViewModelFactory: (rooms: RoomsModel) -> ViewModelProvider.Factory =
         { rooms ->
             viewModelFactory {
                 initializer {

@@ -9,6 +9,9 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomInfoView(context: Context) : ConstraintLayout(context) {
+    val roomId: Long
+        get() = roomInfoBinding.roomModel?.roomId ?: throw IllegalStateException()
+
     private val roomInfoBinding: RoomInfoBinding =
         RoomInfoBinding.inflate(LayoutInflater.from(context), this, true)
 

@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -23,6 +22,7 @@ class RoomPager(
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
+    var dislikeRoom: (Long) -> Unit = { }
 
     init {
         initVerticalScrollView()
@@ -30,7 +30,6 @@ class RoomPager(
     }
 
     fun updateData(rooms: List<RoomModel>) {
-        Log.d("woogi", "init: $rooms")
         roomRecycler.updateData(rooms)
         navigateTargetRoom()
     }
@@ -74,8 +73,14 @@ class RoomPager(
         }
     }
 
-    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+    fun updateRoomInfoListener(onScrapListener: ScrapListener) {
         roomRecycler.setRoomInfoListener(onScrapListener)
+    }
+
+    fun updateDislikeListener(onDislike: (Long) -> Unit) {
+        horizontalScrollPager.dislikeRoom = {
+            dislikeRoom(roomRecycler.currentRoomPlayerRoomId())
+        }
     }
 
     private fun initVerticalScrollView() {

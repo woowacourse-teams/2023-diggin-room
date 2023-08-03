@@ -11,6 +11,7 @@ class HorizontalScrollPager(
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
     override val screenSize = resources.displayMetrics.widthPixels
+    var dislikeRoom: () -> Unit = { }
 
     override fun smoothScrollTo(position: Int) {
         smoothScrollTo(position, 0)
@@ -37,6 +38,7 @@ class HorizontalScrollPager(
     override fun setOnTouchListener(listener: (MotionEvent) -> Unit) {
         setOnTouchListener { _, event ->
             listener(event)
+            dislikeRoom()
             false
         }
     }

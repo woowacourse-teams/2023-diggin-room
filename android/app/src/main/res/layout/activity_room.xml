@@ -14,10 +14,11 @@
     <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:roomPosition="@{0}"
-        app:onLoadNextRoom="@{() -> roomViewModel.findNextRoom()}"
-        app:orientation="@{PagingOrientation.BOTH}"
+        app:onDislikeRoom="@{roomViewModel}"
+        app:onLoadNextRoom="@{() -> roomViewModel.findNext()}"
         app:onRoomInfoListener="@{roomViewModel}"
+        app:orientation="@{PagingOrientation.BOTH}"
+        app:roomPosition="@{0}"
         app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>
