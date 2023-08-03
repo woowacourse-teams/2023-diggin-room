@@ -3,6 +3,7 @@ package com.digginroom.digginroom.service;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.MemberGenres;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.domain.Track;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
@@ -25,8 +26,9 @@ public class RoomService {
 
     public RoomResponse recommend(final Long memberId) {
         Member member = memberService.findMember(memberId);
+        MemberGenres memberGenres = member.getMemberGenres();
         try {
-            Genre recommendedGenre = new GenreRecommender().recommend(member.getMemberGenres());
+            Genre recommendedGenre = new GenreRecommender().recommend(memberGenres.getMemberGenres());
             Track recommendedTrack = recommendTrack(recommendedGenre);
             Room recommendedRoom = recommendedTrack.recommendRoom();
 

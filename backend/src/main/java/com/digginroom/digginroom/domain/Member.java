@@ -1,18 +1,13 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.exception.MemberGenreException.NotFoundException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.Arrays;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,13 +26,11 @@ public class Member {
     @NonNull
     private String password;
     @Embedded
-    private final Scraps scraps = new Scraps();
+    private final ScrapRooms scrapRooms = new ScrapRooms();
     @Embedded
-    private final Dislikes dislikes = new Dislikes();
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
-    private final List<MemberGenre> memberGenres = Arrays.stream(Genre.values())
-            .map(it -> new MemberGenre(it, this))
-            .toList();
+    private final DislikeRooms dislikeRooms = new DislikeRooms();
+    @Embedded
+    private final MemberGenres memberGenres = new MemberGenres(this);
 
     public Member(@NonNull final String username, @NonNull final String password) {
         this.username = username;
@@ -50,51 +43,47 @@ public class Member {
 
     public void scrap(final Room room) {
         validateNotDisliked(room);
-        scraps.scrap(room);
+        scrapRooms.scrap(room);
         Genre superGenre = room.getTrack().getSuperGenre();
-        MemberGenre targetMemberGenre = memberGenres.stream()
-                .filter(it -> it.isSameGenre(superGenre))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException(superGenre));
-        targetMemberGenre.increaseWeight();
+        memberGenres.adjustWeightBy(superGenre, Weight.SCRAP);
     }
 
     private void validateNotDisliked(final Room room) {
-        if (dislikes.hasDisliked(room)) {
+        if (dislikeRooms.hasDisliked(room)) {
             throw new AlreadyDislikeException();
         }
     }
 
     public void unscrap(final Room room) {
-        scraps.unscrap(room);
+        scrapRooms.unscrap(room);
         Genre superGenre = room.getTrack().getSuperGenre();
-        MemberGenre targetMemberGenre = memberGenres.stream()
-                .filter(it -> it.isSameGenre(superGenre))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException(superGenre));
-        targetMemberGenre.decreaseWeight();
+        memberGenres.adjustWeightBy(superGenre, Weight.UNSCRAP);
     }
 
     public void dislike(final Room room) {
         validateNotScrapped(room);
-        dislikes.dislike(room);
+        dislikeRooms.dislike(room);
+        Genre superGenre = room.getTrack().getSuperGenre();
+        memberGenres.adjustWeightBy(superGenre, Weight.DISLIKE);
     }
 
     private void validateNotScrapped(final Room room) {
-        if (scraps.hasScrapped(room)) {
+        if (scrapRooms.hasScrapped(room)) {
             throw new AlreadyScrappedException();
         }
     }
 
     public void undislike(final Room room) {
-        dislikes.undislike(room);
+        dislikeRooms.undislike(room);
+        Genre superGenre = room.getTrack().getSuperGenre();
+        memberGenres.adjustWeightBy(superGenre, Weight.UNDISLIKE);
     }
 
     public boolean hasScrapped(final Room pickedRoom) {
-        return scraps.hasScrapped(pickedRoom);
+        return scrapRooms.hasScrapped(pickedRoom);
     }
 
-    public List<MemberGenre> getMemberGenres() {
+    public MemberGenres getMemberGenres() {
         return memberGenres;
     }
 }

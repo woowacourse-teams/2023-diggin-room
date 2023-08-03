@@ -54,7 +54,7 @@ class RoomServiceTest {
 
         roomService.scrap(member.getId(), room.getId());
 
-        assertThat(member.getScraps().getScrapRooms()).contains(room);
+        assertThat(member.getScrapRooms().getScrapRooms()).contains(room);
     }
 
     @Test
@@ -76,7 +76,7 @@ class RoomServiceTest {
 
         roomService.unscrap(member.getId(), room.getId());
 
-        assertThat(member.getScraps().getScrapRooms()).isEmpty();
+        assertThat(member.getScrapRooms().getScrapRooms()).isEmpty();
     }
 
     @Test
@@ -113,7 +113,7 @@ class RoomServiceTest {
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikes().getDislikeRooms()).isNotEmpty();
+        assertThat(member.getDislikeRooms().getDislikeRooms()).isNotEmpty();
     }
 
     @Test
@@ -148,7 +148,7 @@ class RoomServiceTest {
 
         roomService.undislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikes().getDislikeRooms()).isEmpty();
+        assertThat(member.getDislikeRooms().getDislikeRooms()).isEmpty();
     }
 
     @Test
@@ -174,24 +174,51 @@ class RoomServiceTest {
         assertThat(resultWeight).isGreaterThan(originalWeight);
     }
 
+    private int getWeight(final Member member, final Genre targetGenre) {
+        return member.getMemberGenres().getMemberGenres().stream()
+                .filter(it -> it.isSameGenre(targetGenre))
+                .findFirst()
+                .get().getWeight();
+    }
+
     @Test
-    void 멤버가_룸을_스크랩을_취소하면_가중치가_내려간다() {
+    void 멤버가_룸을_스크랩을_취소하면_가중치가_돌아간다() {
         Member member = memberRepository.save(파워());
         Room room = roomRepository.save(차이());
         Genre targetGenre = room.getTrack().getSuperGenre();
-        roomService.scrap(member.getId(), room.getId());
         int originalWeight = getWeight(member, targetGenre);
+        roomService.scrap(member.getId(), room.getId());
 
         roomService.unscrap(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isEqualTo(originalWeight);
+    }
+
+    @Test
+    void 멤버가_룸을_싫어요하면_가중치가_내려간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+
+        roomService.dislike(member.getId(), room.getId());
 
         int resultWeight = getWeight(member, targetGenre);
         assertThat(resultWeight).isLessThan(originalWeight);
     }
 
-    private int getWeight(final Member member, final Genre targetGenre) {
-        return member.getMemberGenres().stream()
-                .filter(it -> it.isSameGenre(targetGenre))
-                .findFirst()
-                .get().getWeight();
+    @Test
+    void 멤버가_룸을_싫어요를_취소하면_가중치가_돌아간다() {
+        Member member = memberRepository.save(파워());
+        Room room = roomRepository.save(차이());
+        Genre targetGenre = room.getTrack().getSuperGenre();
+        int originalWeight = getWeight(member, targetGenre);
+        roomService.dislike(member.getId(), room.getId());
+
+        roomService.undislike(member.getId(), room.getId());
+
+        int resultWeight = getWeight(member, targetGenre);
+        assertThat(resultWeight).isEqualTo(originalWeight);
     }
 }
