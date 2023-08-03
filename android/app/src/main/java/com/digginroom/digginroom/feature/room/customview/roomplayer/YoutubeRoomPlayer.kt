@@ -6,7 +6,6 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
@@ -32,7 +31,6 @@ class YoutubeRoomPlayer(
     }
 
     init {
-        addRoomInfoView()
         preventTouchEvent()
         initThumbnail()
         initYoutubePlayer()
@@ -72,12 +70,25 @@ class YoutubeRoomPlayer(
     }
 
     private fun initThumbnail() {
+        val frameLayout = FrameLayout(context)
+        frameLayout.layoutParams = LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        addView(frameLayout)
+
         thumbnail.scaleType = ImageView.ScaleType.CENTER_CROP
         thumbnail.layoutParams = LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
-        addView(thumbnail)
+        // frameLayout.addView(thumbnail)
+
+        roomInfoView.layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        frameLayout.addView(roomInfoView)
     }
 
     private fun initYoutubePlayer() {
@@ -213,14 +224,5 @@ class YoutubeRoomPlayer(
             },
             "Player"
         )
-    }
-
-    private fun addRoomInfoView() {
-        val myLayoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.MATCH_PARENT
-        )
-        roomInfoView.layoutParams = myLayoutParams
-        addView(roomInfoView)
     }
 }
