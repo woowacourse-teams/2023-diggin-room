@@ -10,5 +10,7 @@ data class RoomResponse(
     @SerialName("videoId")
     val videoId: String,
     @SerialName("isScrapped")
-    val isScrapped: Boolean
+    val isScrapped: Boolean,
+    @SerialName("track")
+    val track: TrackResponse
 )
