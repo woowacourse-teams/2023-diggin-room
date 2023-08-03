@@ -1,11 +1,13 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.digginroom.digginroom.controller.TestFixture;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
@@ -79,10 +81,10 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_있다면_로그인_할_수_있다() {
-        Member power = new Member("power", "power123!");
-        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
+        Member power = 파워();
+        when(memberRepository.findMemberByUsername(power.getUsername())).thenReturn(Optional.of(power));
 
-        assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
+        assertThat(memberService.loginMember(TestFixture.MEMBER_LOGIN_REQUEST))
                 .isEqualTo(new MemberLoginResponse(power.getId()));
     }
 

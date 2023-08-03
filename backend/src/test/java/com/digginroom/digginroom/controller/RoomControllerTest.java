@@ -285,7 +285,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 스크랩을_하지_않은_유저는_빈_스크랩_목록을_조회할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");
@@ -304,7 +304,7 @@ class RoomControllerTest extends ControllerTest {
     @Test
     void 스크랩을_한_유저는_스크랩_목록을_조회할_수_있다() {
         Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login");

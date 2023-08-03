@@ -22,6 +22,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     private MediaSource mediaSource;
