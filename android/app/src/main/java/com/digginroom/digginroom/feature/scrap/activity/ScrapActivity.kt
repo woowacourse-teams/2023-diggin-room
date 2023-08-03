@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.scrap
+package com.digginroom.digginroom.feature.scrap.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapBinding
+import com.digginroom.digginroom.feature.scrap.ScrapViewModel
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
+import com.digginroom.digginroom.feature.scrap.navigator.DefaultScrapNavigator
 
 class ScrapActivity : AppCompatActivity() {
 
@@ -30,8 +32,9 @@ class ScrapActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<ActivityScrapBinding>(this, R.layout.activity_scrap)
                 .also {
                     it.lifecycleOwner = this
-                    it.viewModel = scrapViewModel
+                    it.viewModel = scrapViewModel.apply { findScrappedRooms() }
                     it.adapter = ScrapAdapter()
+                    it.navigateToScrapRoomView = DefaultScrapNavigator(this)::navigate
                 }
     }
 }

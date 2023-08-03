@@ -5,8 +5,16 @@
     <data>
 
         <variable
-            name="scrappedRoom"
+            name="position"
+            type="int" />
+
+        <variable
+            name="room"
             type="com.digginroom.digginroom.model.RoomModel" />
+
+        <variable
+            name="listener"
+            type="com.digginroom.digginroom.feature.scrap.adapter.ScrapRoomClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/scrap_thumbnail_description"
+            android:onClick="@{() -> listener.onClick(position)}"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_scrapped_room_example"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:thumbnail="@{scrappedRoom.videoId}" />
+            app:thumbnail="@{room.videoId}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
