@@ -11,7 +11,8 @@ object RoomMapper {
         return Room(
             videoId,
             isScrapped,
-            trackModel.toDomain()
+            trackModel.toDomain(),
+            roomId
         )
     }
 
@@ -19,7 +20,8 @@ object RoomMapper {
         return RoomModel(
             videoId,
             isScrapped,
-            track.toModel()
+            track.toModel(),
+            roomId
         )
     }
 
@@ -27,7 +29,8 @@ object RoomMapper {
         return Room(
             videoId,
             isScrapped,
-            track.toDomain()
+            track.toDomain(),
+            roomId
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.feature.room.bindingadapter
 
 import androidx.databinding.BindingAdapter
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
@@ -39,5 +40,11 @@ object RoomPagerBindingAdapter {
     @BindingAdapter("app:onLoadNextRoom")
     fun onLoadNextRoom(roomPager: RoomPager, loadNextRoom: () -> Unit) {
         roomPager.loadNextRoom = loadNextRoom
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:onRoomInfoListener")
+    fun onRoomInfoListener(roomPager: RoomPager, onScrapListener: ScrapListener) {
+        roomPager.setRoomInfoListener(onScrapListener)
     }
 }

@@ -16,7 +16,8 @@ class RoomTest {
                 title = "",
                 artist = "",
                 superGenre = Genre("")
-            )
+            ),
+            roomId = 0
         )
         assertEquals(room.videoId, "")
     }

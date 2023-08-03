@@ -5,7 +5,9 @@ import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
+import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Room
+import com.digginroom.digginroom.model.room.Track
 import com.digginroom.digginroom.repository.RoomRepository
 
 class DefaultRoomRepository(
@@ -19,11 +21,141 @@ class DefaultRoomRepository(
     }
 
     override suspend fun findScrapped(): Result<List<Room>> {
-        TODO("Not yet implemented")
+        val rooms = listOf(
+            Room(
+                videoId = "-hyQf_7KsPc",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "_x3IbCecuuk",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "ovlka1CxCrY",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "Jsm1qk2avyw",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "-hyQf_7KsPc",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "_x3IbCecuuk",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "ovlka1CxCrY",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "Jsm1qk2avyw",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "-hyQf_7KsPc",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "_x3IbCecuuk",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "ovlka1CxCrY",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            ),
+            Room(
+                videoId = "Jsm1qk2avyw",
+                isScrapped = true,
+                track = Track(
+                    title = "",
+                    artist = "",
+                    superGenre = Genre("")
+                ),
+                roomId = 0
+            )
+        )
+        return Result.success(rooms)
     }
 
-    override fun updateScrapById(id: Long, value: Boolean) {
-        TODO("Not yet implemented")
+    override suspend fun scrapById(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.scrapById(tokenLocalDataSource.fetch(), roomId)
+        }.onSuccess {}.onFailure {}
+    }
+
+    override suspend fun cancelScrapById(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.cancelScrapById(tokenLocalDataSource.fetch(), roomId)
+        }
     }
 
     override fun updateWeightById(id: Long, value: Double) {

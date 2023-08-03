@@ -5,6 +5,7 @@ object CommonLogger {
         ConsoleLogger(),
         FirebaseLogger()
     )
+
     fun log(logMessage: LogMessage) {
         loggers.forEach {
             it.log(logMessage)

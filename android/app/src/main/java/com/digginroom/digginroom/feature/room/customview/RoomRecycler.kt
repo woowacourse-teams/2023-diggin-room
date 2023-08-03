@@ -4,25 +4,34 @@ import android.content.Context
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.model.RoomModel
 
-class RoomRecycler(context: Context, private val gridSize: Int) : GridLayout(context) {
+class RoomRecycler(
+    context: Context,
+    private val gridSize: Int
+) : GridLayout(context) {
 
     var currentRoomPosition = 0
-    private val roomPlayers: List<YoutubeRoomPlayer> =
-        (0 until gridSize * gridSize).map {
-            YoutubeRoomPlayer(context) {
-                playCurrentRoomPlayer(currentRoomPlayerPosition)
-            }
+    private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize * gridSize).map {
+        YoutubeRoomPlayer(context) {
+            playCurrentRoomPlayer(currentRoomPlayerPosition)
         }
+    }
     private var rooms: List<RoomModel> = emptyList()
     private var currentRoomPlayerPosition: Int = 0
 
     init {
         initLayout()
         initContentView()
+    }
+
+    fun setRoomInfoListener(onScrapListener: ScrapListener) {
+        roomPlayers.forEach {
+            it.setRoomInfoListener(onScrapListener)
+        }
     }
 
     fun recyclePreviousRooms(scrollPager: ScrollPager) {

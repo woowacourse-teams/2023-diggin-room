@@ -1,7 +1,11 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import com.digginroom.digginroom.data.entity.CancelScrapErrorResponse
+import com.digginroom.digginroom.data.entity.CancelScrapRequest
 import com.digginroom.digginroom.data.entity.JoinErrorResponse
 import com.digginroom.digginroom.data.entity.RoomResponse
+import com.digginroom.digginroom.data.entity.ScrapErrorResponse
+import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.service.RoomService
 import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Room
@@ -29,7 +33,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "_x3IbCecuuk",
@@ -38,7 +43,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "ovlka1CxCrY",
@@ -47,7 +53,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "Jsm1qk2avyw",
@@ -56,7 +63,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "-hyQf_7KsPc",
@@ -65,7 +73,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "_x3IbCecuuk",
@@ -74,7 +83,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "ovlka1CxCrY",
@@ -83,7 +93,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "Jsm1qk2avyw",
@@ -92,7 +103,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "-hyQf_7KsPc",
@@ -101,7 +113,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "_x3IbCecuuk",
@@ -110,7 +123,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "ovlka1CxCrY",
@@ -119,7 +133,8 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             ),
             Room(
                 videoId = "Jsm1qk2avyw",
@@ -128,8 +143,26 @@ class RoomRemoteDataSource(
                     title = "",
                     artist = "",
                     superGenre = Genre("")
-                )
+                ),
+                roomId = 0
             )
         )
+    }
+
+    suspend fun scrapById(cookie: String, roomId: Long) {
+        val response: Response<Void> = roomService.scrapById(cookie, ScrapRequest(roomId))
+
+        if (!response.isSuccessful) {
+            throw ScrapErrorResponse.from(response.code())
+        }
+    }
+
+    suspend fun cancelScrapById(cookie: String, roomId: Long) {
+        val response: Response<Void> =
+            roomService.cancelScrapById(cookie, CancelScrapRequest(roomId))
+
+        if (!response.isSuccessful) {
+            throw CancelScrapErrorResponse.from(response.code())
+        }
     }
 }
