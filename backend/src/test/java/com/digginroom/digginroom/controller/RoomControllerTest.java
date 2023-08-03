@@ -1,12 +1,12 @@
 package com.digginroom.digginroom.controller;
 
 import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.controller.TestFixture.나무;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.digginroom.digginroom.controller.dto.RoomRequest;
-import com.digginroom.digginroom.domain.MediaSource;
 import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
@@ -34,8 +34,8 @@ class RoomControllerTest extends ControllerTest {
     void setUp() {
         super.setUp();
         memberRepository.save(파워());
-        room1 = roomRepository.save(new Room(new MediaSource("room1")));
-        roomRepository.save(new Room(new MediaSource("room2")));
+        room1 = roomRepository.save(나무());
+//        roomRepository.save(차이());
     }
 
     @Test

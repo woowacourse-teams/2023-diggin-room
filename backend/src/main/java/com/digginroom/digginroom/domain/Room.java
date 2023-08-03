@@ -25,16 +25,16 @@ public class Room {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private MediaSource mediaSource;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Track track;
 
-    //TODO: 생성자에 track 추가
-    public Room(final MediaSource mediaSource) {
-        validateNotNull(mediaSource);
+    public Room(final MediaSource mediaSource, final Track track) {
+        validateMediaSourceNotNull(mediaSource);
         this.mediaSource = mediaSource;
+        this.track = track;
     }
 
-    private void validateNotNull(final MediaSource mediaSource) {
+    private void validateMediaSourceNotNull(final MediaSource mediaSource) {
         if (Objects.isNull(mediaSource)) {
             throw new NoMediaSourceException();
         }

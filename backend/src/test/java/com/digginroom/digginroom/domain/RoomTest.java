@@ -13,7 +13,7 @@ class RoomTest {
 
     @Test
     void 미디어소스는_필수다() {
-        assertThatThrownBy(() -> new Room(null))
+        assertThatThrownBy(() -> new Room(null, null))
                 .isInstanceOf(RoomException.NoMediaSourceException.class);
     }
 }
