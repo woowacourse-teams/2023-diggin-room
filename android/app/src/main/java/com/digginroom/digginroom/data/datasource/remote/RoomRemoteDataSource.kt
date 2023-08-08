@@ -16,8 +16,8 @@ class RoomRemoteDataSource(
     private val roomService: RoomService
 ) {
 
-    suspend fun findNext(cookie: String): RoomResponse {
-        val response: Response<RoomResponse> = roomService.findNext(cookie)
+    suspend fun findNext(): RoomResponse {
+        val response: Response<RoomResponse> = roomService.findNext()
 
         if (response.isSuccessful) {
             return response.body() ?: throw RoomErrorResponse.Default()
@@ -25,8 +25,8 @@ class RoomRemoteDataSource(
         throw RoomErrorResponse.Default()
     }
 
-    suspend fun findScrapped(cookie: String): ScrappedRoomsResponse {
-        val response: Response<ScrappedRoomsResponse> = roomService.findScrapped(cookie)
+    suspend fun findScrapped(): ScrappedRoomsResponse {
+        val response: Response<ScrappedRoomsResponse> = roomService.findScrapped()
 
         if (response.isSuccessful) {
             return response.body() ?: throw RoomErrorResponse.NoSuchScrappedRooms()
@@ -34,25 +34,25 @@ class RoomRemoteDataSource(
         throw RoomErrorResponse.Default()
     }
 
-    suspend fun postScrapById(cookie: String, roomId: Long) {
-        val response: Response<Void> = roomService.postScrapById(cookie, ScrapRequest(roomId))
+    suspend fun postScrapById(roomId: Long) {
+        val response: Response<Void> = roomService.postScrapById(ScrapRequest(roomId))
 
         if (!response.isSuccessful) {
             throw ScrapErrorResponse.from(response.code())
         }
     }
 
-    suspend fun removeScrapById(cookie: String, roomId: Long) {
+    suspend fun removeScrapById(roomId: Long) {
         val response: Response<Void> =
-            roomService.removeScrapById(cookie, CancelScrapRequest(roomId))
+            roomService.removeScrapById(CancelScrapRequest(roomId))
 
         if (!response.isSuccessful) {
             throw CancelScrapErrorResponse.from(response.code())
         }
     }
 
-    suspend fun postDislike(cookie: String, roomId: Long) {
-        val response: Response<Void> = roomService.postDislike(cookie, DislikeRequest(roomId))
+    suspend fun postDislike(roomId: Long) {
+        val response: Response<Void> = roomService.postDislike(DislikeRequest(roomId))
 
         if (!response.isSuccessful) {
             throw DislikeErrorResponse.from(response.code())
