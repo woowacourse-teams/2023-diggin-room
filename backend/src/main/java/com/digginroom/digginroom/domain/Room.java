@@ -25,19 +25,28 @@ public class Room {
     @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     private MediaSource mediaSource;
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Track track;
+    private Long scrapCount;
 
     public Room(final MediaSource mediaSource, final Track track) {
         validateNotNull(mediaSource);
         this.mediaSource = mediaSource;
         this.track = track;
+        this.scrapCount = 0L;
     }
 
     private void validateNotNull(final MediaSource mediaSource) {
         if (Objects.isNull(mediaSource)) {
             throw new NoMediaSourceException();
         }
+    }
+
+    public void increaseScrapCount() {
+        scrapCount++;
+    }
+
+    public void decreaseScrapCount() {
+        scrapCount--;
     }
 }
