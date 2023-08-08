@@ -42,41 +42,28 @@ public class Member {
     }
 
     public void scrap(final Room room) {
-        validateNotDisliked(room);
         scrapRooms.scrap(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.SCRAP);
+        adjustMemberGenreWeight(room, Weight.SCRAP);
     }
 
-    private void validateNotDisliked(final Room room) {
-        if (dislikeRooms.hasDisliked(room)) {
-            throw new AlreadyDislikeException();
-        }
+    private void adjustMemberGenreWeight(final Room room, final Weight scrap) {
+        Genre superGenre = room.getTrack().getSuperGenre();
+        memberGenres.adjustWeightBy(superGenre, scrap);
     }
 
     public void unscrap(final Room room) {
         scrapRooms.unscrap(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.UNSCRAP);
+        adjustMemberGenreWeight(room, Weight.UNSCRAP);
     }
 
     public void dislike(final Room room) {
-        validateNotScrapped(room);
         dislikeRooms.dislike(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.DISLIKE);
-    }
-
-    private void validateNotScrapped(final Room room) {
-        if (scrapRooms.hasScrapped(room)) {
-            throw new AlreadyScrappedException();
-        }
+        adjustMemberGenreWeight(room, Weight.DISLIKE);
     }
 
     public void undislike(final Room room) {
         dislikeRooms.undislike(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.UNDISLIKE);
+        adjustMemberGenreWeight(room, Weight.UNDISLIKE);
     }
 
     public boolean hasScrapped(final Room pickedRoom) {
