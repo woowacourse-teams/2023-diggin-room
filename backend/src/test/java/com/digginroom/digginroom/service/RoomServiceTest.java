@@ -5,6 +5,7 @@ import static com.digginroom.digginroom.controller.TestFixture.차이;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.controller.dto.RoomsResponse;
@@ -12,7 +13,6 @@ import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
-import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.exception.RoomException.NotDislikedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
@@ -97,7 +97,7 @@ class RoomServiceTest {
 
         roomService.scrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms().getScrapRooms()).contains(room);
+        assertThat(member.getScrapRooms()).contains(room);
     }
 
     @Test
@@ -119,7 +119,7 @@ class RoomServiceTest {
 
         roomService.unscrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms().getScrapRooms()).isEmpty();
+        assertThat(member.getScrapRooms()).isEmpty();
     }
 
     @Test
@@ -154,7 +154,7 @@ class RoomServiceTest {
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms().getDislikeRooms()).isNotEmpty();
+        assertThat(member.getDislikeRooms()).isNotEmpty();
     }
 
     @Test
@@ -185,7 +185,7 @@ class RoomServiceTest {
 
         roomService.undislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms().getDislikeRooms()).isEmpty();
+        assertThat(member.getDislikeRooms()).isEmpty();
     }
 
     @Test
@@ -212,7 +212,7 @@ class RoomServiceTest {
     }
 
     private int getWeight(final Member member, final Genre targetGenre) {
-        return member.getMemberGenres().getMemberGenres().stream()
+        return member.getMemberGenres().stream()
                 .filter(it -> it.isSameGenre(targetGenre))
                 .findFirst()
                 .get().getWeight();

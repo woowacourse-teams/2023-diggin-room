@@ -11,7 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberJoinControllerTest extends ControllerTest {
-    
+
     @Test
     void 회원가입을_할_수_있다() {
         RestAssured.given().log().all()

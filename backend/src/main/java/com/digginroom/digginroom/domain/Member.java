@@ -1,13 +1,12 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
-import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,7 +69,15 @@ public class Member {
         return scrapRooms.hasScrapped(pickedRoom);
     }
 
-    public MemberGenres getMemberGenres() {
-        return memberGenres;
+    public List<MemberGenre> getMemberGenres() {
+        return memberGenres.getMemberGenres();
+    }
+
+    public List<Room> getScrapRooms() {
+        return scrapRooms.getScrapRooms();
+    }
+
+    public List<Room> getDislikeRooms() {
+        return dislikeRooms.getDislikeRooms();
     }
 }
