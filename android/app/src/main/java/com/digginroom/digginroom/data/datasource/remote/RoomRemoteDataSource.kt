@@ -1,12 +1,9 @@
 package com.digginroom.digginroom.data.datasource.remote
 
-import com.digginroom.digginroom.data.entity.CancelScrapErrorResponse
 import com.digginroom.digginroom.data.entity.CancelScrapRequest
-import com.digginroom.digginroom.data.entity.DislikeErrorResponse
 import com.digginroom.digginroom.data.entity.DislikeRequest
-import com.digginroom.digginroom.data.entity.RoomErrorResponse
+import com.digginroom.digginroom.data.entity.ErrorResponse
 import com.digginroom.digginroom.data.entity.RoomResponse
-import com.digginroom.digginroom.data.entity.ScrapErrorResponse
 import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
 import com.digginroom.digginroom.data.service.RoomService
@@ -19,43 +16,52 @@ class RoomRemoteDataSource(
     suspend fun findNext(): RoomResponse {
         val response: Response<RoomResponse> = roomService.findNext()
 
-        if (response.isSuccessful) {
-            return response.body() ?: throw RoomErrorResponse.Default()
+        if (response.code() == 401) throw ErrorResponse.Unauthorized(response)
+
+        if (response.code() == 200) {
+            return response.body()
+                ?: throw ErrorResponse.EmptyBody(response)
         }
-        throw RoomErrorResponse.Default()
+
+        throw ErrorResponse.Unknown(response)
     }
 
     suspend fun findScrapped(): ScrappedRoomsResponse {
         val response: Response<ScrappedRoomsResponse> = roomService.findScrapped()
 
-        if (response.isSuccessful) {
-            return response.body() ?: throw RoomErrorResponse.NoSuchScrappedRooms()
+        if (response.code() == 401) throw ErrorResponse.Unauthorized(response)
+
+        if (response.code() == 200) {
+            return response.body()
+                ?: throw ErrorResponse.EmptyBody(response)
         }
-        throw RoomErrorResponse.Default()
+
+        throw ErrorResponse.Unknown(response)
     }
 
     suspend fun postScrapById(roomId: Long) {
         val response: Response<Void> = roomService.postScrapById(ScrapRequest(roomId))
 
-        if (!response.isSuccessful) {
-            throw ScrapErrorResponse.from(response.code())
-        }
+        if (response.code() == 400) throw ErrorResponse.BadRequest(response)
+        if (response.code() == 401) throw ErrorResponse.Unauthorized(response)
+
+        if (response.code() != 201) throw ErrorResponse.Unknown(response)
     }
 
     suspend fun removeScrapById(roomId: Long) {
-        val response: Response<Void> =
-            roomService.removeScrapById(CancelScrapRequest(roomId))
+        val response: Response<Void> = roomService.removeScrapById(CancelScrapRequest(roomId))
 
-        if (!response.isSuccessful) {
-            throw CancelScrapErrorResponse.from(response.code())
-        }
+        if (response.code() == 400) throw ErrorResponse.BadRequest(response)
+        if (response.code() == 401) throw ErrorResponse.Unauthorized(response)
+
+        if (response.code() != 201) throw ErrorResponse.Unknown(response)
     }
 
     suspend fun postDislike(roomId: Long) {
         val response: Response<Void> = roomService.postDislike(DislikeRequest(roomId))
 
-        if (!response.isSuccessful) {
-            throw DislikeErrorResponse.from(response.code())
-        }
+        if (response.code() == 400) throw ErrorResponse.BadRequest(response)
+
+        if (response.code() != 201) throw ErrorResponse.Unknown(response)
     }
 }
