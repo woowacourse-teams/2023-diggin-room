@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.feature.room.ScrapListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.repository.RoomRepository
@@ -13,7 +12,7 @@ import kotlinx.coroutines.launch
 class ScrapRoomViewModel(
     rooms: List<RoomModel>,
     private val roomRepository: RoomRepository
-) : ViewModel(), ScrapListener {
+) : ViewModel() {
 
     private val _scrappedRooms: MutableLiveData<RoomState> =
         MutableLiveData(RoomState.Success(rooms))
@@ -21,18 +20,18 @@ class ScrapRoomViewModel(
     val scrappedRooms: LiveData<RoomState>
         get() = _scrappedRooms
 
-    override fun scrap(roomId: Long) {
+    fun postScrap(roomId: Long) {
         viewModelScope.launch {
-            roomRepository.scrapById(roomId)
+            roomRepository.postScrapById(roomId)
                 .onSuccess {
                 }.onFailure {
                 }
         }
     }
 
-    override fun cancelScrap(roomId: Long) {
+    fun removeScrap(roomId: Long) {
         viewModelScope.launch {
-            roomRepository.cancelScrapById(roomId)
+            roomRepository.removeScrapById(roomId)
                 .onSuccess {
                 }.onFailure {
                 }

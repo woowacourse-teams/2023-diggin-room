@@ -15,6 +15,7 @@ import retrofit2.Response
 class RoomRemoteDataSource(
     private val roomService: RoomService
 ) {
+
     suspend fun findNext(cookie: String): RoomResponse {
         val response: Response<RoomResponse> = roomService.findNext(cookie)
 
@@ -22,14 +23,6 @@ class RoomRemoteDataSource(
             return response.body() ?: throw RoomErrorResponse.Default()
         }
         throw RoomErrorResponse.Default()
-    }
-
-    suspend fun postDislike(cookie: String, roomId: Long) {
-        val response: Response<Void> = roomService.postDislike(cookie, DislikeRequest(roomId))
-
-        if (!response.isSuccessful) {
-            throw DislikeErrorResponse.from(response.code())
-        }
     }
 
     suspend fun findScrapped(cookie: String): ScrappedRoomsResponse {
@@ -41,20 +34,28 @@ class RoomRemoteDataSource(
         throw RoomErrorResponse.Default()
     }
 
-    suspend fun scrapById(cookie: String, roomId: Long) {
-        val response: Response<Void> = roomService.scrapById(cookie, ScrapRequest(roomId))
+    suspend fun postScrapById(cookie: String, roomId: Long) {
+        val response: Response<Void> = roomService.postScrapById(cookie, ScrapRequest(roomId))
 
         if (!response.isSuccessful) {
             throw ScrapErrorResponse.from(response.code())
         }
     }
 
-    suspend fun cancelScrapById(cookie: String, roomId: Long) {
+    suspend fun removeScrapById(cookie: String, roomId: Long) {
         val response: Response<Void> =
-            roomService.cancelScrapById(cookie, CancelScrapRequest(roomId))
+            roomService.removeScrapById(cookie, CancelScrapRequest(roomId))
 
         if (!response.isSuccessful) {
             throw CancelScrapErrorResponse.from(response.code())
+        }
+    }
+
+    suspend fun postDislike(cookie: String, roomId: Long) {
+        val response: Response<Void> = roomService.postDislike(cookie, DislikeRequest(roomId))
+
+        if (!response.isSuccessful) {
+            throw DislikeErrorResponse.from(response.code())
         }
     }
 }

@@ -6,7 +6,7 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.digginroom.digginroom.feature.room.ScrapListener
+import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
 import com.digginroom.digginroom.model.RoomModel
@@ -24,11 +24,6 @@ class YoutubeRoomPlayer(
 
     private var videoId = ""
     private var isPlayerLoaded = false
-    private var onScrapListener: ScrapListener = object : ScrapListener {
-        override fun scrap(roomId: Long) {}
-
-        override fun cancelScrap(roomId: Long) {}
-    }
 
     init {
         preventTouchEvent()
@@ -36,8 +31,12 @@ class YoutubeRoomPlayer(
         initYoutubePlayer()
     }
 
-    fun setRoomInfoListener(onScrapListener: ScrapListener) {
-        this.onScrapListener = onScrapListener
+    fun updateOnScrapListener(callback: RoomEventListener) {
+        roomInfoView.updateOnScrapListener(callback)
+    }
+
+    fun updateOnRemoveScrapListener(callback: RoomEventListener) {
+        roomInfoView.updateOnRemoveScrapListener(callback)
     }
 
     override fun play() {
@@ -54,12 +53,12 @@ class YoutubeRoomPlayer(
         }
 
         thumbnail.load(room)
+        roomInfoView.setRoomInfo(room)
 
         if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
-        roomInfoView.setRoomInfo(room, onScrapListener)
     }
 
     private fun preventTouchEvent() {
@@ -209,14 +208,14 @@ class YoutubeRoomPlayer(
                 fun onLoaded() {
                     isPlayerLoaded = true
                     if (videoId.isEmpty()) return
-                    this@YoutubeRoomPlayer.post {
+                    post {
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
 
                 @JavascriptInterface
                 fun onPlay() {
-                    thumbnail.post {
+                    post {
                         onYoutubePlay()
                         thumbnail.turnOff()
                     }

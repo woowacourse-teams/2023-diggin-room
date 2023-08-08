@@ -12,24 +12,10 @@ class DefaultRoomRepository(
     private val roomRemoteDataSource: RoomRemoteDataSource,
     private val tokenLocalDataSource: TokenLocalDataSource
 ) : RoomRepository {
+
     override suspend fun findNext(): LogResult<Room> {
         return logRunCatching {
             roomRemoteDataSource.findNext(tokenLocalDataSource.fetch()).toDomain()
-        }
-    }
-
-    override suspend fun postDislike(roomId: Long): LogResult<Unit> {
-        return logRunCatching {
-            roomRemoteDataSource.postDislike(tokenLocalDataSource.fetch(), roomId)
-        }
-    }
-
-    override suspend fun scrapById(roomId: Long): LogResult<Unit> {
-        return logRunCatching {
-            roomRemoteDataSource.scrapById(
-                cookie = tokenLocalDataSource.fetch(),
-                roomId = roomId
-            )
         }
     }
 
@@ -39,13 +25,24 @@ class DefaultRoomRepository(
         }
     }
 
-    override suspend fun cancelScrapById(roomId: Long): LogResult<Unit> {
+    override suspend fun postScrapById(roomId: Long): LogResult<Unit> {
         return logRunCatching {
-            roomRemoteDataSource.cancelScrapById(tokenLocalDataSource.fetch(), roomId)
+            roomRemoteDataSource.postScrapById(
+                cookie = tokenLocalDataSource.fetch(),
+                roomId = roomId
+            )
         }
     }
 
-    override fun updateWeightById(id: Long, value: Double) {
-        TODO("Not yet implemented")
+    override suspend fun removeScrapById(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.removeScrapById(tokenLocalDataSource.fetch(), roomId)
+        }
+    }
+
+    override suspend fun postDislike(roomId: Long): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.postDislike(tokenLocalDataSource.fetch(), roomId)
+        }
     }
 }

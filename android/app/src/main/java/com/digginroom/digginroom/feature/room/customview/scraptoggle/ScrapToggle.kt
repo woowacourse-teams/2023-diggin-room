@@ -9,16 +9,10 @@ import com.digginroom.digginroom.R
 class ScrapToggle(
     context: Context,
     attributeSet: AttributeSet? = null
-) :
-    AppCompatImageView(context, attributeSet) {
+) : AppCompatImageView(context, attributeSet) {
     var isScrapped: Boolean = false
     var scrapListener: () -> Unit = {}
     var cancelScrapListener: () -> Unit = {}
-
-//    var scrapListener: ScrapListener = object : ScrapListener {
-//        override fun scrap(roomId: Long) {}
-//        override fun cancelScrap(roomId: Long) {}
-//    }
 
     init {
         isClickable = true
@@ -40,6 +34,5 @@ class ScrapToggle(
             cancelScrapListener()
             setImageResource(R.drawable.unscrap_icon)
         }
-        isScrapped = !isScrapped
     }
 }

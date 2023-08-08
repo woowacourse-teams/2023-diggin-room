@@ -19,26 +19,26 @@ interface RoomService {
         @Header("cookie") token: String
     ): Response<RoomResponse>
 
-    @POST("/room/dislike")
-    suspend fun postDislike(
-        @Header("cookie") token: String,
-        @Body dislikeRequest: DislikeRequest
-    ): Response<Void>
+    @GET("/room/scrap")
+    suspend fun findScrapped(
+        @Header("cookie") token: String
+    ): Response<ScrappedRoomsResponse>
 
     @POST("/room/scrap")
-    suspend fun scrapById(
+    suspend fun postScrapById(
         @Header("cookie") token: String,
         @Body scrapRequest: ScrapRequest
     ): Response<Void>
 
     @HTTP(method = "DELETE", path = "/room/scrap", hasBody = true)
-    suspend fun cancelScrapById(
+    suspend fun removeScrapById(
         @Header("cookie") token: String,
         @Body cancelScrapRequest: CancelScrapRequest
     ): Response<Void>
 
-    @GET("/room/scrap")
-    suspend fun findScrapped(
-        @Header("cookie") token: String
-    ): Response<ScrappedRoomsResponse>
+    @POST("/room/dislike")
+    suspend fun postDislike(
+        @Header("cookie") token: String,
+        @Body dislikeRequest: DislikeRequest
+    ): Response<Void>
 }
