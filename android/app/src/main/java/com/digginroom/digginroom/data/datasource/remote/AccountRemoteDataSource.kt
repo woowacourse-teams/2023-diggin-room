@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.data.datasource.remote
 
-import com.digginroom.digginroom.data.entity.ErrorResponse
+import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
@@ -19,9 +19,9 @@ class AccountRemoteDataSource(
             )
         )
 
-        if (response.code() == 400) throw ErrorResponse.BadRequest(response)
+        if (response.code() == 400) throw HttpError.BadRequest(response)
 
-        if (response.code() != 201) throw ErrorResponse.Unknown(response)
+        if (response.code() != 201) throw HttpError.Unknown(response)
     }
 
     suspend fun postLogin(id: String, password: String): String {
@@ -32,23 +32,23 @@ class AccountRemoteDataSource(
             )
         )
 
-        if (response.code() == 400) throw ErrorResponse.BadRequest(response)
+        if (response.code() == 400) throw HttpError.BadRequest(response)
 
         if (response.code() == 200) {
-            return response.headers().get(SET_COOKIE) ?: throw ErrorResponse.EmptyBody(response)
+            return response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response)
         }
 
-        throw ErrorResponse.Unknown(response)
+        throw HttpError.Unknown(response)
     }
 
     suspend fun fetchIsDuplicatedId(id: String): IdDuplicationResponse {
         val response: Response<IdDuplicationResponse> = accountService.fetchIsDuplicatedId(id)
 
         if (response.code() == 200) {
-            return response.body() ?: throw ErrorResponse.EmptyBody(response)
+            return response.body() ?: throw HttpError.EmptyBody(response)
         }
 
-        throw ErrorResponse.Unknown(response)
+        throw HttpError.Unknown(response)
     }
 
     companion object {
