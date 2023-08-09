@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.feature.scrap
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.fixture.RoomFixture.Rooms
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel

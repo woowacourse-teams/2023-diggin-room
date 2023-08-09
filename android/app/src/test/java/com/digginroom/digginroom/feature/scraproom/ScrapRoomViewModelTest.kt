@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.scraproom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel
 import com.digginroom.digginroom.repository.RoomRepository
 import io.mockk.coVerify
 import io.mockk.mockk
