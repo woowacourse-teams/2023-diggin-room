@@ -10,6 +10,9 @@ spring:
       hibernate:
         format_sql: true
         ddl-auto: create
+    defer-datasource-initialization: true
+  flyway:
+    enabled: false
 logging:
   level:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
