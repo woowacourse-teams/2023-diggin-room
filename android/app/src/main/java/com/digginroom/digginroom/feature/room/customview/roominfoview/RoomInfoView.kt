@@ -15,8 +15,10 @@ class RoomInfoView(context: Context) : ConstraintLayout(context) {
     private val roomInfoBinding: RoomInfoBinding =
         RoomInfoBinding.inflate(LayoutInflater.from(context), this, true)
 
-    init {
-        roomInfoBinding.showRoomInfoListener = DefaultShowRoomInfoListener(context)
+    fun setRoomInfo(
+        room: RoomModel
+    ) {
+        roomInfoBinding.room = room
         roomInfoBinding.roomNavigator = DefaultRoomNavigator(context)
     }
 
@@ -32,7 +34,7 @@ class RoomInfoView(context: Context) : ConstraintLayout(context) {
         }
     }
 
-    fun setRoomInfo(room: RoomModel) {
-        roomInfoBinding.room = room
+    fun updateOnShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
+        roomInfoBinding.showRoomInfoListener = showRoomInfoListener
     }
 }

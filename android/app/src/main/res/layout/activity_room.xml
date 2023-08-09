@@ -9,6 +9,10 @@
         <variable
             name="roomViewModel"
             type="com.digginroom.digginroom.feature.room.RoomViewModel" />
+
+        <variable
+            name="showRoomInfoListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
     </data>
 
     <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
@@ -20,6 +24,7 @@
         app:onScrap="@{roomViewModel::postScrap}"
         app:orientation="@{PagingOrientation.BOTH}"
         app:roomPosition="@{0}"
+        app:onShowRoomInfoListener="@{showRoomInfoListener}"
         app:rooms="@{roomViewModel.cachedRoom}" />
 
 </layout>

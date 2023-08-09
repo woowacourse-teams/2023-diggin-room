@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
+import com.digginroom.digginroom.model.TrackModel
 
 class RoomActivity : AppCompatActivity() {
 
@@ -19,6 +22,7 @@ class RoomActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
     }
+    private var dialog: TrackInfoDialog = TrackInfoDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,14 @@ class RoomActivity : AppCompatActivity() {
         binding.roomViewModel = roomViewModel.also { roomViewModel ->
             repeat(3) {
                 roomViewModel.findNext()
+            }
+        }
+        binding.showRoomInfoListener = object : ShowRoomInfoListener {
+            override fun show(trackModel: TrackModel) {
+                if (dialog.isAdded) return
+                dialog.show(supportFragmentManager, "")
+                dialog.updateTrackModel(trackModel)
+                dialog.isCancelable = true
             }
         }
     }
