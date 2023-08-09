@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.VerticalScrollPager
@@ -71,6 +72,9 @@ class RoomPager(
         horizontalScrollPager.dislikeRoom = {
             callback.event(roomRecycler.currentRoomPlayerRoomId())
         }
+    }
+    fun updateShowInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
+        roomRecycler.updateShowRoomInfoListener(showRoomInfoListener)
     }
 
     private fun clearViewHierarchy() {

@@ -5,6 +5,7 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.model.RoomModel
@@ -37,6 +38,12 @@ class RoomRecycler(
     fun updateOnRemoveScrapListener(callback: RoomEventListener) {
         roomPlayers.forEach {
             it.updateOnRemoveScrapListener(callback)
+        }
+    }
+
+    fun updateShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
+        roomPlayers.forEach {
+            it.updateShowRoomInfoListener(showRoomInfoListener)
         }
     }
 

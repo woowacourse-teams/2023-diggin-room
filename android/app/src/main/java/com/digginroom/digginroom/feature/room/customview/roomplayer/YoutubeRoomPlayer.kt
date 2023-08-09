@@ -9,6 +9,7 @@ import android.widget.ImageView
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.model.RoomModel
 
 class YoutubeRoomPlayer(
@@ -37,6 +38,10 @@ class YoutubeRoomPlayer(
 
     fun updateOnRemoveScrapListener(callback: RoomEventListener) {
         roomInfoView.updateOnRemoveScrapListener(callback)
+    }
+
+    fun updateShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
+        roomInfoView.updateOnShowRoomInfoListener(showRoomInfoListener)
     }
 
     override fun play() {

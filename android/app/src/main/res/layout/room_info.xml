@@ -20,15 +20,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/scrap_right_margin"
-        android:paddingTop="@dimen/scrap_right_margin"
-        android:paddingBottom="@dimen/scrap_bottom_margin">
+        android:paddingHorizontal="@dimen/scrap_horizontal_margin"
+        android:paddingTop="@dimen/scrap_horizontal_margin"
+        android:paddingBottom="@dimen/scrap_vertical_margin">
 
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:onClick="@{() -> roomNavigator.navigateToScrap()}"
-            android:src="@drawable/icon_cube"
+            android:onClick="@{()->roomNavigator.navigateToScrap()}"
+            android:src="@drawable/cube_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/scrap_right_margin"
+            android:layout_marginEnd="@dimen/scrap_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/scrapToggle"
             app:layout_constraintStart_toStartOf="parent">
@@ -52,25 +52,27 @@
 
             <TextView
                 android:id="@+id/tv_title_artist"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/scrap_right_margin"
+                android:layout_marginStart="@dimen/scrap_horizontal_margin"
                 android:includeFontPadding="false"
+                android:onClick="@{()->showRoomInfoListener.show(room.track)}"
                 android:text="@{@string/title_artist_format(room.track.title, room.track.artist)}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_music"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/ima_info"
+            android:id="@+id/img_info"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="15dp"
-            android:onClick="@{() -> showRoomInfoListener.show(room.track)}"
-            android:src="@drawable/info"
+            android:onClick="@{()->showRoomInfoListener.show(room.track)}"
+            android:src="@drawable/info_icon"
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
             app:layout_constraintEnd_toEndOf="@+id/scrapToggle" />
 
