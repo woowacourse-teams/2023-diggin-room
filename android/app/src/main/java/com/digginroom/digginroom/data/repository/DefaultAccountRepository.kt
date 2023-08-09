@@ -31,4 +31,10 @@ class DefaultAccountRepository(
         logRunCatching {
             accountRemoteDataSource.fetchIsDuplicatedId(id.value).isDuplicated
         }
+
+    override suspend fun postLogin(idToken: String) {
+        logRunCatching {
+            accountRemoteDataSource.postLogin(idToken)
+        }
+    }
 }
