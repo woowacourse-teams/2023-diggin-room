@@ -15,13 +15,6 @@ public abstract class RoomException extends DigginRoomException {
         }
     }
 
-    public static class EmptyException extends RoomException {
-
-        public EmptyException() {
-            super("더 이상 룸이 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     public static class NoMediaSourceException extends RoomException {
 
         public NoMediaSourceException() {
@@ -40,13 +33,6 @@ public abstract class RoomException extends DigginRoomException {
 
         public NotScrappedException() {
             super("스크랩되지 않은 룸입니다.", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    public static class AlreadyDislikeException extends RoomException {
-
-        public AlreadyDislikeException() {
-            super("이미 싫어요한 룸입니다.", HttpStatus.BAD_REQUEST);
         }
     }
 
