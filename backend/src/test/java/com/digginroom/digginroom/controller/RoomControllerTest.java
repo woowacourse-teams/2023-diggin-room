@@ -127,7 +127,7 @@ class RoomControllerTest extends ControllerTest {
     }
 
     @Test
-    void 싫어요한_룸을_스크랩_할_수_없다() {
+    void 싫어요한_룸을_스크랩_할_수_있다() {
         Response response = RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
@@ -152,7 +152,7 @@ class RoomControllerTest extends ControllerTest {
                 .body(new RoomRequest(room1.getId()))
                 .post("/room/scrap")
                 .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
@@ -176,7 +176,7 @@ class RoomControllerTest extends ControllerTest {
     }
 
     @Test
-    void 싫어요한_룸을_다시_싫어요_할_수_없다() {
+    void 싫어요한_룸도_여러번_싫어요할_수_있다() {
         Response response = RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
@@ -201,11 +201,11 @@ class RoomControllerTest extends ControllerTest {
                 .body(new RoomRequest(room1.getId()))
                 .post("/room/dislike")
                 .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
-    void 스크랩한_룸을_다시_싫어요_할_수_없다() {
+    void 스크랩한_룸을_싫어요_할_수_있다() {
         Response response = RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
@@ -230,7 +230,7 @@ class RoomControllerTest extends ControllerTest {
                 .body(new RoomRequest(room1.getId()))
                 .post("/room/dislike")
                 .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test

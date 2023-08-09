@@ -5,9 +5,7 @@ import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
-import com.digginroom.digginroom.domain.MemberGenres;
 import com.digginroom.digginroom.domain.Room;
-import com.digginroom.digginroom.domain.ScrapRooms;
 import com.digginroom.digginroom.domain.Track;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.RoomRepository;
@@ -30,9 +28,9 @@ public class RoomService {
     @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
         Member member = memberService.findMember(memberId);
-        MemberGenres memberGenres = member.getMemberGenres();
+
         try {
-            Genre recommendedGenre = new GenreRecommender().recommend(memberGenres.getMemberGenres());
+            Genre recommendedGenre = new GenreRecommender().recommend(member.getMemberGenres());
             Track recommendedTrack = recommendTrack(recommendedGenre);
             Room recommendedRoom = recommendedTrack.recommendRoom();
 
@@ -57,8 +55,7 @@ public class RoomService {
     @Transactional(readOnly = true)
     public RoomsResponse findScrappedRooms(final Long memberId) {
         Member member = memberService.findMember(memberId);
-        ScrapRooms scrapRooms = member.getScrapRooms();
-        return new RoomsResponse(scrapRooms.getScrapRooms().stream()
+        return new RoomsResponse(member.getScrapRooms().stream()
                 .map(room -> new RoomResponse(
                         room.getId(),
                         room.getMediaSource().getIdentifier(),

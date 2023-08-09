@@ -5,6 +5,7 @@ import static com.digginroom.digginroom.controller.TestFixture.차이;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.controller.dto.RoomsResponse;
@@ -12,7 +13,6 @@ import com.digginroom.digginroom.controller.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
-import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
 import com.digginroom.digginroom.exception.RoomException.NotDislikedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
@@ -97,7 +97,7 @@ class RoomServiceTest {
 
         roomService.scrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms().getScrapRooms()).contains(room);
+        assertThat(member.getScrapRooms()).contains(room);
     }
 
     @Test
@@ -119,7 +119,7 @@ class RoomServiceTest {
 
         roomService.unscrap(member.getId(), room.getId());
 
-        assertThat(member.getScrapRooms().getScrapRooms()).isEmpty();
+        assertThat(member.getScrapRooms()).isEmpty();
     }
 
     @Test
@@ -138,15 +138,13 @@ class RoomServiceTest {
     }
 
     @Test
-    void 사용자는_싫어요한_룸을_스크랩할_수_없다() {
+    void 사용자는_싫어요한_룸을_스크랩할_수_있다() {
         Member member = memberRepository.save(파워());
         Room room = roomRepository.save(차이());
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThatThrownBy(() -> roomService.scrap(member.getId(), room.getId()))
-                .isInstanceOf(AlreadyDislikeException.class)
-                .hasMessageContaining("이미 싫어요한 룸입니다.");
+        assertDoesNotThrow(() -> roomService.scrap(member.getId(), room.getId()));
     }
 
     @Test
@@ -156,31 +154,27 @@ class RoomServiceTest {
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms().getDislikeRooms()).isNotEmpty();
+        assertThat(member.getDislikeRooms()).isNotEmpty();
     }
 
     @Test
-    void 사용자는_이미_싫어요한_룸을_싫어요할_수_없다() {
+    void 사용자는_이미_싫어요한_룸을_싫어요할_수_있다() {
         Member member = memberRepository.save(파워());
         Room room = roomRepository.save(차이());
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThatThrownBy(() -> roomService.dislike(member.getId(), room.getId()))
-                .isInstanceOf(AlreadyDislikeException.class)
-                .hasMessageContaining("이미 싫어요한 룸입니다.");
+        assertDoesNotThrow(() -> roomService.dislike(member.getId(), room.getId()));
     }
 
     @Test
-    void 사용자는_스크랩한_룸을_싫어요할_수_없다() {
+    void 사용자는_스크랩한_룸을_싫어요할_수_있다() {
         Member member = memberRepository.save(파워());
         Room room = roomRepository.save(차이());
 
         roomService.scrap(member.getId(), room.getId());
 
-        assertThatThrownBy(() -> roomService.dislike(member.getId(), room.getId()))
-                .isInstanceOf(AlreadyScrappedException.class)
-                .hasMessageContaining("이미 스크랩된 룸입니다.");
+        assertDoesNotThrow(() -> roomService.dislike(member.getId(), room.getId()));
     }
 
     @Test
@@ -191,7 +185,7 @@ class RoomServiceTest {
 
         roomService.undislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms().getDislikeRooms()).isEmpty();
+        assertThat(member.getDislikeRooms()).isEmpty();
     }
 
     @Test
@@ -218,7 +212,7 @@ class RoomServiceTest {
     }
 
     private int getWeight(final Member member, final Genre targetGenre) {
-        return member.getMemberGenres().getMemberGenres().stream()
+        return member.getMemberGenres().stream()
                 .filter(it -> it.isSameGenre(targetGenre))
                 .findFirst()
                 .get().getWeight();
