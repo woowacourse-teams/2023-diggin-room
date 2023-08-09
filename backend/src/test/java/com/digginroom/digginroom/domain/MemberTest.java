@@ -20,6 +20,27 @@ import org.junit.jupiter.api.Test;
 class MemberTest {
 
     @Test
+    void OAuth로_생성된_사용자는_OAuth_제공자_식별자를_패스워드로_한다() {
+        Member member = new Member("konghana", Provider.GOOGLE);
+
+        assertThat(member.getPassword()).isEqualTo(Provider.GOOGLE.getIdentifier());
+    }
+
+    @Test
+    void 자체_회원가입으로_생성된_사용자는_제공자가_SELF이다() {
+        Member member = 파워();
+
+        assertThat(member.getProvider()).isEqualTo(Provider.SELF);
+    }
+
+    @Test
+    void 자체_회원가입으로_생성된_사용자는_패스워드가_암호화된다() {
+        Member member = new Member(파워().getUsername(), "dali!@#");
+
+        assertThat(member.getPassword()).isNotEqualTo("dali!@#");
+    }
+
+    @Test
     void 멤버는_싫어요한_룸도_여러번_싫어요할_수_있다() {
         Member 파워 = 파워();
         Room 나무 = 나무();

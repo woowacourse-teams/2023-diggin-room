@@ -1,10 +1,12 @@
 package com.digginroom.digginroom.service;
 
+import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.repository.MemberRepository;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final OAuthUsernameResolver googleUsernameRetriever;
 
     @Transactional
     public void save(final MemberSaveRequest request) {
@@ -48,6 +51,17 @@ public class MemberService {
         if (member.hasDifferentPassword(request.password())) {
             throw new NotFoundException();
         }
+        return new MemberLoginResponse(member.getId());
+    }
+
+    public MemberLoginResponse loginMember(final GoogleOAuthRequest request) {
+        String googleUsername = googleUsernameRetriever.resolve(request.idToken());
+
+        Member member = memberRepository.findMemberByUsername(googleUsername)
+                .orElseGet(() -> memberRepository.save(
+                        new Member(googleUsername, Provider.GOOGLE))
+                );
+
         return new MemberLoginResponse(member.getId());
     }
 }
