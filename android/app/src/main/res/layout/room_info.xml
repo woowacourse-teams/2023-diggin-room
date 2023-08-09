@@ -5,11 +5,7 @@
     <data>
 
         <variable
-            name="trackModel"
-            type="com.digginroom.digginroom.model.TrackModel" />
-
-        <variable
-            name="roomModel"
+            name="room"
             type="com.digginroom.digginroom.model.RoomModel" />
 
         <variable
@@ -31,7 +27,7 @@
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:onClick="@{()->roomNavigator.navigateToScrap()}"
+            android:onClick="@{() -> roomNavigator.navigateToScrap()}"
             android:src="@drawable/icon_cube"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/scrap_right_margin"
                 android:includeFontPadding="false"
-                android:text="@{@string/title_artist_format(roomModel.trackModel.title, roomModel.trackModel.artist)}"
+                android:text="@{@string/title_artist_format(room.track.title, room.track.artist)}"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_music"
@@ -73,7 +69,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="15dp"
-            android:onClick="@{()->showRoomInfoListener.show(trackModel)}"
+            android:onClick="@{() -> showRoomInfoListener.show(room.track)}"
             android:src="@drawable/info"
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
             app:layout_constraintEnd_toEndOf="@+id/scrapToggle" />
@@ -82,7 +78,7 @@
             android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:isScrapped="@{roomModel.scrapped}"
+            app:isScrapped="@{room.scrapped}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

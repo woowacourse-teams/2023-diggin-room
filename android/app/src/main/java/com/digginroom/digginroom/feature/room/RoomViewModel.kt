@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class RoomViewModel(
     private val rooms: MutableList<Room>,
     private val roomRepository: RoomRepository
-) : ViewModel(), ScrapListener, DislikeListener {
+) : ViewModel() {
 
     private val _cachedRoom: MutableLiveData<RoomState> = MutableLiveData(RoomState.Loading)
     val cachedRoom: LiveData<RoomState>
@@ -31,21 +31,34 @@ class RoomViewModel(
         }
     }
 
-    override fun postDislike(roomId: Long) {
+    fun postDislike(roomId: Long) {
         viewModelScope.launch {
             roomRepository.postDislike(roomId).onSuccess {}.onFailure {}
         }
     }
 
-    override fun scrap(roomId: Long) {
+    fun postScrap(roomId: Long) {
         viewModelScope.launch {
-            roomRepository.scrapById(roomId).onSuccess {}.onFailure {}
+            roomRepository.postScrapById(roomId).onSuccess {
+                rooms.forEachIndexed { index, room ->
+                    if (room.roomId == roomId) {
+                        rooms[index] = Room(room.videoId, true, room.track, roomId)
+                    }
+                }
+            }.onFailure {
+            }
         }
     }
 
-    override fun cancelScrap(roomId: Long) {
+    fun removeScrap(roomId: Long) {
         viewModelScope.launch {
-            roomRepository.cancelScrapById(roomId).onSuccess {}.onFailure {}
+            roomRepository.removeScrapById(roomId).onSuccess {
+                rooms.forEachIndexed { index, room ->
+                    if (room.roomId == roomId) {
+                        rooms[index] = Room(room.videoId, false, room.track, roomId)
+                    }
+                }
+            }.onFailure {}
         }
     }
 }

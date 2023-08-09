@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.digginroom.digginroom.feature.room.ScrapListener
+import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
@@ -59,6 +59,20 @@ class RoomPager(
         navigateTargetRoom()
     }
 
+    fun updateOnScrapListener(callback: RoomEventListener) {
+        roomRecycler.updateOnScrapListener(callback)
+    }
+
+    fun updateOnRemoveScrapListener(callback: RoomEventListener) {
+        roomRecycler.updateOnRemoveScrapListener(callback)
+    }
+
+    fun updateDislikeListener(callback: RoomEventListener) {
+        horizontalScrollPager.dislikeRoom = {
+            callback.event(roomRecycler.currentRoomPlayerRoomId())
+        }
+    }
+
     private fun clearViewHierarchy() {
         removeFirstChild(this)
         removeFirstChild(verticalScrollPager)
@@ -68,16 +82,6 @@ class RoomPager(
     private fun removeFirstChild(viewGroup: ViewGroup) {
         if (viewGroup.childCount > 0) {
             viewGroup.removeViewAt(0)
-        }
-    }
-
-    fun updateRoomInfoListener(onScrapListener: ScrapListener) {
-        roomRecycler.setRoomInfoListener(onScrapListener)
-    }
-
-    fun updateDislikeListener(onDislike: (Long) -> Unit) {
-        horizontalScrollPager.dislikeRoom = {
-            onDislike(roomRecycler.currentRoomPlayerRoomId())
         }
     }
 

@@ -12,7 +12,7 @@ object RoomMapper {
         return Room(
             videoId,
             isScrapped,
-            trackModel.toDomain(),
+            track.toDomain(),
             roomId
         )
     }
