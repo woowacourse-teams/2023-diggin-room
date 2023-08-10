@@ -9,27 +9,33 @@ object CommentMapper {
 
     fun CommentModel.toDomain(): Comment {
         return Comment(
+            id,
             writer,
             comment,
-            publishedTimeText,
+            createdAt,
+            updateAt,
             isOwner
         )
     }
 
     fun Comment.toModel(): CommentModel {
         return CommentModel(
+            id,
             writer,
             comment,
-            publishedTimeText,
+            createdAt,
+            updateAt,
             isOwner
         )
     }
 
     fun CommentResponse.toDomain(): Comment {
         return Comment(
+            id,
             writer,
             comment,
-            publishedTimeText,
+            createdAt,
+            updateAt,
             isOwner
         )
     }

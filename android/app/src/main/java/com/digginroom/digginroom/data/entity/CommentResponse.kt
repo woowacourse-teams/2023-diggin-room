@@ -5,12 +5,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CommentResponse(
+
+    @SerialName("id")
+    val id: Long,
     @SerialName("writer")
     val writer: String,
     @SerialName("comment")
     val comment: String,
-    @SerialName("publishedTimeText")
-    val publishedTimeText: String,
+    @SerialName("createdAt")
+    val createdAt: String,
+    @SerialName("updateAt")
+    val updateAt: String,
     @SerialName("isOwner")
     val isOwner: Boolean
 )
