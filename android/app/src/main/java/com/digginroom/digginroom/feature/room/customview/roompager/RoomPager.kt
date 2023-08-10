@@ -187,7 +187,7 @@ class RoomPager(
     }
 
     private fun calculateCurrentPosition(): Int =
-        verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition
+        verticalScrollPager.scrollPosition
 
     companion object {
         private const val GRID_SIZE = 3

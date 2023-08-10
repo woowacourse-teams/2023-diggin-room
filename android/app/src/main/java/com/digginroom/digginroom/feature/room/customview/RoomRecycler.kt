@@ -16,7 +16,7 @@ class RoomRecycler(
 ) : GridLayout(context) {
 
     var currentRoomPosition = 0
-    private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize * gridSize).map {
+    private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize).map {
         YoutubeRoomPlayer(context) {
             playCurrentRoomPlayer(currentRoomPlayerPosition)
         }
@@ -80,24 +80,22 @@ class RoomRecycler(
     }
 
     fun navigateRooms(target: Int) {
-        if (target in (0 until gridSize * gridSize) && rooms.size > currentRoomPosition) {
-            (getChildAt(target) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition])
+        val target =
+            if (target >= gridSize) gridSize % target else if (target < 0) gridSize else target
+
+        if (rooms.size > currentRoomPosition) {
+            roomPlayers[target].navigate(rooms[currentRoomPosition])
         }
-        if (target - 1 >= 0 && 0 <= currentRoomPosition - 1) {
-            (getChildAt(target - 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
+        if (0 <= currentRoomPosition - 1) {
+            if (target >= gridSize) {
+                roomPlayers[0].navigate(rooms[currentRoomPosition - 1])
+            }
         }
-        if (target + 1 < gridSize * gridSize && rooms.size > currentRoomPosition + 1) {
-            (getChildAt(target + 1) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition + 1])
-        }
-        if (target - gridSize >= 0 && 0 <= currentRoomPosition - 1) {
-            (getChildAt(target - gridSize) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition - 1])
-        }
-        if (target + gridSize < gridSize * gridSize && rooms.size > currentRoomPosition + 1) {
-            (getChildAt(target + gridSize) as YoutubeRoomPlayer).navigate(rooms[currentRoomPosition + 1])
+        if (rooms.size > currentRoomPosition + 1) {
+            roomPlayers[2].navigate(rooms[currentRoomPosition + 1])
         }
     }
 
-    fun isLastRoom(): Boolean = rooms.size - 1 <= currentRoomPosition
     fun navigateFirstRoom() {
         currentRoomPosition = 0
     }
