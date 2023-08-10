@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.service;
 
+import com.digginroom.digginroom.controller.dto.CommentRequest;
+import com.digginroom.digginroom.controller.dto.CommentResponse;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
@@ -24,6 +26,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final TrackRepository trackRepository;
     private final MemberService memberService;
+    private final CommentService commentService;
 
     @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
@@ -96,5 +99,11 @@ public class RoomService {
         Member member = memberService.findMember(memberId);
 
         member.undislike(room);
+    }
+
+    public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {
+        Room room = findRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        return commentService.comment(room, member, request);
     }
 }
