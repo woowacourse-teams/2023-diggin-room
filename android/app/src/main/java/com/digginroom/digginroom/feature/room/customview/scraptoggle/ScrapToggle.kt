@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
-import com.digginroom.digginroom.R
 
 class ScrapToggle(
     context: Context,
@@ -29,10 +28,8 @@ class ScrapToggle(
     private fun toggle() {
         if (!isScrapped) {
             scrapListener()
-            setImageResource(R.drawable.scrap_icon)
         } else {
             cancelScrapListener()
-            setImageResource(R.drawable.unscrap_icon)
         }
     }
 }
