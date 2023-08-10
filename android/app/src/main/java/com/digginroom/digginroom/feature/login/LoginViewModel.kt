@@ -36,6 +36,19 @@ class LoginViewModel(
         }
     }
 
+    fun login(idToken: String) {
+        _state.value = LoginState.LOADING
+
+        viewModelScope.launch {
+            accountRepository.postLogin(idToken)
+                .onSuccess { token ->
+                    saveToken(token)
+                }.onFailure {
+                    _state.value = LoginState.FAILED
+                }
+        }
+    }
+
     private fun saveToken(token: String) {
         viewModelScope.launch {
             tokenRepository.save(token)
