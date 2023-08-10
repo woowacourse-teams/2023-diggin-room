@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.exception.MemberGenreException.NotFoundException;
+import com.digginroom.digginroom.exception.GenreException.MemberGenreNotFoundException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
@@ -33,6 +33,6 @@ public class MemberGenres {
         return memberGenres.stream()
                 .filter(memberGenre -> memberGenre.isSameGenre(genre))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException(genre));
+                .orElseThrow(() -> new MemberGenreNotFoundException(genre));
     }
 }
