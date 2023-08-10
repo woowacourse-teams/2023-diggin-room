@@ -54,7 +54,7 @@ class RoomRemoteDataSource(
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
-        if (response.code() != 201) throw HttpError.Unknown(response)
+        if (response.code() != 200) throw HttpError.Unknown(response)
     }
 
     suspend fun postDislike(roomId: Long) {
