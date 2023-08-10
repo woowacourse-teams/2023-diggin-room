@@ -12,5 +12,7 @@ data class RoomResponse(
     @SerialName("isScrapped")
     val isScrapped: Boolean,
     @SerialName("track")
-    val track: TrackResponse
+    val track: TrackResponse,
+    @SerialName("scrapCount")
+    val scrapCount: Int
 )

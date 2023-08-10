@@ -42,7 +42,7 @@ class RoomViewModel(
             roomRepository.postScrapById(roomId).onSuccess {
                 rooms.forEachIndexed { index, room ->
                     if (room.roomId == roomId) {
-                        rooms[index] = Room(room.videoId, true, room.track, roomId)
+                        rooms[index] = Room(room.videoId, true, room.track, roomId, room.scrapCount)
                         _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
                     }
                 }
@@ -56,7 +56,7 @@ class RoomViewModel(
             roomRepository.removeScrapById(roomId).onSuccess {
                 rooms.forEachIndexed { index, room ->
                     if (room.roomId == roomId) {
-                        rooms[index] = Room(room.videoId, false, room.track, roomId)
+                        rooms[index] = Room(room.videoId, false, room.track, roomId, room.scrapCount)
                         _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
                     }
                 }
