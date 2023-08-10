@@ -80,7 +80,7 @@
             android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:isScrapped="@{room.scrapped}"
+            app:isScrapped="@{room.isScrapped}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
