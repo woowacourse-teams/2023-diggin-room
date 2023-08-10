@@ -1,0 +1,31 @@
+package com.digginroom.digginroom.service;
+
+import com.digginroom.digginroom.exception.OAuthResolverException;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import org.springframework.stereotype.Component;
+
+@Component
+public class GoogleUsernameResolver implements OAuthUsernameResolver {
+
+    private static final NetHttpTransport NET_HTTP_TRANSPORT = new NetHttpTransport();
+
+    @Override
+    public String resolve(final String idToken) {
+        GsonFactory defaultInstance = GsonFactory.getDefaultInstance();
+        GoogleIdTokenVerifier tokenVerifier = new GoogleIdTokenVerifier(NET_HTTP_TRANSPORT, defaultInstance);
+        try {
+            GoogleIdToken googleIdToken = GoogleIdToken.parse(defaultInstance, idToken);
+            if (tokenVerifier.verify(googleIdToken)) {
+                return googleIdToken.getPayload().getSubject();
+            }
+            throw new OAuthResolverException();
+        } catch (IOException | GeneralSecurityException | IllegalArgumentException e) {
+            throw new OAuthResolverException();
+        }
+    }
+}
