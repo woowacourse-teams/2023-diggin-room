@@ -22,26 +22,13 @@ class LoginActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
         )[LoginViewModel::class.java]
     }
-    private val googleLogin: SocialLogin by lazy {
-        SocialLogin.Google(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initLoginBinding()
+        initGoogleLoginObserver()
     }
-
-    private fun getSocialLoginResultLauncher(socialLogin: SocialLogin): ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                socialLogin
-                    .getIdToken(result)
-                    ?.let { idToken ->
-                        loginViewModel.login(idToken)
-                    }
-            }
-        }
 
     private fun initLoginBinding() {
         binding =
@@ -57,10 +44,27 @@ class LoginActivity : AppCompatActivity() {
                     )
                     it.navigator = DefaultLoginNavigator(this)
                     it.viewModel = loginViewModel
-                    it.googleLogin = googleLogin
-                    it.googleLoginResultLauncher = getSocialLoginResultLauncher(googleLogin)
                 }
     }
+
+    private fun initGoogleLoginObserver() {
+        val googleLoginResultLauncher = getSocialLoginResultLauncher(SocialLogin.Google)
+
+        loginViewModel.googleLoginEvent.observe(this) {
+            googleLoginResultLauncher.launch(SocialLogin.Google.getIntent(this))
+        }
+    }
+
+    private fun getSocialLoginResultLauncher(socialLogin: SocialLogin): ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                socialLogin
+                    .getIdToken(result)
+                    ?.let { idToken ->
+                        loginViewModel.login(idToken)
+                    }
+            }
+        }
 
     companion object {
 

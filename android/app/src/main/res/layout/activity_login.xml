@@ -20,14 +20,6 @@
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.feature.login.LoginViewModel" />
-
-        <variable
-            name="googleLogin"
-            type="com.digginroom.digginroom.feature.login.SocialLogin" />
-
-        <variable
-            name="googleLoginResultLauncher"
-            type="androidx.activity.result.ActivityResultLauncher" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -184,7 +176,7 @@
             android:layout_marginTop="55dp"
             android:layout_marginBottom="90dp"
             android:contentDescription="@string/login_google_login_img_description"
-            android:onClick="@{() -> googleLoginResultLauncher.launch(googleLogin.getIntent())}"
+            android:onClick="@{() -> viewModel.startGoogleLogin()}"
             android:src="@drawable/ic_google_login"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/login_tv_forgot_account"

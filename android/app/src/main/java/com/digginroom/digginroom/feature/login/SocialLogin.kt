@@ -14,13 +14,13 @@ import com.google.android.gms.tasks.Task
 
 sealed interface SocialLogin {
 
-    fun getIntent(): Intent
+    fun getIntent(context: Context): Intent
 
     fun getIdToken(result: ActivityResult): String?
 
-    class Google(private val context: Context) : SocialLogin {
+    object Google : SocialLogin {
 
-        override fun getIntent(): Intent {
+        override fun getIntent(context: Context): Intent {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(BuildConfig.CLIENT_ID)
                 .build()
