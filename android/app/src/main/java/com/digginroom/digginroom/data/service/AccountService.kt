@@ -22,14 +22,14 @@ interface AccountService {
         @Body loginRequest: LoginRequest
     ): Response<Void>
 
+    @POST("/login/google")
+    suspend fun postLogin(
+        @Body loginRequest: GoogleLoginRequest
+    ): Response<Void>
+
     @GET("/join/exist")
     suspend fun fetchIsDuplicatedId(
         @Query("username")
         id: String
     ): Response<IdDuplicationResponse>
-
-    @POST("/login/google")
-    suspend fun postLogin(
-        @Body loginRequest: GoogleLoginRequest
-    ): Response<Void>
 }

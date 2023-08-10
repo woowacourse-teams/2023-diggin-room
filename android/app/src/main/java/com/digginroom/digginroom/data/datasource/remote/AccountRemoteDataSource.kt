@@ -42,6 +42,18 @@ class AccountRemoteDataSource(
         throw HttpError.Unknown(response)
     }
 
+    suspend fun postLogin(idToken: String): String {
+        val response = accountService.postLogin(GoogleLoginRequest(idToken))
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response)
+        }
+
+        throw HttpError.Unknown(response)
+    }
+
     suspend fun fetchIsDuplicatedId(id: String): IdDuplicationResponse {
         val response: Response<IdDuplicationResponse> = accountService.fetchIsDuplicatedId(id)
 
@@ -49,15 +61,6 @@ class AccountRemoteDataSource(
             return response.body() ?: throw HttpError.EmptyBody(response)
         }
 
-        throw HttpError.Unknown(response)
-    }
-
-    suspend fun postLogin(idToken: String): Void {
-        val response = accountService.postLogin(GoogleLoginRequest(idToken))
-
-        if (response.code() == 200) {
-            return response.body() ?: throw HttpError.EmptyBody(response)
-        }
         throw HttpError.Unknown(response)
     }
 
