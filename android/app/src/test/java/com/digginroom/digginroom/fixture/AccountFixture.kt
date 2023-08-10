@@ -14,4 +14,6 @@ object AccountFixture {
     const val DUPLICATED_ID = "jinuk99"
 
     const val TOKEN = ""
+
+    const val ID_TOKEN = "ASDFASDxxsadASDA.ADGJHQWOIEJIAOSD."
 }

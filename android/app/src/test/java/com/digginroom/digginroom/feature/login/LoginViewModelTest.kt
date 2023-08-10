@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.login
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_ID
 import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_PASSWORD
+import com.digginroom.digginroom.fixture.AccountFixture.ID_TOKEN
 import com.digginroom.digginroom.fixture.AccountFixture.TOKEN
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.repository.AccountRepository
@@ -104,6 +105,48 @@ class LoginViewModelTest {
 
         // when
         loginViewModel.login()
+
+        // then
+        coVerify { tokenRepository.save(TOKEN) }
+    }
+
+    @Test
+    fun `id 토큰을 이용한 로그인 실패시 로그인 실패 상태가 된다`() {
+        // given
+        coEvery {
+            accountRepository.postLogin(ID_TOKEN)
+        } returns LogResult.failure()
+
+        // when
+        loginViewModel.login(ID_TOKEN)
+
+        // then
+        assertEquals(LoginState.FAILED, loginViewModel.state.value)
+    }
+
+    @Test
+    fun `id 토큰을 이용한 로그인 성공시 로그인 성공 상태가 된다`() {
+        // given
+        coEvery {
+            accountRepository.postLogin(ID_TOKEN)
+        } returns LogResult.success(TOKEN)
+
+        // when
+        loginViewModel.login(ID_TOKEN)
+
+        // then
+        assertEquals(LoginState.SUCCEED, loginViewModel.state.value)
+    }
+
+    @Test
+    fun `id 토큰을 이용한 로그인 성공시 서버로 부터 받아온 토큰 값을 저장한다`() {
+        // given
+        coEvery {
+            accountRepository.postLogin(ID_TOKEN)
+        } returns LogResult.success(TOKEN)
+
+        // when
+        loginViewModel.login(ID_TOKEN)
 
         // then
         coVerify { tokenRepository.save(TOKEN) }
