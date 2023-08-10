@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.login
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResult
+import com.digginroom.digginroom.BuildConfig
 import com.digginroom.digginroom.logging.DefaultLogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,7 +22,7 @@ sealed interface SocialLogin {
 
         override fun getIntent(): Intent {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("299197240447-8vs3ehn6iak52epm4scbhrliv4sppskp.apps.googleusercontent.com")
+                .requestIdToken(BuildConfig.CLIENT_ID)
                 .build()
 
             return GoogleSignIn.getClient(context, gso).signInIntent
