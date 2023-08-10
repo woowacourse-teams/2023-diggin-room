@@ -112,7 +112,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void OAuth_로_처음_가입한_유저는_유저_정보가_생성된다() {
+    void OAuth_로_처음_로그인한_유저는_유저_정보가_생성된다() {
         Member member = 파워();
         when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
         when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.empty());
@@ -125,7 +125,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void OAuth_로_이미_가입한_유저는_로그인할_수_있다() {
+    void OAuth_로_이미_로그인했던_유저는_로그인할_수_있다() {
         Member member = 파워();
         when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
         when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.of(member));
