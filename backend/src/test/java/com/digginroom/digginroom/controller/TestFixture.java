@@ -10,6 +10,7 @@ import com.digginroom.digginroom.domain.Room;
 import com.digginroom.digginroom.domain.Track;
 import java.util.List;
 
+//TODO: 픽스쳐 분리
 @SuppressWarnings("NonAsciiCharacters")
 public class TestFixture {
 
@@ -18,12 +19,20 @@ public class TestFixture {
     public static final MemberLoginRequest MEMBER_LOGIN_REQUEST = new MemberLoginRequest(MEMBER_USERNAME,
             MEMBER_PASSWORD);
     public static final MemberSaveRequest MEMBER_SAVE_REQUEST = new MemberSaveRequest(MEMBER_USERNAME, MEMBER_PASSWORD);
-
-    public static final CommentRequest COMMENT_REQUEST = new CommentRequest("베리는 REST API 고수");
+    public static final String MEMBER2_PASSWORD = "blackcat1234@";
+    public static final String MEMBER2_USERNAME = "blackcat";
+    public static final MemberLoginRequest MEMBER2_LOGIN_REQUEST = new MemberLoginRequest(MEMBER2_USERNAME,
+            MEMBER2_PASSWORD);
 
     public static Member 파워() {
         return new Member(MEMBER_USERNAME, MEMBER_PASSWORD);
     }
+
+    public static Member 블랙캣() {
+        return new Member(MEMBER2_USERNAME, MEMBER2_PASSWORD);
+    }
+
+    public static final CommentRequest COMMENT_REQUEST = new CommentRequest("베리는 REST API 고수");
 
     public static Room 나무() {
         Track track = Track.builder()

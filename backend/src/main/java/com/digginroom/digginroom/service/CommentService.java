@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.exception.CommentException.NotOwnerException;
+
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
 import com.digginroom.digginroom.domain.Comment;
@@ -22,5 +24,19 @@ public class CommentService {
         commentRepository.save(comment);
 
         return CommentResponse.of(comment);
+    }
+
+    public void delete(final Room room, final Member member, final Long commentId) {
+        Comment comment = commentRepository.findCommentByRoomId(room.getId(), commentId);
+
+        isOwner(comment, member);
+
+        commentRepository.delete(comment);
+    }
+
+    private void isOwner(final Comment comment, final Member member) {
+        if (!comment.isOwner(member)) {
+            throw new NotOwnerException();
+        }
     }
 }

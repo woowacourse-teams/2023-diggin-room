@@ -41,4 +41,8 @@ public class Comment extends BaseEntity {
     public boolean isUpdated() {
         return this.createdAt.isEqual(updatedAt);
     }
+
+    public boolean isOwner(final Member member) {
+        return this.member.equals(member);
+    }
 }

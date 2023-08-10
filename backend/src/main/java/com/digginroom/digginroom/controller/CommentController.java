@@ -1,11 +1,15 @@
 package com.digginroom.digginroom.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
 import com.digginroom.digginroom.service.RoomService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +27,19 @@ public class CommentController {
     public ResponseEntity<CommentResponse> comment(
             @Auth final Long memberId,
             @PathVariable final Long roomId,
-            @RequestBody final CommentRequest request
+            @Valid @RequestBody final CommentRequest request
     ) {
         CommentResponse response = roomService.comment(roomId, memberId, request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(CREATED).body(response);
+    }
+
+    @DeleteMapping("/{roomId}/comments/{commentId}")
+    public ResponseEntity<CommentResponse> delete(
+            @Auth final Long memberId,
+            @PathVariable final Long roomId,
+            @PathVariable final Long commentId
+    ) {
+        roomService.deleteComment(roomId, memberId, commentId);
+        return ResponseEntity.status(OK).build();
     }
 }

@@ -106,4 +106,10 @@ public class RoomService {
         Member member = memberService.findMember(memberId);
         return commentService.comment(room, member, request);
     }
+
+    public void deleteComment(final Long roomId, final Long memberId, final Long commentId) {
+        Room room = findRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        commentService.delete(room, member, commentId);
+    }
 }
