@@ -15,17 +15,17 @@ public class Password {
 
     private static final String EMPTY_PASSWORD = "{EMPTY}";
 
-    private String value = EMPTY_PASSWORD;
+    private String password = EMPTY_PASSWORD;
 
-    public Password(final String value) {
-        this.value = DigginRoomPasswordEncoder.encode(value);
+    public Password(final String password) {
+        this.password = DigginRoomPasswordEncoder.encode(password);
     }
 
     public boolean doesNotMatch(final String password) {
-        return !DigginRoomPasswordEncoder.matches(password, value);
+        return !DigginRoomPasswordEncoder.matches(password, this.password);
     }
 
     public boolean isEmpty() {
-        return value.equals(EMPTY_PASSWORD);
+        return password.equals(EMPTY_PASSWORD);
     }
 }

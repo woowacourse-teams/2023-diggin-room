@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
 class MemberTest {
 
     @Test
-    void OAuth로_생성된_사용자는_OAuth_제공자_식별자를_패스워드로_한다() {
+    void OAuth로_생성된_사용자는_패스워드가_없다() {
         Member member = new Member("konghana", Provider.GOOGLE);
 
-        assertThat(member.getPassword()).isEqualTo(Provider.GOOGLE.getIdentifier());
+        assertThat(member.getPassword()).isEqualTo(Password.EMPTY);
     }
 
     @Test

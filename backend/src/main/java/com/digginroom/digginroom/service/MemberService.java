@@ -9,6 +9,7 @@ import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
+import com.digginroom.digginroom.exception.MemberException.WrongProviderException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,11 @@ public class MemberService {
         Member member = memberRepository.findMemberByUsername(request.username())
                 .orElseThrow(NotFoundException::new);
 
-        if (member.hasDifferentPassword(request.password())) {
+        if (member.getProvider() != Provider.SELF) {
+            throw new WrongProviderException();
+        }
+
+        if (member.getPassword().doesNotMatch(request.password())) {
             throw new NotFoundException();
         }
         return new MemberLoginResponse(member.getId());

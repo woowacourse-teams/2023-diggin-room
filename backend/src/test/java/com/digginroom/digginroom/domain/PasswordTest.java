@@ -16,7 +16,7 @@ class PasswordTest {
     void 패스워드를_직접_생성하면_암호화된_패스워드가_생성된다() {
         Password password = new Password(PLAIN_TEXT);
 
-        assertThat(password.getValue()).isNotEqualTo(PLAIN_TEXT);
+        assertThat(password.getPassword()).isNotEqualTo(PLAIN_TEXT);
     }
 
     @Test
