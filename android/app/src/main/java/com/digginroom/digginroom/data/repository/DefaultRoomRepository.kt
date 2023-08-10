@@ -3,6 +3,8 @@ package com.digginroom.digginroom.data.repository
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
+import com.digginroom.digginroom.model.Comment
+import com.digginroom.digginroom.model.mapper.CommentMapper.toDomain
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
@@ -40,6 +42,12 @@ class DefaultRoomRepository(
     override suspend fun postDislike(roomId: Long): LogResult<Unit> {
         return logRunCatching {
             roomRemoteDataSource.postDislike(roomId)
+        }
+    }
+
+    override suspend fun findComments(roomId: Long): LogResult<List<Comment>> {
+        return logRunCatching {
+            roomRemoteDataSource.findComments(roomId).toDomain()
         }
     }
 }
