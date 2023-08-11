@@ -16,14 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
     private final OAuthUsernameResolver googleUsernameRetriever;
 
-    @Transactional
     public void save(final MemberSaveRequest request) {
         if (isDuplicated(request.username())) {
             throw new DuplicationException();
@@ -35,16 +34,19 @@ public class MemberService {
         return memberRepository.existsByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     public MemberDuplicationResponse checkDuplication(final String username) {
         boolean duplicated = isDuplicated(username);
         return new MemberDuplicationResponse(duplicated);
     }
 
+    @Transactional(readOnly = true)
     public Member findMember(final Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
     }
 
+    @Transactional(readOnly = true)
     public MemberLoginResponse loginMember(final MemberLoginRequest request) {
         Member member = memberRepository.findMemberByUsername(request.username())
                 .orElseThrow(NotFoundException::new);
