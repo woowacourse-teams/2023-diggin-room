@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="15sp"
+            android:text="@{comment.writer}"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

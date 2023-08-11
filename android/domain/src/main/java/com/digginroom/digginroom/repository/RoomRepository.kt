@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.repository
 
 import com.digginroom.digginroom.logging.LogResult
-import com.digginroom.digginroom.model.Comment
+import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.room.Room
 
 interface RoomRepository {

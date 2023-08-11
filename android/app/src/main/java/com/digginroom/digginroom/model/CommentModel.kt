@@ -4,7 +4,7 @@ data class CommentModel(
     val id: Long,
     val writer: String,
     val comment: String,
-    val createdAt: String,
-    val updateAt: String,
+    val elapsedTime: String,
+    val isUpdated: Boolean,
     val isOwner: Boolean
 )

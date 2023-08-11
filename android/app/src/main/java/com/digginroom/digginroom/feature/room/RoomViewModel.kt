@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
+import com.digginroom.digginroom.model.CommentModel
+import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
@@ -67,6 +69,7 @@ class RoomViewModel(
     fun findComments(roomId: Long) {
         viewModelScope.launch {
             roomRepository.findComments(roomId).onSuccess { comments ->
+                val comments: List<CommentModel> = comments.map { it.toModel() }
             }.onFailure {}
         }
     }
