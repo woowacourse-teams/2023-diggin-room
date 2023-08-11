@@ -33,7 +33,8 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('config.properties').newDataInputStream())
 
-        buildConfigField "String", "CLIENT_ID", properties.getProperty("server.clientId")
+        buildConfigField "String", "SERVER_URL", properties.getProperty("server.url")
+        buildConfigField "String", "CLIENT_ID", properties.get("server.clientId")
     }
     buildTypes {
         release {
