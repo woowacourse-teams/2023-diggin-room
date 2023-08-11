@@ -87,7 +87,7 @@ class MemberTest {
     void 멤버는_취향을_입력할_수_있다() {
         Member member = 파워();
 
-        member.favorite(of(AMBIENT, ROCK));
+        member.markFavorite(of(AMBIENT, ROCK));
 
         assertThat(member.hasFavorite()).isTrue();
     }
@@ -96,16 +96,16 @@ class MemberTest {
     void 멤버에_중복된_취향을_입력한_경우_예외가_발생한다() {
         Member member = 파워();
 
-        assertThatThrownBy(() -> member.favorite(List.of(AMBIENT, ROCK, ROCK)))
+        assertThatThrownBy(() -> member.markFavorite(List.of(AMBIENT, ROCK, ROCK)))
                 .isInstanceOf(DuplicatedFavoriteException.class);
     }
 
     @Test
     void 이미_취향이_있는_멤버에_다시_취향을_입력하면_예외가_발생한다() {
         Member member = 파워();
-        member.favorite(List.of(AMBIENT, ROCK));
+        member.markFavorite(List.of(AMBIENT, ROCK));
 
-        assertThatThrownBy(() -> member.favorite(List.of(DANCE, NEW_AGE, EXPERIMENTAL)))
+        assertThatThrownBy(() -> member.markFavorite(List.of(DANCE, NEW_AGE, EXPERIMENTAL)))
                 .isInstanceOf(FavoriteExistsException.class);
     }
 
@@ -113,7 +113,7 @@ class MemberTest {
     void 멤버는_취향을_한_개_이상_입력하지_않을_경우_예외가_발생한다() {
         Member member = 파워();
 
-        assertThatThrownBy(() -> member.favorite(List.of()))
+        assertThatThrownBy(() -> member.markFavorite(List.of()))
                 .isInstanceOf(EmptyFavoriteException.class);
     }
 

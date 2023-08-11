@@ -1,6 +1,8 @@
 package com.digginroom.digginroom.service;
 
 import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.domain.Genre.DANCE;
+import static com.digginroom.digginroom.domain.Genre.ROCK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,6 +17,7 @@ import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -134,5 +137,15 @@ class MemberServiceTest {
 
         verify(memberRepository, times(0)).save(any());
         assertThat(response).isNotNull();
+    }
+
+    @Test
+    void 취향_정보를_입력한다() {
+        Member member = 파워();
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+
+        memberService.markFavorite(member.getId(), List.of(DANCE, ROCK));
+
+        assertThat(member.hasFavorite()).isTrue();
     }
 }

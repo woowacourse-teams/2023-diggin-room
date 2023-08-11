@@ -5,12 +5,14 @@ import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
+import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.exception.MemberException.WrongProviderException;
 import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,11 @@ public class MemberService {
     public MemberDuplicationResponse checkDuplication(final String username) {
         boolean duplicated = isDuplicated(username);
         return new MemberDuplicationResponse(duplicated);
+    }
+
+    public void markFavorite(Long memberId, List<Genre> genres) {
+        Member member = findMember(memberId);
+        member.markFavorite(genres);
     }
 
     @Transactional(readOnly = true)

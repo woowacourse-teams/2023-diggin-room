@@ -72,7 +72,7 @@ public class Member {
         adjustMemberGenreWeight(room, WeightFactor.UNDISLIKE);
     }
 
-    public void favorite(final List<Genre> genres) {
+    public void markFavorite(final List<Genre> genres) {
         if (hasFavorite) {
             throw new FavoriteExistsException();
         }
