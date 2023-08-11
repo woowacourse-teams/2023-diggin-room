@@ -76,7 +76,7 @@ public class Member {
     }
 
     public List<MemberGenre> getMemberGenres() {
-        return memberGenres.getMemberGenres();
+        return memberGenres.getAll();
     }
 
     public List<Room> getScrapRooms() {

@@ -41,6 +41,7 @@ public class RoomService {
                     recommendedRoom.getId(),
                     recommendedRoom.getMediaSource().getIdentifier(),
                     member.hasScrapped(recommendedRoom),
+                    recommendedRoom.getScrapCount(),
                     TrackResponse.of(recommendedRoom.getTrack())
             );
         } catch (IllegalArgumentException e) {
@@ -63,22 +64,22 @@ public class RoomService {
                         room.getId(),
                         room.getMediaSource().getIdentifier(),
                         member.hasScrapped(room),
+                        room.getScrapCount(),
                         TrackResponse.of(room.getTrack())
                 ))
                 .toList());
     }
 
+    //TODO: 이후 스크랩 수 증감에 동시성 문제 발생 가능성 존재
     public void scrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
-
         member.scrap(room);
     }
 
     public void unscrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
-
         member.unscrap(room);
     }
 

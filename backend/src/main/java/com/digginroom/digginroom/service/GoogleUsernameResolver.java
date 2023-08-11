@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.exception.OAuthResolverException;
+import com.digginroom.digginroom.exception.OAuthResolverException.IdTokenNotReadableException;
+import com.digginroom.digginroom.exception.OAuthResolverException.InvalidIdTokenException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -23,9 +24,11 @@ public class GoogleUsernameResolver implements OAuthUsernameResolver {
             if (tokenVerifier.verify(googleIdToken)) {
                 return googleIdToken.getPayload().getSubject();
             }
-            throw new OAuthResolverException();
-        } catch (IOException | GeneralSecurityException | IllegalArgumentException e) {
-            throw new OAuthResolverException();
+            throw new InvalidIdTokenException();
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdTokenException();
+        } catch (IOException | GeneralSecurityException e) {
+            throw new IdTokenNotReadableException();
         }
     }
 }
