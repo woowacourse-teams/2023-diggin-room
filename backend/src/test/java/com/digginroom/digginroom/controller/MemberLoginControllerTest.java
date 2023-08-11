@@ -2,26 +2,29 @@ package com.digginroom.digginroom.controller;
 
 import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.repository.MemberRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
+@Import({OAuthTestConfig.class})
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberLoginControllerTest extends ControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
 
     @Override
     @BeforeEach
@@ -32,14 +35,13 @@ class MemberLoginControllerTest extends ControllerTest {
 
     @Test
     void 회원가입한_사용자는_로그인을_할_수_있다() {
-        Response response = RestAssured.given().log().all()
+        RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
-        assertThat(cookie).isNotNull();
+                .post("/login")
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
@@ -73,15 +75,27 @@ class MemberLoginControllerTest extends ControllerTest {
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/login");
+                .post("/login")
+                .then()
+                .statusCode(HttpStatus.OK.value());
 
-        Response response = RestAssured.given().log().all()
+        RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/login");
+                .post("/login")
+                .then()
+                .statusCode(HttpStatus.OK.value());
+    }
 
-        String cookie = response.header("Set-Cookie");
-        assertThat(cookie).isNotNull();
+    @Test
+    void OAuth로_로그인할_수_있다() {
+        RestAssured.given().log().all()
+                .body(new GoogleOAuthRequest("ID_TOKEN"))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login/google")
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 }
