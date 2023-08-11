@@ -7,10 +7,8 @@ import jakarta.persistence.OneToMany;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberGenres {
@@ -34,5 +32,9 @@ public class MemberGenres {
                 .filter(memberGenre -> memberGenre.isSameGenre(genre))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException(genre));
+    }
+
+    public List<MemberGenre> getAll() {
+        return memberGenres;
     }
 }
