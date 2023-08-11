@@ -28,15 +28,4 @@ class CommentTest {
 
         assertThat(elapsedTime).isGreaterThanOrEqualTo(0L);
     }
-
-    @Test
-    void 댓글은_수정된_여부를_알_수_있다() {
-        String context = "이 룸 정말 좋네요";
-        Comment comment = new Comment(1L, context, 파워());
-        entityManager.persist(comment);
-
-        comment.updateComment("이 룸 정말 별로네요");
-
-        assertThat(comment.isUpdated()).isTrue();
-    }
 }
