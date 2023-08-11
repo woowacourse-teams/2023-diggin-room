@@ -71,10 +71,12 @@ class RoomServiceTest {
                                 나무.getId(),
                                 나무.getMediaSource().getIdentifier(),
                                 true,
+                                나무.getScrapCount(),
                                 TrackResponse.of(나무.getTrack())),
                         new RoomResponse(차이.getId(),
                                 차이.getMediaSource().getIdentifier(),
                                 true,
+                                나무.getScrapCount(),
                                 TrackResponse.of(차이.getTrack()))
                 ));
     }
@@ -257,5 +259,26 @@ class RoomServiceTest {
 
         int resultWeight = getWeight(member, targetGenre);
         assertThat(resultWeight).isEqualTo(originalWeight);
+    }
+
+    @Test
+    void 멤버가_룸을_스크랩하면_룸의_스크랩_수가_올라간다() {
+        Member 파워 = memberRepository.save(파워());
+        Room 나무 = roomRepository.save(나무());
+
+        roomService.scrap(파워.getId(), 나무.getId());
+
+        assertThat(나무.getScrapCount()).isEqualTo(1L);
+    }
+
+    @Test
+    void 멤버가_룸을_스크랩_취소_시_룸의_스크랩_수가_내려간다() {
+        Member 파워 = memberRepository.save(파워());
+        Room 나무 = roomRepository.save(나무());
+        roomService.scrap(파워.getId(), 나무.getId());
+
+        roomService.unscrap(파워.getId(), 나무.getId());
+
+        assertThat(나무.getScrapCount()).isEqualTo(0L);
     }
 }

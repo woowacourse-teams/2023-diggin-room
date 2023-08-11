@@ -2,7 +2,7 @@ package com.digginroom.digginroom.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.digginroom.digginroom.exception.OAuthResolverException;
+import com.digginroom.digginroom.exception.OAuthResolverException.InvalidIdTokenException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -20,18 +20,18 @@ class GoogleUsernameResolverTest {
     @Test
     void 기간이_지난_ID_TOKEN을_사용하면_예외를_던진다() {
         assertThatThrownBy(() -> resolver.resolve(EXPIRED_ID_TOKEN))
-                .isInstanceOf(OAuthResolverException.class);
+                .isInstanceOf(InvalidIdTokenException.class);
     }
 
     @Test
     void 잘못된_길이의_ID_TOKEN은_예외를_던진다() {
         assertThatThrownBy(() -> resolver.resolve(SHORT_ID_TOKEN))
-                .isInstanceOf(OAuthResolverException.class);
+                .isInstanceOf(InvalidIdTokenException.class);
     }
 
     @Test
     void 잘못된_ID_TOKEN은_예외를_던진다() {
         assertThatThrownBy(() -> resolver.resolve(INVALID_ID_TOKEN))
-                .isInstanceOf(OAuthResolverException.class);
+                .isInstanceOf(InvalidIdTokenException.class);
     }
 }

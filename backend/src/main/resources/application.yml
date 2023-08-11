@@ -8,4 +8,7 @@ spring:
       add-mappings: false
   jpa:
     open-in-view: false
-    defer-datasource-initialization: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
