@@ -49,19 +49,31 @@ class RoomRecycler(
         }
     }
 
-    fun recycleRooms(scrollPager: ScrollPager) {
-        swapView(
-            scrollPager.calculateStartChildPosition(gridSize),
-            scrollPager.calculateEndChildPosition(gridSize)
-        )
-    }
-
-    private fun swapView(start: Int, end: Int) {
+    fun recyclePrevRooms(scrollPager: ScrollPager) {
+        val start = scrollPager.calculateEndChildPosition(gridSize)
+        val end = scrollPager.calculateStartChildPosition(gridSize)
         val first = getChildAt(start)
-        val second = getChildAt(end)
+        val second = getChildAt((gridSize * gridSize) / 2)
+        val third = getChildAt(end)
         removeView(first)
         removeView(second)
+        removeView(third)
+        addView(third, start)
+        addView(first, (gridSize * gridSize) / 2)
+        addView(second, end)
+    }
+
+    fun recycleNextRooms(scrollPager: ScrollPager) {
+        val start = scrollPager.calculateStartChildPosition(gridSize)
+        val end = scrollPager.calculateEndChildPosition(gridSize)
+        val first = getChildAt(start)
+        val second = getChildAt((gridSize * gridSize) / 2)
+        val third = getChildAt(end)
+        removeView(first)
+        removeView(second)
+        removeView(third)
         addView(second, start)
+        addView(third, (gridSize * gridSize) / 2)
         addView(first, end)
     }
 
@@ -82,11 +94,11 @@ class RoomRecycler(
     }
 
     fun navigateRooms(target: Int) {
-        if (rooms.size > currentRoomPosition) {
-            navigateRoom(target, 0)
-        }
         if (0 <= currentRoomPosition - 1) {
             navigateRoom(target, -1)
+        }
+        if (rooms.size > currentRoomPosition) {
+            navigateRoom(target, 0)
         }
         if (rooms.size > currentRoomPosition + 1) {
             navigateRoom(target, 1)
