@@ -50,8 +50,8 @@ class RoomRecycler(
     }
 
     fun recyclePrevRooms(scrollPager: ScrollPager) {
-        val start = scrollPager.calculateEndChildPosition(gridSize)
-        val end = scrollPager.calculateStartChildPosition(gridSize)
+        val start = scrollPager.calculateStartChildPosition(gridSize)
+        val end = scrollPager.calculateEndChildPosition(gridSize)
         val first = getChildAt(start)
         val second = getChildAt((gridSize * gridSize) / 2)
         val third = getChildAt(end)
