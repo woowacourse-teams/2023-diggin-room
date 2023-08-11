@@ -2,6 +2,7 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
+import com.digginroom.digginroom.controller.dto.CommentsResponse;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
@@ -100,6 +101,11 @@ public class RoomService {
         Member member = memberService.findMember(memberId);
 
         member.undislike(room);
+    }
+
+    public CommentsResponse findRoomComments(final Long roomId) {
+        findRoom(roomId);
+        return commentService.findRoomComments(roomId);
     }
 
     public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {

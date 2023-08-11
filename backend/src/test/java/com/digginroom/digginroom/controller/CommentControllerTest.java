@@ -8,8 +8,12 @@ import static com.digginroom.digginroom.controller.TestFixture.파워;
 
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
+import com.digginroom.digginroom.controller.dto.CommentsResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.domain.Comment;
+import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import io.restassured.RestAssured;
@@ -30,13 +34,16 @@ class CommentControllerTest extends ControllerTest {
     private MemberRepository memberRepository;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private CommentRepository commentRepository;
     private Room room1;
+    private Member 파워;
 
     @Override
     @BeforeEach
     void setUp() {
         super.setUp();
-        memberRepository.save(파워());
+        파워 = memberRepository.save(파워());
         memberRepository.save(블랙캣());
         room1 = roomRepository.save(나무());
     }
@@ -126,6 +133,22 @@ class CommentControllerTest extends ControllerTest {
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
+    @Test
+    void 유저는_룸의_댓글들을_볼_수_있다() {
+        commentRepository.save(new Comment(room1.getId(), "댓글1", 파워));
+        commentRepository.save(new Comment(room1.getId(), "댓글2", 파워));
+
+        String cookie = login(MEMBER_LOGIN_REQUEST);
+
+        RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .when().get("/rooms/" + room1.getId() + "/comments")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("comments", Matchers.hasSize(2))
+                .extract().as(CommentsResponse.class);
+    }
 
     private static String login(final MemberLoginRequest loginRequest) {
         Response response = RestAssured.given().log().all()

@@ -5,11 +5,13 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
+import com.digginroom.digginroom.controller.dto.CommentsResponse;
 import com.digginroom.digginroom.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final RoomService roomService;
+
+    @GetMapping("/{roomId}/comments")
+    public ResponseEntity<CommentsResponse> findRoomComments(
+            @Auth final Long loginMemberId,
+            @PathVariable final Long roomId
+    ) {
+        CommentsResponse roomComments = roomService.findRoomComments(roomId);
+        return ResponseEntity.status(OK).body(roomComments);
+    }
 
     @PostMapping("/{roomId}/comments")
     public ResponseEntity<CommentResponse> comment(
