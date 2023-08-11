@@ -73,6 +73,7 @@ class RoomPager(
             callback.event(roomRecycler.currentRoomPlayerRoomId())
         }
     }
+
     fun updateShowInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
         roomRecycler.updateShowRoomInfoListener(showRoomInfoListener)
     }
@@ -153,11 +154,11 @@ class RoomPager(
             scrollPager.scrollPosition = 0
             roomRecycler.navigateFirstRoom()
         } else if (scrollPager.scrollPosition <= 0) {
-            roomRecycler.recyclePreviousRooms(scrollPager)
+            roomRecycler.recycleRooms(scrollPager)
             scrollPager.scrollPosition++
             scrollPager.scrollBy(scrollPager.screenSize)
         } else if (scrollPager.scrollPosition >= GRID_SIZE - 1) {
-            roomRecycler.recycleNextRooms(scrollPager)
+            roomRecycler.recycleRooms(scrollPager)
             scrollPager.scrollPosition--
             scrollPager.scrollBy(-scrollPager.screenSize)
             loadNextRoom()

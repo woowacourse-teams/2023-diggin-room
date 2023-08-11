@@ -1,11 +1,13 @@
 package com.digginroom.digginroom.feature.room.customview
 
 import android.content.Context
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomPlayer
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.model.RoomModel
@@ -47,20 +49,20 @@ class RoomRecycler(
         }
     }
 
-    fun recyclePreviousRooms(scrollPager: ScrollPager) {
-        repeat(gridSize) {
-            val child = getChildAt(scrollPager.calculateEndChildPosition(it, gridSize))
-            removeView(child)
-            addView(child, scrollPager.calculateStartChildPosition(it, gridSize))
-        }
+    fun recycleRooms(scrollPager: ScrollPager) {
+        swapView(
+            scrollPager.calculateStartChildPosition(gridSize),
+            scrollPager.calculateEndChildPosition(gridSize)
+        )
     }
 
-    fun recycleNextRooms(scrollPager: ScrollPager) {
-        repeat(gridSize) {
-            val child = getChildAt(scrollPager.calculateStartChildPosition(it, gridSize))
-            removeView(child)
-            addView(child, scrollPager.calculateEndChildPosition(it, gridSize))
-        }
+    private fun swapView(start: Int, end: Int) {
+        val first = getChildAt(start)
+        val second = getChildAt(end)
+        removeView(first)
+        removeView(second)
+        addView(second, start)
+        addView(first, end)
     }
 
     fun updateData(rooms: List<RoomModel>) {
@@ -69,8 +71,8 @@ class RoomRecycler(
 
     fun playCurrentRoomPlayer(target: Int) {
         currentRoomPlayerPosition = target
-        repeat(gridSize * gridSize) {
-            val room = getChildAt(it) as YoutubeRoomPlayer
+        repeat(gridSize) {
+            val room = getChildAt((it * gridSize) + (gridSize / 2)) as RoomPlayer
             if (it == target) {
                 room.play()
             } else {
@@ -80,20 +82,29 @@ class RoomRecycler(
     }
 
     fun navigateRooms(target: Int) {
-        val target =
-            if (target >= gridSize) gridSize % target else if (target < 0) gridSize else target
-
         if (rooms.size > currentRoomPosition) {
-            roomPlayers[target].navigate(rooms[currentRoomPosition])
+            navigateRoom(target, 0)
         }
         if (0 <= currentRoomPosition - 1) {
-            if (target >= gridSize) {
-                roomPlayers[0].navigate(rooms[currentRoomPosition - 1])
-            }
+            navigateRoom(target, -1)
         }
         if (rooms.size > currentRoomPosition + 1) {
-            roomPlayers[2].navigate(rooms[currentRoomPosition + 1])
+            navigateRoom(target, 1)
         }
+    }
+
+    private fun navigateRoom(target: Int, position: Int) {
+        val target = repeat(target + position, gridSize)
+        val room = getChildAt((target * gridSize) + (gridSize / 2)) as RoomPlayer
+        room.navigate(rooms[currentRoomPosition + position])
+    }
+
+    private fun repeat(n: Int, max: Int) = if (n >= max) {
+        max % n
+    } else if (n < 0) {
+        (max - n) % n
+    } else {
+        n
     }
 
     fun navigateFirstRoom() {
@@ -116,12 +127,14 @@ class RoomRecycler(
     }
 
     private fun initContentView() {
-        roomPlayers.map {
-            it.layoutParams = LinearLayout.LayoutParams(
+        (0 until gridSize * gridSize).forEach {
+            val view =
+                if (it % gridSize == gridSize / 2) roomPlayers[it / gridSize] else View(context)
+            view.layoutParams = LinearLayout.LayoutParams(
                 resources.displayMetrics.widthPixels,
                 resources.displayMetrics.heightPixels
             )
-            addView(it)
+            addView(view)
         }
     }
 }

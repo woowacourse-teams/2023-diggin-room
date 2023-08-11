@@ -13,6 +13,6 @@ interface ScrollPager {
     fun post(action: () -> Unit)
     fun setOnScrollChangeListener(listener: (Int) -> Unit)
     fun setOnTouchListener(listener: (MotionEvent) -> Unit)
-    fun calculateStartChildPosition(index: Int, size: Int): Int
-    fun calculateEndChildPosition(index: Int, size: Int): Int
+    fun calculateStartChildPosition(size: Int): Int
+    fun calculateEndChildPosition(size: Int): Int
 }

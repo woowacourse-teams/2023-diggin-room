@@ -40,11 +40,11 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
         }
     }
 
-    override fun calculateStartChildPosition(index: Int, size: Int): Int {
-        return 0
+    override fun calculateStartChildPosition(size: Int): Int {
+        return size / 2
     }
 
-    override fun calculateEndChildPosition(index: Int, size: Int): Int {
-        return (size * size) - 1
+    override fun calculateEndChildPosition(size: Int): Int {
+        return (size * size) - calculateStartChildPosition(size) - 1
     }
 }
