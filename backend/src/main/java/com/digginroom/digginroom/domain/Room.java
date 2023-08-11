@@ -3,6 +3,7 @@ package com.digginroom.digginroom.domain;
 import static com.digginroom.digginroom.exception.RoomException.NoMediaSourceException;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,7 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Entity
@@ -27,6 +29,8 @@ public class Room {
     private MediaSource mediaSource;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Track track;
+    @Column(nullable = false)
+    @ColumnDefault(value = "0")
     private Long scrapCount;
 
     public Room(final MediaSource mediaSource, final Track track) {
