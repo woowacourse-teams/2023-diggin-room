@@ -72,14 +72,12 @@ public class RoomService {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
         member.scrap(room);
-        room.increaseScrapCount();
     }
 
     public void unscrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
         Member member = memberService.findMember(memberId);
         member.unscrap(room);
-        room.decreaseScrapCount();
     }
 
     private Room findRoom(final Long roomId) {
