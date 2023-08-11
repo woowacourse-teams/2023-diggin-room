@@ -1,8 +1,9 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,8 +23,10 @@ public class Member {
     private Long id;
     @NonNull
     private String username;
-    @NonNull
-    private String password;
+    @Embedded
+    private Password password;
+    @Enumerated(value = EnumType.STRING)
+    private Provider provider;
     @Embedded
     private final ScrapRooms scrapRooms = new ScrapRooms();
     @Embedded
@@ -31,13 +34,16 @@ public class Member {
     @Embedded
     private final MemberGenres memberGenres = new MemberGenres(this);
 
-    public Member(final String username, final String password) {
+    public Member(final String username, final Provider provider) {
         this.username = username;
-        this.password = DigginRoomPasswordEncoder.encode(password);
+        this.password = Password.EMPTY;
+        this.provider = provider;
     }
 
-    public boolean hasDifferentPassword(final String password) {
-        return !DigginRoomPasswordEncoder.matches(password, this.password);
+    public Member(final String username, final String password) {
+        this.username = username;
+        this.password = new Password(password);
+        this.provider = Provider.SELF;
     }
 
     public void scrap(final Room room) {
@@ -70,7 +76,7 @@ public class Member {
     }
 
     public List<MemberGenre> getMemberGenres() {
-        return memberGenres.getMemberGenres();
+        return memberGenres.getAll();
     }
 
     public List<Room> getScrapRooms() {

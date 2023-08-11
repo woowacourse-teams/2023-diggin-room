@@ -28,4 +28,11 @@ public abstract class MemberException extends DigginRoomException {
             super("회원 인증 정보가 존재하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
     }
+
+    public static class WrongProviderException extends MemberException {
+
+        public WrongProviderException() {
+            super("잘못된 로그인 방식을 사용했습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

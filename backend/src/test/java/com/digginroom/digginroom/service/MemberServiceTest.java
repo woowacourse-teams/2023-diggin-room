@@ -1,11 +1,14 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.controller.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
@@ -28,6 +31,8 @@ class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private GoogleUsernameResolver googleUsernameResolver;
     @InjectMocks
     private MemberService memberService;
 
@@ -104,5 +109,30 @@ class MemberServiceTest {
                 new MemberLoginRequest(power.getUsername(), power.getPassword() + "asd")))
                 .isInstanceOf(MemberException.NotFoundException.class)
                 .hasMessageContaining("회원 정보가 없습니다.");
+    }
+
+    @Test
+    void OAuth_로_처음_로그인한_유저는_유저_정보가_생성된다() {
+        Member member = 파워();
+        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.empty());
+        when(memberRepository.save(any())).thenReturn(member);
+
+        MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));
+
+        verify(memberRepository, times(1)).save(any());
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    void OAuth_로_이미_로그인했던_유저는_로그인할_수_있다() {
+        Member member = 파워();
+        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.of(member));
+
+        MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));
+
+        verify(memberRepository, times(0)).save(any());
+        assertThat(response).isNotNull();
     }
 }

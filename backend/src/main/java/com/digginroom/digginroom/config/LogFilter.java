@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class LogFilter extends OncePerRequestFilter {
-    
+
     @Override
     protected void doFilterInternal(
             final HttpServletRequest request,
