@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.service;
 
+import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
@@ -42,9 +43,13 @@ public class MemberService {
         return new MemberDuplicationResponse(duplicated);
     }
 
-    public void markFavorite(Long memberId, List<Genre> genres) {
+    public void markFavorite(final Long memberId, final FavoriteGenresRequest genres) {
         Member member = findMember(memberId);
-        member.markFavorite(genres);
+
+        List<Genre> favoriteGenres = genres.favoriteGenres().stream()
+                .map(Genre::of)
+                .toList();
+        member.markFavorite(favoriteGenres);
     }
 
     @Transactional(readOnly = true)

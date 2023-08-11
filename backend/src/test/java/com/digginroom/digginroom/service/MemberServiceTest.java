@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
@@ -144,7 +145,7 @@ class MemberServiceTest {
         Member member = 파워();
         when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
 
-        memberService.markFavorite(member.getId(), List.of(DANCE, ROCK));
+        memberService.markFavorite(member.getId(), new FavoriteGenresRequest(List.of(DANCE.getName(), ROCK.getName())));
 
         assertThat(member.hasFavorite()).isTrue();
     }
