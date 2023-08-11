@@ -20,6 +20,7 @@ public class ScrapRooms {
 
     public void scrap(final Room room) {
         validateUnscrapped(room);
+        room.increaseScrapCount();
         scrapRooms.add(room);
     }
 
@@ -35,6 +36,7 @@ public class ScrapRooms {
 
     public void unscrap(final Room room) {
         validateScrapped(room);
+        room.decreaseScrapCount();
         scrapRooms.remove(room);
     }
 
