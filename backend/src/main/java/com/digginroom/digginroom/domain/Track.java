@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -33,15 +34,24 @@ public class Track {
     private Genre superGenre;
     @Convert(converter = SubGenreConverter.class)
     private List<String> subGenres;
+    @Lob
+    private String description;
     @OneToMany(mappedBy = "track")
     private final List<Room> rooms = new ArrayList<>();
 
     @Builder
-    private Track(final String title, final String artist, final Genre superGenre, final List<String> subGenres) {
+    public Track(
+            final String title,
+            final String artist,
+            final Genre superGenre,
+            final List<String> subGenres,
+            final String description
+    ) {
         this.title = title;
         this.artist = artist;
         this.superGenre = superGenre;
         this.subGenres = subGenres;
+        this.description = description;
     }
 
     public Room recommendRoom() {
