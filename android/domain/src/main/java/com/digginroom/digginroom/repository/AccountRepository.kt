@@ -13,5 +13,4 @@ interface AccountRepository {
     suspend fun postLogin(idToken: String): LogResult<String>
 
     suspend fun fetchIsDuplicatedId(id: Id): LogResult<Boolean>
-
 }
