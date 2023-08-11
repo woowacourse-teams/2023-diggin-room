@@ -18,7 +18,7 @@ public class UploadController {
     private final UploadService uploadService;
 
     @ModelAttribute("genre")
-    public Genre[] carCategories() {
+    public Genre[] genreCategories() {
         return Genre.values();
     }
 
