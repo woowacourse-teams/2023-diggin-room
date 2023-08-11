@@ -40,7 +40,7 @@ create table if not exists room
 (
     id              bigint auto_increment primary key,
     media_source_id bigint not null,
-    scrap_count     bigint null,
+    scrap_count     bigint not null default 0,
     track_id        bigint null,
     constraint FKh4o8jqamvtubinly1vjviijnd foreign key (media_source_id) references media_source (id),
     constraint FKt3qfwfkqav3hfmomfccjs4b6a foreign key (track_id) references track (id)
