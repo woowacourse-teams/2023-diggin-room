@@ -33,6 +33,7 @@ public class TestFixture {
     }
 
     public static final CommentRequest COMMENT_REQUEST = new CommentRequest("베리는 REST API 고수");
+    public static final CommentRequest COMMENT_UPDATE_REQUEST = new CommentRequest("파워는 인텔리제이 평생 무료일듯?");
 
     public static Room 나무() {
         Track track = Track.builder()

@@ -4,8 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,17 +26,16 @@ public class Comment extends BaseEntity {
         this.member = member;
     }
 
-    public Long getElapsedTime() {
-        LocalDateTime now = LocalDateTime.now();
-
-        return Duration.between(createdAt, now).getSeconds();
-    }
-
-    public void updateComment(final String comment) {
+    public Comment updateComment(final String comment) {
         this.comment = comment;
+        return this;
     }
 
     public boolean isOwner(final Member member) {
         return this.member.equals(member);
+    }
+
+    public boolean isSameRoom(final Long roomId) {
+        return this.roomId.equals(roomId);
     }
 }

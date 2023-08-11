@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,17 @@ public class CommentController {
     ) {
         CommentResponse response = roomService.comment(roomId, memberId, request);
         return ResponseEntity.status(CREATED).body(response);
+    }
+
+    @PatchMapping("/{roomId}/comments/{commentId}")
+    public ResponseEntity<CommentResponse> update(
+            @Auth final Long memberId,
+            @PathVariable final Long roomId,
+            @PathVariable final Long commentId,
+            @Valid @RequestBody final CommentRequest request
+    ) {
+        CommentResponse response = roomService.updateComment(roomId, memberId, commentId, request);
+        return ResponseEntity.status(OK).body(response);
     }
 
     @DeleteMapping("/{roomId}/comments/{commentId}")

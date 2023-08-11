@@ -1,10 +1,13 @@
 package com.digginroom.digginroom.controller;
 
+import static com.digginroom.digginroom.controller.TestFixture.COMMENT_UPDATE_REQUEST;
 import static com.digginroom.digginroom.controller.TestFixture.MEMBER2_LOGIN_REQUEST;
 import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.controller.TestFixture.나무;
 import static com.digginroom.digginroom.controller.TestFixture.블랙캣;
+import static com.digginroom.digginroom.controller.TestFixture.차이;
 import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
@@ -36,7 +39,8 @@ class CommentControllerTest extends ControllerTest {
     private RoomRepository roomRepository;
     @Autowired
     private CommentRepository commentRepository;
-    private Room room1;
+    private Room 나무;
+    private Room 차이;
     private Member 파워;
 
     @Override
@@ -45,7 +49,8 @@ class CommentControllerTest extends ControllerTest {
         super.setUp();
         파워 = memberRepository.save(파워());
         memberRepository.save(블랙캣());
-        room1 = roomRepository.save(나무());
+        나무 = roomRepository.save(나무());
+        차이 = roomRepository.save(차이());
     }
 
     @Test
@@ -56,7 +61,7 @@ class CommentControllerTest extends ControllerTest {
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
                 .body(TestFixture.COMMENT_REQUEST)
-                .when().post("/rooms/" + room1.getId() + "/comments")
+                .when().post("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("writer", Matchers.equalTo(TestFixture.MEMBER_USERNAME))
@@ -74,7 +79,7 @@ class CommentControllerTest extends ControllerTest {
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
                 .body(new CommentRequest("베리".repeat(251)))
-                .when().post("/rooms/" + room1.getId() + "/comments")
+                .when().post("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
@@ -87,7 +92,7 @@ class CommentControllerTest extends ControllerTest {
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
                 .body(new CommentRequest("  "))
-                .when().post("/rooms/" + room1.getId() + "/comments")
+                .when().post("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
@@ -101,7 +106,7 @@ class CommentControllerTest extends ControllerTest {
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
-                .when().delete("/rooms/" + room1.getId() + "/comments/" + commentResponse.id())
+                .when().delete("/rooms/" + 나무.getId() + "/comments/" + commentResponse.id())
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -116,7 +121,7 @@ class CommentControllerTest extends ControllerTest {
         RestAssured.given().log().all()
                 .cookie(powerCookie)
                 .contentType(ContentType.JSON)
-                .when().delete("/rooms/" + room1.getId() + "/comments/" + commentResponse.id())
+                .when().delete("/rooms/" + 나무.getId() + "/comments/" + commentResponse.id())
                 .then().log().all()
                 .statusCode(HttpStatus.FORBIDDEN.value());
     }
@@ -128,22 +133,22 @@ class CommentControllerTest extends ControllerTest {
         RestAssured.given().log().all()
                 .cookie(powerCookie)
                 .contentType(ContentType.JSON)
-                .when().delete("/rooms/" + room1.getId() + "/comments/" + Long.MAX_VALUE)
+                .when().delete("/rooms/" + 나무.getId() + "/comments/" + Long.MAX_VALUE)
                 .then().log().all()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     @Test
     void 유저는_룸의_댓글들을_볼_수_있다() {
-        commentRepository.save(new Comment(room1.getId(), "댓글1", 파워));
-        commentRepository.save(new Comment(room1.getId(), "댓글2", 파워));
+        commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
+        commentRepository.save(new Comment(나무.getId(), "댓글2", 파워));
 
         String cookie = login(MEMBER_LOGIN_REQUEST);
 
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
-                .when().get("/rooms/" + room1.getId() + "/comments")
+                .when().get("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("comments", Matchers.hasSize(2))
@@ -165,9 +170,40 @@ class CommentControllerTest extends ControllerTest {
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
                 .body(new CommentRequest(comment))
-                .when().post("/rooms/" + room1.getId() + "/comments")
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value())
+                .when().post("/rooms/" + 나무.getId() + "/comments").then().log()
+                .all().statusCode(HttpStatus.CREATED.value())
                 .extract().as(CommentResponse.class);
+    }
+
+    @Test
+    void 유저는_자신의_댓글을_수정할_수_있다() {
+        Comment comment = commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
+        String cookie = login(MEMBER_LOGIN_REQUEST);
+
+        RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .body(COMMENT_UPDATE_REQUEST)
+                .when().patch("/rooms/" + 나무.getId() + "/comments/" + comment.getId())
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(CommentResponse.class);
+
+        Comment updatedComment = commentRepository.getCommentById(comment.getId());
+        assertThat(updatedComment.getComment()).isEqualTo(COMMENT_UPDATE_REQUEST.comment());
+    }
+
+    @Test
+    void 유저가_수정요청한_룸의_댓글이_해당_댓글의_룸과_다르면_안된다() {
+        Comment comment = commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
+        String cookie = login(MEMBER_LOGIN_REQUEST);
+
+        RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .body(COMMENT_UPDATE_REQUEST)
+                .when().patch("/rooms/" + 차이.getId() + "/comments/" + comment.getId())
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

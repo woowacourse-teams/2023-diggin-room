@@ -8,11 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    Optional<Comment> getCommentByRoomIdAndId(final Long roomId, final Long commentId);
+    Optional<Comment> findCommentById(final Long id);
 
-    default Comment findCommentByRoomIdAndId(final Long roomId, final Long commentId) {
-        return getCommentByRoomIdAndId(roomId, commentId)
-                .orElseThrow(NotFoundException::new);
+    default Comment getCommentById(final Long id) {
+        return findCommentById(id).orElseThrow(NotFoundException::new);
     }
 
     List<Comment> findCommentByRoomId(Long roomId);

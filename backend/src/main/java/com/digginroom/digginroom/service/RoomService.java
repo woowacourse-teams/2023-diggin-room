@@ -6,6 +6,7 @@ import com.digginroom.digginroom.controller.dto.CommentsResponse;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
+import com.digginroom.digginroom.domain.Comment;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -104,19 +105,37 @@ public class RoomService {
     }
 
     public CommentsResponse findRoomComments(final Long roomId) {
-        findRoom(roomId);
+        validateExistRoom(roomId);
         return commentService.findRoomComments(roomId);
     }
 
+    public void validateExistRoom(final Long roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new NotFoundException(roomId);
+        }
+    }
+
     public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {
-        Room room = findRoom(roomId);
+        validateExistRoom(roomId);
         Member member = memberService.findMember(memberId);
-        return commentService.comment(room, member, request);
+        return commentService.comment(roomId, member, request);
     }
 
     public void deleteComment(final Long roomId, final Long memberId, final Long commentId) {
-        Room room = findRoom(roomId);
+        validateExistRoom(roomId);
         Member member = memberService.findMember(memberId);
-        commentService.delete(room, member, commentId);
+        commentService.delete(roomId, member, commentId);
+    }
+
+    public CommentResponse updateComment(
+            final Long roomId,
+            final Long memberId,
+            final Long commentId,
+            final CommentRequest request
+    ) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        Comment updateComment = commentService.update(member, roomId, commentId, request);
+        return CommentResponse.of(updateComment);
     }
 }
