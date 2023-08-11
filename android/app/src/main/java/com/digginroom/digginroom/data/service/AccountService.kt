@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.service
 
+import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
@@ -19,6 +20,11 @@ interface AccountService {
     @POST("/login")
     suspend fun postLogin(
         @Body loginRequest: LoginRequest
+    ): Response<Void>
+
+    @POST("/login/google")
+    suspend fun postLogin(
+        @Body loginRequest: GoogleLoginRequest
     ): Response<Void>
 
     @GET("/join/exist")
