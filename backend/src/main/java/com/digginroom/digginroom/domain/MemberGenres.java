@@ -22,9 +22,9 @@ public class MemberGenres {
                 .toList();
     }
 
-    public void adjustWeightBy(final Genre genre, final Weight weight) {
+    public void adjustWeightBy(final Genre genre, final WeightFactor weightFactor) {
         MemberGenre targetMemberGenre = getTargetMemberGenre(genre);
-        targetMemberGenre.adjustWeight(weight);
+        targetMemberGenre.adjustWeight(weightFactor);
     }
 
     private MemberGenre getTargetMemberGenre(final Genre genre) {

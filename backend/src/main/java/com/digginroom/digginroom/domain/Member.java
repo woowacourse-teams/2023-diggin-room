@@ -1,5 +1,8 @@
 package com.digginroom.digginroom.domain;
 
+import com.digginroom.digginroom.exception.MemberException.DuplicatedFavoriteException;
+import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
+import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.HashSet;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,6 +31,8 @@ public class Member {
     private Password password;
     @Enumerated(value = EnumType.STRING)
     private Provider provider;
+    @Getter(AccessLevel.NONE)
+    private boolean hasFavorite = false;
     @Embedded
     private final ScrapRooms scrapRooms = new ScrapRooms();
     @Embedded
@@ -48,27 +54,52 @@ public class Member {
 
     public void scrap(final Room room) {
         scrapRooms.scrap(room);
-        adjustMemberGenreWeight(room, Weight.SCRAP);
-    }
-
-    private void adjustMemberGenreWeight(final Room room, final Weight scrap) {
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, scrap);
+        adjustMemberGenreWeight(room, WeightFactor.SCRAP);
     }
 
     public void unscrap(final Room room) {
         scrapRooms.unscrap(room);
-        adjustMemberGenreWeight(room, Weight.UNSCRAP);
+        adjustMemberGenreWeight(room, WeightFactor.UNSCRAP);
     }
 
     public void dislike(final Room room) {
         dislikeRooms.dislike(room);
-        adjustMemberGenreWeight(room, Weight.DISLIKE);
+        adjustMemberGenreWeight(room, WeightFactor.DISLIKE);
     }
 
     public void undislike(final Room room) {
         dislikeRooms.undislike(room);
-        adjustMemberGenreWeight(room, Weight.UNDISLIKE);
+        adjustMemberGenreWeight(room, WeightFactor.UNDISLIKE);
+    }
+
+    public void favorite(final List<Genre> genres) {
+        if (hasFavorite) {
+            throw new FavoriteExistsException();
+        }
+        if (hasDuplicate(genres)) {
+            throw new DuplicatedFavoriteException();
+        }
+        if (genres.isEmpty()) {
+            throw new EmptyFavoriteException();
+        }
+
+        for (Genre genre : genres) {
+            memberGenres.adjustWeightBy(genre, WeightFactor.FAVORITE);
+        }
+        hasFavorite = true;
+    }
+
+    private boolean hasDuplicate(final List<Genre> genres) {
+        return new HashSet<>(genres).size() != genres.size();
+    }
+
+    private void adjustMemberGenreWeight(final Room room, final WeightFactor weightFactor) {
+        Genre superGenre = room.getTrack().getSuperGenre();
+        memberGenres.adjustWeightBy(superGenre, weightFactor);
+    }
+
+    public boolean hasFavorite() {
+        return hasFavorite;
     }
 
     public boolean hasScrapped(final Room pickedRoom) {
