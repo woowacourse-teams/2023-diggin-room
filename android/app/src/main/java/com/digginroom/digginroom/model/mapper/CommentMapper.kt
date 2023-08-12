@@ -2,7 +2,6 @@ package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.data.entity.CommentResponse
 import com.digginroom.digginroom.data.entity.CommentsResponse
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ElapsedTimeFormatter
 import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.comment.Comment
 import java.time.Duration
@@ -13,7 +12,7 @@ object CommentMapper {
 
     fun Comment.toModel(): CommentModel {
         val currentTime = LocalDateTime.now()
-        val durationSeconds = Duration.between(currentTime, createdAt).seconds
+        val durationSeconds = Duration.between(createdAt, currentTime).seconds
         return CommentModel(
             id,
             writer,
