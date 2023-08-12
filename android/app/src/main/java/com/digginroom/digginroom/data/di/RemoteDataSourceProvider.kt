@@ -3,8 +3,10 @@ package com.digginroom.digginroom.data.di
 import com.digginroom.digginroom.BuildConfig
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
+import com.digginroom.digginroom.data.datasource.remote.MemberRemoteDataSource
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.data.service.AccountService
+import com.digginroom.digginroom.data.service.MemberService
 import com.digginroom.digginroom.data.service.RoomService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -41,7 +43,9 @@ class RemoteDataSourceProvider(tokenLocalDataSource: TokenLocalDataSource) {
 
     private val accountService: AccountService = retrofit.create(AccountService::class.java)
     private val roomService: RoomService = tokenRetrofit.create(RoomService::class.java)
+    private val memberService: MemberService = retrofit.create(MemberService::class.java)
 
     val accountDataSource = AccountRemoteDataSource(accountService)
     val roomRemoteDataSource = RoomRemoteDataSource(roomService)
+    val memberRemoteDataSource = MemberRemoteDataSource(memberService)
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.digginroom.digginroom.feature.genretaste.GenreTasteViewModel
 import com.digginroom.digginroom.feature.join.JoinViewModel
 import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.feature.room.RoomViewModel
@@ -58,6 +59,15 @@ class ViewModelFactory(context: Context) {
                         roomRepository = repositoryProvider.roomRepository
                     )
                 }
+            }
+        }
+
+    val genreTasteViewModelFactory: ViewModelProvider.Factory =
+        viewModelFactory {
+            initializer {
+                GenreTasteViewModel(
+                    memberRepository = repositoryProvider.memberRepository
+                )
             }
         }
 
