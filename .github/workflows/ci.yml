@@ -26,6 +26,7 @@ jobs:
         echo "flyway.password=${{ secrets.PROD_DATASOURCE_PASSWORD }}" >> dev.conf
         echo "flyway.encoding=UTF-8" >> dev.conf
         echo "flyway.outOfOrder=true" >> dev.conf
+        echo "flyway.locations=filesystem:src/main/resources/db/migration" >> dev.conf
         echo "flyway.validateOnMigrate=true" >> dev.conf
         echo "flyway.baselineVersion=0" >> dev.conf
       working-directory: ./backend
