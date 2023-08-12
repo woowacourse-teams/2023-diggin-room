@@ -21,9 +21,9 @@ jobs:
 
     - name: Create dev.conf
       run: |
-        echo "flyway.url=${{ secrets.DEV_DATASOURCE_URL }}" > dev.conf
-        echo "flyway.user=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> dev.conf
-        echo "flyway.password=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> dev.conf
+        echo "flyway.url=${{ secrets.PROD_DATASOURCE_URL }}" > dev.conf
+        echo "flyway.user=${{ secrets.PROD_DATASOURCE_USERNAME }}" >> dev.conf
+        echo "flyway.password=${{ secrets.PROD_DATASOURCE_PASSWORD }}" >> dev.conf
         echo "flyway.encoding=UTF-8" >> dev.conf
         echo "flyway.outOfOrder=true" >> dev.conf
         echo "flyway.validateOnMigrate=true" >> dev.conf
