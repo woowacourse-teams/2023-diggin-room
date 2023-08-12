@@ -30,7 +30,7 @@ jobs:
       working-directory: backend
 
     - name: flywayValidate
-      run: ./gradlew -Dflyway.configFiles=beta.conf flywayValidate
+      run: ./gradlew -Dflyway.configFiles=dev.conf flywayValidate --stacktrace
       working-directory: backend
 
     - name: Build with Gradle
