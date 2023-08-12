@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.fixture
 
-import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.model.room.Track
+import com.digginroom.digginroom.model.room.genre.Genre
 
 object RoomFixture {
 
@@ -12,7 +12,7 @@ object RoomFixture {
         track = Track(
             title = "예시 제목1",
             artist = "예시 아티스트1",
-            superGenre = Genre("예시 장르1")
+            superGenre = Genre.SOUNDS_AND_EFFECTS
         ),
         roomId = 0
     )
@@ -24,7 +24,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목2",
                 artist = "예시 아티스트2",
-                superGenre = Genre("예시 장르2")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
             roomId = 0
         ),
@@ -34,7 +34,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목3",
                 artist = "예시 아티스트3",
-                superGenre = Genre("예시 장르3")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
             roomId = 0
         ),
@@ -44,7 +44,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목4",
                 artist = "예시 아티스트4",
-                superGenre = Genre("예시 장르4")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
             roomId = 0
         ),
@@ -54,7 +54,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목5",
                 artist = "예시 아티스트5",
-                superGenre = Genre("예시 장르5")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
             roomId = 0
         ),
@@ -64,7 +64,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목6",
                 artist = "예시 아티스트6",
-                superGenre = Genre("예시 장르6")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
             roomId = 0
         ),
@@ -74,7 +74,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목7",
                 artist = "예시 아티스트7",
-                superGenre = Genre("예시 장르7")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
             roomId = 0
         )
