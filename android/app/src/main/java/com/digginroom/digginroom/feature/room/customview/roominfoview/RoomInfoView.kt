@@ -37,4 +37,8 @@ class RoomInfoView(context: Context) : ConstraintLayout(context) {
     fun updateOnShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
         roomInfoBinding.showRoomInfoListener = showRoomInfoListener
     }
+
+    fun updateOnFindCommentsListener(callback: RoomEventListener) {
+        roomInfoBinding.findCommentsListener = callback
+    }
 }

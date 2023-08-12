@@ -77,6 +77,10 @@ class RoomPager(
         roomRecycler.updateShowRoomInfoListener(showRoomInfoListener)
     }
 
+    fun updateOnFindCommentsListener(callback: RoomEventListener) {
+        roomRecycler.updateOnFindCommentsListener(callback)
+    }
+
     private fun clearViewHierarchy() {
         removeFirstChild(this)
         removeFirstChild(verticalScrollPager)

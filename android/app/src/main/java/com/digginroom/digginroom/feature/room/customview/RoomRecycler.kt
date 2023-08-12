@@ -47,6 +47,12 @@ class RoomRecycler(
         }
     }
 
+    fun updateOnFindCommentsListener(callback: RoomEventListener) {
+        roomPlayers.forEach {
+            it.updateOnFindCommentsListener(callback)
+        }
+    }
+
     fun recyclePreviousRooms(scrollPager: ScrollPager) {
         repeat(gridSize) {
             val child = getChildAt(scrollPager.calculateEndChildPosition(it, gridSize))

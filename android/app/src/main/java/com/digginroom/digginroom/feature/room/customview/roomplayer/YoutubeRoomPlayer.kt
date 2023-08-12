@@ -44,6 +44,10 @@ class YoutubeRoomPlayer(
         roomInfoView.updateOnShowRoomInfoListener(showRoomInfoListener)
     }
 
+    fun updateOnFindCommentsListener(callback: RoomEventListener) {
+        roomInfoView.updateOnFindCommentsListener(callback)
+    }
+
     override fun play() {
         loadUrl("javascript:play()")
     }

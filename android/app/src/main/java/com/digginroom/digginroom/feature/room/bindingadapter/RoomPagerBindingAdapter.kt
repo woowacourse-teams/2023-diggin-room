@@ -66,4 +66,10 @@ object RoomPagerBindingAdapter {
     fun onShowRoomInfoListener(roomPager: RoomPager, showRoomInfoListener: ShowRoomInfoListener) {
         roomPager.updateShowInfoListener(showRoomInfoListener)
     }
+
+    @JvmStatic
+    @BindingAdapter("app:onFindComments")
+    fun onFindComments(roomPager: RoomPager, callback: RoomEventListener) {
+        roomPager.updateOnFindCommentsListener(callback)
+    }
 }
