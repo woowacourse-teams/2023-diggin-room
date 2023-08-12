@@ -36,7 +36,7 @@ class GenreTasteViewModel(
     fun endSurvey() {
         viewModelScope.launch {
             memberRepository.postGenresTaste(
-                genresTaste.endSurvey()
+                genresTaste.selected
             )
         }
     }
