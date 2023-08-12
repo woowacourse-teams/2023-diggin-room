@@ -27,14 +27,12 @@ jobs:
         echo "flyway.outOfOrder=true" >> dev.conf
         echo "flyway.validateOnMigrate=true" >> dev.conf
         echo "flyway.baselineVersion=0" >> dev.conf
-      working-directory: backend
+      working-directory: ./backend
 
     - name: flywayValidate
       run: ./gradlew -Dflyway.configFiles=dev.conf flywayValidate --stacktrace
-      working-directory: backend
+      working-directory: ./backend
 
     - name: Build with Gradle
       run: ./gradlew build
       working-directory: ./backend
-
-
