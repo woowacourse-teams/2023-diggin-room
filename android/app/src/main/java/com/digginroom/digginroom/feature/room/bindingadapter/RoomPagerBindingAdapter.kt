@@ -5,6 +5,7 @@ import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
+import com.digginroom.digginroom.feature.room.customview.roomplayer.CommentState
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 
 object RoomPagerBindingAdapter {
@@ -71,5 +72,21 @@ object RoomPagerBindingAdapter {
     @BindingAdapter("app:onFindComments")
     fun onFindComments(roomPager: RoomPager, callback: RoomEventListener) {
         roomPager.updateOnFindCommentsListener(callback)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:comments")
+    fun comments(roomPager: RoomPager, commentState: CommentState) {
+        when (commentState) {
+            is CommentState.Error -> {
+            }
+
+            CommentState.Loading -> {
+            }
+
+            is CommentState.Success -> {
+                roomPager.updateComments(commentState.roomId, commentState.comments)
+            }
+        }
     }
 }

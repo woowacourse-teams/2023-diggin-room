@@ -10,6 +10,7 @@ import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class YoutubeRoomPlayer(
@@ -46,6 +47,10 @@ class YoutubeRoomPlayer(
 
     fun updateOnFindCommentsListener(callback: RoomEventListener) {
         roomInfoView.updateOnFindCommentsListener(callback)
+    }
+
+    fun updateComments(roomId: Long, comments: List<CommentModel>) {
+        roomInfoView.updateComments(roomId, comments)
     }
 
     override fun play() {

@@ -8,6 +8,7 @@ import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
+import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomRecycler(
@@ -50,6 +51,12 @@ class RoomRecycler(
     fun updateOnFindCommentsListener(callback: RoomEventListener) {
         roomPlayers.forEach {
             it.updateOnFindCommentsListener(callback)
+        }
+    }
+
+    fun updateComments(roomId: Long, comments: List<CommentModel>) {
+        roomPlayers.forEach {
+            it.updateComments(roomId, comments)
         }
     }
 

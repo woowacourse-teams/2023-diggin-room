@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="java.util.List" />
+
+        <import type="com.digginroom.digginroom.model.CommentModel" />
+
         <variable
             name="room"
             type="com.digginroom.digginroom.model.RoomModel" />
@@ -19,6 +23,10 @@
         <variable
             name="findCommentsListener"
             type="com.digginroom.digginroom.feature.room.RoomEventListener" />
+
+        <variable
+            name="comments"
+            type="List&lt;CommentModel>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

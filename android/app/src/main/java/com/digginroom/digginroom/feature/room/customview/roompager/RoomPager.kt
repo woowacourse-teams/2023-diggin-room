@@ -11,6 +11,7 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomIn
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.VerticalScrollPager
+import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomPager(
@@ -192,6 +193,10 @@ class RoomPager(
 
     private fun calculateCurrentPosition(): Int =
         verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition
+
+    fun updateComments(roomId: Long, comments: List<CommentModel>) {
+        roomRecycler.updateComments(roomId, comments)
+    }
 
     companion object {
         private const val GRID_SIZE = 3

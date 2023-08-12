@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.digginroom.digginroom.feature.room.customview.roomplayer.CommentState
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
-import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
@@ -20,6 +20,10 @@ class RoomViewModel(
     private val _cachedRoom: MutableLiveData<RoomState> = MutableLiveData(RoomState.Loading)
     val cachedRoom: LiveData<RoomState>
         get() = _cachedRoom
+
+    private val _comments: MutableLiveData<CommentState> = MutableLiveData(CommentState.Loading)
+    val comments: LiveData<CommentState>
+        get() = _comments
 
     fun findNext() {
         _cachedRoom.value = RoomState.Loading
@@ -69,7 +73,7 @@ class RoomViewModel(
     fun findComments(roomId: Long) {
         viewModelScope.launch {
             roomRepository.findComments(roomId).onSuccess { comments ->
-                val comments: List<CommentModel> = comments.map { it.toModel() }
+                _comments.value = CommentState.Success(roomId, comments.map { it.toModel() })
             }.onFailure {}
         }
     }
