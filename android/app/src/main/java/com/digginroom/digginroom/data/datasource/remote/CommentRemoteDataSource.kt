@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.data.datasource.remote
 
 import com.digginroom.digginroom.data.entity.CommentRequest
+import com.digginroom.digginroom.data.entity.CommentResponse
 import com.digginroom.digginroom.data.entity.CommentsResponse
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.service.CommentService
@@ -21,12 +22,17 @@ class CommentRemoteDataSource(private val commentService: CommentService) {
         throw HttpError.Unknown(response)
     }
 
-    suspend fun postComment(roomId: Long, comment: String) {
-        val response: Response<Void> = commentService.postComment(roomId, CommentRequest(comment))
+    suspend fun postComment(roomId: Long, comment: String): CommentResponse {
+        val response: Response<CommentResponse> =
+            commentService.postComment(roomId, CommentRequest(comment))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
-        if (response.code() != 201) throw HttpError.Unknown(response)
+        if (response.code() == 201) {
+            return response.body()
+                ?: throw HttpError.EmptyBody(response)
+        }
+        throw HttpError.Unknown(response)
     }
 }

@@ -3,12 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
         <variable
             name="commentViewModel"
             type="com.digginroom.digginroom.feature.room.CommentViewModel" />
+
         <variable
             name="adapter"
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter" />
+
+        <variable
+            name="commentEventListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener" />
+
+        <variable
+            name="postCommentResultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,8 +33,8 @@
             android:id="@+id/recyclerView_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:adapter="@{adapter}"
+            android:orientation="vertical"
             app:comments="@{commentViewModel.comments}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constrainedHeight="true"
@@ -34,21 +48,26 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:autofillHints="no"
             android:hint="@string/dialog_comment_input_comment"
             android:inputType="text"
+            android:text="@={commentViewModel.comment}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:postCommentResultListener="@{postCommentResultListener}"
+            app:postCommentState="@{commentViewModel.postCommentState}" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/button_selector"
-            android:text="@string/dialog_comment_send"
+            android:background="@drawable/send_button_selector"
+            android:enabled="@{!TextUtils.isEmpty(commentViewModel.comment)}"
+            android:onClick="@{()->commentEventListener.postComment(commentViewModel.comment)}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent" />

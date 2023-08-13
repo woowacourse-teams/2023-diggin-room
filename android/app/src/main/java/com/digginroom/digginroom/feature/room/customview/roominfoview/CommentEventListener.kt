@@ -4,5 +4,5 @@ interface CommentEventListener {
     fun findComments()
     fun updateComment()
     fun deleteComment()
-    fun sendComment(comment: String)
+    fun postComment(comment: String)
 }

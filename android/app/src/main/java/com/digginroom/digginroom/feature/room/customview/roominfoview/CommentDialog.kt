@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
+import com.digginroom.digginroom.feature.ResultListener
 import com.digginroom.digginroom.feature.room.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 
 class CommentDialog : BottomSheetDialogFragment() {
-    private lateinit var binding: DialogCommentLayoutBinding
+    lateinit var binding: DialogCommentLayoutBinding
     private lateinit var commentEventListener: CommentEventListener
+    private lateinit var postCommentResultListener: ResultListener
     private lateinit var commentViewModel: ViewModel
 
     override fun onCreateView(
@@ -23,8 +25,11 @@ class CommentDialog : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
         binding.commentViewModel = commentViewModel as CommentViewModel?
         binding.adapter = CommentAdapter()
+        binding.commentEventListener = commentEventListener
+        binding.postCommentResultListener = postCommentResultListener
         isCancelable = true
         return binding.root
     }
@@ -38,6 +43,10 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     fun setCommentEventListener(commentEventListener: CommentEventListener) {
         this.commentEventListener = commentEventListener
+    }
+
+    fun setPostCommentResultListener(resultListener: ResultListener) {
+        this.postCommentResultListener = resultListener
     }
 
     fun setViewModel(viewModel: ViewModel) {

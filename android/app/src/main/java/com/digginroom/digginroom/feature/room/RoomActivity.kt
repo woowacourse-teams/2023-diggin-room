@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
+import com.digginroom.digginroom.feature.room.customview.PostCommentResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
@@ -61,7 +62,7 @@ class RoomActivity : AppCompatActivity() {
                         commentViewModel.findComments(roomId)
                     }
 
-                    override fun sendComment(comment: String) {
+                    override fun postComment(comment: String) {
                         commentViewModel.postComment(roomId, comment)
                     }
 
@@ -73,6 +74,9 @@ class RoomActivity : AppCompatActivity() {
                         TODO("Not yet implemented")
                     }
                 })
+                commentDialog.setPostCommentResultListener(
+                    PostCommentResultListener(this@RoomActivity)
+                )
             }
         }
     }

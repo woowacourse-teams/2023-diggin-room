@@ -5,5 +5,5 @@ import com.digginroom.digginroom.model.comment.Comment
 
 interface CommentRepository {
     suspend fun findComments(roomId: Long): LogResult<List<Comment>>
-    suspend fun postComment(roomId: Long, comment: String): LogResult<Unit>
+    suspend fun postComment(roomId: Long, comment: String): LogResult<Comment>
 }

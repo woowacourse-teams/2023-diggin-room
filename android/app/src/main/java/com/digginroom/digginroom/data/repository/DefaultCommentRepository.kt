@@ -4,6 +4,7 @@ import com.digginroom.digginroom.data.datasource.remote.CommentRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.comment.Comment
+import com.digginroom.digginroom.model.mapper.CommentMapper.toDomain
 import com.digginroom.digginroom.repository.CommentRepository
 import java.time.LocalDateTime
 
@@ -34,9 +35,9 @@ class DefaultCommentRepository(private val commentRemoteDataSource: CommentRemot
         }
     }
 
-    override suspend fun postComment(roomId: Long, comment: String): LogResult<Unit> {
+    override suspend fun postComment(roomId: Long, comment: String): LogResult<Comment> {
         return logRunCatching {
-            commentRemoteDataSource.postComment(roomId, comment)
+            commentRemoteDataSource.postComment(roomId, comment).toDomain()
         }
     }
 }

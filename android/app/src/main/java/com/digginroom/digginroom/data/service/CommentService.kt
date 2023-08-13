@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.data.service
 
 import com.digginroom.digginroom.data.entity.CommentRequest
+import com.digginroom.digginroom.data.entity.CommentResponse
 import com.digginroom.digginroom.data.entity.CommentsResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -19,5 +20,5 @@ interface CommentService {
     suspend fun postComment(
         @Path(value = "id") roomId: Long,
         @Body commentRequest: CommentRequest
-    ): Response<Void>
+    ): Response<CommentResponse>
 }
