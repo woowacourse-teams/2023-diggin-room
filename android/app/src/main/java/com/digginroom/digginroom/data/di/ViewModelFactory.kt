@@ -9,6 +9,7 @@ import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.feature.room.RoomViewModel
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
+import com.digginroom.digginroom.feature.splash.SplashViewModel
 import com.digginroom.digginroom.model.RoomsModel
 
 class ViewModelFactory(context: Context) {
@@ -60,6 +61,14 @@ class ViewModelFactory(context: Context) {
                 }
             }
         }
+
+    val splashViewModelFactory: ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            SplashViewModel(
+                roomRepository = repositoryProvider.roomRepository
+            )
+        }
+    }
 
     companion object {
         private lateinit var instance: ViewModelFactory
