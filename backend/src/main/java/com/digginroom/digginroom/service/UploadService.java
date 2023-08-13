@@ -24,6 +24,7 @@ public class UploadService {
                 .artist(request.artist())
                 .superGenre(request.superGenre())
                 .subGenres(Arrays.asList(request.subGenre().split(",")))
+                .description(request.description())
                 .build();
 
         Room room = new Room(mediaSource, track);
