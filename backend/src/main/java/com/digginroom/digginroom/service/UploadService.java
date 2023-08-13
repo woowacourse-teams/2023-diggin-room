@@ -19,7 +19,8 @@ public class UploadService {
     @Transactional
     public void save(final UploadRequestDto request) {
         MediaSource mediaSource = new MediaSource(request.youtubeVideoId());
-        Track track = Track.builder().title(request.title())
+        Track track = Track.builder()
+                .title(request.title())
                 .artist(request.artist())
                 .superGenre(request.superGenre())
                 .subGenres(Arrays.asList(request.subGenre().split(",")))

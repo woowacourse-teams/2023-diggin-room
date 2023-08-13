@@ -3,7 +3,7 @@ package com.digginroom.digginroom.controller;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.service.UploadService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UploadController {
 
     private final UploadService uploadService;
@@ -23,7 +23,7 @@ public class UploadController {
     }
 
     @GetMapping("/upload")
-    public String upload(Model model, UploadRequestDto request) {
+    public String upload(final Model model, final UploadRequestDto request) {
         model.addAttribute("request", request);
         return "uploadForm";
     }

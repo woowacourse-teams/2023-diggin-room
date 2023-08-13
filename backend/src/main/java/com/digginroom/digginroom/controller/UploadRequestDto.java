@@ -5,14 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UploadRequestDto(
-        @NotBlank
-        String title,
-        @NotBlank
-        String artist,
-        @NotNull
-        Genre superGenre,
+        @NotBlank String title,
+        @NotBlank String artist,
+        @NotNull Genre superGenre,
         String subGenre,
-        @NotBlank
-        String youtubeVideoId
+        @NotBlank String youtubeVideoId
 ) {
 }
