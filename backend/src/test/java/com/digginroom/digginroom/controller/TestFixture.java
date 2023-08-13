@@ -28,6 +28,7 @@ public class TestFixture {
                 .title("나무")
                 .superGenre(Genre.ROCK)
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
+                .description("코건은 코건")
                 .build();
         return new Room(new MediaSource("lQcnNPqy2Ww"), track);
     }
@@ -38,6 +39,7 @@ public class TestFixture {
                 .title("차이코프스키 6번 교향곡")
                 .superGenre(Genre.CLASSICAL_MUSIC)
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
+                .description("콩하나는 콩둘")
                 .build();
         return new Room(new MediaSource("2VkWaOOF4Rc"), track);
     }
