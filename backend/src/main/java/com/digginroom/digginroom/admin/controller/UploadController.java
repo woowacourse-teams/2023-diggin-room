@@ -1,7 +1,8 @@
-package com.digginroom.digginroom.controller;
+package com.digginroom.digginroom.admin.controller;
 
+import com.digginroom.digginroom.admin.controller.dto.UploadRequest;
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.service.UploadService;
+import com.digginroom.digginroom.admin.service.UploadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,13 @@ public class UploadController {
     }
 
     @GetMapping("/upload")
-    public String upload(final Model model, final UploadRequestDto request) {
+    public String upload(final Model model, final UploadRequest request) {
         model.addAttribute("request", request);
         return "uploadForm";
     }
 
     @PostMapping("/upload")
-    public String upload(@Valid @ModelAttribute("request") final UploadRequestDto request,
+    public String upload(@Valid @ModelAttribute("request") final UploadRequest request,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "uploadForm";
