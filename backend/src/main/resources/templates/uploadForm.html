@@ -53,7 +53,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">메인 장르</label>
                                     <select class="form-select" id="floatingSelect"
-                                            aria-label="Floating label select example" th:field="*{superGenre}">
+                                            aria-label="Floating label select example" th:field="*{superGenre}" required>
                                         <option th:each="colorOpt : ${genre}"
                                                 th:value="${colorOpt}" th:text="${colorOpt.getName()}"></option>
                                     </select>
