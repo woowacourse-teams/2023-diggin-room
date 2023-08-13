@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="commentViewModel"
+            type="com.digginroom.digginroom.feature.room.CommentViewModel" />
+        <variable
+            name="adapter"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:adapter="@{adapter}"
+            app:comments="@{commentViewModel.comments}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"

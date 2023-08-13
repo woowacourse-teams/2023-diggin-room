@@ -12,8 +12,4 @@ class CommentAdapter : ListAdapter<CommentModel, CommentViewHolder>(CommentDiffU
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
-    fun updateItems(items: List<CommentModel>) {
-        submitList(items)
-    }
 }

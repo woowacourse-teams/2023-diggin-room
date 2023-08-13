@@ -55,12 +55,10 @@ class RoomActivity : AppCompatActivity() {
             override fun show(roomId: Long) {
                 if (commentDialog.isAdded) return
                 commentDialog.show(supportFragmentManager, "")
+                commentDialog.setViewModel(commentViewModel)
                 commentDialog.setCommentEventListener(object : CommentEventListener {
                     override fun findComments() {
                         commentViewModel.findComments(roomId)
-                        commentViewModel.comments.observe(this@RoomActivity) { comments ->
-                            commentDialog.setUpRecyclerView(comments)
-                        }
                     }
 
                     override fun sendComment(comment: String) {
