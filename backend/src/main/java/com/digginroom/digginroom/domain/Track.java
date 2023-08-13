@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,7 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -34,7 +34,7 @@ public class Track {
     private Genre superGenre;
     @Convert(converter = SubGenreConverter.class)
     private List<String> subGenres;
-    @Lob
+    @Column(length = 500)
     private String description;
     @OneToMany(mappedBy = "track")
     private final List<Room> rooms = new ArrayList<>();
