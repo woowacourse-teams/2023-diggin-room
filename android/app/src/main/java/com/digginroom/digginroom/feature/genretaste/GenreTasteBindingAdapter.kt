@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.digginroom.digginroom.feature.ResultListener
+import com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter
 import com.digginroom.digginroom.model.GenreTasteModel
 
 object GenreTasteBindingAdapter {

@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.genretaste
+package com.digginroom.digginroom.feature.genretaste.adpater
 
 import androidx.recyclerview.widget.DiffUtil
 import com.digginroom.digginroom.model.GenreTasteModel

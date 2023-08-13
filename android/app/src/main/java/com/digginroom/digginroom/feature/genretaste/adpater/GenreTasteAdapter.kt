@@ -1,7 +1,9 @@
-package com.digginroom.digginroom.feature.genretaste
+package com.digginroom.digginroom.feature.genretaste.adpater
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import com.digginroom.digginroom.feature.genretaste.GenreTasteClickListener
+import com.digginroom.digginroom.feature.genretaste.GenreTasteViewHolder
 import com.digginroom.digginroom.model.GenreTasteModel
 
 class GenreTasteAdapter(

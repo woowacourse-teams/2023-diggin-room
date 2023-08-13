@@ -15,7 +15,7 @@
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.feature.genretaste.GenreTasteAdapter" />
+            type="com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter" />
 
         <variable
             name="resultListener"

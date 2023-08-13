@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityGenreTasteBinding
+import com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter
 
 class GenreTasteActivity : AppCompatActivity() {
 
