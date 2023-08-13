@@ -70,7 +70,7 @@ public class MemberService {
         if (member.getPassword().doesNotMatch(request.password())) {
             throw new NotFoundException();
         }
-        return new MemberLoginResponse(member.getId());
+        return MemberLoginResponse.of(member);
     }
 
     public MemberLoginResponse loginMember(final GoogleOAuthRequest request) {
@@ -81,6 +81,6 @@ public class MemberService {
                         new Member(googleUsername, Provider.GOOGLE))
                 );
 
-        return new MemberLoginResponse(member.getId());
+        return MemberLoginResponse.of(member);
     }
 }

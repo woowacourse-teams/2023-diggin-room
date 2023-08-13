@@ -24,7 +24,7 @@ public class MemberLoginController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Void> login(
+    public ResponseEntity<MemberLoginResponse> login(
             @RequestBody @Valid final MemberLoginRequest memberLoginRequest,
             final HttpSession httpSession
     ) {
@@ -32,11 +32,12 @@ public class MemberLoginController {
 
         httpSession.setAttribute("memberId", member.memberId());
         httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
     }
 
     @PostMapping("/google")
-    public ResponseEntity<Void> login(
+    public ResponseEntity<MemberLoginResponse> login(
             @RequestBody @Valid final GoogleOAuthRequest googleOAuthRequest,
             final HttpSession httpSession
     ) {
@@ -44,7 +45,7 @@ public class MemberLoginController {
 
         httpSession.setAttribute("memberId", member.memberId());
         httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
     }
-
 }
