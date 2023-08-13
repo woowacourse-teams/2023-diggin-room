@@ -14,7 +14,6 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEve
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
-import com.digginroom.digginroom.feature.room.customview.roomplayer.CommentState
 import com.digginroom.digginroom.model.TrackModel
 
 class RoomActivity : AppCompatActivity() {
@@ -25,6 +24,12 @@ class RoomActivity : AppCompatActivity() {
             this,
             ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
+    }
+    private val commentViewModel: CommentViewModel by lazy {
+        ViewModelProvider(
+            this,
+            ViewModelFactory.getInstance(applicationContext).commentViewModelFactory
+        )[CommentViewModel::class.java]
     }
     private var dialog: TrackInfoDialog = TrackInfoDialog()
     private var commentDialog: CommentDialog = CommentDialog()
@@ -52,24 +57,14 @@ class RoomActivity : AppCompatActivity() {
                 commentDialog.show(supportFragmentManager, "")
                 commentDialog.setCommentEventListener(object : CommentEventListener {
                     override fun findComments() {
-                        roomViewModel.findComments(roomId)
-                        roomViewModel.comments.observe(this@RoomActivity) { commentState ->
-                            when (commentState) {
-                                is CommentState.Loading -> {
-                                }
-
-                                is CommentState.Success -> {
-                                    commentDialog.setUpRecyclerView(commentState.comments)
-                                }
-
-                                is CommentState.Error -> {
-                                }
-                            }
+                        commentViewModel.findComments(roomId)
+                        commentViewModel.comments.observe(this@RoomActivity) { comments ->
+                            commentDialog.setUpRecyclerView(comments)
                         }
                     }
 
-                    override fun sendComment() {
-                        TODO("Not yet implemented")
+                    override fun sendComment(comment: String) {
+                        commentViewModel.postComment(roomId, comment)
                     }
 
                     override fun updateComment() {

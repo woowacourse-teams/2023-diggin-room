@@ -1,7 +1,6 @@
 package com.digginroom.digginroom.data.service
 
 import com.digginroom.digginroom.data.entity.CancelScrapRequest
-import com.digginroom.digginroom.data.entity.CommentsResponse
 import com.digginroom.digginroom.data.entity.DislikeRequest
 import com.digginroom.digginroom.data.entity.RoomResponse
 import com.digginroom.digginroom.data.entity.ScrapRequest
@@ -11,7 +10,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 interface RoomService {
 
@@ -35,9 +33,4 @@ interface RoomService {
     suspend fun postDislike(
         @Body dislikeRequest: DislikeRequest
     ): Response<Void>
-
-    @GET("/rooms/{id}/comments")
-    suspend fun findComments(
-        @Path(value = "id") roomId: Long
-    ): Response<CommentsResponse>
 }

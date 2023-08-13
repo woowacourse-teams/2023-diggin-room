@@ -22,7 +22,6 @@
     <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:comments="@{roomViewModel.comments}"
         app:onDislike="@{roomViewModel::postDislike}"
         app:onLoadNext="@{() -> roomViewModel.findNext()}"
         app:onRemoveScrap="@{roomViewModel::removeScrap}"

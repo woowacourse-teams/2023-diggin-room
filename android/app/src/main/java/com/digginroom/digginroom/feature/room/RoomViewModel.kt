@@ -69,12 +69,4 @@ class RoomViewModel(
             }.onFailure {}
         }
     }
-
-    fun findComments(roomId: Long) {
-        viewModelScope.launch {
-            roomRepository.findComments(roomId).onSuccess { comments ->
-                _comments.value = CommentState.Success(roomId, comments.map { it.toModel() })
-            }.onFailure {}
-        }
-    }
 }
