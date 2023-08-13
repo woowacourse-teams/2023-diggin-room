@@ -21,7 +21,7 @@ jobs:
 
     - name: Create flyway.conf
       run: |
-      touch flyway.conf
+        touch flyway.conf
         echo "flyway.url=${{ secrets.PROD_DATASOURCE_URL }}" >> flyway.conf
         echo "flyway.user=${{ secrets.PROD_DATASOURCE_USERNAME }}" >> flyway.conf
         echo "flyway.password=${{ secrets.PROD_DATASOURCE_PASSWORD }}" >> flyway.conf

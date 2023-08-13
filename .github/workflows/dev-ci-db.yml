@@ -21,15 +21,15 @@ jobs:
 
     - name: Create flyway.conf
       run: |
-      touch flyway.conf
-      echo "flyway.url=${{ secrets.DEV_DATASOURCE_URL }}" >> flyway.conf
-      echo "flyway.user=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> flyway.conf
-      echo "flyway.password=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> flyway.conf
-      echo "flyway.encoding=UTF-8" >> flyway.conf
-      echo "flyway.outOfOrder=true" >> flyway.conf
-      echo "flyway.locations=filesystem:src/main/resources/db/migration" >> flyway.conf
-      echo "flyway.validateOnMigrate=true" >> flyway.conf
-      echo "flyway.baselineVersion=0" >> flyway.conf
+        touch flyway.conf
+        echo "flyway.url=${{ secrets.DEV_DATASOURCE_URL }}" >> flyway.conf
+        echo "flyway.user=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> flyway.conf
+        echo "flyway.password=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> flyway.conf
+        echo "flyway.encoding=UTF-8" >> flyway.conf
+        echo "flyway.outOfOrder=true" >> flyway.conf
+        echo "flyway.locations=filesystem:src/main/resources/db/migration" >> flyway.conf
+        echo "flyway.validateOnMigrate=true" >> flyway.conf
+        echo "flyway.baselineVersion=0" >> flyway.conf
       working-directory: ./backend
 
     - name: flywayValidate
