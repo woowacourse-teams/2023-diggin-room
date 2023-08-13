@@ -35,6 +35,7 @@ class GenreTasteActivity : AppCompatActivity() {
             R.layout.activity_genre_taste
         ).also {
             it.viewModel = genreTasteViewModel
+            it.resultListener = GenreTasteResultListener(this)
             it.adapter = adapter
         }
 

@@ -27,6 +27,8 @@ class GenreTasteViewModel(
     val genres: LiveData<List<GenreTasteModel>>
         get() = _genres
 
+    var state: GenreTasteSurveyState = GenreTasteSurveyState.RUNNING
+
     fun switchSelection(genreTasteModel: GenreTasteModel) {
         genresTaste.switchSelection(genreTasteModel.toDomain())
 
@@ -37,7 +39,11 @@ class GenreTasteViewModel(
         viewModelScope.launch {
             memberRepository.postGenresTaste(
                 genresTaste.selected
-            )
+            ).onSuccess {
+                state = GenreTasteSurveyState.SUCCEED
+            }.onFailure {
+                state = GenreTasteSurveyState.FAILED
+            }
         }
     }
 }
