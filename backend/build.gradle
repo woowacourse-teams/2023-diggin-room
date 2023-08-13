@@ -40,6 +40,9 @@ dependencies {
     implementation 'org.flywaydb:flyway-core:9.16.3'
     implementation 'org.flywaydb:flyway-mysql:9.16.3'
 
+    // thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     implementation 'com.google.api-client:google-api-client-servlet:2.0.0'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
