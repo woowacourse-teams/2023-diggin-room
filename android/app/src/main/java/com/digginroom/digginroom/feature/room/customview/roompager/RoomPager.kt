@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
@@ -80,6 +81,14 @@ class RoomPager(
 
     fun updateOnFindCommentsListener(callback: RoomEventListener) {
         roomRecycler.updateOnFindCommentsListener(callback)
+    }
+
+    fun updateComments(roomId: Long, comments: List<CommentModel>) {
+        roomRecycler.updateComments(roomId, comments)
+    }
+
+    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
+        roomRecycler.updateShowCommentsListener(showCommentsListener)
     }
 
     private fun clearViewHierarchy() {
@@ -193,10 +202,6 @@ class RoomPager(
 
     private fun calculateCurrentPosition(): Int =
         verticalScrollPager.scrollPosition * GRID_SIZE + horizontalScrollPager.scrollPosition
-
-    fun updateComments(roomId: Long, comments: List<CommentModel>) {
-        roomRecycler.updateComments(roomId, comments)
-    }
 
     companion object {
         private const val GRID_SIZE = 3

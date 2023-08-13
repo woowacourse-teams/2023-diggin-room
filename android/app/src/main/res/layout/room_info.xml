@@ -27,12 +27,16 @@
         <variable
             name="comments"
             type="List&lt;CommentModel>" />
+
+        <variable
+            name="showCommentsListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
         android:paddingHorizontal="@dimen/scrap_horizontal_margin"
         android:paddingTop="@dimen/scrap_horizontal_margin"
         android:paddingBottom="@dimen/scrap_vertical_margin">
@@ -85,7 +89,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="15dp"
-            android:onClick="@{()->findCommentsListener.event(room.roomId)}"
+            android:onClick="@{()->showCommentsListener.show(room.roomId)}"
             android:src="@drawable/comment_icon"
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
             app:layout_constraintEnd_toEndOf="@id/img_info" />

@@ -14,7 +14,7 @@ class CommentViewHolder(private val binding: ItemCommentBinding) : ViewHolder(bi
     companion object {
         fun of(parent: ViewGroup): CommentViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ItemCommentBinding.inflate(layoutInflater)
+            val binding = ItemCommentBinding.inflate(layoutInflater, parent, false)
             return CommentViewHolder(binding)
         }
     }

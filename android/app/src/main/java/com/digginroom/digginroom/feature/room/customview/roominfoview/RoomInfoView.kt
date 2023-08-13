@@ -48,4 +48,8 @@ class RoomInfoView(context: Context) : ConstraintLayout(context) {
             roomInfoBinding.comments = comments
         }
     }
+
+    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
+        roomInfoBinding.showCommentsListener = showCommentsListener
+    }
 }

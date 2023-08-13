@@ -4,25 +4,37 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.digginroom.digginroom.databinding.DialogTrackInfoLayoutBinding
-import com.digginroom.digginroom.model.TrackModel
+import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
+import com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter
+import com.digginroom.digginroom.model.CommentModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CommentDialog : BottomSheetDialogFragment() {
-    private lateinit var track: TrackModel
-    private lateinit var binding: DialogTrackInfoLayoutBinding
+    private lateinit var binding: DialogCommentLayoutBinding
+    private lateinit var commentEventListener: CommentEventListener
+    val adapter = CommentAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DialogTrackInfoLayoutBinding.inflate(inflater, container, false)
-        binding.trackModel = track
+        binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
+        isCancelable = true
         return binding.root
     }
 
-    fun updateTrackModel(track: TrackModel) {
-        this.track = track
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        commentEventListener.findComments()
+    }
+
+    fun setCommentEventListener(commentEventListener: CommentEventListener) {
+        this.commentEventListener = commentEventListener
+    }
+
+    fun setUpRecyclerView(comments: List<CommentModel>) {
+        adapter.updateItems(comments)
+        binding.recyclerViewComment.adapter = adapter
     }
 }

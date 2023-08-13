@@ -9,8 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
+import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
+import com.digginroom.digginroom.feature.room.customview.roomplayer.CommentState
 import com.digginroom.digginroom.model.TrackModel
 
 class RoomActivity : AppCompatActivity() {
@@ -23,6 +27,7 @@ class RoomActivity : AppCompatActivity() {
         )[RoomViewModel::class.java]
     }
     private var dialog: TrackInfoDialog = TrackInfoDialog()
+    private var commentDialog: CommentDialog = CommentDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,42 @@ class RoomActivity : AppCompatActivity() {
                 dialog.show(supportFragmentManager, "")
                 dialog.updateTrackModel(trackModel)
                 dialog.isCancelable = true
+            }
+        }
+        binding.showCommentsListener = object : ShowCommentsListener {
+            override fun show(roomId: Long) {
+                if (commentDialog.isAdded) return
+                commentDialog.show(supportFragmentManager, "")
+                commentDialog.setCommentEventListener(object : CommentEventListener {
+                    override fun findComments() {
+                        roomViewModel.findComments(roomId)
+                        roomViewModel.comments.observe(this@RoomActivity) { commentState ->
+                            when (commentState) {
+                                is CommentState.Loading -> {
+                                }
+
+                                is CommentState.Success -> {
+                                    commentDialog.setUpRecyclerView(commentState.comments)
+                                }
+
+                                is CommentState.Error -> {
+                                }
+                            }
+                        }
+                    }
+
+                    override fun sendComment() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun updateComment() {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun deleteComment() {
+                        TODO("Not yet implemented")
+                    }
+                })
             }
         }
     }

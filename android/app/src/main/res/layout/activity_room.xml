@@ -13,6 +13,10 @@
         <variable
             name="showRoomInfoListener"
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
+
+        <variable
+            name="showCommentsListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener" />
     </data>
 
     <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
@@ -20,13 +24,13 @@
         android:layout_height="match_parent"
         app:comments="@{roomViewModel.comments}"
         app:onDislike="@{roomViewModel::postDislike}"
-        app:onFindComments="@{roomViewModel::findComments}"
         app:onLoadNext="@{() -> roomViewModel.findNext()}"
         app:onRemoveScrap="@{roomViewModel::removeScrap}"
         app:onScrap="@{roomViewModel::postScrap}"
         app:onShowRoomInfoListener="@{showRoomInfoListener}"
         app:orientation="@{PagingOrientation.BOTH}"
         app:roomPosition="@{0}"
-        app:rooms="@{roomViewModel.cachedRoom}" />
+        app:rooms="@{roomViewModel.cachedRoom}"
+        app:showCommentsListener = "@{showCommentsListener}"/>
 
 </layout>
