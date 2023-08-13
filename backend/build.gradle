@@ -1,7 +1,17 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:9.16.3'
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.1'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.flywaydb.flyway' version "9.16.3"
 }
 
 group = 'com.digginroom'
@@ -27,8 +37,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // flyway
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'org.flywaydb:flyway-mysql'
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    implementation 'org.flywaydb:flyway-mysql:9.16.3'
 
     implementation 'com.google.api-client:google-api-client-servlet:2.0.0'
     compileOnly 'org.projectlombok:lombok'

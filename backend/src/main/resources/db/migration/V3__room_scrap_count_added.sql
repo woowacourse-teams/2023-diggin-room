@@ -1,0 +1,1 @@
+ALTER TABLE room ADD scrap_count BIGINT NOT NULL DEFAULT 0;
