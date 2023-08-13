@@ -1,0 +1,37 @@
+name: DB CI with Flyway
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["backend"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: development
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'corretto'
+
+    - name: Create flyway.conf
+      run: |
+      touch flyway.conf
+      echo "flyway.url=${{ secrets.DEV_DATASOURCE_URL }}" >> flyway.conf
+      echo "flyway.user=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> flyway.conf
+      echo "flyway.password=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> flyway.conf
+      echo "flyway.encoding=UTF-8" >> flyway.conf
+      echo "flyway.outOfOrder=true" >> flyway.conf
+      echo "flyway.locations=filesystem:src/main/resources/db/migration" >> flyway.conf
+      echo "flyway.validateOnMigrate=true" >> flyway.conf
+      echo "flyway.baselineVersion=0" >> flyway.conf
+      working-directory: ./backend
+
+    - name: flywayValidate
+      run: ./gradlew -Dflyway.configFiles flyway.conf flywayValidate --stacktrace
+      working-directory: ./backend
