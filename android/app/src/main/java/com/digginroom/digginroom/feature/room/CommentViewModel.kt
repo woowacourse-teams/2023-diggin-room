@@ -26,6 +26,7 @@ class CommentViewModel(
     val postCommentState: LiveData<PostCommentState> get() = _postCommentState
 
     fun findComments(roomId: Long) {
+        _postCommentState.value = PostCommentState.READY
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
                 _comments.value = comments.map { it.toModel() }
