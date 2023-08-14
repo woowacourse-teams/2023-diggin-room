@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.feature.room.customview.PostCommentState
+import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
@@ -21,12 +21,11 @@ class CommentViewModel(
 
     val comment: NonNullMutableLiveData<String> = NonNullMutableLiveData("")
 
-    private val _postCommentState: MutableLiveData<PostCommentState> =
-        MutableLiveData(PostCommentState.READY)
-    val postCommentState: LiveData<PostCommentState> get() = _postCommentState
+    private val _commentState:MutableLiveData<CommentState> = MutableLiveData()
+    val commentState:LiveData<CommentState> get() = _commentState
 
     fun findComments(roomId: Long) {
-        _postCommentState.value = PostCommentState.READY
+        _commentState.value = CommentState.Create.Ready
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
                 _comments.value = comments.map { it.toModel() }
@@ -39,9 +38,9 @@ class CommentViewModel(
             commentRepository.postComment(roomId, comment).onSuccess {
                 val oldComments: List<CommentModel> = _comments.value ?: listOf()
                 _comments.value = oldComments + it.toModel()
-                _postCommentState.value = PostCommentState.SUCCEED
+                _commentState.value = CommentState.Create.Succeed
             }.onFailure {
-                _postCommentState.value = PostCommentState.FAILED
+                _commentState.value = CommentState.Create.Failed
             }
         }
     }

@@ -4,7 +4,8 @@ import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.feature.ResultListener
-import com.digginroom.digginroom.feature.room.customview.PostCommentState
+import com.digginroom.digginroom.feature.room.customview.CommentState
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter
 import com.digginroom.digginroom.model.CommentModel
 
@@ -17,26 +18,26 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:postCommentState", "app:postCommentResultListener"],
+        value = ["app:commentState", "app:postCommentResultListener"],
         requireAll = true
     )
     fun postCommentResultListener(
         editText: EditText,
-        postCommentState: PostCommentState,
+        commentState: CommentState,
         postCommentResultListener: ResultListener
     ) {
-        when (postCommentState) {
-            PostCommentState.SUCCEED -> {
+        when (commentState) {
+            CommentState.Create.Succeed -> {
                 editText.text.clear()
                 postCommentResultListener.onSucceed()
             }
 
-            PostCommentState.FAILED -> {
+            CommentState.Create.Failed -> {
                 editText.text.clear()
                 postCommentResultListener.onFailed()
             }
 
-            PostCommentState.READY -> {}
+            else -> {}
         }
     }
 }
