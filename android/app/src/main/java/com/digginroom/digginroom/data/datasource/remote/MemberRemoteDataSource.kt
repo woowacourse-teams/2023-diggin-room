@@ -9,12 +9,12 @@ class MemberRemoteDataSource(
     private val memberService: MemberService
 ) {
 
-    fun postGenresTaste(genres: List<String>) {
+    suspend fun postGenresTaste(genres: List<String>) {
         val response: Response<Void> = memberService.postGenresTaste(GenresTasteRequest(genres))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
-        if (response.code() != 201) throw HttpError.Unknown(response)
+        if (response.code() != 200) throw HttpError.Unknown(response)
     }
 }

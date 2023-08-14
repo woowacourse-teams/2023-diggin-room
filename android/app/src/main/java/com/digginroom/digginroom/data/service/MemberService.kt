@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface MemberService {
 
     @POST("/member/favorite-genres")
-    fun postGenresTaste(
+    suspend fun postGenresTaste(
         @Body
         genresTaste: GenresTasteRequest
     ): Response<Void>

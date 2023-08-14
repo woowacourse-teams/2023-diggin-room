@@ -10,7 +10,7 @@ class DefaultMemberRepository(
     private val memberRemoteDataSource: MemberRemoteDataSource
 ) : MemberRepository {
 
-    override fun postGenresTaste(genres: List<Genre>): DefaultLogResult<Unit> = logRunCatching {
-        memberRemoteDataSource.postGenresTaste(genres.map { it.toString() })
+    override suspend fun postGenresTaste(genres: List<Genre>): DefaultLogResult<Unit> = logRunCatching {
+        memberRemoteDataSource.postGenresTaste(genres.map { it.title })
     }
 }

@@ -5,5 +5,5 @@ import com.digginroom.digginroom.model.room.genre.Genre
 
 interface MemberRepository {
 
-    fun postGenresTaste(genres: List<Genre>): LogResult<Unit>
+    suspend fun postGenresTaste(genres: List<Genre>): LogResult<Unit>
 }
