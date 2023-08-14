@@ -101,11 +101,10 @@ class RoomRecycler(
     fun playCurrentRoomPlayer(target: Int) {
         currentRoomPlayerPosition = target
         children.filterIsInstance<YoutubeRoomPlayer>().map {
-            val room = it as? YoutubeRoomPlayer ?: return@map
-            if (room.tag == target) {
-                room.play()
+            if (it.tag == target) {
+                it.play()
             } else {
-                room.pause()
+                it.pause()
             }
         }
     }
@@ -124,8 +123,9 @@ class RoomRecycler(
 
     private fun navigateRoom(target: Int, position: Int) {
         val target = repeat(target + position, gridSize)
-        val room = getChildAt((target * gridSize) + (gridSize / 2)) as RoomPlayer
-        room.navigate(rooms[currentRoomPosition + position])
+        val room = getChildAt((target * gridSize) + (gridSize / 2)) as? RoomPlayer
+            ?: getChildAt((gridSize * (gridSize / 2)) + 1 + target) as? RoomPlayer
+        room?.navigate(rooms[currentRoomPosition + position])
     }
 
     private fun repeat(n: Int, max: Int) = if (n >= max) {

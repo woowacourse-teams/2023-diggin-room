@@ -10,5 +10,7 @@ data class TrackResponse(
     @SerialName("artist")
     val artist: String,
     @SerialName("superGenre")
-    val superGenre: String
+    val superGenre: String,
+    @SerialName("description")
+    val description: String
 )

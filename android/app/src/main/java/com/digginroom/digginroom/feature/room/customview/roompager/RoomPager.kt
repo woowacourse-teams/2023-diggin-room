@@ -27,12 +27,7 @@ class RoomPager(
     init {
         initVerticalScrollView()
         initHorizontalScrollView()
-        post {
-            horizontalScrollPager.smoothScrollTo(
-                horizontalScrollPager.scrollPosition * horizontalScrollPager.screenSize
-            )
-            updateRoomPosition(0)
-        }
+        initOrientation()
     }
 
     fun updateData(rooms: List<RoomModel>) {
@@ -83,6 +78,17 @@ class RoomPager(
 
     fun updateShowInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
         roomRecycler.updateShowRoomInfoListener(showRoomInfoListener)
+    }
+
+    private fun initOrientation() {
+        post {
+            horizontalScrollPager.scrollTo(
+                horizontalScrollPager.scrollPosition * horizontalScrollPager.screenSize
+            )
+            lastPagingOrientation = verticalScrollPager.pagingOrientation
+            roomRecycler.swapOrientation()
+            updateRoomPosition(0)
+        }
     }
 
     private fun clearViewHierarchy() {
