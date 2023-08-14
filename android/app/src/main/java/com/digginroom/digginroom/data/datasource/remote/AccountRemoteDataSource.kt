@@ -38,10 +38,8 @@ class AccountRemoteDataSource(
 
         if (response.code() == 200) {
             return LoginResult(
-                token = response.headers().get(SET_COOKIE)
-                    ?: throw HttpError.EmptyBody(response),
-                hasFavorite = response.body()?.hasFavorite
-                    ?: throw HttpError.EmptyBody(response)
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasFavorite = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
             )
         }
 
@@ -55,10 +53,8 @@ class AccountRemoteDataSource(
 
         if (response.code() == 200) {
             return LoginResult(
-                token = response.headers().get(SET_COOKIE)
-                    ?: throw HttpError.EmptyBody(response),
-                hasFavorite = response.body()?.hasFavorite
-                    ?: throw HttpError.EmptyBody(response)
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasFavorite = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
             )
         }
 
