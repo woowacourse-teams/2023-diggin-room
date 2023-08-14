@@ -6,7 +6,6 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommen
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
-import com.digginroom.digginroom.feature.room.customview.roomplayer.CommentState
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 
 object RoomPagerBindingAdapter {
@@ -67,22 +66,6 @@ object RoomPagerBindingAdapter {
     @BindingAdapter("app:onShowRoomInfoListener")
     fun onShowRoomInfoListener(roomPager: RoomPager, showRoomInfoListener: ShowRoomInfoListener) {
         roomPager.updateShowInfoListener(showRoomInfoListener)
-    }
-
-    @JvmStatic
-    @BindingAdapter("app:comments")
-    fun comments(roomPager: RoomPager, commentState: CommentState) {
-        when (commentState) {
-            is CommentState.Error -> {
-            }
-
-            CommentState.Loading -> {
-            }
-
-            is CommentState.Success -> {
-                roomPager.updateComments(commentState.roomId, commentState.comments)
-            }
-        }
     }
 
     @JvmStatic
