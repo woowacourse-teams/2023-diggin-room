@@ -22,6 +22,7 @@ class RoomPager(
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
+    var lastPagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
 
     init {
         initVerticalScrollView()
@@ -123,6 +124,10 @@ class RoomPager(
     private fun initScrollMotionEvent(scrollPager: ScrollPager) {
         val pagingBaseline = (scrollPager.screenSize / PAGE_THRESHOLD)
         scrollPager.setOnScrollChangeListener { scroll ->
+            if (lastPagingOrientation != scrollPager.pagingOrientation) {
+                lastPagingOrientation = scrollPager.pagingOrientation
+                roomRecycler.swapOrientation()
+            }
             val headPosition = scrollPager.scrollPosition * scrollPager.screenSize
             scrollPager.pagingState = if (scroll < headPosition - pagingBaseline) {
                 PagingState.PREVIOUS

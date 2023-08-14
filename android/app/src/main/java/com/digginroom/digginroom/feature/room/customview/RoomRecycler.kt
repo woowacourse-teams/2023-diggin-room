@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import androidx.core.view.children
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomPlayer
@@ -21,6 +22,8 @@ class RoomRecycler(
     private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize).map {
         YoutubeRoomPlayer(context) {
             playCurrentRoomPlayer(currentRoomPlayerPosition)
+        }.also {
+            tag = it
         }
     }
     private var rooms: List<RoomModel> = emptyList()
@@ -77,15 +80,29 @@ class RoomRecycler(
         addView(first, end)
     }
 
+    fun swapOrientation() {
+        swapView(1, 3)
+        swapView(5, 7)
+    }
+
+    private fun swapView(start: Int, end: Int) {
+        val first = getChildAt(start)
+        val second = getChildAt(end)
+        removeView(first)
+        removeView(second)
+        addView(second, start)
+        addView(first, end)
+    }
+
     fun updateData(rooms: List<RoomModel>) {
         this.rooms = rooms
     }
 
     fun playCurrentRoomPlayer(target: Int) {
         currentRoomPlayerPosition = target
-        repeat(gridSize) {
-            val room = getChildAt((it * gridSize) + (gridSize / 2)) as RoomPlayer
-            if (it == target) {
+        children.filterIsInstance<YoutubeRoomPlayer>().map {
+            val room = it as? YoutubeRoomPlayer ?: return@map
+            if (room.tag == target) {
                 room.play()
             } else {
                 room.pause()

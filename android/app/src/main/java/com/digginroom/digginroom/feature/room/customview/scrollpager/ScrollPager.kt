@@ -1,12 +1,14 @@
 package com.digginroom.digginroom.feature.room.customview.scrollpager
 
 import android.view.MotionEvent
+import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
 
 interface ScrollPager {
     var pagingState: PagingState
     var scrollPosition: Int
     val screenSize: Int
+    val pagingOrientation: PagingOrientation
     fun smoothScrollTo(position: Int)
     fun scrollBy(position: Int)
     fun scrollTo(position: Int)

@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.room.customview.scrollpager
 import android.content.Context
 import android.view.MotionEvent
 import android.widget.HorizontalScrollView
+import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
 
 class HorizontalScrollPager(
@@ -11,6 +12,7 @@ class HorizontalScrollPager(
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
     override val screenSize = resources.displayMetrics.widthPixels
+    override val pagingOrientation: PagingOrientation = PagingOrientation.HORIZONTAL
     var dislikeRoom: () -> Unit = { }
 
     override fun smoothScrollTo(position: Int) {
