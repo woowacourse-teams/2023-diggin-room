@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  validate:
     runs-on: development
     steps:
     - uses: actions/checkout@v3
@@ -30,6 +30,7 @@ jobs:
         echo "flyway.locations=filesystem:src/main/resources/db/migration" >> flyway.conf
         echo "flyway.validateOnMigrate=true" >> flyway.conf
         echo "flyway.baselineVersion=0" >> flyway.conf
+        echo "flyway.ignoreMigrationPatterns=*:pending" >> flyway.conf
       working-directory: ./backend
 
     - name: flywayValidate

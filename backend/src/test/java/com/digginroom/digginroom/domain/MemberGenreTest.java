@@ -16,9 +16,19 @@ class MemberGenreTest {
         MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 파워());
 
         for (int currentTime = 0; currentTime < 100; currentTime++) {
-            memberGenre.adjustWeight(Weight.DISLIKE);
+            memberGenre.adjustWeight(WeightFactor.DISLIKE);
         }
 
         assertThat(memberGenre.getWeight()).isEqualTo(0);
+    }
+
+    @Test
+    void 취향에_맞는_장르의_가중치를_증가시킬_수_있다() {
+        MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 파워());
+
+        memberGenre.adjustWeight(WeightFactor.FAVORITE);
+
+        assertThat(memberGenre.getWeight())
+                .isEqualTo(WeightStatus.DEFAULT.getValue() + WeightFactor.FAVORITE.getValue());
     }
 }
