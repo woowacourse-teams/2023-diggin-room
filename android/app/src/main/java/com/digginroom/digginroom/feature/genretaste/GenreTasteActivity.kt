@@ -18,11 +18,6 @@ class GenreTasteActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).genreTasteViewModelFactory
         )[GenreTasteViewModel::class.java]
     }
-    private val adapter by lazy {
-        GenreTasteAdapter { genreTasteModel ->
-            genreTasteViewModel.switchSelection(genreTasteModel)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +30,12 @@ class GenreTasteActivity : AppCompatActivity() {
             this,
             R.layout.activity_genre_taste
         ).also {
+            it.lifecycleOwner = this
             it.viewModel = genreTasteViewModel
             it.resultListener = GenreTasteResultListener(this)
-            it.adapter = adapter
-        }
-
-        genreTasteViewModel.genres.observe(this) {
-            adapter.submitList(it.toMutableList())
+            it.adapter = GenreTasteAdapter { genreTaste ->
+                genreTasteViewModel.switchSelection(genreTaste)
+            }
         }
     }
 }

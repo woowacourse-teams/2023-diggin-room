@@ -27,7 +27,10 @@ class GenreTasteViewModel(
     val genres: LiveData<List<GenreTasteModel>>
         get() = _genres
 
-    var state: GenreTasteSurveyState = GenreTasteSurveyState.RUNNING
+    private val _state: MutableLiveData<GenreTasteSurveyState> =
+        MutableLiveData(GenreTasteSurveyState.RUNNING)
+    val state: LiveData<GenreTasteSurveyState>
+        get() = _state
 
     fun switchSelection(genreTasteModel: GenreTasteModel) {
         genresTaste.switchSelection(genreTasteModel.toDomain())
@@ -40,9 +43,9 @@ class GenreTasteViewModel(
             memberRepository.postGenresTaste(
                 genresTaste.selected
             ).onSuccess {
-                state = GenreTasteSurveyState.SUCCEED
+                _state.value = GenreTasteSurveyState.SUCCEED
             }.onFailure {
-                state = GenreTasteSurveyState.FAILED
+                _state.value = GenreTasteSurveyState.FAILED
             }
         }
     }
