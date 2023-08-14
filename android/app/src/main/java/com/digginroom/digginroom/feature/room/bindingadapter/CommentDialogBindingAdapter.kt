@@ -50,19 +50,21 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:clickListener", "app:commentState", "app:comment"],
-        requireAll = true
+        value = ["app:clickListener", "app:commentState", "app:comment", "app:selectedCommentId", "app:selectedPosition"],
+        requireAll = false
     )
     fun clickListener(
         button: AppCompatButton,
         clickListener: CommentEventListener,
         commentState: CommentState,
-        comment: String
+        comment: String,
+        selectedCommentId: Long?,
+        selectedPosition: Int?
     ) {
         button.setOnClickListener {
             when (commentState) {
                 is CommentState.Create -> clickListener.postComment(comment)
-                is CommentState.Edit -> clickListener.updateComment(comment)
+                is CommentState.Edit -> clickListener.updateComment(selectedCommentId!!, comment, selectedPosition!!)
             }
         }
     }

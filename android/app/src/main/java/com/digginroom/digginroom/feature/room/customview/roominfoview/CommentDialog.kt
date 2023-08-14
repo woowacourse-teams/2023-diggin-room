@@ -58,4 +58,12 @@ class CommentDialog : BottomSheetDialogFragment() {
     fun setShowCommentMenuListener(showCommentMenuListener: ShowCommentMenuListener) {
         this.showCommentMenuListener = showCommentMenuListener
     }
+
+    fun setSelectedCommentId(selectedCommentId: Long) {
+        binding.selectedCommentId = selectedCommentId
+    }
+
+    fun setSelectedPosition(selectedPosition: Int) {
+        binding.selectedPosition = selectedPosition
+    }
 }

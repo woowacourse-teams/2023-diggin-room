@@ -27,6 +27,12 @@
         <variable
             name="showMenuListener"
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener" />
+        <variable
+            name="selectedCommentId"
+            type="long" />
+        <variable
+            name="selectedPosition"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,6 +81,8 @@
             app:clickListener="@{commentEventListener}"
             app:commentState="@{commentViewModel.commentState}"
             app:comment="@{commentViewModel.comment}"
+            app:selectedCommentId = "@{selectedCommentId}"
+            app:selectedPosition = "@{selectedPosition}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -45,11 +45,25 @@ class CommentViewModel(
         }
     }
 
-    fun updateCommentState(commentState: CommentState) {
-        _commentState.value = commentState
+    fun updateComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
+        viewModelScope.launch {
+            commentRepository.updateComment(roomId, commentId, comment).onSuccess {
+                val oldComments: MutableList<CommentModel> =
+                    _comments.value?.toMutableList() ?: mutableListOf()
+                oldComments[updatePosition] = oldComments[updatePosition].copy(comment = comment)
+                _comments.value = oldComments
+                _commentState.value = CommentState.Edit.Succeed
+            }.onFailure {
+                _commentState.value = CommentState.Edit.Failed
+            }
+        }
     }
 
-    fun updateComment(comment: String) {
+    fun setComment(comment: String) {
         this.comment.value = comment
+    }
+
+    fun setCommentState(commentState: CommentState) {
+        _commentState.value = commentState
     }
 }

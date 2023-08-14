@@ -70,8 +70,12 @@ class RoomActivity : AppCompatActivity() {
                         commentViewModel.postComment(roomId, comment)
                     }
 
-                    override fun updateComment(comment: String) {
-                        commentViewModel.updateComment(comment)
+                    override fun updateComment(
+                        commentId: Long,
+                        comment: String,
+                        updatedPosition: Int
+                    ) {
+                        commentViewModel.updateComment(roomId, commentId, comment, updatedPosition)
                     }
 
                     override fun deleteComment() {
@@ -81,15 +85,17 @@ class RoomActivity : AppCompatActivity() {
                 commentDialog.setPostCommentResultListener(
                     PostCommentResultListener(this@RoomActivity)
                 )
-                commentDialog.setShowCommentMenuListener { comment, selectedPosition ->
+                commentDialog.setShowCommentMenuListener { selectedComment, selectedPosition ->
                     if (commentMenuDialog.isAdded) return@setShowCommentMenuListener
                     commentMenuDialog.show(supportFragmentManager, "")
                     commentMenuDialog.setEventListener(object : CommentMenuEventListener {
                         override fun update() {
-                            commentViewModel.updateCommentState(
+                            commentViewModel.setCommentState(
                                 CommentState.Edit.Ready
                             )
-                            commentViewModel.updateComment(comment.comment)
+                            commentViewModel.setComment(selectedComment.comment)
+                            commentDialog.setSelectedCommentId(selectedComment.id)
+                            commentDialog.setSelectedPosition(selectedPosition)
                             commentMenuDialog.dismiss()
                         }
 
@@ -97,7 +103,7 @@ class RoomActivity : AppCompatActivity() {
                             TODO("Not yet implemented")
                         }
                     })
-                    commentMenuDialog.updateComment(comment)
+                    commentMenuDialog.updateComment(selectedComment)
                 }
             }
         }
