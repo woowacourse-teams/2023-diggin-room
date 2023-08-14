@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import io.swagger.v3.oas.models.security.SecurityScheme.Type;
+import io.swagger.v3.oas.models.servers.Server;
 import java.util.Arrays;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springdoc.core.utils.SpringDocUtils;
@@ -40,7 +41,8 @@ public class OpenApiConfig {
                                 SESSION_SECURITY_KEY,
                                 sessionSecurityScheme()
                         )
-                );
+                )
+                .addServersItem(new Server().url("/"));
     }
 
     private SecurityScheme sessionSecurityScheme() {
