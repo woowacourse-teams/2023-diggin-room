@@ -26,7 +26,7 @@ interface AccountService {
     @POST("/login/google")
     suspend fun postLogin(
         @Body loginRequest: GoogleLoginRequest
-    ): Response<Void>
+    ): Response<LoginResponse>
 
     @GET("/join/exist")
     suspend fun fetchIsDuplicatedId(

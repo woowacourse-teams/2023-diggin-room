@@ -48,13 +48,18 @@ class AccountRemoteDataSource(
         throw HttpError.Unknown(response)
     }
 
-    suspend fun postLogin(idToken: String): String {
+    suspend fun postLogin(idToken: String): LoginResult {
         val response = accountService.postLogin(GoogleLoginRequest(idToken))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
         if (response.code() == 200) {
-            return response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response)
+            return LoginResult(
+                token = response.headers().get(SET_COOKIE)
+                    ?: throw HttpError.EmptyBody(response),
+                hasFavorite = response.body()?.hasFavorite
+                    ?: throw HttpError.EmptyBody(response)
+            )
         }
 
         throw HttpError.Unknown(response)

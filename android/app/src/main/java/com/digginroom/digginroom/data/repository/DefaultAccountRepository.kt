@@ -28,7 +28,7 @@ class DefaultAccountRepository(
             )
         }
 
-    override suspend fun postLogin(idToken: String): LogResult<String> =
+    override suspend fun postLogin(idToken: String): LogResult<LoginResult> =
         logRunCatching {
             accountRemoteDataSource.postLogin(idToken)
         }
