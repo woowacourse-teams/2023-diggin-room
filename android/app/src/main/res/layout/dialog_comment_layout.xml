@@ -23,6 +23,10 @@
         <variable
             name="postCommentResultListener"
             type="com.digginroom.digginroom.feature.ResultListener" />
+
+        <variable
+            name="showMenuListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +45,8 @@
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:onMenuClick="@{showMenuListener}" />
 
         <EditText
             android:id="@+id/editText_comment"
@@ -58,8 +63,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
             app:layout_constraintStart_toStartOf="parent"
-            app:postCommentResultListener="@{postCommentResultListener}"
-            app:postCommentState="@{commentViewModel.postCommentState}" />
+            app:postCommentResultListener="@{postCommentResultListener}" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_send"
@@ -68,7 +72,9 @@
             android:layout_marginEnd="10dp"
             android:background="@drawable/send_button_selector"
             android:enabled="@{!TextUtils.isEmpty(commentViewModel.comment)}"
-            android:onClick="@{()->commentEventListener.postComment(commentViewModel.comment)}"
+            app:clickListener="@{commentEventListener}"
+            app:commentState="@{commentViewModel.commentState}"
+            app:comment="@{commentViewModel.comment}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent" />

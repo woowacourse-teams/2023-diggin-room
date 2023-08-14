@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="comment"
+            type="com.digginroom.digginroom.model.CommentModel" />
+
+        <variable
+            name="commentMenuEventListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuEventListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->commentMenuEventListener.update()}"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/img_edit"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/edit_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/edit_comment"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/img_edit"
+                app:layout_constraintStart_toEndOf="@id/img_edit"
+                app:layout_constraintTop_toTopOf="@id/img_edit" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/img_delete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/delete_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/delete_comment"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@id/img_delete"
+                app:layout_constraintStart_toEndOf="@id/img_delete"
+                app:layout_constraintTop_toTopOf="@id/img_delete" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

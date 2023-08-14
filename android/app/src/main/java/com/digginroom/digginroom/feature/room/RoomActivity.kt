@@ -9,9 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
+import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.feature.room.customview.PostCommentResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
@@ -34,6 +37,7 @@ class RoomActivity : AppCompatActivity() {
     }
     private var dialog: TrackInfoDialog = TrackInfoDialog()
     private var commentDialog: CommentDialog = CommentDialog()
+    private var commentMenuDialog: CommentMenuDialog = CommentMenuDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +70,8 @@ class RoomActivity : AppCompatActivity() {
                         commentViewModel.postComment(roomId, comment)
                     }
 
-                    override fun updateComment() {
-                        TODO("Not yet implemented")
+                    override fun updateComment(comment: String) {
+                        commentViewModel.updateComment(comment)
                     }
 
                     override fun deleteComment() {
@@ -77,6 +81,24 @@ class RoomActivity : AppCompatActivity() {
                 commentDialog.setPostCommentResultListener(
                     PostCommentResultListener(this@RoomActivity)
                 )
+                commentDialog.setShowCommentMenuListener { comment, selectedPosition ->
+                    if (commentMenuDialog.isAdded) return@setShowCommentMenuListener
+                    commentMenuDialog.show(supportFragmentManager, "")
+                    commentMenuDialog.setEventListener(object : CommentMenuEventListener {
+                        override fun update() {
+                            commentViewModel.updateCommentState(
+                                CommentState.Edit.Ready
+                            )
+                            commentViewModel.updateComment(comment.comment)
+                            commentMenuDialog.dismiss()
+                        }
+
+                        override fun delete() {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                    commentMenuDialog.updateComment(comment)
+                }
             }
         }
     }

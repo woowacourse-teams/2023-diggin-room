@@ -21,8 +21,8 @@ class CommentViewModel(
 
     val comment: NonNullMutableLiveData<String> = NonNullMutableLiveData("")
 
-    private val _commentState:MutableLiveData<CommentState> = MutableLiveData()
-    val commentState:LiveData<CommentState> get() = _commentState
+    private val _commentState: MutableLiveData<CommentState> = MutableLiveData()
+    val commentState: LiveData<CommentState> get() = _commentState
 
     fun findComments(roomId: Long) {
         _commentState.value = CommentState.Create.Ready
@@ -43,5 +43,13 @@ class CommentViewModel(
                 _commentState.value = CommentState.Create.Failed
             }
         }
+    }
+
+    fun updateCommentState(commentState: CommentState) {
+        _commentState.value = commentState
+    }
+
+    fun updateComment(comment: String) {
+        this.comment.value = comment
     }
 }

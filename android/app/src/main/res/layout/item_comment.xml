@@ -10,6 +10,13 @@
         <variable
             name="comment"
             type="com.digginroom.digginroom.model.CommentModel" />
+        <variable
+            name="selectedPosition"
+            type="int" />
+
+        <variable
+            name="showMenuListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,10 +61,10 @@
             tools:text="(편집됨)" />
 
         <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/tv_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@{comment.comment}"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -66,8 +73,10 @@
             tools:text="우와~ 노래 좋네요~" />
 
         <ImageView
+            android:id="@+id/img_menu"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            android:onClick="@{()->showMenuListener.show(comment, selectedPosition)}"
             android:src="@drawable/comment_menu_icon"
             android:visibility="@{comment.owner ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"

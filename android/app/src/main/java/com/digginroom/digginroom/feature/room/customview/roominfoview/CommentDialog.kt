@@ -18,6 +18,7 @@ class CommentDialog : BottomSheetDialogFragment() {
     private lateinit var commentEventListener: CommentEventListener
     private lateinit var postCommentResultListener: ResultListener
     private lateinit var commentViewModel: ViewModel
+    private lateinit var showCommentMenuListener: ShowCommentMenuListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +31,7 @@ class CommentDialog : BottomSheetDialogFragment() {
         binding.adapter = CommentAdapter()
         binding.commentEventListener = commentEventListener
         binding.postCommentResultListener = postCommentResultListener
+        binding.showMenuListener = showCommentMenuListener
         isCancelable = true
         return binding.root
     }
@@ -51,5 +53,9 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     fun setViewModel(viewModel: ViewModel) {
         this.commentViewModel = viewModel
+    }
+
+    fun setShowCommentMenuListener(showCommentMenuListener: ShowCommentMenuListener) {
+        this.showCommentMenuListener = showCommentMenuListener
     }
 }
