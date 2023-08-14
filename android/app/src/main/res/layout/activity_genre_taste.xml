@@ -62,13 +62,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="45dp"
             android:background="@drawable/bg_gradient_blue_radius"
-            android:onClick="@{() -> viewModel.endSurvey()}"
             android:text="@string/genre_taste_start"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:onSingleClick="@{() -> viewModel.endSurvey()}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

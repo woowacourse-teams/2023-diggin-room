@@ -8,6 +8,7 @@ class GenreTasteResultListener(private val context: Context) : ResultListener {
 
     override fun onSucceed() {
         RoomActivity.start(context)
+        (context as? GenreTasteActivity)?.finish()
     }
 
     override fun onFailed() {}

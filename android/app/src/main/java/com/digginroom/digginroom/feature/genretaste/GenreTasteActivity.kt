@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.feature.genretaste
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -36,6 +38,15 @@ class GenreTasteActivity : AppCompatActivity() {
             it.adapter = GenreTasteAdapter { genreTaste ->
                 genreTasteViewModel.switchSelection(genreTaste)
             }
+        }
+    }
+
+    companion object {
+
+        fun start(context: Context) {
+            val intent = Intent(context, GenreTasteActivity::class.java)
+
+            context.startActivity(intent)
         }
     }
 }
