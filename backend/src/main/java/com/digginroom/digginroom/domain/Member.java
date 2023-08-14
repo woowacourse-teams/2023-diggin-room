@@ -34,7 +34,6 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private Provider provider;
     @Getter(AccessLevel.NONE)
-    @Column(nullable = false)
     private boolean hasFavorite = false;
     @Embedded
     private final ScrapRooms scrapRooms = new ScrapRooms();
