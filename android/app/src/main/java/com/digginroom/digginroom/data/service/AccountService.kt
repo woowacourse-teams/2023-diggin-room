@@ -4,6 +4,7 @@ import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
+import com.digginroom.digginroom.data.entity.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,7 +21,7 @@ interface AccountService {
     @POST("/login")
     suspend fun postLogin(
         @Body loginRequest: LoginRequest
-    ): Response<Void>
+    ): Response<LoginResponse>
 
     @POST("/login/google")
     suspend fun postLogin(

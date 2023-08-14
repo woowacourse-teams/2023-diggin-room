@@ -6,6 +6,7 @@ import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.service.AccountService
+import com.digginroom.digginroom.model.user.LoginResult
 import retrofit2.Response
 
 class AccountRemoteDataSource(
@@ -25,7 +26,7 @@ class AccountRemoteDataSource(
         if (response.code() != 201) throw HttpError.Unknown(response)
     }
 
-    suspend fun postLogin(id: String, password: String): String {
+    suspend fun postLogin(id: String, password: String): LoginResult {
         val response = accountService.postLogin(
             LoginRequest(
                 id = id,
@@ -36,7 +37,12 @@ class AccountRemoteDataSource(
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
         if (response.code() == 200) {
-            return response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response)
+            return LoginResult(
+                token = response.headers().get(SET_COOKIE)
+                    ?: throw HttpError.EmptyBody(response),
+                hasFavorite = response.body()?.hasFavorite
+                    ?: throw HttpError.EmptyBody(response)
+            )
         }
 
         throw HttpError.Unknown(response)

@@ -5,6 +5,7 @@ import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.LoginResult
 import com.digginroom.digginroom.repository.AccountRepository
 
 class DefaultAccountRepository(
@@ -19,7 +20,7 @@ class DefaultAccountRepository(
             )
         }
 
-    override suspend fun postLogIn(id: String, password: String): LogResult<String> =
+    override suspend fun postLogIn(id: String, password: String): LogResult<LoginResult> =
         logRunCatching {
             accountRemoteDataSource.postLogin(
                 id = id,
