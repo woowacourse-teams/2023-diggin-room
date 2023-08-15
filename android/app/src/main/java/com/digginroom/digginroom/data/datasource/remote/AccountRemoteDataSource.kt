@@ -5,8 +5,8 @@ import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
+import com.digginroom.digginroom.data.entity.LoginResult
 import com.digginroom.digginroom.data.service.AccountService
-import com.digginroom.digginroom.model.user.LoginResult
 import retrofit2.Response
 
 class AccountRemoteDataSource(

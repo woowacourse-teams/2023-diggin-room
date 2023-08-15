@@ -35,7 +35,7 @@ class LoginViewModel(
                 password = password.value
             ).onSuccess { loginResult ->
                 saveToken(loginResult.token)
-                _state.value = LoginState.Succeed.from(loginResult.hasFavorite)
+                _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
             }.onFailure {
                 _state.value = LoginState.Failed
             }
@@ -53,7 +53,7 @@ class LoginViewModel(
             accountRepository.postLogin(idToken)
                 .onSuccess { loginResult ->
                     saveToken(loginResult.token)
-                    _state.value = LoginState.Succeed.from(loginResult.hasFavorite)
+                    _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
                 }.onFailure {
                     _state.value = LoginState.Failed
                 }
