@@ -43,6 +43,5 @@ class DefaultShowCommentMenuListener(
                 }
             }
         )
-        commentMenuDialog.updateSelectedComment(comment)
     }
 }
