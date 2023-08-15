@@ -25,6 +25,10 @@
             type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
+            name="updateCommentResultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
+
+        <variable
             name="showMenuListener"
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener" />
         <variable
@@ -69,7 +73,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
             app:layout_constraintStart_toStartOf="parent"
-            app:postCommentResultListener="@{postCommentResultListener}" />
+            app:postCommentResultListener="@{postCommentResultListener}"
+            app:updateCommentResultListener="@{updateCommentResultListener}"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_send"

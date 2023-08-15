@@ -10,7 +10,7 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.CommentState
-import com.digginroom.digginroom.feature.room.customview.PostCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.PostCommentResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuDialog
@@ -18,6 +18,7 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMen
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.UpdateCommentResultListener
 import com.digginroom.digginroom.model.TrackModel
 
 class RoomActivity : AppCompatActivity() {
@@ -85,12 +86,15 @@ class RoomActivity : AppCompatActivity() {
                 commentDialog.setPostCommentResultListener(
                     PostCommentResultListener(this@RoomActivity)
                 )
+                commentDialog.setUpdateCommentResultListener(
+                    UpdateCommentResultListener(this@RoomActivity)
+                )
                 commentDialog.setShowCommentMenuListener { selectedComment, selectedPosition ->
                     if (commentMenuDialog.isAdded) return@setShowCommentMenuListener
                     commentMenuDialog.show(supportFragmentManager, "")
                     commentMenuDialog.setEventListener(object : CommentMenuEventListener {
                         override fun update() {
-                            commentViewModel.setCommentState(
+                            commentViewModel.updateCommentState(
                                 CommentState.Edit.Ready
                             )
                             commentViewModel.setComment(selectedComment.comment)

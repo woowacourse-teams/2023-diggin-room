@@ -63,7 +63,7 @@ class CommentViewModel(
         this.comment.value = comment
     }
 
-    fun setCommentState(commentState: CommentState) {
+    fun updateCommentState(commentState: CommentState) {
         _commentState.value = commentState
     }
 }

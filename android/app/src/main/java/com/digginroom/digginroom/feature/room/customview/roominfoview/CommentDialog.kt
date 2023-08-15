@@ -17,6 +17,7 @@ class CommentDialog : BottomSheetDialogFragment() {
     lateinit var binding: DialogCommentLayoutBinding
     private lateinit var commentEventListener: CommentEventListener
     private lateinit var postCommentResultListener: ResultListener
+    private lateinit var updateCommentResultListener: ResultListener
     private lateinit var commentViewModel: ViewModel
     private lateinit var showCommentMenuListener: ShowCommentMenuListener
 
@@ -31,6 +32,7 @@ class CommentDialog : BottomSheetDialogFragment() {
         binding.adapter = CommentAdapter()
         binding.commentEventListener = commentEventListener
         binding.postCommentResultListener = postCommentResultListener
+        binding.updateCommentResultListener = updateCommentResultListener
         binding.showMenuListener = showCommentMenuListener
         isCancelable = true
         return binding.root
@@ -49,6 +51,10 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     fun setPostCommentResultListener(resultListener: ResultListener) {
         this.postCommentResultListener = resultListener
+    }
+
+    fun setUpdateCommentResultListener(resultListener: ResultListener) {
+        this.updateCommentResultListener = resultListener
     }
 
     fun setViewModel(viewModel: ViewModel) {

@@ -20,13 +20,14 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:commentState", "app:postCommentResultListener"],
+        value = ["app:commentState", "app:postCommentResultListener", "app:updateCommentResultListener"],
         requireAll = false
     )
     fun postCommentResultListener(
         editText: EditText,
         commentState: CommentState,
-        postCommentResultListener: ResultListener
+        postCommentResultListener: ResultListener,
+        updateCommentResultListener: ResultListener
     ) {
         when (commentState) {
             CommentState.Create.Succeed -> {
@@ -37,6 +38,16 @@ object CommentDialogBindingAdapter {
             CommentState.Create.Failed -> {
                 editText.text.clear()
                 postCommentResultListener.onFailed()
+            }
+
+            CommentState.Edit.Succeed -> {
+                editText.text.clear()
+                updateCommentResultListener.onSucceed()
+            }
+
+            CommentState.Edit.Failed -> {
+                editText.text.clear()
+                updateCommentResultListener.onFailed()
             }
 
             is CommentState.Edit -> {
