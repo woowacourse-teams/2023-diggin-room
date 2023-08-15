@@ -7,16 +7,15 @@
 
         <import type="android.view.View" />
 
+        <import type="kotlin.jvm.functions.Function0" />
+
         <variable
             name="comment"
             type="com.digginroom.digginroom.model.CommentModel" />
-        <variable
-            name="selectedPosition"
-            type="int" />
 
         <variable
             name="showMenuListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener" />
+            type="Function0" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,11 +53,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:text="@string/updated_comment"
             android:textColor="#808080"
             android:textSize="15sp"
+            android:visibility="@{comment.updated ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toEndOf="@id/tv_created_at"
-            app:layout_constraintTop_toTopOf="@id/tv_writer"
-            tools:text="(편집됨)" />
+            app:layout_constraintTop_toTopOf="@id/tv_writer" />
 
         <TextView
             android:id="@+id/tv_comment"
@@ -76,7 +76,7 @@
             android:id="@+id/img_menu"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:onClick="@{()->showMenuListener.show(comment, selectedPosition)}"
+            android:onClick="@{()->showMenuListener.invoke()}"
             android:src="@drawable/comment_menu_icon"
             android:visibility="@{comment.owner ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"

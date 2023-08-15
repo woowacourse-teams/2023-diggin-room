@@ -36,8 +36,10 @@ class CommentViewModel(
     fun postComment(roomId: Long, comment: String) {
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
-                val oldComments: List<CommentModel> = _comments.value ?: listOf()
-                _comments.value = oldComments + it.toModel()
+                val oldComments: MutableList<CommentModel> =
+                    _comments.value?.toMutableList() ?: mutableListOf()
+                oldComments.add(0, it.toModel())
+                _comments.value = oldComments
                 _commentState.value = CommentState.Create.Succeed
             }.onFailure {
                 _commentState.value = CommentState.Create.Failed
@@ -50,7 +52,7 @@ class CommentViewModel(
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 val oldComments: MutableList<CommentModel> =
                     _comments.value?.toMutableList() ?: mutableListOf()
-                oldComments[updatePosition] = oldComments[updatePosition].copy(comment = comment)
+                oldComments[updatePosition] = oldComments[updatePosition].copy(comment = comment, isUpdated = true)
                 _comments.value = oldComments
                 _commentState.value = CommentState.Edit.Succeed
             }.onFailure {

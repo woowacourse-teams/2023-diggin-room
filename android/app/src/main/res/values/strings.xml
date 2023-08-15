@@ -30,5 +30,6 @@
     <string name="dialog_comment_send">등록</string>
     <string name="edit_comment">수정</string>
     <string name="delete_comment">삭제</string>
+    <string name="updated_comment">(편집됨)</string>
 
 </resources>

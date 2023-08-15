@@ -9,10 +9,15 @@ class CommentAdapter : ListAdapter<CommentModel, CommentViewHolder>(CommentDiffU
     lateinit var menuClickListener: ShowCommentMenuListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        return CommentViewHolder.of(parent, menuClickListener)
+        return CommentViewHolder.of(parent) {
+            menuClickListener.show(
+                getItem(it),
+                it
+            )
+        }
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
     }
 }
