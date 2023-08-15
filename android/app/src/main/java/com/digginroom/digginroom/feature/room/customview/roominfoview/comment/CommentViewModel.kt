@@ -25,6 +25,7 @@ class CommentViewModel(
     val commentState: LiveData<CommentState> get() = _commentState
 
     fun findComments(roomId: Long) {
+        comment.value = ""
         _commentState.value = CommentState.Create.Ready
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
@@ -52,7 +53,8 @@ class CommentViewModel(
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 val oldComments: MutableList<CommentModel> =
                     _comments.value?.toMutableList() ?: mutableListOf()
-                oldComments[updatePosition] = oldComments[updatePosition].copy(comment = comment, isUpdated = true)
+                oldComments[updatePosition] =
+                    oldComments[updatePosition].copy(comment = comment, isUpdated = true)
                 _comments.value = oldComments
                 _commentState.value = CommentState.Edit.Succeed
             }.onFailure {
