@@ -12,7 +12,6 @@ import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.roominfoview.DefaultShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.TrackInfoDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.DefaultShowCommentsListener
 
@@ -33,7 +32,6 @@ class RoomActivity : AppCompatActivity() {
     }
     private var trackInfoDialog: TrackInfoDialog = TrackInfoDialog()
     private var commentDialog: CommentDialog = CommentDialog()
-    private var commentMenuDialog: CommentMenuDialog = CommentMenuDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +44,7 @@ class RoomActivity : AppCompatActivity() {
         }
         binding.showRoomInfoListener = DefaultShowRoomInfoListener(trackInfoDialog, this)
         binding.showCommentsListener =
-            DefaultShowCommentsListener(commentDialog, commentMenuDialog, commentViewModel, this)
+            DefaultShowCommentsListener(commentDialog, commentViewModel, this)
     }
 
     companion object {

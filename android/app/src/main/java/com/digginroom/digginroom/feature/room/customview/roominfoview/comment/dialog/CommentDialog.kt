@@ -49,35 +49,35 @@ class CommentDialog : BottomSheetDialogFragment() {
         }
     }
 
-    fun setCommentEventListener(commentEventListener: CommentEventListener) {
+    fun updateCommentEventListener(commentEventListener: CommentEventListener) {
         this.commentEventListener = commentEventListener
     }
 
-    fun setPostCommentResultListener(resultListener: ResultListener) {
+    fun updatePostCommentResultListener(resultListener: ResultListener) {
         this.postCommentResultListener = resultListener
     }
 
-    fun setUpdateCommentResultListener(resultListener: ResultListener) {
+    fun updateUpdateCommentResultListener(resultListener: ResultListener) {
         this.updateCommentResultListener = resultListener
     }
 
-    fun setDeleteCommentResultListener(deleteCommentResultListener: ResultListener) {
+    fun updateDeleteCommentResultListener(deleteCommentResultListener: ResultListener) {
         this.deleteCommentResultListener = deleteCommentResultListener
     }
 
-    fun setViewModel(viewModel: ViewModel) {
+    fun updateViewModel(viewModel: ViewModel) {
         this.commentViewModel = viewModel
     }
 
-    fun setShowCommentMenuListener(showCommentMenuListener: ShowCommentMenuListener) {
+    fun updateShowCommentMenuListener(showCommentMenuListener: ShowCommentMenuListener) {
         this.showCommentMenuListener = showCommentMenuListener
     }
 
-    fun setSelectedCommentId(selectedCommentId: Long) {
+    fun updateSelectedCommentId(selectedCommentId: Long) {
         binding.selectedCommentId = selectedCommentId
     }
 
-    fun setSelectedPosition(selectedPosition: Int) {
+    fun updateSelectedPosition(selectedPosition: Int) {
         binding.selectedPosition = selectedPosition
     }
 }

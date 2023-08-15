@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class CommentMenuDialog : BottomSheetDialogFragment() {
     lateinit var binding: DialogCommentMenuLayoutBinding
     private lateinit var eventListener: CommentMenuEventListener
-    lateinit var comment: CommentModel
+    lateinit var selectedComment: CommentModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,14 +28,14 @@ class CommentMenuDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.commentMenuEventListener = eventListener
-        binding.comment = comment
+        binding.comment = selectedComment
     }
 
-    fun setEventListener(eventListener: CommentMenuEventListener) {
+    fun updateEventListener(eventListener: CommentMenuEventListener) {
         this.eventListener = eventListener
     }
 
-    fun updateComment(comment: CommentModel) {
-        this.comment = comment
+    fun updateSelectedComment(comment: CommentModel) {
+        this.selectedComment = comment
     }
 }

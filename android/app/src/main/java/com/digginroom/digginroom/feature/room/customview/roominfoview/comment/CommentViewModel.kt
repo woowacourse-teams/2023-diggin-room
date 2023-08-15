@@ -77,7 +77,7 @@ class CommentViewModel(
         }
     }
 
-    fun setComment(comment: String) {
+    fun updateComment(comment: String) {
         this.comment.value = comment
     }
 

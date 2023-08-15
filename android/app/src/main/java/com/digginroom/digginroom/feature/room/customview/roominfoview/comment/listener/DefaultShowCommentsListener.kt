@@ -11,25 +11,26 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.li
 
 class DefaultShowCommentsListener(
     private val commentDialog: CommentDialog,
-    private val commentMenuDialog: CommentMenuDialog,
     val commentViewModel: CommentViewModel,
     val activity: RoomActivity
 ) : ShowCommentsListener {
+
+    private var commentMenuDialog: CommentMenuDialog = CommentMenuDialog()
     override fun show(roomId: Long) {
         if (commentDialog.isAdded) return
         commentDialog.show(activity.supportFragmentManager, "")
-        commentDialog.setViewModel(commentViewModel)
-        commentDialog.setCommentEventListener(DefaultCommentEventListener(commentViewModel, roomId))
-        commentDialog.setPostCommentResultListener(
+        commentDialog.updateViewModel(commentViewModel)
+        commentDialog.updateCommentEventListener(DefaultCommentEventListener(commentViewModel, roomId))
+        commentDialog.updatePostCommentResultListener(
             PostCommentResultListener(activity)
         )
-        commentDialog.setUpdateCommentResultListener(
+        commentDialog.updateUpdateCommentResultListener(
             UpdateCommentResultListener(activity)
         )
-        commentDialog.setDeleteCommentResultListener(
+        commentDialog.updateDeleteCommentResultListener(
             DeleteCommentResultListener(activity)
         )
-        commentDialog.setShowCommentMenuListener(
+        commentDialog.updateShowCommentMenuListener(
             DefaultShowCommentMenuListener(
                 commentMenuDialog,
                 commentDialog,
