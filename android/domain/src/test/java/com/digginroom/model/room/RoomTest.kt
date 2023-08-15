@@ -1,8 +1,8 @@
 package com.digginroom.model.room
 
-import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.model.room.Track
+import com.digginroom.digginroom.model.room.genre.Genre
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
