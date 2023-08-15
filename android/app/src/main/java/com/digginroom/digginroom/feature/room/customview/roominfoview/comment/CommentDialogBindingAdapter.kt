@@ -15,8 +15,8 @@ import com.digginroom.digginroom.model.CommentModel
 object CommentDialogBindingAdapter {
     @JvmStatic
     @BindingAdapter("app:comments")
-    fun comments(recyclerView: RecyclerView, comments: List<CommentModel>) {
-        (recyclerView.adapter as? CommentAdapter)?.submitList(comments.toList())
+    fun comments(recyclerView: RecyclerView, comments: List<CommentModel>?) {
+        (recyclerView.adapter as? CommentAdapter)?.submitList(comments?.toList() ?: listOf())
     }
 
     @JvmStatic
