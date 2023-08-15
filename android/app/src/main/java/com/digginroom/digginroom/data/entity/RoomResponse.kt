@@ -11,6 +11,8 @@ data class RoomResponse(
     val videoId: String,
     @SerialName("isScrapped")
     val isScrapped: Boolean,
+    @SerialName("scrapCount")
+    val scrapCount: Int,
     @SerialName("track")
     val track: TrackResponse
 )
