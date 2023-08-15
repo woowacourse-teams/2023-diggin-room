@@ -60,6 +60,7 @@ class YoutubeRoomPlayer(
         }
 
         thumbnail.load(room)
+        roomInfoView.setRoomInfo(room)
 
         if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
