@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel" />
+            type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel" />
 
         <variable
             name="initialPosition"

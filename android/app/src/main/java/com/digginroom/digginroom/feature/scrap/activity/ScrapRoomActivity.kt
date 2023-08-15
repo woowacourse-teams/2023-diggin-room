@@ -10,7 +10,7 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapRoomBinding
 import com.digginroom.digginroom.feature.getSerializableCompat
-import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel
 import com.digginroom.digginroom.model.RoomsModel
 
 class ScrapRoomActivity : AppCompatActivity() {

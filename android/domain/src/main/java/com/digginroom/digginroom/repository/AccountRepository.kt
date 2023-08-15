@@ -10,5 +10,7 @@ interface AccountRepository {
 
     suspend fun postLogIn(id: String, password: String): LogResult<String>
 
+    suspend fun postLogin(idToken: String): LogResult<String>
+
     suspend fun fetchIsDuplicatedId(id: Id): LogResult<Boolean>
 }

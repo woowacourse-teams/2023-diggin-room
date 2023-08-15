@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
@@ -31,6 +32,18 @@ class AccountRemoteDataSource(
                 password = password
             )
         )
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response)
+        }
+
+        throw HttpError.Unknown(response)
+    }
+
+    suspend fun postLogin(idToken: String): String {
+        val response = accountService.postLogin(GoogleLoginRequest(idToken))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
