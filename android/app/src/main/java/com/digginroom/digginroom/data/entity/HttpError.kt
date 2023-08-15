@@ -20,5 +20,5 @@ sealed class HttpError(
 
     class Unknown(
         response: Response<*>
-    ) : HttpError(response.code(), "")
+    ) : HttpError(response.code(), "${response.code()} : ${response.body()}")
 }
