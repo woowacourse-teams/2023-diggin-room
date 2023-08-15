@@ -27,6 +27,8 @@
     <string name="title_artist_format">%s - %s</string>
     <string name="fake_description">장르: %s \n \n Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages.</string>
     <string name="login_google_login_img_description">image_of_google_social_login</string>
+    <string name="genre_taste_start">시작하기</string>
+    <string name="genre_taste_ask_genre_taste">어떤 음악을 좋아하세요?</string>
     <string name="dialog_comment_input_comment">댓글 작성</string>
     <string name="dialog_comment_send">등록</string>
     <string name="edit_comment">수정</string>

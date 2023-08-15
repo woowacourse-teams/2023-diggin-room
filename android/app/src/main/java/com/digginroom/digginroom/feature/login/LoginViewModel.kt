@@ -22,21 +22,22 @@ class LoginViewModel(
     val googleLoginEvent: LiveData<Any>
         get() = _googleLoginEvent
 
-    private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.START)
+    private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.Start)
     val state: LiveData<LoginState>
         get() = _state
 
     fun login() {
-        _state.value = LoginState.LOADING
+        _state.value = LoginState.Loading
 
         viewModelScope.launch {
             accountRepository.postLogIn(
                 id = id.value,
                 password = password.value
-            ).onSuccess { token ->
-                saveToken(token)
+            ).onSuccess { loginResult ->
+                saveToken(loginResult.token)
+                _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
             }.onFailure {
-                _state.value = LoginState.FAILED
+                _state.value = LoginState.Failed
             }
         }
     }
@@ -46,14 +47,15 @@ class LoginViewModel(
     }
 
     fun login(idToken: String) {
-        _state.value = LoginState.LOADING
+        _state.value = LoginState.Loading
 
         viewModelScope.launch {
             accountRepository.postLogin(idToken)
-                .onSuccess { token ->
-                    saveToken(token)
+                .onSuccess { loginResult ->
+                    saveToken(loginResult.token)
+                    _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
                 }.onFailure {
-                    _state.value = LoginState.FAILED
+                    _state.value = LoginState.Failed
                 }
         }
     }
@@ -61,7 +63,6 @@ class LoginViewModel(
     private fun saveToken(token: String) {
         viewModelScope.launch {
             tokenRepository.save(token)
-            _state.value = LoginState.SUCCEED
         }
     }
 
