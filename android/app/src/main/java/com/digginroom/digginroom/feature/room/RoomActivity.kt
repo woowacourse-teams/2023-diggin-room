@@ -10,9 +10,9 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.roominfoview.DefaultShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.DefaultShowCommentsListener
 
 class RoomActivity : AppCompatActivity() {
