@@ -8,9 +8,11 @@ import android.widget.LinearLayout
 import androidx.core.view.children
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomPlayer
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
+import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomRecycler(
@@ -49,6 +51,24 @@ class RoomRecycler(
     fun updateShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
         roomPlayers.forEach {
             it.updateShowRoomInfoListener(showRoomInfoListener)
+        }
+    }
+
+    fun updateOnFindCommentsListener(callback: RoomEventListener) {
+        roomPlayers.forEach {
+            it.updateOnFindCommentsListener(callback)
+        }
+    }
+
+    fun updateComments(roomId: Long, comments: List<CommentModel>) {
+        roomPlayers.forEach {
+            it.updateComments(roomId, comments)
+        }
+    }
+
+    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
+        roomPlayers.forEach {
+            it.updateShowCommentsListener(showCommentsListener)
         }
     }
 

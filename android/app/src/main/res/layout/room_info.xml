@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="java.util.List" />
+
+        <import type="com.digginroom.digginroom.model.CommentModel" />
+
         <variable
             name="room"
             type="com.digginroom.digginroom.model.RoomModel" />
@@ -15,6 +19,19 @@
         <variable
             name="roomNavigator"
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.RoomNavigator" />
+
+        <variable
+            name="findCommentsListener"
+            type="com.digginroom.digginroom.feature.room.RoomEventListener" />
+
+        <variable
+            name="comments"
+            type="List&lt;CommentModel>" />
+
+        <variable
+            name="showCommentsListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +42,7 @@
         android:paddingBottom="@dimen/scrap_vertical_margin">
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:onClick="@{()->roomNavigator.navigateToScrap()}"
@@ -67,20 +85,30 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/img_info"
+            android:id="@+id/img_comment"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginBottom="15dp"
-            android:onClick="@{()->showRoomInfoListener.show(room.track)}"
-            android:src="@drawable/info_icon"
+            android:onClick="@{()->showCommentsListener.show(room.roomId)}"
+            android:src="@drawable/comment_icon"
             app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
-            app:layout_constraintEnd_toEndOf="@+id/scrapToggle" />
+            app:layout_constraintEnd_toEndOf="@id/img_info" />
 
         <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
             android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginBottom="15dp"
             app:isScrapped="@{room.isScrapped}"
+            app:layout_constraintBottom_toTopOf="@id/img_info"
+            app:layout_constraintEnd_toEndOf="@id/img_info" />
+
+        <ImageView
+            android:id="@+id/img_info"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:onClick="@{()->showRoomInfoListener.show(room.track)}"
+            android:src="@drawable/info_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
