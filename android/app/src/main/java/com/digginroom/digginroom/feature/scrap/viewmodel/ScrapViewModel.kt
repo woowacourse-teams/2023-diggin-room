@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.scrap
+package com.digginroom.digginroom.feature.scrap.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

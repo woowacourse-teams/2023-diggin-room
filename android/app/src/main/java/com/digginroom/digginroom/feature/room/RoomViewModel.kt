@@ -43,6 +43,7 @@ class RoomViewModel(
                 rooms.forEachIndexed { index, room ->
                     if (room.roomId == roomId) {
                         rooms[index] = Room(room.videoId, true, room.track, roomId)
+                        _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
                     }
                 }
             }.onFailure {
@@ -56,6 +57,7 @@ class RoomViewModel(
                 rooms.forEachIndexed { index, room ->
                     if (room.roomId == roomId) {
                         rooms[index] = Room(room.videoId, false, room.track, roomId)
+                        _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
                     }
                 }
             }.onFailure {}

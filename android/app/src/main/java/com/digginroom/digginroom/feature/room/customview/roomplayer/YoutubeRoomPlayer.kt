@@ -45,7 +45,6 @@ class YoutubeRoomPlayer(
     }
 
     override fun play() {
-        println("$videoId : Play")
         loadUrl("javascript:play()")
     }
 
@@ -54,7 +53,8 @@ class YoutubeRoomPlayer(
     }
 
     override fun navigate(room: RoomModel) {
-        println("$videoId : ${room.videoId}")
+        roomInfoView.setRoomInfo(room)
+
         if (videoId == room.videoId) {
             return
         }
