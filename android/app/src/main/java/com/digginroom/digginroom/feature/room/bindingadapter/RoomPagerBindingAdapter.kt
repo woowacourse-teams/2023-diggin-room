@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.feature.room.bindingadapter
 
 import androidx.databinding.BindingAdapter
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.RoomEventListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.RoomPager

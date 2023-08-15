@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.ResultListener
-import com.digginroom.digginroom.feature.room.CommentViewModel
-import com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentMenuListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 

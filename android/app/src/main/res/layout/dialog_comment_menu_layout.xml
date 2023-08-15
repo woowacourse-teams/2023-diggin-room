@@ -9,7 +9,7 @@
 
         <variable
             name="commentMenuEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuEventListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentMenuEventListener" />
 
     </data>
 

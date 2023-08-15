@@ -10,15 +10,15 @@
 
         <variable
             name="commentViewModel"
-            type="com.digginroom.digginroom.feature.room.CommentViewModel" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel" />
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter" />
 
         <variable
             name="commentEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentEventListener" />
 
         <variable
             name="postCommentResultListener"
@@ -33,7 +33,7 @@
 
         <variable
             name="showMenuListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentMenuListener" />
         <variable
             name="selectedCommentId"
             type="long" />

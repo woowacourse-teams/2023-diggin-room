@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.adapter
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

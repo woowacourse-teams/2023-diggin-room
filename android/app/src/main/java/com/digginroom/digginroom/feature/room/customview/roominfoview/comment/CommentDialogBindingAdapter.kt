@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.bindingadapter
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment
 
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
@@ -6,10 +6,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.feature.ResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentMenuListener
 import com.digginroom.digginroom.feature.room.customview.CommentState
-import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentMenuListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.adapter.CommentAdapter
 import com.digginroom.digginroom.model.CommentModel
 
 object CommentDialogBindingAdapter {

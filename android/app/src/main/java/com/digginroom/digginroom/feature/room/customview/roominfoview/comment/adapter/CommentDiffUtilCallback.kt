@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.adapter
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.digginroom.digginroom.model.CommentModel

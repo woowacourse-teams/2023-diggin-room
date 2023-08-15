@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

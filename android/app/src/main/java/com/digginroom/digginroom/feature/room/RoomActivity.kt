@@ -10,17 +10,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.TrackInfoDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentMenuEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentsListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.DeleteCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.PostCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.UpdateCommentResultListener
 import com.digginroom.digginroom.feature.room.customview.CommentState
-import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuEventListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.DeleteCommentResultListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.PostCommentResultListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.UpdateCommentResultListener
 import com.digginroom.digginroom.model.TrackModel
 
 class RoomActivity : AppCompatActivity() {

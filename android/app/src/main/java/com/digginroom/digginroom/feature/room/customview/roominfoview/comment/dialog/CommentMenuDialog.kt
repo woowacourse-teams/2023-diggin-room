@@ -1,10 +1,11 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.digginroom.digginroom.databinding.DialogCommentMenuLayoutBinding
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentMenuEventListener
 import com.digginroom.digginroom.model.CommentModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
