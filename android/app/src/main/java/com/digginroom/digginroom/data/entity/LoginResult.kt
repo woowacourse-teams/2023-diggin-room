@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.model.user
+package com.digginroom.digginroom.data.entity
 
 data class LoginResult(
     val token: String,

@@ -5,7 +5,7 @@ import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
-import com.digginroom.digginroom.model.user.LoginResult
+import com.digginroom.digginroom.model.user.Member
 import com.digginroom.digginroom.repository.AccountRepository
 
 class DefaultAccountRepository(
@@ -20,17 +20,27 @@ class DefaultAccountRepository(
             )
         }
 
-    override suspend fun postLogIn(id: String, password: String): LogResult<LoginResult> =
+    override suspend fun postLogIn(id: String, password: String): LogResult<Member> =
         logRunCatching {
-            accountRemoteDataSource.postLogin(
+            val loginResult = accountRemoteDataSource.postLogin(
                 id = id,
                 password = password
             )
+
+            Member(
+                hasSurveyed = loginResult.hasFavorite,
+                token = loginResult.token
+            )
         }
 
-    override suspend fun postLogin(idToken: String): LogResult<LoginResult> =
+    override suspend fun postLogin(idToken: String): LogResult<Member> =
         logRunCatching {
-            accountRemoteDataSource.postLogin(idToken)
+            val loginResult = accountRemoteDataSource.postLogin(idToken)
+
+            Member(
+                hasSurveyed = loginResult.hasFavorite,
+                token = loginResult.token
+            )
         }
 
     override suspend fun fetchIsDuplicatedId(id: Id): LogResult<Boolean> =

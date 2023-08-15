@@ -6,6 +6,7 @@ import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_PASSWORD
 import com.digginroom.digginroom.fixture.AccountFixture.ID_TOKEN
 import com.digginroom.digginroom.fixture.AccountFixture.TOKEN
 import com.digginroom.digginroom.fixture.LogResult
+import com.digginroom.digginroom.model.user.Member
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
 import io.mockk.coEvery
@@ -67,18 +68,18 @@ class LoginViewModelTest {
         loginViewModel.login()
 
         // then
-        assertEquals(LoginState.FAILED, loginViewModel.state.value)
+        assertEquals(LoginState.Failed, loginViewModel.state.value)
     }
 
     @Test
-    fun `로그인 성공시 로그인 성공 상태이다`() {
+    fun `로그인 성공시 취향 설문 조사를 이미 한 경우 취향 조사를 끝마친 로그인 성공 상태가 된다`() {
         // given
         coEvery {
             accountRepository.postLogIn(
                 id = EXAMPLE_ID,
                 password = EXAMPLE_PASSWORD
             )
-        } returns LogResult.success(TOKEN)
+        } returns LogResult.success(Member(true, TOKEN))
 
         loginViewModel.id.value = EXAMPLE_ID
         loginViewModel.password.value = EXAMPLE_PASSWORD
@@ -87,7 +88,27 @@ class LoginViewModelTest {
         loginViewModel.login()
 
         // then
-        assertEquals(LoginState.SUCCEED, loginViewModel.state.value)
+        assertEquals(LoginState.Succeed.Surveyed, loginViewModel.state.value)
+    }
+
+    @Test
+    fun `로그인 성공시 취향 설문 조사를 하지 않은 경우 취향 조사를 하지 않은 로그인 성공 상태가 된다`() {
+        // given
+        coEvery {
+            accountRepository.postLogIn(
+                id = EXAMPLE_ID,
+                password = EXAMPLE_PASSWORD
+            )
+        } returns LogResult.success(Member(false, TOKEN))
+
+        loginViewModel.id.value = EXAMPLE_ID
+        loginViewModel.password.value = EXAMPLE_PASSWORD
+
+        // when
+        loginViewModel.login()
+
+        // then
+        assertEquals(LoginState.Succeed.NotSurveyed, loginViewModel.state.value)
     }
 
     @Test
@@ -98,7 +119,7 @@ class LoginViewModelTest {
                 id = EXAMPLE_ID,
                 password = EXAMPLE_PASSWORD
             )
-        } returns LogResult.success(TOKEN)
+        } returns LogResult.success(Member(true, TOKEN))
 
         loginViewModel.id.value = EXAMPLE_ID
         loginViewModel.password.value = EXAMPLE_PASSWORD
@@ -121,7 +142,7 @@ class LoginViewModelTest {
         loginViewModel.login(ID_TOKEN)
 
         // then
-        assertEquals(LoginState.FAILED, loginViewModel.state.value)
+        assertEquals(LoginState.Failed, loginViewModel.state.value)
     }
 
     @Test
@@ -129,13 +150,13 @@ class LoginViewModelTest {
         // given
         coEvery {
             accountRepository.postLogin(ID_TOKEN)
-        } returns LogResult.success(TOKEN)
+        } returns LogResult.success(Member(true, TOKEN))
 
         // when
         loginViewModel.login(ID_TOKEN)
 
         // then
-        assertEquals(LoginState.SUCCEED, loginViewModel.state.value)
+        assertEquals(LoginState.Succeed.Surveyed, loginViewModel.state.value)
     }
 
     @Test
@@ -143,7 +164,7 @@ class LoginViewModelTest {
         // given
         coEvery {
             accountRepository.postLogin(ID_TOKEN)
-        } returns LogResult.success(TOKEN)
+        } returns LogResult.success(Member(true, TOKEN))
 
         // when
         loginViewModel.login(ID_TOKEN)
