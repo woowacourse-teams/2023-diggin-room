@@ -8,6 +8,15 @@ import com.digginroom.digginroom.model.mapper.TrackMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 
 object RoomMapper {
+    fun RoomModel.toDomain(): Room {
+        return Room(
+            videoId,
+            isScrapped,
+            track.toDomain(),
+            roomId,
+            0
+        )
+    }
 
     fun Room.toModel(): RoomModel {
         return RoomModel(

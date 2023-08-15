@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.digginroom.digginroom.feature.genretaste.GenreTasteViewModel
 import com.digginroom.digginroom.feature.join.JoinViewModel
 import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.feature.room.RoomViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
+import com.digginroom.digginroom.feature.splash.SplashViewModel
 import com.digginroom.digginroom.model.RoomsModel
 
 class ViewModelFactory(context: Context) {
@@ -60,6 +63,31 @@ class ViewModelFactory(context: Context) {
                 }
             }
         }
+
+    val splashViewModelFactory: ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            SplashViewModel(
+                roomRepository = repositoryProvider.roomRepository
+            )
+        }
+    }
+
+    val genreTasteViewModelFactory: ViewModelProvider.Factory =
+        viewModelFactory {
+            initializer {
+                GenreTasteViewModel(
+                    memberRepository = repositoryProvider.memberRepository
+                )
+            }
+        }
+
+    val commentViewModelFactory = viewModelFactory {
+        initializer {
+            CommentViewModel(
+                commentRepository = repositoryProvider.commentRepository
+            )
+        }
+    }
 
     companion object {
         private lateinit var instance: ViewModelFactory

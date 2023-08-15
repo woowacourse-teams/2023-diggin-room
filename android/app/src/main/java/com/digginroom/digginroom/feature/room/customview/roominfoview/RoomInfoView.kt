@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.digginroom.digginroom.databinding.RoomInfoBinding
 import com.digginroom.digginroom.feature.room.RoomEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.DefaultRoomNavigator
+import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomInfoView(context: Context) : ConstraintLayout(context) {
@@ -36,5 +38,19 @@ class RoomInfoView(context: Context) : ConstraintLayout(context) {
 
     fun updateOnShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
         roomInfoBinding.showRoomInfoListener = showRoomInfoListener
+    }
+
+    fun updateOnFindCommentsListener(callback: RoomEventListener) {
+        roomInfoBinding.findCommentsListener = callback
+    }
+
+    fun updateComments(roomId: Long, comments: List<CommentModel>) {
+        if ((roomInfoBinding.room != null) && (this.roomId == roomId)) {
+            roomInfoBinding.comments = comments
+        }
+    }
+
+    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
+        roomInfoBinding.showCommentsListener = showCommentsListener
     }
 }

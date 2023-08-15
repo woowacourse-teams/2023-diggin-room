@@ -2,8 +2,8 @@ package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.data.entity.TrackResponse
 import com.digginroom.digginroom.model.TrackModel
-import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Track
+import com.digginroom.digginroom.model.room.genre.Genre
 
 object TrackMapper {
 
@@ -11,7 +11,7 @@ object TrackMapper {
         return Track(
             title,
             artist,
-            Genre(superGenre)
+            Genre.find(superGenre)
         )
     }
 
@@ -27,7 +27,7 @@ object TrackMapper {
         return Track(
             title,
             artist,
-            Genre(superGenre)
+            Genre.find(superGenre)
         )
     }
 }

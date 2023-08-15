@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
+        app:loginNavigator="@{navigator}"
         app:loginState="@{viewModel.state}"
         app:loginStateListener="@{resultListener}"
         tools:context=".views.activity.LoginActivity">
@@ -34,7 +35,7 @@
             android:id="@+id/login_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.state == LoginState.LOADING ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.state instanceof LoginState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -116,7 +117,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.state == LoginState.FAILED ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.state instanceof LoginState.Failed? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />

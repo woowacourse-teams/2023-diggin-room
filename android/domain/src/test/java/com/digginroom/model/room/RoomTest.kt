@@ -1,8 +1,8 @@
 package com.digginroom.model.room
 
-import com.digginroom.digginroom.model.room.Genre
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.model.room.Track
+import com.digginroom.digginroom.model.room.genre.Genre
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -15,9 +15,10 @@ class RoomTest {
             track = Track(
                 title = "",
                 artist = "",
-                superGenre = Genre("")
+                superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         )
         assertEquals(room.videoId, "")
     }

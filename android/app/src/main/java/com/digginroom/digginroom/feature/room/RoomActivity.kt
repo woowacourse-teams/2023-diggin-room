@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.DefaultShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
-import com.digginroom.digginroom.model.TrackModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.DefaultShowCommentsListener
 
 class RoomActivity : AppCompatActivity() {
 
@@ -22,7 +24,14 @@ class RoomActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
     }
-    private var dialog: TrackInfoDialog = TrackInfoDialog()
+    private val commentViewModel: CommentViewModel by lazy {
+        ViewModelProvider(
+            this,
+            ViewModelFactory.getInstance(applicationContext).commentViewModelFactory
+        )[CommentViewModel::class.java]
+    }
+    private var trackInfoDialog: TrackInfoDialog = TrackInfoDialog()
+    private var commentDialog: CommentDialog = CommentDialog()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +42,9 @@ class RoomActivity : AppCompatActivity() {
                 roomViewModel.findNext()
             }
         }
-        binding.showRoomInfoListener = object : ShowRoomInfoListener {
-            override fun show(trackModel: TrackModel) {
-                if (dialog.isAdded) return
-                dialog.show(supportFragmentManager, "")
-                dialog.updateTrackModel(trackModel)
-                dialog.isCancelable = true
-            }
-        }
+        binding.showRoomInfoListener = DefaultShowRoomInfoListener(trackInfoDialog, this)
+        binding.showCommentsListener =
+            DefaultShowCommentsListener(commentDialog, commentViewModel, this)
     }
 
     companion object {

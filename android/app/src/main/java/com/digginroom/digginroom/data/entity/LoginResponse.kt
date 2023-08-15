@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginResponse(
-    @SerialName("token")
-    val token: String
+    @SerialName("memberId")
+    val memberId: Long,
+    @SerialName("hasFavorite")
+    val hasFavorite: Boolean
 )
