@@ -1,9 +1,11 @@
 package com.digginroom.digginroom.controller;
 
 import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
 import com.digginroom.digginroom.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +25,10 @@ public class MemberOperationController {
     ) {
         memberService.markFavorite(memberId, favoriteGenresRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberDetailsResponse> showMemberDetails(@Auth final Long memberId) {
+        return ResponseEntity.ok().body(memberService.getMemberDetails(memberId));
     }
 }

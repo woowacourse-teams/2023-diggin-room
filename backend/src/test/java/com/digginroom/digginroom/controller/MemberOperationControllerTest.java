@@ -6,10 +6,12 @@ import static com.digginroom.digginroom.domain.Genre.RNB;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
 
 import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import java.util.List;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -97,5 +99,20 @@ class MemberOperationControllerTest extends ControllerTest {
                 .post("/member/favorite-genres")
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_응답한다() {
+        RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/member/me")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("memberId", Matchers.notNullValue())
+                .body("username", Matchers.notNullValue())
+                .body("hasFavorite", Matchers.notNullValue())
+                .extract().as(MemberDetailsResponse.class);
     }
 }
