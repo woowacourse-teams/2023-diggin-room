@@ -26,7 +26,7 @@ class DefaultShowCommentMenuListener(
                     commentViewModel.updateCommentState(
                         CommentState.Edit.Ready
                     )
-                    commentViewModel.updateComment(comment.comment)
+                    commentViewModel.updateWrittenComment(comment.comment)
                     commentDialog.updateSelectedCommentId(comment.id)
                     commentDialog.updateSelectedPosition(selectedPosition)
                     commentMenuDialog.dismiss()

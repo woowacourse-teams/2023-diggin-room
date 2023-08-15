@@ -19,13 +19,13 @@ class CommentViewModel(
     val comments: LiveData<List<CommentModel>>
         get() = _comments
 
-    val comment: NonNullMutableLiveData<String> = NonNullMutableLiveData("")
+    val writtenComment: NonNullMutableLiveData<String> = NonNullMutableLiveData("")
 
     private val _commentState: MutableLiveData<CommentState> = MutableLiveData()
     val commentState: LiveData<CommentState> get() = _commentState
 
     fun findComments(roomId: Long) {
-        comment.value = ""
+        writtenComment.value = ""
         _commentState.value = CommentState.Create.Ready
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
@@ -48,7 +48,7 @@ class CommentViewModel(
         }
     }
 
-    fun updateComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
+    fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 val oldComments: MutableList<CommentModel> =
@@ -77,8 +77,8 @@ class CommentViewModel(
         }
     }
 
-    fun updateComment(comment: String) {
-        this.comment.value = comment
+    fun updateWrittenComment(comment: String) {
+        this.writtenComment.value = comment
     }
 
     fun updateCommentState(commentState: CommentState) {

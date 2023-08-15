@@ -16,7 +16,7 @@ class DefaultCommentEventListener(val commentViewModel: CommentViewModel, val ro
         comment: String,
         updatedPosition: Int
     ) {
-        commentViewModel.updateComment(roomId, commentId, comment, updatedPosition)
+        commentViewModel.updateWrittenComment(roomId, commentId, comment, updatedPosition)
     }
 
     override fun deleteComment(
