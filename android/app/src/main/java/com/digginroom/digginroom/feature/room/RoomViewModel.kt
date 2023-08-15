@@ -37,21 +37,21 @@ class RoomViewModel(
                 false,
                 Track("라일락", "아이유", Genre("댄스")),
                 0,
-                2
+                2660
             ),
             Room(
                 "KZGBQunqT8k",
                 true,
                 Track("OMG", "뉴진스", Genre("댄스")),
                 1,
-                4
+                4000
             ),
             Room(
                 "SAO1OAXoQL0",
                 false,
                 Track("롤러코스터", "엔믹스", Genre("댄스")),
                 1,
-                20
+                20000
             )
         )
         _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })

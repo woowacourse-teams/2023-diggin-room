@@ -70,20 +70,22 @@
             android:id="@id/scrapToggle"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginBottom="5dp"
             app:isScrapped="@{room.isScrapped}"
             app:layout_constraintBottom_toTopOf="@+id/tv_scrap_count"
-            app:layout_constraintEnd_toEndOf="@+id/img_info" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_scrap_count"
+            app:layout_constraintStart_toStartOf="@id/tv_scrap_count" />
 
         <TextView
             android:id="@+id/tv_scrap_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="@{String.valueOf(room.scrapCount)}"
+            android:text="@{room.scrapCount}"
             android:textColor="@color/white"
+            android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@id/img_info"
-            app:layout_constraintStart_toStartOf="@id/img_info"
-            app:layout_constraintEnd_toEndOf="@id/img_info" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/img_info"
@@ -92,7 +94,8 @@
             android:onClick="@{()->showRoomInfoListener.show(room.track)}"
             android:src="@drawable/info_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/tv_scrap_count"
+            app:layout_constraintStart_toStartOf="@id/tv_scrap_count" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -8,15 +8,6 @@ import com.digginroom.digginroom.model.mapper.TrackMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 
 object RoomMapper {
-    fun RoomModel.toDomain(): Room {
-        return Room(
-            videoId,
-            isScrapped,
-            track.toDomain(),
-            roomId,
-            scrapCount
-        )
-    }
 
     fun Room.toModel(): RoomModel {
         return RoomModel(
@@ -24,7 +15,7 @@ object RoomMapper {
             isScrapped,
             track.toModel(),
             roomId,
-            scrapCount
+            ScrapCountFormatter.convert(scrapCount)
         )
     }
 

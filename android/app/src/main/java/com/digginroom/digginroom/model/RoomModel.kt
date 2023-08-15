@@ -7,5 +7,5 @@ data class RoomModel(
     val isScrapped: Boolean,
     val track: TrackModel,
     val roomId: Long,
-    val scrapCount: Int
+    val scrapCount: String
 ) : Serializable
