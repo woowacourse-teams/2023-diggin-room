@@ -50,4 +50,10 @@ class DefaultCommentRepository(private val commentRemoteDataSource: CommentRemot
             commentRemoteDataSource.updateComment(roomId, commentId, comment).toDomain()
         }
     }
+
+    override suspend fun deleteComment(roomId: Long, commentId: Long): LogResult<Unit> {
+        return logRunCatching {
+            commentRemoteDataSource.deleteComment(roomId, commentId)
+        }
+    }
 }

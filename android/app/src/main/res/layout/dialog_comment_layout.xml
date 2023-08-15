@@ -27,6 +27,9 @@
         <variable
             name="updateCommentResultListener"
             type="com.digginroom.digginroom.feature.ResultListener" />
+        <variable
+            name="deleteCommentResultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
 
         <variable
             name="showMenuListener"
@@ -41,6 +44,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        app:commentState="@{commentViewModel.commentState}"
+        app:deleteCommentResultListener="@{deleteCommentResultListener}"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView

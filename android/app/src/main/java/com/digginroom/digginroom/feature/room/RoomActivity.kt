@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.room
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -10,11 +11,12 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.CommentState
-import com.digginroom.digginroom.feature.room.customview.roominfoview.PostCommentResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.CommentMenuEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.DeleteCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.PostCommentResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
@@ -79,8 +81,11 @@ class RoomActivity : AppCompatActivity() {
                         commentViewModel.updateComment(roomId, commentId, comment, updatedPosition)
                     }
 
-                    override fun deleteComment() {
-                        TODO("Not yet implemented")
+                    override fun deleteComment(
+                        commentId: Long,
+                        updatedPosition: Int
+                    ) {
+                        commentViewModel.deleteComment(roomId, commentId, updatedPosition)
                     }
                 })
                 commentDialog.setPostCommentResultListener(
@@ -88,6 +93,9 @@ class RoomActivity : AppCompatActivity() {
                 )
                 commentDialog.setUpdateCommentResultListener(
                     UpdateCommentResultListener(this@RoomActivity)
+                )
+                commentDialog.setDeleteCommentResultListener(
+                    DeleteCommentResultListener(this@RoomActivity)
                 )
                 commentDialog.setShowCommentMenuListener { selectedComment, selectedPosition ->
                     if (commentMenuDialog.isAdded) return@setShowCommentMenuListener
@@ -104,7 +112,22 @@ class RoomActivity : AppCompatActivity() {
                         }
 
                         override fun delete() {
-                            TODO("Not yet implemented")
+                            val builder = AlertDialog.Builder(this@RoomActivity)
+                            builder.setMessage("정말 삭제하사겠습니까?")
+                                .setPositiveButton("삭제") { dialog, id ->
+                                    commentViewModel.deleteComment(
+                                        roomId,
+                                        selectedComment.id,
+                                        selectedPosition
+                                    )
+                                    if (commentMenuDialog.isAdded) commentMenuDialog.dismiss()
+                                }
+                                .setNegativeButton("취소") { dialog, id ->
+                                    if (commentMenuDialog.isAdded) commentMenuDialog.dismiss()
+                                }
+                            // Create the AlertDialog object and return it
+                            builder.create()
+                            builder.show()
                         }
                     })
                     commentMenuDialog.updateComment(selectedComment)

@@ -49,4 +49,14 @@ class CommentRemoteDataSource(private val commentService: CommentService) {
         }
         throw HttpError.Unknown(response)
     }
+
+    suspend fun deleteComment(roomId: Long, commentId: Long) {
+        val response: Response<Void> =
+            commentService.deleteComment(roomId, commentId)
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+        if (response.code() == 401) throw HttpError.Unauthorized(response)
+
+        if (response.code() != 200) throw HttpError.Unknown(response)
+    }
 }

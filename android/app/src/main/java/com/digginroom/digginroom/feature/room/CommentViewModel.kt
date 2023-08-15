@@ -59,6 +59,20 @@ class CommentViewModel(
         }
     }
 
+    fun deleteComment(roomId: Long, commentId: Long, deletePosition: Int) {
+        viewModelScope.launch {
+            commentRepository.deleteComment(roomId, commentId).onSuccess {
+                val oldComments: MutableList<CommentModel> =
+                    _comments.value?.toMutableList() ?: mutableListOf()
+                oldComments.removeAt(deletePosition)
+                _comments.value = oldComments
+                _commentState.value = CommentState.Delete.Succeed
+            }.onFailure {
+                _commentState.value = CommentState.Delete.Failed
+            }
+        }
+    }
+
     fun setComment(comment: String) {
         this.comment.value = comment
     }

@@ -2,6 +2,7 @@ package com.digginroom.digginroom.feature.room.bindingadapter
 
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.feature.ResultListener
@@ -75,7 +76,13 @@ object CommentDialogBindingAdapter {
         button.setOnClickListener {
             when (commentState) {
                 is CommentState.Create -> clickListener.postComment(comment)
-                is CommentState.Edit -> clickListener.updateComment(selectedCommentId!!, comment, selectedPosition!!)
+                is CommentState.Edit -> clickListener.updateComment(
+                    selectedCommentId!!,
+                    comment,
+                    selectedPosition!!
+                )
+
+                else -> {}
             }
         }
     }
@@ -84,5 +91,28 @@ object CommentDialogBindingAdapter {
     @BindingAdapter("app:onMenuClick")
     fun onMenuClick(recyclerView: RecyclerView, showCommentMenuListener: ShowCommentMenuListener) {
         (recyclerView.adapter as? CommentAdapter)?.menuClickListener = showCommentMenuListener
+    }
+
+    @JvmStatic
+    @BindingAdapter(
+        value = ["app:deleteCommentResultListener", "app:commentState"],
+        requireAll = true
+    )
+    fun deleteCommentResultListener(
+        constraintLayout: ConstraintLayout,
+        deleteCommentResultListener: ResultListener,
+        commentState: CommentState
+    ) {
+        when (commentState) {
+            CommentState.Delete.Succeed -> {
+                deleteCommentResultListener.onSucceed()
+            }
+
+            CommentState.Delete.Failed -> {
+                deleteCommentResultListener.onFailed()
+            }
+
+            else -> {}
+        }
     }
 }

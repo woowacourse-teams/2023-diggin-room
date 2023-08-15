@@ -12,4 +12,9 @@ sealed class CommentState {
         object Succeed : Edit()
         object Failed : Edit()
     }
+
+    sealed class Delete() : CommentState() {
+        object Succeed : Delete()
+        object Failed : Delete()
+    }
 }

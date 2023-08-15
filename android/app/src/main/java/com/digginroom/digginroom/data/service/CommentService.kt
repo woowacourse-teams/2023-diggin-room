@@ -5,6 +5,7 @@ import com.digginroom.digginroom.data.entity.CommentResponse
 import com.digginroom.digginroom.data.entity.CommentsResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -29,4 +30,10 @@ interface CommentService {
         @Path(value = "commentId") commentId: Long,
         @Body commentRequest: CommentRequest
     ): Response<CommentResponse>
+
+    @DELETE("/rooms/{roomId}/comments/{commentId}")
+    suspend fun deleteComment(
+        @Path(value = "roomId") roomId: Long,
+        @Path(value = "commentId") commentId: Long
+    ): Response<Void>
 }
