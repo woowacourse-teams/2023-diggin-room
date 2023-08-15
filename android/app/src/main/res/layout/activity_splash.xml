@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.digginroom.digginroom.feature.splash.SplashViewModel" />
+
+        <variable
+            name="resultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#110B2E"
+        app:tokenState="@{viewModel.tokenState}"
+        app:tokenStateListener="@{resultListener}">
+
+        <ImageView
+            android:id="@+id/splash_iv_diggin_room_logo"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="50dp"
+            android:contentDescription="@string/common_diggin_room_logo"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_diggin_room_logo1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_diggin_room_logo_headset"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/splash_iv_diggin_room_logo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

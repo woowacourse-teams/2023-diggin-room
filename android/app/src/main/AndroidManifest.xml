@@ -15,13 +15,7 @@
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
         <activity
-            android:name=".feature.genretaste.GenreTasteActivity"
-            android:exported="true" />
-        <activity
-            android:name=".feature.scrap.activity.ScrapRoomActivity"
-            android:exported="false" />
-        <activity
-            android:name=".feature.login.LoginActivity"
+            android:name=".feature.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,12 +23,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".feature.genretaste.GenreTasteActivity"
+            android:exported="true" />
+        <activity
+            android:name=".feature.scrap.activity.ScrapRoomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.login.LoginActivity"
+            android:exported="true" />
         <activity
             android:name=".feature.scrap.activity.ScrapListActivity"
             android:exported="true" />
+
         <activity
             android:name=".feature.room.RoomActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".feature.join.JoinActivity"
             android:exported="true" />
