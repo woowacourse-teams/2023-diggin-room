@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomRecycler
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentsListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.VerticalScrollPager

@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result
 
 import android.content.Context
 import android.widget.Toast

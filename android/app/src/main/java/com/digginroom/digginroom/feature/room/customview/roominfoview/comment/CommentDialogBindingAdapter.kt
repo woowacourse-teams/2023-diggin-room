@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.feature.ResultListener
 import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentEventListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
 import com.digginroom.digginroom.model.CommentModel
 
 object CommentDialogBindingAdapter {

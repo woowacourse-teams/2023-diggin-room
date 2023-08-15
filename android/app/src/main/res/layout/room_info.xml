@@ -30,7 +30,7 @@
 
         <variable
             name="showCommentsListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentsListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
 
     </data>
 

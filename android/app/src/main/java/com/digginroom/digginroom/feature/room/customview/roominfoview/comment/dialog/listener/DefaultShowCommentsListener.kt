@@ -1,13 +1,13 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener
 
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.DefaultShowCommentMenuListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.DeleteCommentResultListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.PostCommentResultListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result.UpdateCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.DefaultShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.DeleteCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.PostCommentResultListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.UpdateCommentResultListener
 
 class DefaultShowCommentsListener(
     private val commentDialog: CommentDialog,

@@ -18,7 +18,7 @@
 
         <variable
             name="commentEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentEventListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener" />
 
         <variable
             name="postCommentResultListener"
@@ -33,7 +33,7 @@
 
         <variable
             name="showMenuListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentMenuListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener" />
         <variable
             name="selectedCommentId"
             type="long" />

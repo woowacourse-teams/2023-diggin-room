@@ -1,8 +1,9 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener
 
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 
-class DefaultCommentEventListener(val commentViewModel: CommentViewModel, val roomId: Long) : CommentEventListener {
+class DefaultCommentEventListener(val commentViewModel: CommentViewModel, val roomId: Long) :
+    CommentEventListener {
     override fun findComments() {
         commentViewModel.findComments(roomId)
     }

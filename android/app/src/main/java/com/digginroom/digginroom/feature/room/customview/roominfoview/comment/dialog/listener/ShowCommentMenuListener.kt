@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener
 
 import com.digginroom.digginroom.model.CommentModel
 

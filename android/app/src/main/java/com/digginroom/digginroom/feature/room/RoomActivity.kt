@@ -12,8 +12,8 @@ import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.roominfoview.DefaultShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.TrackInfoDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.DefaultShowCommentsListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.DefaultShowCommentsListener
 
 class RoomActivity : AppCompatActivity() {
 

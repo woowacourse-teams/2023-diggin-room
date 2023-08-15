@@ -6,7 +6,7 @@
 
         <variable
             name="commentMenuEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentMenuEventListener" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentMenuEventListener" />
 
     </data>
 

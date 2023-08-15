@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.result
+package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result
 
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.feature.room.customview.CommentState
@@ -6,8 +6,8 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.Co
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.DeleteCommentAlertDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.CommentMenuEventListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.listener.ShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentMenuEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
 import com.digginroom.digginroom.model.CommentModel
 
 class DefaultShowCommentMenuListener(
