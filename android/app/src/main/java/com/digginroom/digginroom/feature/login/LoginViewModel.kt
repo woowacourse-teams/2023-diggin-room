@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
+import com.digginroom.digginroom.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -16,6 +17,10 @@ class LoginViewModel(
 
     val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
     val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
+
+    private val _googleLoginEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val googleLoginEvent: LiveData<Any>
+        get() = _googleLoginEvent
 
     private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.START)
     val state: LiveData<LoginState>
@@ -33,6 +38,23 @@ class LoginViewModel(
             }.onFailure {
                 _state.value = LoginState.FAILED
             }
+        }
+    }
+
+    fun startGoogleLogin() {
+        _googleLoginEvent.call()
+    }
+
+    fun login(idToken: String) {
+        _state.value = LoginState.LOADING
+
+        viewModelScope.launch {
+            accountRepository.postLogin(idToken)
+                .onSuccess { token ->
+                    saveToken(token)
+                }.onFailure {
+                    _state.value = LoginState.FAILED
+                }
         }
     }
 

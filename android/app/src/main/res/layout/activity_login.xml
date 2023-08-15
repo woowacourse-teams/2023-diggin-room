@@ -9,7 +9,6 @@
 
         <import type="com.digginroom.digginroom.feature.login.LoginState" />
 
-
         <variable
             name="navigator"
             type="com.digginroom.digginroom.feature.login.navigator.LoginNavigator" />
@@ -38,8 +37,10 @@
             android:visibility="@{viewModel.state == LoginState.LOADING ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/login_iv_diggin_room_logo"
@@ -167,6 +168,19 @@
             app:layout_constraintEnd_toStartOf="@+id/login_tv_join"
             app:layout_constraintStart_toEndOf="@+id/login_tv_forgot_account"
             app:layout_constraintTop_toBottomOf="@id/login_button" />
+
+        <ImageView
+            android:id="@+id/login_iv_google_login"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="90dp"
+            android:contentDescription="@string/login_google_login_img_description"
+            android:onClick="@{() -> viewModel.startGoogleLogin()}"
+            android:src="@drawable/ic_google_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/login_tv_forgot_account"
+            app:layout_constraintTop_toBottomOf="@id/login_tv_join" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

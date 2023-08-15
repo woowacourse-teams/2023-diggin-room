@@ -13,7 +13,7 @@
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.feature.scrap.ScrapViewModel" />
+            type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel" />
 
         <variable
             name="adapter"
