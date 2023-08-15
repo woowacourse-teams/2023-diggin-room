@@ -17,7 +17,8 @@ class RoomTest {
                 artist = "",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         )
         assertEquals(room.videoId, "")
     }

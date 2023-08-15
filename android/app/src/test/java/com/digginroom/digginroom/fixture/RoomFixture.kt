@@ -14,7 +14,8 @@ object RoomFixture {
             artist = "예시 아티스트1",
             superGenre = Genre.SOUNDS_AND_EFFECTS
         ),
-        roomId = 0
+        roomId = 0,
+        scrapCount = 0
     )
 
     fun Rooms(): List<Room> = listOf(
@@ -26,7 +27,8 @@ object RoomFixture {
                 artist = "예시 아티스트2",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         ),
         Room(
             videoId = "Jsm1qk2avyw2",
@@ -36,7 +38,8 @@ object RoomFixture {
                 artist = "예시 아티스트3",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         ),
         Room(
             videoId = "Jsm1qk2avyw3",
@@ -46,7 +49,8 @@ object RoomFixture {
                 artist = "예시 아티스트4",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         ),
         Room(
             videoId = "Jsm1qk2avyw4",
@@ -56,7 +60,8 @@ object RoomFixture {
                 artist = "예시 아티스트5",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         ),
         Room(
             videoId = "Jsm1qk2avyw5",
@@ -66,7 +71,8 @@ object RoomFixture {
                 artist = "예시 아티스트6",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         ),
         Room(
             videoId = "Jsm1qk2avyw6",
@@ -76,7 +82,8 @@ object RoomFixture {
                 artist = "예시 아티스트7",
                 superGenre = Genre.SOUNDS_AND_EFFECTS
             ),
-            roomId = 0
+            roomId = 0,
+            scrapCount = 0
         )
     )
 }

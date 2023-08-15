@@ -84,6 +84,28 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
+            android:id="@id/scrapToggle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="5dp"
+            app:isScrapped="@{room.isScrapped}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_scrap_count"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_scrap_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="@{room.scrapCount}"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/img_comment"
+            app:layout_constraintEnd_toEndOf="@id/scrapToggle"
+            app:layout_constraintStart_toStartOf="@id/scrapToggle" />
+
         <ImageView
             android:id="@+id/img_comment"
             android:layout_width="32dp"
@@ -91,17 +113,8 @@
             android:layout_marginBottom="15dp"
             android:onClick="@{()->showCommentsListener.show(room.roomId)}"
             android:src="@drawable/comment_icon"
-            app:layout_constraintBottom_toTopOf="@+id/scrapToggle"
-            app:layout_constraintEnd_toEndOf="@id/img_info" />
-
-        <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
-            android:id="@id/scrapToggle"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="15dp"
-            app:isScrapped="@{room.isScrapped}"
             app:layout_constraintBottom_toTopOf="@id/img_info"
-            app:layout_constraintEnd_toEndOf="@id/img_info" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/img_info"
