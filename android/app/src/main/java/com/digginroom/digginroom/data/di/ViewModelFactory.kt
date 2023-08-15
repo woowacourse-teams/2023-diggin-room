@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.join.JoinViewModel
 import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.feature.room.RoomViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
 import com.digginroom.digginroom.feature.scrap.ScrapViewModel
 import com.digginroom.digginroom.model.RoomsModel

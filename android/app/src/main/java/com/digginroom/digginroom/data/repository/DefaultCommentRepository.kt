@@ -4,7 +4,6 @@ import com.digginroom.digginroom.data.datasource.remote.CommentRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.comment.Comment
-import com.digginroom.digginroom.model.mapper.CommentMapper.toDomain
 import com.digginroom.digginroom.repository.CommentRepository
 import java.time.LocalDateTime
 
@@ -37,7 +36,15 @@ class DefaultCommentRepository(private val commentRemoteDataSource: CommentRemot
 
     override suspend fun postComment(roomId: Long, comment: String): LogResult<Comment> {
         return logRunCatching {
-            commentRemoteDataSource.postComment(roomId, comment).toDomain()
+            Comment(
+                3L,
+                "berry2",
+                "새로 등록된 댓글",
+                LocalDateTime.of(2023, 8, 1, 7, 30),
+                LocalDateTime.of(2023, 8, 11, 7, 45),
+                true
+            )
+//            commentRemoteDataSource.postComment(roomId, comment).toDomain()
         }
     }
 
@@ -47,13 +54,21 @@ class DefaultCommentRepository(private val commentRemoteDataSource: CommentRemot
         comment: String
     ): LogResult<Comment> {
         return logRunCatching {
-            commentRemoteDataSource.updateComment(roomId, commentId, comment).toDomain()
+            Comment(
+                3L,
+                "berry2",
+                "업데이트된 댓글",
+                LocalDateTime.of(2023, 8, 1, 7, 30),
+                LocalDateTime.of(2023, 8, 11, 7, 45),
+                true
+            )
+//            commentRemoteDataSource.updateComment(roomId, commentId, comment).toDomain()
         }
     }
 
     override suspend fun deleteComment(roomId: Long, commentId: Long): LogResult<Unit> {
         return logRunCatching {
-            commentRemoteDataSource.deleteComment(roomId, commentId)
+//            commentRemoteDataSource.deleteComment(roomId, commentId)
         }
     }
 }

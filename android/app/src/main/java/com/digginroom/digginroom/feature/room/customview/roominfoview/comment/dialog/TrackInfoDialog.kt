@@ -19,6 +19,7 @@ class TrackInfoDialog : BottomSheetDialogFragment() {
     ): View {
         binding = DialogTrackInfoLayoutBinding.inflate(inflater, container, false)
         binding.trackModel = track
+        isCancelable = true
         return binding.root
     }
 
