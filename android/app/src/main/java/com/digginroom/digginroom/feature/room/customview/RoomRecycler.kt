@@ -143,6 +143,14 @@ class RoomRecycler(
     fun currentRoomPlayerRoomId(): Long =
         (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
 
+    fun pausePlayers() {
+        repeat(gridSize * gridSize) {
+            val view = getChildAt(it)
+            if (view !is YoutubeRoomPlayer) return@repeat
+            view.pause()
+        }
+    }
+
     private fun swapView(start: Int, end: Int) {
         val first = getChildAt(start)
         val second = getChildAt(end)

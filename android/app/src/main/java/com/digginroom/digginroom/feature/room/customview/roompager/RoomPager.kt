@@ -105,6 +105,16 @@ class RoomPager(
         roomRecycler.updateShowCommentsListener(showCommentsListener)
     }
 
+    fun playCurrentRoom() {
+        roomRecycler.post {
+            roomRecycler.playCurrentRoomPlayer()
+        }
+    }
+
+    fun pausePlayers() {
+        roomRecycler.pausePlayers()
+    }
+
     private fun initVerticalScrollView() {
         initScrollPager(verticalScrollPager)
         isVerticalScrollBarEnabled = false
@@ -200,12 +210,6 @@ class RoomPager(
             scrollPager.smoothScrollTo(
                 scrollPager.scrollPosition * scrollPager.screenSize
             )
-        }
-    }
-
-    private fun playCurrentRoom() {
-        roomRecycler.post {
-            roomRecycler.playCurrentRoomPlayer()
         }
     }
 
