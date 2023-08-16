@@ -4,23 +4,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.repository.RoomRepository
+import com.digginroom.digginroom.feature.login.LoginState
+import com.digginroom.digginroom.repository.MemberRepository
+import com.digginroom.digginroom.repository.TokenRepository
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    private val roomRepository: RoomRepository
+    private val tokenRepository: TokenRepository,
+    private val memberRepository: MemberRepository
 ) : ViewModel() {
 
-    private val _tokenState: MutableLiveData<TokenState> = MutableLiveData(TokenState.NOT_VALIDATED)
-    val tokenState: LiveData<TokenState>
-        get() = _tokenState
+    private val _loginState: MutableLiveData<LoginState> = MutableLiveData(LoginState.Start)
+    val loginState: LiveData<LoginState>
+        get() = _loginState
 
     fun validateToken() {
         viewModelScope.launch {
-            roomRepository.findNext().onSuccess {
-                _tokenState.value = TokenState.VALID
+            tokenRepository.fetch().onSuccess {
+                fetchMember(it)
             }.onFailure {
-                _tokenState.value = TokenState.INVALID
+                _loginState.value = LoginState.Failed
+            }
+        }
+    }
+
+    private fun fetchMember(token: String) {
+        viewModelScope.launch {
+            memberRepository.fetch(token).onSuccess { member ->
+                _loginState.value = LoginState.Succeed.from(member.hasSurveyed)
+            }.onFailure {
+                _loginState.value = LoginState.Failed
             }
         }
     }

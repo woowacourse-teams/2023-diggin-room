@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
                 .also {
                     it.lifecycleOwner = this
                     it.viewModel = splashViewModel
-                    it.resultListener = SplashResultListener(this)
+                    it.navigator = DefaultSplashNavigator(this)
                 }
     }
 

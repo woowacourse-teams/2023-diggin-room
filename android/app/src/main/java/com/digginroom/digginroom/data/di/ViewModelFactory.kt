@@ -28,8 +28,7 @@ class ViewModelFactory(context: Context) {
     val loginViewModelFactory = viewModelFactory {
         initializer {
             LoginViewModel(
-                accountRepository = repositoryProvider.accountRepository,
-                tokenRepository = repositoryProvider.tokenRepository
+                accountRepository = repositoryProvider.accountRepository
             )
         }
     }
@@ -67,7 +66,8 @@ class ViewModelFactory(context: Context) {
     val splashViewModelFactory: ViewModelProvider.Factory = viewModelFactory {
         initializer {
             SplashViewModel(
-                roomRepository = repositoryProvider.roomRepository
+                tokenRepository = repositoryProvider.tokenRepository,
+                memberRepository = repositoryProvider.memberRepository
             )
         }
     }
