@@ -6,5 +6,6 @@ create table comment
     room_id    bigint,
     updated_at timestamp(6),
     comment    longtext,
-    primary key (id)
+    primary key (id),
+    constraint FKmrrrpi513ssu63i2783jyiv9m foreign key (member_id) references member (id)
 )
