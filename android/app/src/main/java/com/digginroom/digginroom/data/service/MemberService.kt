@@ -1,11 +1,11 @@
 package com.digginroom.digginroom.data.service
 
 import com.digginroom.digginroom.data.entity.GenresTasteRequest
-import com.digginroom.digginroom.data.entity.MemberRequest
 import com.digginroom.digginroom.data.entity.MemberResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface MemberService {
@@ -18,7 +18,7 @@ interface MemberService {
 
     @GET("/member/me")
     suspend fun fetch(
-        @Body
-        memberRequest: MemberRequest
+        @Header("Cookie")
+        token: String
     ): Response<MemberResponse>
 }
