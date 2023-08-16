@@ -38,17 +38,17 @@ public class CommentService {
     public void delete(final Long roomId, final Member member, final Long commentId) {
         Comment comment = commentRepository.getCommentById(commentId);
 
-        validateSameRoomAndOwner(member, roomId, comment);
+        validateWriteable(comment, member, roomId);
         commentRepository.delete(comment);
     }
 
     public Comment update(final Member member, final Long roomId, final Long commentId, final CommentRequest request) {
         Comment comment = commentRepository.getCommentById(commentId);
-        validateSameRoomAndOwner(member, roomId, comment);
+        validateWriteable(comment, member, roomId);
         return comment.updateComment(request.comment());
     }
 
-    private void validateSameRoomAndOwner(final Member member, final Long roomId, final Comment comment) {
+    private void validateWriteable(final Comment comment, final Member member, final Long roomId) {
         validateSameRoom(roomId, comment);
         validateSameOwner(member, comment);
     }
