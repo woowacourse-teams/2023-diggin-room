@@ -37,32 +37,32 @@ public class CommentController {
 
     @PostMapping("/{roomId}/comments")
     public ResponseEntity<CommentResponse> comment(
-            @Auth final Long memberId,
+            @Auth final Long loginMemberId,
             @PathVariable final Long roomId,
             @Valid @RequestBody final CommentRequest request
     ) {
-        CommentResponse response = roomService.comment(roomId, memberId, request);
+        CommentResponse response = roomService.comment(roomId, loginMemberId, request);
         return ResponseEntity.status(CREATED).body(response);
     }
 
     @PatchMapping("/{roomId}/comments/{commentId}")
     public ResponseEntity<CommentResponse> update(
-            @Auth final Long memberId,
+            @Auth final Long loginMemberId,
             @PathVariable final Long roomId,
             @PathVariable final Long commentId,
             @Valid @RequestBody final CommentRequest request
     ) {
-        CommentResponse response = roomService.updateComment(roomId, memberId, commentId, request);
+        CommentResponse response = roomService.updateComment(roomId, loginMemberId, commentId, request);
         return ResponseEntity.status(OK).body(response);
     }
 
     @DeleteMapping("/{roomId}/comments/{commentId}")
     public ResponseEntity<CommentResponse> delete(
-            @Auth final Long memberId,
+            @Auth final Long loginMemberId,
             @PathVariable final Long roomId,
             @PathVariable final Long commentId
     ) {
-        roomService.deleteComment(roomId, memberId, commentId);
+        roomService.deleteComment(roomId, loginMemberId, commentId);
         return ResponseEntity.status(OK).build();
     }
 }
