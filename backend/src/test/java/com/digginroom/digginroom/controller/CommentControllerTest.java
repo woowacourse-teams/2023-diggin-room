@@ -1,14 +1,15 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.controller.TestFixture.COMMENT_UPDATE_REQUEST;
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER2_LOGIN_REQUEST;
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.controller.TestFixture.나무;
-import static com.digginroom.digginroom.controller.TestFixture.블랙캣;
-import static com.digginroom.digginroom.controller.TestFixture.차이;
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.COMMENT_UPDATE_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER2_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.블랙캣;
+import static com.digginroom.digginroom.TestFixture.차이;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
 import com.digginroom.digginroom.controller.dto.CommentsResponse;

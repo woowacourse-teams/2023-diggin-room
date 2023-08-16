@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.repository;
 
-import static com.digginroom.digginroom.controller.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.나무;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.domain.Room;

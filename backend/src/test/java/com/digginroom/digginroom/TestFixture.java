@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.controller;
+package com.digginroom.digginroom;
 
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;

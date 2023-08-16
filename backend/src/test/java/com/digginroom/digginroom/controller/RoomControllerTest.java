@@ -1,11 +1,11 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_PASSWORD;
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_USERNAME;
-import static com.digginroom.digginroom.controller.TestFixture.나무;
-import static com.digginroom.digginroom.controller.TestFixture.차이;
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER_PASSWORD;
+import static com.digginroom.digginroom.TestFixture.MEMBER_USERNAME;
+import static com.digginroom.digginroom.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.차이;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
