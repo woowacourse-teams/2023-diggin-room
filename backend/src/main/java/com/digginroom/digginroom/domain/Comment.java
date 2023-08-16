@@ -2,7 +2,6 @@ package com.digginroom.digginroom.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class Comment extends BaseEntity {
 
     private Long roomId;
-    @Lob
     @Column(length = 500)
     private String comment;
     @ManyToOne
