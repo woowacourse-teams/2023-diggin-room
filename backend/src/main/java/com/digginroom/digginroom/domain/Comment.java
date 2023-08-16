@@ -20,9 +20,8 @@ public class Comment extends BaseEntity {
     @ManyToOne
     private Member member;
 
-    public Comment updateComment(final String comment) {
+    public void updateComment(final String comment) {
         this.comment = comment;
-        return this;
     }
 
     public boolean isOwner(final Member member) {

@@ -45,7 +45,8 @@ public class CommentService {
     public Comment update(final Member member, final Long roomId, final Long commentId, final CommentRequest request) {
         Comment comment = commentRepository.getCommentById(commentId);
         validateWriteable(comment, member, roomId);
-        return comment.updateComment(request.comment());
+        comment.updateComment(request.comment());
+        return comment;
     }
 
     private void validateWriteable(final Comment comment, final Member member, final Long roomId) {
