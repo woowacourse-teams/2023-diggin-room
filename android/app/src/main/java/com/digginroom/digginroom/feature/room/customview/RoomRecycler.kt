@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import androidx.core.view.children
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
@@ -116,9 +115,10 @@ class RoomRecycler(
     }
 
     fun playCurrentRoomPlayer() {
-        children.mapIndexed { index, view ->
-            if (view !is YoutubeRoomPlayer) return@mapIndexed
-            if (index == (gridSize * gridSize) / 2) {
+        repeat(gridSize * gridSize) {
+            val view = getChildAt(it)
+            if (view !is YoutubeRoomPlayer) return@repeat
+            if (it == (gridSize * gridSize) / 2) {
                 view.play()
             } else {
                 view.pause()
