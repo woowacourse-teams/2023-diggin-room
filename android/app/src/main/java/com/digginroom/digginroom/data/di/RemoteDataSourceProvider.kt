@@ -46,7 +46,7 @@ class RemoteDataSourceProvider(tokenLocalDataSource: TokenLocalDataSource) {
     private val accountService: AccountService = retrofit.create(AccountService::class.java)
     private val roomService: RoomService = tokenRetrofit.create(RoomService::class.java)
     private val memberService: MemberService = tokenRetrofit.create(MemberService::class.java)
-    private val commentService: CommentService = retrofit.create(CommentService::class.java)
+    private val commentService: CommentService = tokenRetrofit.create(CommentService::class.java)
 
     val accountDataSource = AccountRemoteDataSource(accountService)
     val roomRemoteDataSource = RoomRemoteDataSource(roomService)
