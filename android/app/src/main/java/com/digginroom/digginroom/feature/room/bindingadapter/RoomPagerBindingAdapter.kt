@@ -73,4 +73,10 @@ object RoomPagerBindingAdapter {
     fun showCommentsListener(roomPager: RoomPager, showCommentsListener: ShowCommentsListener) {
         roomPager.updateShowCommentsListener(showCommentsListener)
     }
+
+    @JvmStatic
+    @BindingAdapter("app:setNextRoomLoadable")
+    fun setNextRoomLoadable(roomPager: RoomPager, isNextRoomLoadable: Boolean) {
+        roomPager.isNextRoomLoadable = isNextRoomLoadable
+    }
 }

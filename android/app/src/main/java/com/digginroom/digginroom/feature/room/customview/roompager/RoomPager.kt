@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
@@ -25,6 +24,7 @@ class RoomPager(
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
     var lastPagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
+    var isNextRoomLoadable: Boolean = true
 
     init {
         initVerticalScrollView()
@@ -38,22 +38,20 @@ class RoomPager(
     }
 
     fun updateOrientation(pagingOrientation: PagingOrientation) {
-        clearViewHierarchy()
         when (pagingOrientation) {
             PagingOrientation.BOTH -> {
-                addView(verticalScrollPager)
-                verticalScrollPager.addView(horizontalScrollPager)
-                horizontalScrollPager.addView(roomRecycler)
+                horizontalScrollPager.isScrollable = true
+                verticalScrollPager.isScrollable = true
             }
 
             PagingOrientation.VERTICAL -> {
-                addView(verticalScrollPager)
-                verticalScrollPager.addView(roomRecycler)
+                horizontalScrollPager.isScrollable = false
+                verticalScrollPager.isScrollable = true
             }
 
             PagingOrientation.HORIZONTAL -> {
-                addView(horizontalScrollPager)
-                horizontalScrollPager.addView(roomRecycler)
+                horizontalScrollPager.isScrollable = true
+                verticalScrollPager.isScrollable = false
             }
         }
     }
@@ -107,16 +105,14 @@ class RoomPager(
         roomRecycler.updateShowCommentsListener(showCommentsListener)
     }
 
-    private fun clearViewHierarchy() {
-        removeFirstChild(this)
-        removeFirstChild(verticalScrollPager)
-        removeFirstChild(horizontalScrollPager)
+    fun playCurrentRoom() {
+        roomRecycler.post {
+            roomRecycler.playCurrentRoomPlayer()
+        }
     }
 
-    private fun removeFirstChild(viewGroup: ViewGroup) {
-        if (viewGroup.childCount > 0) {
-            viewGroup.removeViewAt(0)
-        }
+    fun pausePlayers() {
+        roomRecycler.pausePlayers()
     }
 
     private fun initVerticalScrollView() {
@@ -127,6 +123,8 @@ class RoomPager(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
         )
+
+        addView(verticalScrollPager)
     }
 
     private fun initHorizontalScrollView() {
@@ -136,6 +134,8 @@ class RoomPager(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         )
+        verticalScrollPager.addView(horizontalScrollPager)
+        horizontalScrollPager.addView(roomRecycler)
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {
@@ -185,9 +185,13 @@ class RoomPager(
     }
 
     private fun recycleRooms(scrollPager: ScrollPager) {
+        if (roomRecycler.currentRoomPosition == roomRecycler.roomSize() - 2) loadNextRoom()
         if (roomRecycler.currentRoomPosition < 0) {
             scrollPager.scrollPosition = 1
             roomRecycler.navigateFirstRoom()
+        } else if (roomRecycler.currentRoomPosition >= roomRecycler.roomSize() && !isNextRoomLoadable) {
+            scrollPager.scrollPosition = 1
+            roomRecycler.navigateLastRoom()
         } else if (scrollPager.scrollPosition <= 0) {
             roomRecycler.recyclePrevRooms(scrollPager)
             scrollPager.scrollPosition++
@@ -196,7 +200,6 @@ class RoomPager(
             roomRecycler.recycleNextRooms(scrollPager)
             scrollPager.scrollPosition--
             scrollPager.scrollBy(-scrollPager.screenSize)
-            loadNextRoom()
         }
     }
 
@@ -207,12 +210,6 @@ class RoomPager(
             scrollPager.smoothScrollTo(
                 scrollPager.scrollPosition * scrollPager.screenSize
             )
-        }
-    }
-
-    private fun playCurrentRoom() {
-        roomRecycler.post {
-            roomRecycler.playCurrentRoomPlayer()
         }
     }
 
