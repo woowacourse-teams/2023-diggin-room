@@ -87,8 +87,10 @@ class RoomPager(
             horizontalScrollPager.scrollTo(
                 horizontalScrollPager.scrollPosition * horizontalScrollPager.screenSize
             )
+            verticalScrollPager.scrollTo(
+                verticalScrollPager.scrollPosition * verticalScrollPager.screenSize
+            )
             lastPagingOrientation = verticalScrollPager.pagingOrientation
-            roomRecycler.swapOrientation()
             updateRoomPosition(0)
         }
     }
@@ -120,7 +122,7 @@ class RoomPager(
     private fun initVerticalScrollView() {
         initScrollPager(verticalScrollPager)
         isVerticalScrollBarEnabled = false
-        verticalScrollPager.scrollPosition = 0
+        verticalScrollPager.scrollPosition = GRID_SIZE / 2
         verticalScrollPager.layoutParams = LinearLayout.LayoutParams(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
@@ -183,8 +185,8 @@ class RoomPager(
     }
 
     private fun recycleRooms(scrollPager: ScrollPager) {
-        if (roomRecycler.currentRoomPosition <= 0) {
-            scrollPager.scrollPosition = 0
+        if (roomRecycler.currentRoomPosition < 0) {
+            scrollPager.scrollPosition = 1
             roomRecycler.navigateFirstRoom()
         } else if (scrollPager.scrollPosition <= 0) {
             roomRecycler.recyclePrevRooms(scrollPager)
@@ -202,7 +204,6 @@ class RoomPager(
         navigateTargetRoom()
         playCurrentRoom()
         scrollPager.post {
-            println(scrollPager.scrollPosition)
             scrollPager.smoothScrollTo(
                 scrollPager.scrollPosition * scrollPager.screenSize
             )
@@ -210,18 +211,14 @@ class RoomPager(
     }
 
     private fun playCurrentRoom() {
-        val target = calculateCurrentPosition()
         roomRecycler.post {
-            roomRecycler.playCurrentRoomPlayer(target)
+            roomRecycler.playCurrentRoomPlayer()
         }
     }
 
     private fun navigateTargetRoom() {
-        val target = calculateCurrentPosition()
-        roomRecycler.navigateRooms(target)
+        roomRecycler.navigateRooms()
     }
-
-    private fun calculateCurrentPosition(): Int = verticalScrollPager.scrollPosition
 
     companion object {
         private const val GRID_SIZE = 3

@@ -47,7 +47,7 @@ class HorizontalScrollPager(
     }
 
     override fun calculateStartChildPosition(size: Int): Int {
-        return size * (size / 2)
+        return ((size * size) / 2) - 1
     }
 
     override fun calculateEndChildPosition(size: Int): Int {

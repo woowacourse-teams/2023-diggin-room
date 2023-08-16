@@ -23,13 +23,10 @@ class RoomRecycler(
     var currentRoomPosition = 0
     private val roomPlayers: List<YoutubeRoomPlayer> = (0 until gridSize).map {
         YoutubeRoomPlayer(context) {
-            playCurrentRoomPlayer(currentRoomPlayerPosition)
-        }.also {
-            tag = it
+            playCurrentRoomPlayer()
         }
     }
     private var rooms: List<RoomModel> = emptyList()
-    private var currentRoomPlayerPosition: Int = 0
 
     init {
         initLayout()
@@ -118,18 +115,19 @@ class RoomRecycler(
         this.rooms = rooms
     }
 
-    fun playCurrentRoomPlayer(target: Int) {
-        currentRoomPlayerPosition = target
-        children.filterIsInstance<YoutubeRoomPlayer>().map {
-            if (it.tag == target) {
-                it.play()
+    fun playCurrentRoomPlayer() {
+        children.mapIndexed { index, view ->
+            if (view !is YoutubeRoomPlayer) return@mapIndexed
+            if (index == (gridSize * gridSize) / 2) {
+                view.play()
             } else {
-                it.pause()
+                view.pause()
             }
         }
     }
 
-    fun navigateRooms(target: Int) {
+    fun navigateRooms() {
+        val target = 1
         if (0 <= currentRoomPosition - 1) {
             navigateRoom(target, -1)
         }
@@ -144,7 +142,7 @@ class RoomRecycler(
     private fun navigateRoom(target: Int, position: Int) {
         val target = repeat(target + position, gridSize)
         val room = getChildAt((target * gridSize) + (gridSize / 2)) as? RoomPlayer
-            ?: getChildAt((gridSize * (gridSize / 2)) + 1 + target) as? RoomPlayer
+            ?: getChildAt((gridSize * (gridSize / 2)) + target) as? RoomPlayer
         room?.navigate(rooms[currentRoomPosition + position])
     }
 
@@ -164,7 +162,8 @@ class RoomRecycler(
         currentRoomPosition = rooms.size - 1
     }
 
-    fun currentRoomPlayerRoomId(): Long = roomPlayers[currentRoomPlayerPosition].currentRoomId
+    fun currentRoomPlayerRoomId(): Long =
+        (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
 
     private fun initLayout() {
         columnCount = gridSize
