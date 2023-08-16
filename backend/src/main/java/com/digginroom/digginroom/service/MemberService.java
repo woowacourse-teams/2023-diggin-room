@@ -2,6 +2,7 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
+import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
@@ -56,6 +57,11 @@ public class MemberService {
     public Member findMember(final Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberDetailsResponse getMemberDetails(final Long id) {
+        return MemberDetailsResponse.of(findMember(id));
     }
 
     @Transactional(readOnly = true)

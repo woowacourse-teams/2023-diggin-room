@@ -149,4 +149,14 @@ class MemberServiceTest {
 
         assertThat(member.hasFavorite()).isTrue();
     }
+
+    @Test
+    void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_반환한다() {
+        Member member = 파워();
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+
+        assertThat(memberService.getMemberDetails(member.getId()))
+                .extracting("memberId", "username", "hasFavorite")
+                .containsExactly(member.getId(), member.getUsername(), member.hasFavorite());
+    }
 }
