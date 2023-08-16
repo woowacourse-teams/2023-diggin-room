@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.domain;
 
+import com.digginroom.digginroom.exception.GenreException.GenreNotFoundException;
+import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -35,4 +37,11 @@ public enum Genre {
     SPOKEN_WORD("Spoken Word");
 
     private final String name;
+
+    public static Genre of(final String name) {
+        return Arrays.stream(values())
+                .filter(genre -> genre.name.equals(name))
+                .findFirst()
+                .orElseThrow(() -> new GenreNotFoundException(name));
+    }
 }
