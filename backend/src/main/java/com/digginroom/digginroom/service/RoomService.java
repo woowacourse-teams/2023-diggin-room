@@ -106,7 +106,7 @@ public class RoomService {
 
     public CommentsResponse findRoomComments(final Long roomId) {
         validateExistRoom(roomId);
-        return commentService.findRoomComments(roomId);
+        return commentService.getRoomComments(roomId);
     }
 
     public void validateExistRoom(final Long roomId) {

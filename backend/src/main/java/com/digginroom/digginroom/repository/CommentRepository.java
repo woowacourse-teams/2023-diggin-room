@@ -14,5 +14,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
         return findCommentById(id).orElseThrow(NotFoundException::new);
     }
 
-    List<Comment> findCommentByRoomId(Long roomId);
+    List<Comment> findCommentsByRoomId(Long roomId);
 }

@@ -21,8 +21,8 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public CommentsResponse findRoomComments(final Long roomId) {
-        List<Comment> comments = commentRepository.findCommentByRoomId(roomId);
+    public CommentsResponse getRoomComments(final Long roomId) {
+        List<Comment> comments = commentRepository.findCommentsByRoomId(roomId);
         return new CommentsResponse(comments.stream()
                 .map(CommentResponse::of)
                 .toList());
