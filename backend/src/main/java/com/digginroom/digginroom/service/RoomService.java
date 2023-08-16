@@ -1,8 +1,12 @@
 package com.digginroom.digginroom.service;
 
+import com.digginroom.digginroom.controller.dto.CommentRequest;
+import com.digginroom.digginroom.controller.dto.CommentResponse;
+import com.digginroom.digginroom.controller.dto.CommentsResponse;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
 import com.digginroom.digginroom.controller.dto.RoomsResponse;
 import com.digginroom.digginroom.controller.dto.TrackResponse;
+import com.digginroom.digginroom.domain.Comment;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.domain.Room;
@@ -24,6 +28,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final TrackRepository trackRepository;
     private final MemberService memberService;
+    private final CommentService commentService;
 
     @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
@@ -97,5 +102,40 @@ public class RoomService {
         Member member = memberService.findMember(memberId);
 
         member.undislike(room);
+    }
+
+    public CommentsResponse findRoomComments(final Long roomId) {
+        validateExistRoom(roomId);
+        return commentService.getRoomComments(roomId);
+    }
+
+    public void validateExistRoom(final Long roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new NotFoundException(roomId);
+        }
+    }
+
+    public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        return commentService.comment(roomId, member, request);
+    }
+
+    public void deleteComment(final Long roomId, final Long memberId, final Long commentId) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        commentService.delete(roomId, member, commentId);
+    }
+
+    public CommentResponse updateComment(
+            final Long roomId,
+            final Long memberId,
+            final Long commentId,
+            final CommentRequest request
+    ) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        Comment updateComment = commentService.update(member, roomId, commentId, request);
+        return CommentResponse.of(updateComment);
     }
 }

@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.domain;
 
-import static com.digginroom.digginroom.controller.TestFixture.나무;
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static com.digginroom.digginroom.domain.Genre.AMBIENT;
 import static com.digginroom.digginroom.domain.Genre.DANCE;
 import static com.digginroom.digginroom.domain.Genre.EXPERIMENTAL;

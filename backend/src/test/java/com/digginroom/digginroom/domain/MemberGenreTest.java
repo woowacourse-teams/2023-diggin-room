@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.domain;
 
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayNameGeneration;

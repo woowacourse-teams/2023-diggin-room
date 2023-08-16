@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.service;
 
-import static com.digginroom.digginroom.controller.TestFixture.나무;
-import static com.digginroom.digginroom.controller.TestFixture.차이;
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.차이;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

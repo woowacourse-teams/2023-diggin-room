@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;

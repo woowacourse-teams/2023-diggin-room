@@ -1,10 +1,11 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.domain.Genre.DANCE;
 import static com.digginroom.digginroom.domain.Genre.RNB;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
 
+import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
 import io.restassured.RestAssured;
