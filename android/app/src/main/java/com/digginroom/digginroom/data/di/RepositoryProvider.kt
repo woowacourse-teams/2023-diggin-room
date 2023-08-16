@@ -12,8 +12,11 @@ class RepositoryProvider(context: Context) {
     private val remoteDataSourceProvider =
         RemoteDataSourceProvider(localDataSourceProvider.tokenLocalDataSource)
 
-    val accountRepository = DefaultAccountRepository(remoteDataSourceProvider.accountDataSource)
     val tokenRepository = DefaultTokenRepository(localDataSourceProvider.tokenLocalDataSource)
+    val accountRepository = DefaultAccountRepository(
+        tokenRepository = tokenRepository,
+        accountRemoteDataSource = remoteDataSourceProvider.accountDataSource
+    )
     val roomRepository = DefaultRoomRepository(remoteDataSourceProvider.roomRemoteDataSource)
     val memberRepository = DefaultMemberRepository(remoteDataSourceProvider.memberRemoteDataSource)
     val commentRepository = DefaultCommentRepository(remoteDataSourceProvider.commentRemoteDataSource)
