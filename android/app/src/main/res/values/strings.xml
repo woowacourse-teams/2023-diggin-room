@@ -25,7 +25,7 @@
     <string name="scrap_scrap_description">스크랩</string>
     <string name="scrap_thumbnail_description">thumbnail of scrapped room</string>
     <string name="title_artist_format">%s - %s</string>
-    <string name="fake_description">장르: %s \n \n</string>
+    <string name="track_genre">장르: %s</string>
     <string name="login_google_login_img_description">image_of_google_social_login</string>
     <string name="genre_taste_start">시작하기</string>
     <string name="genre_taste_ask_genre_taste">어떤 음악을 좋아하세요?</string>

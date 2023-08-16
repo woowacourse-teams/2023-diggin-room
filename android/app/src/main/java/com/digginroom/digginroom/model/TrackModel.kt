@@ -5,5 +5,6 @@ import java.io.Serializable
 data class TrackModel(
     val title: String,
     val artist: String,
-    val superGenre: String
+    val superGenre: String,
+    val description: String
 ) : Serializable
