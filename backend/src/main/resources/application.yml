@@ -12,3 +12,10 @@ spring:
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /docs
+  cache:
+    disabled: true
