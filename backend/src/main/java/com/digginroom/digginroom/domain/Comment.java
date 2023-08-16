@@ -5,11 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
 
@@ -19,12 +21,6 @@ public class Comment extends BaseEntity {
     private String comment;
     @ManyToOne
     private Member member;
-
-    public Comment(final Long roomId, final String comment, final Member member) {
-        this.roomId = roomId;
-        this.comment = comment;
-        this.member = member;
-    }
 
     public Comment updateComment(final String comment) {
         this.comment = comment;
