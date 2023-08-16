@@ -12,14 +12,14 @@ import org.junit.jupiter.api.Test;
 class MemberGenreTest {
 
     @Test
-    void 가중치는_0_이하로_떨어질_수_없다() {
+    void 가중치는_100_이하로_떨어질_수_없다() {
         MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 파워());
 
         for (int currentTime = 0; currentTime < 100; currentTime++) {
             memberGenre.adjustWeight(WeightFactor.DISLIKE);
         }
 
-        assertThat(memberGenre.getWeight()).isEqualTo(0);
+        assertThat(memberGenre.getWeight()).isEqualTo(100);
     }
 
     @Test
