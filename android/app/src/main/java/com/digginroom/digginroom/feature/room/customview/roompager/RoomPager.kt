@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.room.customview.roompager
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
@@ -38,22 +37,20 @@ class RoomPager(
     }
 
     fun updateOrientation(pagingOrientation: PagingOrientation) {
-        clearViewHierarchy()
         when (pagingOrientation) {
             PagingOrientation.BOTH -> {
-                addView(verticalScrollPager)
-                verticalScrollPager.addView(horizontalScrollPager)
-                horizontalScrollPager.addView(roomRecycler)
+                horizontalScrollPager.isScrollable = true
+                verticalScrollPager.isScrollable = true
             }
 
             PagingOrientation.VERTICAL -> {
-                addView(verticalScrollPager)
-                verticalScrollPager.addView(roomRecycler)
+                horizontalScrollPager.isScrollable = false
+                verticalScrollPager.isScrollable = true
             }
 
             PagingOrientation.HORIZONTAL -> {
-                addView(horizontalScrollPager)
-                horizontalScrollPager.addView(roomRecycler)
+                horizontalScrollPager.isScrollable = true
+                verticalScrollPager.isScrollable = false
             }
         }
     }
@@ -107,18 +104,6 @@ class RoomPager(
         roomRecycler.updateShowCommentsListener(showCommentsListener)
     }
 
-    private fun clearViewHierarchy() {
-        removeFirstChild(this)
-        removeFirstChild(verticalScrollPager)
-        removeFirstChild(horizontalScrollPager)
-    }
-
-    private fun removeFirstChild(viewGroup: ViewGroup) {
-        if (viewGroup.childCount > 0) {
-            viewGroup.removeViewAt(0)
-        }
-    }
-
     private fun initVerticalScrollView() {
         initScrollPager(verticalScrollPager)
         isVerticalScrollBarEnabled = false
@@ -127,6 +112,8 @@ class RoomPager(
             LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT
         )
+
+        addView(verticalScrollPager)
     }
 
     private fun initHorizontalScrollView() {
@@ -136,6 +123,8 @@ class RoomPager(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         )
+        verticalScrollPager.addView(horizontalScrollPager)
+        horizontalScrollPager.addView(roomRecycler)
     }
 
     private fun initScrollPager(scrollPager: ScrollPager) {

@@ -30,6 +30,6 @@
         app:orientation="@{PagingOrientation.BOTH}"
         app:roomPosition="@{0}"
         app:rooms="@{roomViewModel.cachedRoom}"
-        app:showCommentsListener = "@{showCommentsListener}"/>
+        app:showCommentsListener="@{showCommentsListener}" />
 
 </layout>

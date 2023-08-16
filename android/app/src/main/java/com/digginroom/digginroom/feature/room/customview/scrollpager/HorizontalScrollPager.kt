@@ -13,6 +13,7 @@ class HorizontalScrollPager(
     override var scrollPosition = 0
     override val screenSize = resources.displayMetrics.widthPixels
     override val pagingOrientation: PagingOrientation = PagingOrientation.HORIZONTAL
+    override var isScrollable: Boolean = true
     var dislikeRoom: () -> Unit = { }
 
     override fun smoothScrollTo(position: Int) {
@@ -39,11 +40,16 @@ class HorizontalScrollPager(
 
     override fun setOnTouchListener(listener: (MotionEvent) -> Unit) {
         setOnTouchListener { _, event ->
+            if (!isScrollable) return@setOnTouchListener true
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
             dislikeRoom()
             false
         }
+    }
+
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        return super.onTouchEvent(ev)
     }
 
     override fun calculateStartChildPosition(size: Int): Int {
