@@ -24,6 +24,7 @@ class RoomPager(
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
     var loadNextRoom: () -> Unit = { }
     var lastPagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
+    var isNextRoomLoadable: Boolean = true
 
     init {
         initVerticalScrollView()
@@ -174,9 +175,13 @@ class RoomPager(
     }
 
     private fun recycleRooms(scrollPager: ScrollPager) {
+        if (roomRecycler.currentRoomPosition == roomRecycler.roomSize() - 2) loadNextRoom()
         if (roomRecycler.currentRoomPosition < 0) {
             scrollPager.scrollPosition = 1
             roomRecycler.navigateFirstRoom()
+        } else if (roomRecycler.currentRoomPosition >= roomRecycler.roomSize() && !isNextRoomLoadable) {
+            scrollPager.scrollPosition = 1
+            roomRecycler.navigateLastRoom()
         } else if (scrollPager.scrollPosition <= 0) {
             roomRecycler.recyclePrevRooms(scrollPager)
             scrollPager.scrollPosition++
@@ -185,7 +190,6 @@ class RoomPager(
             roomRecycler.recycleNextRooms(scrollPager)
             scrollPager.scrollPosition--
             scrollPager.scrollBy(-scrollPager.screenSize)
-            loadNextRoom()
         }
     }
 

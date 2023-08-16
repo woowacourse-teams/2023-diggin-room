@@ -101,15 +101,6 @@ class RoomRecycler(
         swapView(5, 7)
     }
 
-    private fun swapView(start: Int, end: Int) {
-        val first = getChildAt(start)
-        val second = getChildAt(end)
-        removeView(first)
-        removeView(second)
-        addView(second, start)
-        addView(first, end)
-    }
-
     fun updateData(rooms: List<RoomModel>) {
         this.rooms = rooms
     }
@@ -139,6 +130,28 @@ class RoomRecycler(
         }
     }
 
+    fun navigateFirstRoom() {
+        currentRoomPosition = 0
+    }
+
+    fun navigateLastRoom() {
+        currentRoomPosition = rooms.size - 1
+    }
+
+    fun roomSize() = rooms.size
+
+    fun currentRoomPlayerRoomId(): Long =
+        (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
+
+    private fun swapView(start: Int, end: Int) {
+        val first = getChildAt(start)
+        val second = getChildAt(end)
+        removeView(first)
+        removeView(second)
+        addView(second, start)
+        addView(first, end)
+    }
+
     private fun navigateRoom(target: Int, position: Int) {
         val target = repeat(target + position, gridSize)
         val room = getChildAt((target * gridSize) + (gridSize / 2)) as? RoomPlayer
@@ -153,17 +166,6 @@ class RoomRecycler(
     } else {
         n
     }
-
-    fun navigateFirstRoom() {
-        currentRoomPosition = 0
-    }
-
-    fun navigateLastRoom() {
-        currentRoomPosition = rooms.size - 1
-    }
-
-    fun currentRoomPlayerRoomId(): Long =
-        (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
 
     private fun initLayout() {
         columnCount = gridSize
