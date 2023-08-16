@@ -67,8 +67,6 @@ class YoutubeRoomPlayer(
     }
 
     override fun navigate(room: RoomModel) {
-        roomInfoView.setRoomInfo(room)
-
         if (videoId == room.videoId) {
             return
         }

@@ -16,7 +16,7 @@ class TokenLocalDataSource(context: Context) {
     }
 
     fun fetch(): String =
-        tokenPreference.getString(KEY_TOKEN, null) ?: throw NoSuchElementException()
+        tokenPreference.getString(KEY_TOKEN, "") ?: ""
 
     companion object {
 
