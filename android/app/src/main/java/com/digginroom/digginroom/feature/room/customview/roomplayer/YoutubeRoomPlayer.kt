@@ -67,12 +67,13 @@ class YoutubeRoomPlayer(
     }
 
     override fun navigate(room: RoomModel) {
+        roomInfoView.setRoomInfo(room)
+
         if (videoId == room.videoId) {
             return
         }
 
         thumbnail.load(room)
-        roomInfoView.setRoomInfo(room)
 
         if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
