@@ -24,9 +24,7 @@ class MemberRemoteDataSource(
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
-        if (response.code() == 200) {
-            return response.body() ?: throw HttpError.EmptyBody(response)
-        }
+        if (response.code() == 200) return response.body() ?: throw HttpError.EmptyBody(response)
 
         throw HttpError.Unknown(response)
     }
