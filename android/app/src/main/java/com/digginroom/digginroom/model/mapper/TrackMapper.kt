@@ -11,7 +11,8 @@ object TrackMapper {
         return Track(
             title,
             artist,
-            Genre.find(superGenre)
+            Genre.find(superGenre),
+            description
         )
     }
 
@@ -19,7 +20,8 @@ object TrackMapper {
         return TrackModel(
             title,
             artist,
-            superGenre.title
+            superGenre.title,
+            description
         )
     }
 
@@ -27,7 +29,8 @@ object TrackMapper {
         return Track(
             title,
             artist,
-            Genre.find(superGenre)
+            Genre.find(superGenre),
+            description
         )
     }
 }
