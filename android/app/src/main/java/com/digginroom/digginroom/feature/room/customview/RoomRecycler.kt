@@ -59,13 +59,13 @@ class RoomRecycler(
         val start = scrollPager.calculateStartChildPosition(gridSize)
         val end = scrollPager.calculateEndChildPosition(gridSize)
         val first = getChildAt(start)
-        val second = getChildAt((gridSize * gridSize) / 2)
+        val second = getChildAt(calculateCenter())
         val third = getChildAt(end)
         removeView(first)
         removeView(second)
         removeView(third)
         addView(third, start)
-        addView(first, (gridSize * gridSize) / 2)
+        addView(first, calculateCenter())
         addView(second, end)
     }
 
@@ -73,13 +73,13 @@ class RoomRecycler(
         val start = scrollPager.calculateStartChildPosition(gridSize)
         val end = scrollPager.calculateEndChildPosition(gridSize)
         val first = getChildAt(start)
-        val second = getChildAt((gridSize * gridSize) / 2)
+        val second = getChildAt(calculateCenter())
         val third = getChildAt(end)
         removeView(first)
         removeView(second)
         removeView(third)
         addView(second, start)
-        addView(third, (gridSize * gridSize) / 2)
+        addView(third, calculateCenter())
         addView(first, end)
     }
 
@@ -96,7 +96,7 @@ class RoomRecycler(
         repeat(gridSize * gridSize) {
             val view = getChildAt(it)
             if (view !is YoutubeRoomPlayer) return@repeat
-            if (it == (gridSize * gridSize) / 2) {
+            if (it == calculateCenter()) {
                 view.play()
             } else {
                 view.pause()
@@ -105,16 +105,9 @@ class RoomRecycler(
     }
 
     fun navigateRooms() {
-        val target = 1
-        if (0 <= currentRoomPosition - 1) {
-            navigateRoom(target, -1)
-        }
-        if (rooms.size > currentRoomPosition) {
-            navigateRoom(target, 0)
-        }
-        if (rooms.size > currentRoomPosition + 1) {
-            navigateRoom(target, 1)
-        }
+        navigateRoom(-1)
+        navigateRoom(0)
+        navigateRoom(1)
     }
 
     fun navigateFirstRoom() {
@@ -128,7 +121,7 @@ class RoomRecycler(
     fun roomSize() = rooms.size
 
     fun currentRoomPlayerRoomId(): Long =
-        (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
+        (getChildAt(calculateCenter()) as YoutubeRoomPlayer).currentRoomId
 
     fun pausePlayers() {
         repeat(gridSize * gridSize) {
@@ -147,8 +140,9 @@ class RoomRecycler(
         addView(first, end)
     }
 
-    private fun navigateRoom(target: Int, position: Int) {
-        val target = repeat(target + position, gridSize)
+    private fun navigateRoom(position: Int) {
+        val center = 1
+        val target = repeat(center + position, gridSize)
         val room = getChildAt((target * gridSize) + (gridSize / 2)) as? RoomPlayer
             ?: getChildAt((gridSize * (gridSize / 2)) + target) as? RoomPlayer
         if (rooms.size > currentRoomPosition + position && currentRoomPosition + position >= 0) {
@@ -184,4 +178,6 @@ class RoomRecycler(
             addView(view)
         }
     }
+
+    private fun calculateCenter() = (gridSize * gridSize) / 2
 }
