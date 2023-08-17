@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result
 
-import com.digginroom.digginroom.feature.room.RoomActivity
+import androidx.fragment.app.FragmentManager
 import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
@@ -14,12 +14,12 @@ class DefaultShowCommentMenuListener(
     private val commentMenuDialog: CommentMenuDialog,
     private val commentDialog: CommentDialog,
     private val roomId: Long,
-    private val activity: RoomActivity,
+    private val fragmentManager: FragmentManager,
     private val commentViewModel: CommentViewModel
 ) : ShowCommentMenuListener {
     override fun show(comment: CommentModel, selectedPosition: Int) {
         if (commentMenuDialog.isAdded) return
-        commentMenuDialog.show(activity.supportFragmentManager, "")
+        commentMenuDialog.show(fragmentManager, "")
         commentMenuDialog.updateEventListener(
             object : CommentMenuEventListener {
                 override fun update() {
@@ -39,7 +39,7 @@ class DefaultShowCommentMenuListener(
                     builder.updateRoomId(roomId)
                     builder.updateCommentViewModel(commentViewModel)
                     builder.updateSelectedPosition(selectedPosition)
-                    builder.show(activity.supportFragmentManager, "")
+                    builder.show(fragmentManager, "")
                 }
             }
         )

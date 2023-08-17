@@ -56,7 +56,7 @@ class ViewModelFactory(context: Context) {
             viewModelFactory {
                 initializer {
                     ScrapRoomViewModel(
-                        rooms = rooms.value,
+                        rooms = rooms.value.toMutableList(),
                         roomRepository = repositoryProvider.roomRepository
                     )
                 }
