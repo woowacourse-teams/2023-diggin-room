@@ -34,6 +34,11 @@ class CommentViewModel(
     }
 
     fun postComment(roomId: Long, comment: String) {
+        if (_commentState.value == CommentState.Create.Loading) {
+            return
+        }
+        _commentState.value = CommentState.Create.Loading
+
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
                 val oldComments: MutableList<CommentModel> =
@@ -48,6 +53,11 @@ class CommentViewModel(
     }
 
     fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
+        if (_commentState.value == CommentState.Edit.Loading) {
+            return
+        }
+        _commentState.value = CommentState.Edit.Loading
+
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 val oldComments: MutableList<CommentModel> =
@@ -63,6 +73,11 @@ class CommentViewModel(
     }
 
     fun deleteComment(roomId: Long, commentId: Long, deletePosition: Int) {
+        if (_commentState.value == CommentState.Delete.Loading) {
+            return
+        }
+        _commentState.value = CommentState.Delete.Loading
+
         viewModelScope.launch {
             commentRepository.deleteComment(roomId, commentId).onSuccess {
                 val oldComments: MutableList<CommentModel> =

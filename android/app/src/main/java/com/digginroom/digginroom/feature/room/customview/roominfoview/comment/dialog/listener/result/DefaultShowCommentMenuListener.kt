@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result
 
 import androidx.fragment.app.FragmentManager
-import com.digginroom.digginroom.feature.room.customview.CommentState
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog

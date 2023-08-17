@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.feature.ResultListener
-import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
@@ -21,12 +20,13 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:commentState", "app:postCommentResultListener", "app:updateCommentResultListener"],
+        value = ["app:commentState", "app:clickListener", "app:postCommentResultListener", "app:updateCommentResultListener"],
         requireAll = false
     )
     fun postCommentResultListener(
         editText: EditText,
         commentState: CommentState,
+        clickListener: CommentEventListener,
         postCommentResultListener: ResultListener,
         updateCommentResultListener: ResultListener
     ) {
@@ -77,6 +77,8 @@ object CommentDialogBindingAdapter {
     ) {
         button.setOnClickListener {
             when (commentState) {
+                is CommentState.Create.Loading -> {}
+                is CommentState.Edit.Loading -> {}
                 is CommentState.Create -> {
                     clickListener.postComment(comment)
                 }
