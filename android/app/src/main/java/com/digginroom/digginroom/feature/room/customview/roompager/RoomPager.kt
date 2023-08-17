@@ -11,7 +11,6 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.di
 import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
 import com.digginroom.digginroom.feature.room.customview.scrollpager.VerticalScrollPager
-import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomPager(
@@ -91,14 +90,6 @@ class RoomPager(
             lastPagingOrientation = verticalScrollPager.pagingOrientation
             updateRoomPosition(0)
         }
-    }
-
-    fun updateOnFindCommentsListener(callback: RoomEventListener) {
-        roomRecycler.updateOnFindCommentsListener(callback)
-    }
-
-    fun updateComments(roomId: Long, comments: List<CommentModel>) {
-        roomRecycler.updateComments(roomId, comments)
     }
 
     fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {

@@ -11,7 +11,7 @@ object CommentMapper {
 
     fun Comment.toModel(): CommentModel {
         val currentTime = LocalDateTime.now()
-        val durationSeconds = Duration.between(currentTime, createdAt).seconds
+        val durationSeconds = Duration.between(createdAt, currentTime).seconds
         return CommentModel(
             id,
             writer,
