@@ -25,8 +25,7 @@ class DeleteCommentAlertDialog : DialogFragment() {
                         selectedPosition
                     )
                     if (commentMenuDialog.isAdded) commentMenuDialog.dismiss()
-                }
-                .setNegativeButton(ALERT_DIALOG_NEGATIVE_MESSAGE) { _, id ->
+                }.setNegativeButton(ALERT_DIALOG_NEGATIVE_MESSAGE) { _, id ->
                     if (commentMenuDialog.isAdded) commentMenuDialog.dismiss()
                 }
             builder.create()
@@ -48,6 +47,7 @@ class DeleteCommentAlertDialog : DialogFragment() {
     fun updateRoomId(roomId: Long) {
         this.roomId = roomId
     }
+
     fun updateSelectedPosition(selectedPosition: Int) {
         this.selectedPosition = selectedPosition
     }

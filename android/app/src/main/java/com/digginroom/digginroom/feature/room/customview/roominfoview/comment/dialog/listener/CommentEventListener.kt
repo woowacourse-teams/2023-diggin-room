@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener
 
-import com.digginroom.digginroom.feature.room.customview.CommentState
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentState
 
 interface CommentEventListener {
     fun findComments()

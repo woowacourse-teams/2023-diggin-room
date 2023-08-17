@@ -49,18 +49,6 @@
             tools:text="2일" />
 
         <TextView
-            android:id="@+id/tv_updated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/updated_comment"
-            android:textColor="#808080"
-            android:textSize="15sp"
-            android:visibility="@{comment.updated ? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toEndOf="@id/tv_created_at"
-            app:layout_constraintTop_toTopOf="@id/tv_writer" />
-
-        <TextView
             android:id="@+id/tv_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

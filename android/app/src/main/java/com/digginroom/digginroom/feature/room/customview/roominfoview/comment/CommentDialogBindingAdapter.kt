@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.feature.ResultListener
-import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
@@ -31,27 +30,27 @@ object CommentDialogBindingAdapter {
         updateCommentResultListener: ResultListener
     ) {
         when (commentState) {
-            CommentState.Edit.Ready -> {
+            CommentState.Update.Ready -> {
                 editText.requestFocus()
                 editText.setSelection(editText.text.length)
             }
 
-            CommentState.Create.Succeed -> {
+            CommentState.Post.Succeed -> {
                 editText.text.clear()
                 postCommentResultListener.onSucceed()
             }
 
-            CommentState.Create.Failed -> {
+            CommentState.Post.Failed -> {
                 editText.text.clear()
                 postCommentResultListener.onFailed()
             }
 
-            CommentState.Edit.Succeed -> {
+            CommentState.Update.Succeed -> {
                 editText.text.clear()
                 updateCommentResultListener.onSucceed()
             }
 
-            CommentState.Edit.Failed -> {
+            CommentState.Update.Failed -> {
                 editText.text.clear()
                 updateCommentResultListener.onFailed()
             }
@@ -77,11 +76,15 @@ object CommentDialogBindingAdapter {
     ) {
         button.setOnClickListener {
             when (commentState) {
-                is CommentState.Create -> {
+                CommentState.Delete.Succeed,
+                CommentState.Post.Succeed,
+                CommentState.Post.Ready -> {
                     clickListener.postComment(comment)
                 }
 
-                is CommentState.Edit -> {
+                CommentState.Delete.Succeed,
+                CommentState.Update.Succeed,
+                CommentState.Update.Ready -> {
                     if (selectedCommentId == null || selectedPosition == null) return@setOnClickListener
                     clickListener.updateComment(
                         selectedCommentId,
@@ -92,7 +95,6 @@ object CommentDialogBindingAdapter {
 
                 else -> {}
             }
-            clickListener.updateState(CommentState.Create.Ready)
         }
     }
 
