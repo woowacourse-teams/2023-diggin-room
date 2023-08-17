@@ -82,13 +82,12 @@ object CommentDialogBindingAdapter {
                 }
 
                 is CommentState.Edit -> {
-                    if ((selectedCommentId != null) && (selectedPosition != null)) {
-                        clickListener.updateComment(
-                            selectedCommentId,
-                            comment,
-                            selectedPosition
-                        )
-                    }
+                    if (selectedCommentId == null || selectedPosition == null) return@setOnClickListener
+                    clickListener.updateComment(
+                        selectedCommentId,
+                        comment,
+                        selectedPosition
+                    )
                 }
 
                 else -> {}
