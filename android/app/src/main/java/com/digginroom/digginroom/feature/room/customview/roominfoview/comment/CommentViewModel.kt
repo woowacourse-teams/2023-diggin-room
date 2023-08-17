@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
@@ -39,7 +38,7 @@ class CommentViewModel(
             commentRepository.postComment(roomId, comment).onSuccess {
                 val oldComments: MutableList<CommentModel> =
                     _comments.value?.toMutableList() ?: mutableListOf()
-                oldComments.add(0, it.toModel())
+                oldComments.add(it.toModel())
                 _comments.value = oldComments
                 _commentState.value = CommentState.Create.Succeed
             }.onFailure {
