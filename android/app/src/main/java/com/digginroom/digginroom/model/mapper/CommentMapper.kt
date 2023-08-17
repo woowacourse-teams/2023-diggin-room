@@ -17,7 +17,6 @@ object CommentMapper {
             writer,
             comment,
             ElapsedTimeFormatter.convert(durationSeconds),
-            durationSeconds == 0L,
             isOwner
         )
     }
