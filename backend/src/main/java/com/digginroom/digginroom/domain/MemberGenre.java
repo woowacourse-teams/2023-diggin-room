@@ -27,7 +27,7 @@ public class MemberGenre {
 
     public MemberGenre(final Genre genre, final Member member) {
         this.genre = genre;
-        this.weight = Weight.DEFAULT.getWeight();
+        this.weight = WeightStatus.DEFAULT.getValue();
         this.member = member;
     }
 
@@ -35,7 +35,7 @@ public class MemberGenre {
         return this.genre == genre;
     }
 
-    public void adjustWeight(final Weight weight) {
-        this.weight = Integer.max(Weight.LOWER_BOUND.getWeight(), this.weight + weight.getWeight());
+    public void adjustWeight(final WeightFactor weightFactor) {
+        this.weight = Integer.max(WeightStatus.LOWER_BOUND.getValue(), this.weight + weightFactor.getValue());
     }
 }

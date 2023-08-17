@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.controller;
 
+import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.service.MemberService;
@@ -23,7 +24,7 @@ public class MemberLoginController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Void> login(
+    public ResponseEntity<MemberLoginResponse> login(
             @RequestBody @Valid final MemberLoginRequest memberLoginRequest,
             final HttpSession httpSession
     ) {
@@ -31,6 +32,20 @@ public class MemberLoginController {
 
         httpSession.setAttribute("memberId", member.memberId());
         httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<MemberLoginResponse> login(
+            @RequestBody @Valid final GoogleOAuthRequest googleOAuthRequest,
+            final HttpSession httpSession
+    ) {
+        MemberLoginResponse member = memberService.loginMember(googleOAuthRequest);
+
+        httpSession.setAttribute("memberId", member.memberId());
+        httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
     }
 }

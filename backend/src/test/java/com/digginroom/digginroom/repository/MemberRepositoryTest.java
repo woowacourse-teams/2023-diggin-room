@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.repository;
 
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.domain.Genre;
@@ -28,7 +28,7 @@ class MemberRepositoryTest {
 
         Member saved파워 = memberRepository.save(파워);
 
-        assertThat(saved파워.getMemberGenres().getMemberGenres()).hasSize(Genre.values().length);
+        assertThat(saved파워.getMemberGenres()).hasSize(Genre.values().length);
     }
 
     @Test
@@ -39,6 +39,6 @@ class MemberRepositoryTest {
 
         Member found = memberRepository.findById(saved파워.getId()).get();
 
-        assertThat(found.getMemberGenres().getMemberGenres()).hasSize(Genre.values().length);
+        assertThat(found.getMemberGenres()).hasSize(Genre.values().length);
     }
 }

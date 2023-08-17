@@ -28,6 +28,7 @@ class TrackTest {
                 .title("Lost Child")
                 .superGenre(Genre.ROCK)
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
+                .description("코건은 코건")
                 .build();
 
         em.persist(track);

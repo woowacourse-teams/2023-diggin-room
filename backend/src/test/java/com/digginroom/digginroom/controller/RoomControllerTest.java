@@ -1,11 +1,12 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_PASSWORD;
-import static com.digginroom.digginroom.controller.TestFixture.MEMBER_USERNAME;
-import static com.digginroom.digginroom.controller.TestFixture.나무;
-import static com.digginroom.digginroom.controller.TestFixture.차이;
-import static com.digginroom.digginroom.controller.TestFixture.파워;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER_PASSWORD;
+import static com.digginroom.digginroom.TestFixture.MEMBER_USERNAME;
+import static com.digginroom.digginroom.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.차이;
+import static com.digginroom.digginroom.TestFixture.파워;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -127,7 +128,7 @@ class RoomControllerTest extends ControllerTest {
     }
 
     @Test
-    void 싫어요한_룸을_스크랩_할_수_없다() {
+    void 싫어요한_룸을_스크랩_할_수_있다() {
         Response response = RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
@@ -152,7 +153,7 @@ class RoomControllerTest extends ControllerTest {
                 .body(new RoomRequest(room1.getId()))
                 .post("/room/scrap")
                 .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
@@ -176,7 +177,7 @@ class RoomControllerTest extends ControllerTest {
     }
 
     @Test
-    void 싫어요한_룸을_다시_싫어요_할_수_없다() {
+    void 싫어요한_룸도_여러번_싫어요할_수_있다() {
         Response response = RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
@@ -201,11 +202,11 @@ class RoomControllerTest extends ControllerTest {
                 .body(new RoomRequest(room1.getId()))
                 .post("/room/dislike")
                 .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
-    void 스크랩한_룸을_다시_싫어요_할_수_없다() {
+    void 스크랩한_룸을_싫어요_할_수_있다() {
         Response response = RestAssured.given().log().all()
                 .body(MEMBER_LOGIN_REQUEST)
                 .contentType(ContentType.JSON)
@@ -230,7 +231,7 @@ class RoomControllerTest extends ControllerTest {
                 .body(new RoomRequest(room1.getId()))
                 .post("/room/dislike")
                 .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
@@ -336,5 +337,64 @@ class RoomControllerTest extends ControllerTest {
                 .get("/room/scrap")
                 .then().log().all()
                 .body("rooms", hasSize(2));
+    }
+
+    @Test
+    void 유저가_룸을_스크랩하면_해당_룸의_스크랩_수가_올라간다() {
+        Response response = RestAssured.given().log().all()
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        Long scrapCount = roomRepository.findById(room1.getId())
+                .get()
+                .getScrapCount();
+        assertThat(scrapCount).isEqualTo(1L);
+    }
+
+    @Test
+    void 유저가_룸을_언스크랩하면_해당_룸의_스크랩_수가_감소한다() {
+        Response response = RestAssured.given().log().all()
+                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        String cookie = response.header("Set-Cookie");
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .post("/room/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
+
+        RestAssured.given()
+                .cookie(cookie)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(new RoomRequest(room1.getId()))
+                .delete("/room/scrap")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        Long scrapCount = roomRepository.findById(room1.getId())
+                .get()
+                .getScrapCount();
+        assertThat(scrapCount).isEqualTo(0L);
     }
 }

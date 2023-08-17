@@ -1,16 +1,14 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.exception.MemberGenreException.NotFoundException;
+import com.digginroom.digginroom.exception.GenreException.MemberGenreNotFoundException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 import java.util.Arrays;
 import java.util.List;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberGenres {
@@ -24,15 +22,19 @@ public class MemberGenres {
                 .toList();
     }
 
-    public void adjustWeightBy(final Genre genre, final Weight weight) {
+    public void adjustWeightBy(final Genre genre, final WeightFactor weightFactor) {
         MemberGenre targetMemberGenre = getTargetMemberGenre(genre);
-        targetMemberGenre.adjustWeight(weight);
+        targetMemberGenre.adjustWeight(weightFactor);
     }
 
     private MemberGenre getTargetMemberGenre(final Genre genre) {
         return memberGenres.stream()
                 .filter(memberGenre -> memberGenre.isSameGenre(genre))
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException(genre));
+                .orElseThrow(() -> new MemberGenreNotFoundException(genre));
+    }
+
+    public List<MemberGenre> getAll() {
+        return memberGenres;
     }
 }
