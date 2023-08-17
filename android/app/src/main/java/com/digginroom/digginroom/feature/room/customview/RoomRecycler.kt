@@ -11,7 +11,6 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.di
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomPlayer
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
-import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.RoomModel
 
 class RoomRecycler(
@@ -47,18 +46,6 @@ class RoomRecycler(
     fun updateShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
         roomPlayers.forEach {
             it.updateShowRoomInfoListener(showRoomInfoListener)
-        }
-    }
-
-    fun updateOnFindCommentsListener(callback: RoomEventListener) {
-        roomPlayers.forEach {
-            it.updateOnFindCommentsListener(callback)
-        }
-    }
-
-    fun updateComments(roomId: Long, comments: List<CommentModel>) {
-        roomPlayers.forEach {
-            it.updateComments(roomId, comments)
         }
     }
 
@@ -164,7 +151,9 @@ class RoomRecycler(
         val target = repeat(target + position, gridSize)
         val room = getChildAt((target * gridSize) + (gridSize / 2)) as? RoomPlayer
             ?: getChildAt((gridSize * (gridSize / 2)) + target) as? RoomPlayer
-        room?.navigate(rooms[currentRoomPosition + position])
+        if (rooms.size > currentRoomPosition + position && currentRoomPosition + position >= 0) {
+            room?.navigate(rooms[currentRoomPosition + position])
+        }
     }
 
     private fun repeat(n: Int, max: Int) = if (n >= max) {
