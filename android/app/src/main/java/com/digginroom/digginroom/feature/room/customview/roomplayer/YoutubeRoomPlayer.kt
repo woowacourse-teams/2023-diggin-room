@@ -3,7 +3,10 @@ package com.digginroom.digginroom.feature.room.customview.roomplayer
 import android.content.Context
 import android.view.ViewGroup.LayoutParams
 import android.webkit.JavascriptInterface
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.digginroom.digginroom.feature.room.RoomEventListener
@@ -12,6 +15,8 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoVi
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.model.RoomModel
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 class YoutubeRoomPlayer(
     context: Context,
@@ -209,7 +214,25 @@ class YoutubeRoomPlayer(
         setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
         settings.javaScriptEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
+        webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): WebResourceResponse? {
+                if (request?.url.toString().contains("ad.youtube.com") ||
+                    request?.url.toString().contains("ads.youtube.com")
+                ) {
+                    val textStream = ByteArrayInputStream("".toByteArray())
+                    return getTextWebResource(textStream)
+                }
+                return super.shouldInterceptRequest(view, request)
+            }
+        }
         loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
+    }
+
+    private fun getTextWebResource(data: InputStream): WebResourceResponse? {
+        return WebResourceResponse("text/plain", "UTF-8", data)
     }
 
     private fun initJavascriptInterface() {
