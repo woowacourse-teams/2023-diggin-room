@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener
 
+import com.digginroom.digginroom.feature.room.customview.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 
 class DefaultCommentEventListener(val commentViewModel: CommentViewModel, val roomId: Long) :
@@ -10,6 +11,10 @@ class DefaultCommentEventListener(val commentViewModel: CommentViewModel, val ro
 
     override fun postComment(comment: String) {
         commentViewModel.postComment(roomId, comment)
+    }
+
+    override fun updateState(commentState: CommentState) {
+        commentViewModel.updateCommentState(commentState)
     }
 
     override fun updateComment(

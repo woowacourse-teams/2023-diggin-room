@@ -31,6 +31,11 @@ object CommentDialogBindingAdapter {
         updateCommentResultListener: ResultListener
     ) {
         when (commentState) {
+            CommentState.Edit.Ready -> {
+                editText.requestFocus()
+                editText.setSelection(editText.text.length)
+            }
+
             CommentState.Create.Succeed -> {
                 editText.text.clear()
                 postCommentResultListener.onSucceed()
@@ -51,12 +56,9 @@ object CommentDialogBindingAdapter {
                 updateCommentResultListener.onFailed()
             }
 
-            is CommentState.Edit -> {
-                editText.requestFocus()
-                editText.setSelection(editText.text.length)
+            else -> {
+                editText.text.clear()
             }
-
-            else -> {}
         }
     }
 
@@ -75,15 +77,22 @@ object CommentDialogBindingAdapter {
     ) {
         button.setOnClickListener {
             when (commentState) {
-                is CommentState.Create -> clickListener.postComment(comment)
-                is CommentState.Edit -> clickListener.updateComment(
-                    selectedCommentId!!,
-                    comment,
-                    selectedPosition!!
-                )
+                is CommentState.Create -> {
+                    clickListener.postComment(comment)
+                }
+
+                is CommentState.Edit -> {
+                    if (selectedCommentId == null || selectedPosition == null) return@setOnClickListener
+                    clickListener.updateComment(
+                        selectedCommentId,
+                        comment,
+                        selectedPosition
+                    )
+                }
 
                 else -> {}
             }
+            clickListener.updateState(CommentState.Create.Ready)
         }
     }
 

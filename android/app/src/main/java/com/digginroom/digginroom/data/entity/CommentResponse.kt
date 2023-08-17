@@ -14,8 +14,8 @@ data class CommentResponse(
     val comment: String,
     @SerialName("createdAt")
     val createdAt: String,
-    @SerialName("updateAt")
-    val updateAt: String,
+    @SerialName("updatedAt")
+    val updatedAt: String,
     @SerialName("isOwner")
     val isOwner: Boolean
 )
