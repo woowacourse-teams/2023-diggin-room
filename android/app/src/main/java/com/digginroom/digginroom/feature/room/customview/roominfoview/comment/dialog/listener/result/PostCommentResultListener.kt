@@ -6,7 +6,7 @@ import com.digginroom.digginroom.feature.ResultListener
 
 class PostCommentResultListener(val context: Context) : ResultListener {
     override fun onSucceed() {
-        Toast.makeText(context, "댓글이 전송되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun onFailed() {

@@ -6,13 +6,12 @@ import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.comment.Comment
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 object CommentMapper {
 
     fun Comment.toModel(): CommentModel {
         val currentTime = LocalDateTime.now()
-        val durationSeconds = Duration.between(createdAt, currentTime).seconds
+        val durationSeconds = Duration.between(currentTime, createdAt).seconds
         return CommentModel(
             id,
             writer,
@@ -24,13 +23,12 @@ object CommentMapper {
     }
 
     fun CommentResponse.toDomain(): Comment {
-        val formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME
         return Comment(
             id,
             writer,
             comment,
-            LocalDateTime.parse(createdAt, formatter),
-            LocalDateTime.parse(updateAt, formatter),
+            LocalDateTime.parse(createdAt),
+            LocalDateTime.parse(updatedAt),
             isOwner
         )
     }
