@@ -27,6 +27,13 @@ jobs:
             echo "구동중인 애플리케이션을 종료했습니다. (pid : $PROCESS_ID)\n"
           fi
 
+      - name: copy jar
+        working-directory: ./backend
+        shell: bash {0}
+        run: |
+          mkdir -p /home/ubuntu/backend
+          cp -f build/libs/DigginRoom-0.0.1-SNAPSHOT.jar /home/ubuntu/backend/
+
       - name: deploy
         working-directory: ./backend
         env:

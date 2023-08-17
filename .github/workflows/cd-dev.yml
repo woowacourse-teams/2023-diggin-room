@@ -27,8 +27,15 @@ jobs:
             echo "구동중인 애플리케이션을 종료했습니다. (pid : $PROCESS_ID)\n"
           fi
 
-      - name: deploy
+      - name: copy jar
         working-directory: ./backend
+        shell: bash {0}
+        run: |
+          mkdir -p /home/ubuntu/backend
+          cp -f build/libs/DigginRoom-0.0.1-SNAPSHOT.jar /home/ubuntu/backend/
+
+      - name: deploy
+        working-directory: /home/ubuntu/backend/
         env:
           RUNNER_TRACKING_ID: ""
         run: |
@@ -37,4 +44,4 @@ jobs:
           -DDEV_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }} \
           -DDEV_DATASOURCE_USERNAME=${{ secrets.DEV_DATASOURCE_USERNAME }} \
           -DDEV_DATASOURCE_PASSWORD=${{ secrets.DEV_DATASOURCE_PASSWORD }} \
-          build/libs/DigginRoom-0.0.1-SNAPSHOT.jar &
+          DigginRoom-0.0.1-SNAPSHOT.jar &
