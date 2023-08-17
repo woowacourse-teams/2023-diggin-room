@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import androidx.core.view.children
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
@@ -102,23 +101,15 @@ class RoomRecycler(
         swapView(5, 7)
     }
 
-    private fun swapView(start: Int, end: Int) {
-        val first = getChildAt(start)
-        val second = getChildAt(end)
-        removeView(first)
-        removeView(second)
-        addView(second, start)
-        addView(first, end)
-    }
-
     fun updateData(rooms: List<RoomModel>) {
         this.rooms = rooms
     }
 
     fun playCurrentRoomPlayer() {
-        children.mapIndexed { index, view ->
-            if (view !is YoutubeRoomPlayer) return@mapIndexed
-            if (index == (gridSize * gridSize) / 2) {
+        repeat(gridSize * gridSize) {
+            val view = getChildAt(it)
+            if (view !is YoutubeRoomPlayer) return@repeat
+            if (it == (gridSize * gridSize) / 2) {
                 view.play()
             } else {
                 view.pause()
@@ -139,6 +130,36 @@ class RoomRecycler(
         }
     }
 
+    fun navigateFirstRoom() {
+        currentRoomPosition = 0
+    }
+
+    fun navigateLastRoom() {
+        currentRoomPosition = rooms.size - 1
+    }
+
+    fun roomSize() = rooms.size
+
+    fun currentRoomPlayerRoomId(): Long =
+        (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
+
+    fun pausePlayers() {
+        repeat(gridSize * gridSize) {
+            val view = getChildAt(it)
+            if (view !is YoutubeRoomPlayer) return@repeat
+            view.pause()
+        }
+    }
+
+    private fun swapView(start: Int, end: Int) {
+        val first = getChildAt(start)
+        val second = getChildAt(end)
+        removeView(first)
+        removeView(second)
+        addView(second, start)
+        addView(first, end)
+    }
+
     private fun navigateRoom(target: Int, position: Int) {
         val target = repeat(target + position, gridSize)
         val room = getChildAt((target * gridSize) + (gridSize / 2)) as? RoomPlayer
@@ -153,17 +174,6 @@ class RoomRecycler(
     } else {
         n
     }
-
-    fun navigateFirstRoom() {
-        currentRoomPosition = 0
-    }
-
-    fun navigateLastRoom() {
-        currentRoomPosition = rooms.size - 1
-    }
-
-    fun currentRoomPlayerRoomId(): Long =
-        (getChildAt((gridSize * gridSize) / 2) as YoutubeRoomPlayer).currentRoomId
 
     private fun initLayout() {
         columnCount = gridSize

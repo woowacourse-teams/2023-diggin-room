@@ -47,6 +47,16 @@ class RoomActivity : AppCompatActivity() {
             DefaultShowCommentsListener(commentDialog, commentViewModel, this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.roomRoomPager.playCurrentRoom()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.roomRoomPager.pausePlayers()
+    }
+
     companion object {
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
