@@ -34,10 +34,10 @@ class CommentViewModel(
     }
 
     fun postComment(roomId: Long, comment: String) {
-        if (_commentState.value == CommentState.Create.Loading) {
+        if (_commentState.value == CommentState.Loading) {
             return
         }
-        _commentState.value = CommentState.Create.Loading
+        _commentState.value = CommentState.Loading
 
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
@@ -53,10 +53,10 @@ class CommentViewModel(
     }
 
     fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
-        if (_commentState.value == CommentState.Edit.Loading) {
+        if (_commentState.value == CommentState.Loading) {
             return
         }
-        _commentState.value = CommentState.Edit.Loading
+        _commentState.value = CommentState.Loading
 
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {

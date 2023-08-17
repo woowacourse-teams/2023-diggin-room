@@ -77,8 +77,7 @@ object CommentDialogBindingAdapter {
     ) {
         button.setOnClickListener {
             when (commentState) {
-                is CommentState.Create.Loading -> {}
-                is CommentState.Edit.Loading -> {}
+                is CommentState.Loading -> {}
                 is CommentState.Create -> {
                     clickListener.postComment(comment)
                 }
