@@ -22,9 +22,8 @@ class ScrapListActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).scrapViewModelFactory
         )[ScrapViewModel::class.java]
     }
-
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
 
         scrapViewModel.findScrappedRooms()
     }

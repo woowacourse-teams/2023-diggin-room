@@ -32,6 +32,9 @@
             name="showCommentsListener"
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
 
+        <variable
+            name="scrapCountFormatter"
+            type="com.digginroom.digginroom.model.mapper.ScrapCountFormatter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="@{room.scrapCount}"
+            android:text="@{scrapCountFormatter.convert(room.scrapCount)}"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@id/img_comment"

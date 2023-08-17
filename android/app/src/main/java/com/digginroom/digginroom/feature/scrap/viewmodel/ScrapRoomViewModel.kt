@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.model.RoomModel
-import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.mapper.TrackMapper.toDomain
 import com.digginroom.digginroom.model.room.Room
@@ -28,6 +27,19 @@ class ScrapRoomViewModel(
         viewModelScope.launch {
             roomRepository.postScrapById(roomId)
                 .onSuccess {
+                    rooms.forEachIndexed { index, room ->
+                        if (room.roomId == roomId) {
+                            rooms[index] =
+                                Room(
+                                    room.videoId,
+                                    true,
+                                    room.track.toDomain(),
+                                    roomId,
+                                    room.scrapCount + 1
+                                ).toModel()
+                            _scrappedRooms.value = RoomState.Success(rooms)
+                        }
+                    }
                 }.onFailure {
                 }
         }
@@ -44,7 +56,7 @@ class ScrapRoomViewModel(
                                 false,
                                 room.track.toDomain(),
                                 roomId,
-                                room.toDomain().scrapCount - 1
+                                room.scrapCount - 1
                             ).toModel()
                             _scrappedRooms.value = RoomState.Success(rooms)
                         }
