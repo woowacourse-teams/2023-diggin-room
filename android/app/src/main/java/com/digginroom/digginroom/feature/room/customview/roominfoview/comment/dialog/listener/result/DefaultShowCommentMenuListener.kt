@@ -24,7 +24,7 @@ class DefaultShowCommentMenuListener(
             object : CommentMenuEventListener {
                 override fun update() {
                     commentViewModel.updateCommentState(
-                        CommentState.Edit.Ready
+                        CommentState.Update.Ready
                     )
                     commentViewModel.updateWrittenComment(comment.comment)
                     commentDialog.updateSelectedCommentId(comment.id)

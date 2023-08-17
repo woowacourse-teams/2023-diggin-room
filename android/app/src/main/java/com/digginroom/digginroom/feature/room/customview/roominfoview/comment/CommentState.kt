@@ -2,20 +2,22 @@ package com.digginroom.digginroom.feature.room.customview.roominfoview.comment
 
 sealed interface CommentState {
 
-    object Loading : CommentState
-    sealed interface Create : CommentState {
-        object Ready : Create
-        object Succeed : Create
-        object Failed : Create
+    sealed interface Post : CommentState {
+        object Ready : Post
+        object Loading : Post
+        object Succeed : Post
+        object Failed : Post
     }
 
-    sealed interface Edit : CommentState {
-        object Ready : Edit
-        object Succeed : Edit
-        object Failed : Edit
+    sealed interface Update : CommentState {
+        object Ready : Update
+        object Loading : Update
+        object Succeed : Update
+        object Failed : Update
     }
 
     sealed interface Delete : CommentState {
+        object Ready : Delete
         object Loading : Delete
         object Succeed : Delete
         object Failed : Delete

@@ -14,7 +14,9 @@ class CommentViewModel(
     private val commentRepository: CommentRepository
 ) : ViewModel() {
 
-    private val _comments: MutableLiveData<List<CommentModel>> = MutableLiveData()
+    private val _comments: NonNullMutableLiveData<List<CommentModel>> = NonNullMutableLiveData(
+        emptyList()
+    )
     val comments: LiveData<List<CommentModel>>
         get() = _comments
 
@@ -25,7 +27,7 @@ class CommentViewModel(
 
     fun findComments(roomId: Long) {
         writtenComment.value = ""
-        _commentState.value = CommentState.Create.Ready
+        _commentState.value = CommentState.Post.Ready
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
                 _comments.value = comments.map { it.toModel() }
@@ -34,56 +36,43 @@ class CommentViewModel(
     }
 
     fun postComment(roomId: Long, comment: String) {
-        if (_commentState.value == CommentState.Loading) {
-            return
-        }
-        _commentState.value = CommentState.Loading
+        if (_commentState.value == CommentState.Post.Loading) return
+        _commentState.value = CommentState.Post.Loading
 
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
-                val oldComments: MutableList<CommentModel> =
-                    _comments.value?.toMutableList() ?: mutableListOf()
-                oldComments.add(it.toModel())
-                _comments.value = oldComments
-                _commentState.value = CommentState.Create.Succeed
+                _comments.value = _comments.value + it.toModel()
+                _commentState.value = CommentState.Post.Succeed
             }.onFailure {
-                _commentState.value = CommentState.Create.Failed
+                _commentState.value = CommentState.Post.Failed
             }
         }
     }
 
     fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
-        if (_commentState.value == CommentState.Loading) {
-            return
-        }
-        _commentState.value = CommentState.Loading
+        if (_commentState.value == CommentState.Update.Loading) return
+        _commentState.value = CommentState.Update.Loading
 
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
-                val oldComments: MutableList<CommentModel> =
-                    _comments.value?.toMutableList() ?: mutableListOf()
-                oldComments[updatePosition] =
-                    oldComments[updatePosition].copy(comment = comment)
-                _comments.value = oldComments
-                _commentState.value = CommentState.Edit.Succeed
+                _comments.value = _comments.value.toMutableList().apply {
+                    this[updatePosition] = this[updatePosition].copy(comment = comment)
+                }
+                _commentState.value = CommentState.Update.Succeed
             }.onFailure {
-                _commentState.value = CommentState.Edit.Failed
+                _commentState.value = CommentState.Update.Failed
             }
         }
     }
 
     fun deleteComment(roomId: Long, commentId: Long, deletePosition: Int) {
-        if (_commentState.value == CommentState.Delete.Loading) {
-            return
-        }
+        if (_commentState.value == CommentState.Delete.Loading) return
         _commentState.value = CommentState.Delete.Loading
 
         viewModelScope.launch {
             commentRepository.deleteComment(roomId, commentId).onSuccess {
-                val oldComments: MutableList<CommentModel> =
-                    _comments.value?.toMutableList() ?: mutableListOf()
-                oldComments.removeAt(deletePosition)
-                _comments.value = oldComments
+                _comments.value =
+                    _comments.value.filterIndexed { index, _ -> index != deletePosition }
                 _commentState.value = CommentState.Delete.Succeed
             }.onFailure {
                 _commentState.value = CommentState.Delete.Failed

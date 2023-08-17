@@ -77,7 +77,6 @@
             android:hint="@string/dialog_comment_input_comment"
             android:inputType="text"
             android:text="@={commentViewModel.writtenComment}"
-            app:clickListener="@{commentEventListener}"
             app:commentState="@{commentViewModel.commentState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
