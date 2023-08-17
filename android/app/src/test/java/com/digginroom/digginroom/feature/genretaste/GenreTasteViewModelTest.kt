@@ -6,7 +6,7 @@ import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toDomain
 import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toModel
 import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.genre.GenreTaste
-import com.digginroom.digginroom.repository.MemberRepository
+import com.digginroom.digginroom.repository.GenreTasteRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +24,7 @@ import org.junit.Test
 class GenreTasteViewModelTest {
 
     private lateinit var genreTasteViewModel: GenreTasteViewModel
-    private lateinit var memberRepository: MemberRepository
+    private lateinit var genreTasteRepository: GenreTasteRepository
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -32,8 +32,8 @@ class GenreTasteViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        memberRepository = mockk(relaxed = true)
-        genreTasteViewModel = GenreTasteViewModel(memberRepository)
+        genreTasteRepository = mockk(relaxed = true)
+        genreTasteViewModel = GenreTasteViewModel(genreTasteRepository)
     }
 
     @After
@@ -99,7 +99,7 @@ class GenreTasteViewModelTest {
         genreTasteViewModel.switchSelection(genreTaste)
 
         coEvery {
-            memberRepository.postGenresTaste(listOf(Genre.SOUNDS_AND_EFFECTS))
+            genreTasteRepository.post(listOf(Genre.SOUNDS_AND_EFFECTS))
         } returns LogResult.success(Unit)
 
         // when
@@ -120,7 +120,7 @@ class GenreTasteViewModelTest {
         genreTasteViewModel.switchSelection(genreTaste)
 
         coEvery {
-            memberRepository.postGenresTaste(listOf(Genre.SOUNDS_AND_EFFECTS))
+            genreTasteRepository.post(listOf(Genre.SOUNDS_AND_EFFECTS))
         } returns LogResult.failure()
 
         // when
