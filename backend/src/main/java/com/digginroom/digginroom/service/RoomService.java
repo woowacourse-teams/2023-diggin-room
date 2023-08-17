@@ -104,9 +104,10 @@ public class RoomService {
         member.undislike(room);
     }
 
-    public CommentsResponse findRoomComments(final Long roomId) {
+    public CommentsResponse findRoomComments(final Long roomId, final Long loginMemberId) {
         validateExistRoom(roomId);
-        return commentService.getRoomComments(roomId);
+        Member member = memberService.findMember(loginMemberId);
+        return commentService.getRoomComments(roomId, member);
     }
 
     public void validateExistRoom(final Long roomId) {
@@ -136,6 +137,6 @@ public class RoomService {
         validateExistRoom(roomId);
         Member member = memberService.findMember(memberId);
         Comment updateComment = commentService.update(member, roomId, commentId, request);
-        return CommentResponse.of(updateComment);
+        return CommentResponse.of(updateComment, updateComment.isOwner(member));
     }
 }

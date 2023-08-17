@@ -8,16 +8,18 @@ public record CommentResponse(
         String writer,
         String comment,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        boolean isOwner
 ) {
 
-    public static CommentResponse of(final Comment comment) {
+    public static CommentResponse of(final Comment comment, boolean isOwner) {
         return new CommentResponse(
                 comment.getId(),
                 comment.getMember().getUsername(),
                 comment.getComment(),
                 comment.getCreatedAt(),
-                comment.getUpdatedAt()
+                comment.getUpdatedAt(),
+                isOwner
         );
     }
 }

@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.admin.controller;
 
 import com.digginroom.digginroom.admin.controller.dto.UploadRequest;
-import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.admin.service.UploadService;
+import com.digginroom.digginroom.domain.Genre;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
