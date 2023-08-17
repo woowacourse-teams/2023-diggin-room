@@ -31,7 +31,7 @@ public class CommentController {
             @Auth final Long loginMemberId,
             @PathVariable final Long roomId
     ) {
-        CommentsResponse roomComments = roomService.findRoomComments(roomId);
+        CommentsResponse roomComments = roomService.findRoomComments(roomId, loginMemberId);
         return ResponseEntity.status(OK).body(roomComments);
     }
 
@@ -57,12 +57,12 @@ public class CommentController {
     }
 
     @DeleteMapping("/{roomId}/comments/{commentId}")
-    public ResponseEntity<CommentResponse> delete(
+    public ResponseEntity<Void> delete(
             @Auth final Long loginMemberId,
             @PathVariable final Long roomId,
             @PathVariable final Long commentId
     ) {
         roomService.deleteComment(roomId, loginMemberId, commentId);
-        return ResponseEntity.status(OK).build();
+        return ResponseEntity.ok().build();
     }
 }

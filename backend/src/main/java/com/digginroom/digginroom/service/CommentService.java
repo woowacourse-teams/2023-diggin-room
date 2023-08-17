@@ -21,10 +21,10 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public CommentsResponse getRoomComments(final Long roomId) {
+    public CommentsResponse getRoomComments(final Long roomId, final Member member) {
         List<Comment> comments = commentRepository.findCommentsByRoomId(roomId);
         return new CommentsResponse(comments.stream()
-                .map(CommentResponse::of)
+                .map(comment -> CommentResponse.of(comment, comment.isOwner(member)))
                 .toList());
     }
 
@@ -32,7 +32,7 @@ public class CommentService {
         Comment comment = new Comment(roomId, request.comment(), member);
         commentRepository.save(comment);
 
-        return CommentResponse.of(comment);
+        return CommentResponse.of(comment, comment.isOwner(member));
     }
 
     public void delete(final Long roomId, final Member member, final Long commentId) {
