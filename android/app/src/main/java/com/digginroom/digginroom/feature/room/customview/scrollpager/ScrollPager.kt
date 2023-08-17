@@ -9,6 +9,7 @@ interface ScrollPager {
     var scrollPosition: Int
     val screenSize: Int
     val pagingOrientation: PagingOrientation
+    var isScrollable: Boolean
     fun smoothScrollTo(position: Int)
     fun scrollBy(position: Int)
     fun scrollTo(position: Int)

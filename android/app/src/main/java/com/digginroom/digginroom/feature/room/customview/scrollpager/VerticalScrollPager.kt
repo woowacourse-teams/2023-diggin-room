@@ -11,6 +11,7 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
     override var scrollPosition = 0
     override val screenSize = resources.displayMetrics.heightPixels
     override val pagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
+    override var isScrollable: Boolean = true
 
     override fun smoothScrollTo(position: Int) {
         smoothScrollTo(0, position)
@@ -36,6 +37,7 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
 
     override fun setOnTouchListener(listener: (MotionEvent) -> Unit) {
         setOnTouchListener { _, event ->
+            if (!isScrollable) return@setOnTouchListener true
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
             false
