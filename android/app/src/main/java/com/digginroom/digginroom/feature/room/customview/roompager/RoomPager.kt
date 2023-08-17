@@ -88,7 +88,7 @@ class RoomPager(
                 verticalScrollPager.scrollPosition * verticalScrollPager.screenSize
             )
             lastPagingOrientation = verticalScrollPager.pagingOrientation
-            updateRoomPosition(0)
+            updateRoomPosition(roomRecycler.currentRoomPosition)
         }
     }
 
