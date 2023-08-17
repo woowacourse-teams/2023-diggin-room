@@ -2,23 +2,24 @@ package com.digginroom.digginroom.feature.splash
 
 import android.view.View
 import androidx.databinding.BindingAdapter
-import com.digginroom.digginroom.feature.ResultListener
+import com.digginroom.digginroom.feature.login.LoginState
 
 object SplashBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["tokenStateListener", "tokenState"],
+        value = ["splashNavigator", "loginState"],
         requireAll = false
     )
-    fun setOnTokenStateListener(
+    fun setOnSplashNavigator(
         view: View,
-        listener: ResultListener,
-        tokenState: TokenState
+        navigator: SplashNavigator,
+        loginState: LoginState
     ) {
-        when (tokenState) {
-            TokenState.VALID -> listener.onSucceed()
-            TokenState.INVALID -> listener.onFailed()
+        when (loginState) {
+            LoginState.Succeed.Surveyed -> navigator.navigateToRoomView()
+            LoginState.Succeed.NotSurveyed -> navigator.navigateToGenreTasteView()
+            LoginState.Failed -> navigator.navigateToLoginView()
             else -> {}
         }
     }

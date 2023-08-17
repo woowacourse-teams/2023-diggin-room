@@ -8,6 +8,7 @@ import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.DefaultRoomNavigator
 import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 
 class RoomInfoView(context: Context) : ConstraintLayout(context) {
     val roomId: Long
@@ -20,6 +21,7 @@ class RoomInfoView(context: Context) : ConstraintLayout(context) {
         room: RoomModel
     ) {
         roomInfoBinding.room = room
+        roomInfoBinding.scrapCountFormatter = ScrapCountFormatter
         roomInfoBinding.roomNavigator = DefaultRoomNavigator(context)
     }
 

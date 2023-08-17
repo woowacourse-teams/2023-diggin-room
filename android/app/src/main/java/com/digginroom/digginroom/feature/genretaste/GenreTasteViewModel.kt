@@ -10,11 +10,11 @@ import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toModel
 import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.genre.GenreTaste
 import com.digginroom.digginroom.model.room.genre.GenresTaste
-import com.digginroom.digginroom.repository.MemberRepository
+import com.digginroom.digginroom.repository.GenreTasteRepository
 import kotlinx.coroutines.launch
 
 class GenreTasteViewModel(
-    private val memberRepository: MemberRepository
+    private val genreTasteRepository: GenreTasteRepository
 ) : ViewModel() {
 
     private val genresTaste = GenresTaste(
@@ -40,7 +40,7 @@ class GenreTasteViewModel(
 
     fun endSurvey() {
         viewModelScope.launch {
-            memberRepository.postGenresTaste(
+            genreTasteRepository.post(
                 genresTaste.selected
             ).onSuccess {
                 _state.value = GenreTasteSurveyState.SUCCEED

@@ -10,6 +10,11 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapRoomBinding
 import com.digginroom.digginroom.feature.getSerializableCompat
+import com.digginroom.digginroom.feature.room.customview.roominfoview.DefaultShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.DefaultShowCommentsListener
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel
 import com.digginroom.digginroom.model.RoomsModel
 
@@ -17,6 +22,12 @@ class ScrapRoomActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityScrapRoomBinding
     private lateinit var scrapRoomViewModel: ScrapRoomViewModel
+    private val commentViewModel: CommentViewModel by lazy {
+        ViewModelProvider(
+            this,
+            ViewModelFactory.getInstance(applicationContext).commentViewModelFactory
+        )[CommentViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +44,16 @@ class ScrapRoomActivity : AppCompatActivity() {
             it.initialPosition = intent.getIntExtra(KEY_INITIAL_POSITION, DEFAULT_POSITION)
             it.lifecycleOwner = this
             it.viewModel = scrapRoomViewModel
+            it.showRoomInfoListener = DefaultShowRoomInfoListener(
+                dialog = TrackInfoDialog(),
+                fragmentManager = supportFragmentManager
+            )
+            it.showCommentsListener = DefaultShowCommentsListener(
+                commentDialog = CommentDialog(),
+                commentViewModel = commentViewModel,
+                fragmentManager = supportFragmentManager,
+                context = this
+            )
         }
     }
 

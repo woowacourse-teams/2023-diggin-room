@@ -14,7 +14,7 @@ object RoomMapper {
             isScrapped,
             track.toDomain(),
             roomId,
-            0
+            scrapCount
         )
     }
 
@@ -24,7 +24,7 @@ object RoomMapper {
             isScrapped,
             track.toModel(),
             roomId,
-            ScrapCountFormatter.convert(scrapCount)
+            scrapCount
         )
     }
 

@@ -6,13 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.repository.AccountRepository
-import com.digginroom.digginroom.repository.TokenRepository
 import com.digginroom.digginroom.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val accountRepository: AccountRepository,
-    private val tokenRepository: TokenRepository
+    private val accountRepository: AccountRepository
 ) : ViewModel() {
 
     val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
@@ -34,7 +32,6 @@ class LoginViewModel(
                 id = id.value,
                 password = password.value
             ).onSuccess { loginResult ->
-                saveToken(loginResult.token)
                 _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
             }.onFailure {
                 _state.value = LoginState.Failed
@@ -52,17 +49,10 @@ class LoginViewModel(
         viewModelScope.launch {
             accountRepository.postLogin(idToken)
                 .onSuccess { loginResult ->
-                    saveToken(loginResult.token)
                     _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
                 }.onFailure {
                     _state.value = LoginState.Failed
                 }
-        }
-    }
-
-    private fun saveToken(token: String) {
-        viewModelScope.launch {
-            tokenRepository.save(token)
         }
     }
 

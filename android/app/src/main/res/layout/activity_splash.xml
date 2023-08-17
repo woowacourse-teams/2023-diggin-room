@@ -9,16 +9,16 @@
             type="com.digginroom.digginroom.feature.splash.SplashViewModel" />
 
         <variable
-            name="resultListener"
-            type="com.digginroom.digginroom.feature.ResultListener" />
+            name="navigator"
+            type="com.digginroom.digginroom.feature.splash.SplashNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        app:tokenState="@{viewModel.tokenState}"
-        app:tokenStateListener="@{resultListener}">
+        app:loginState="@{viewModel.loginState}"
+        app:splashNavigator="@{navigator}">
 
         <ImageView
             android:id="@+id/splash_iv_diggin_room_logo"

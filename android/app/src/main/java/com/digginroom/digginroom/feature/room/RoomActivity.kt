@@ -42,9 +42,15 @@ class RoomActivity : AppCompatActivity() {
                 roomViewModel.findNext()
             }
         }
-        binding.showRoomInfoListener = DefaultShowRoomInfoListener(trackInfoDialog, this)
+        binding.showRoomInfoListener =
+            DefaultShowRoomInfoListener(trackInfoDialog, supportFragmentManager)
         binding.showCommentsListener =
-            DefaultShowCommentsListener(commentDialog, commentViewModel, this)
+            DefaultShowCommentsListener(
+                commentDialog,
+                commentViewModel,
+                supportFragmentManager,
+                this
+            )
     }
 
     override fun onResume() {
