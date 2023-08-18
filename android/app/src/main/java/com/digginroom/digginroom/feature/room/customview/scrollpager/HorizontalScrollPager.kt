@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.room.customview.scrollpager
 import android.content.Context
 import android.view.MotionEvent
 import android.widget.HorizontalScrollView
+import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
 
 class HorizontalScrollPager(
@@ -11,6 +12,8 @@ class HorizontalScrollPager(
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
     override val screenSize = resources.displayMetrics.widthPixels
+    override val pagingOrientation: PagingOrientation = PagingOrientation.HORIZONTAL
+    override var isScrollable: Boolean = true
     var dislikeRoom: () -> Unit = { }
 
     override fun smoothScrollTo(position: Int) {
@@ -37,6 +40,7 @@ class HorizontalScrollPager(
 
     override fun setOnTouchListener(listener: (MotionEvent) -> Unit) {
         setOnTouchListener { _, event ->
+            if (!isScrollable) return@setOnTouchListener true
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
             dislikeRoom()
@@ -44,11 +48,15 @@ class HorizontalScrollPager(
         }
     }
 
-    override fun calculateStartChildPosition(index: Int, size: Int): Int {
-        return index * size
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        return super.onTouchEvent(ev)
     }
 
-    override fun calculateEndChildPosition(index: Int, size: Int): Int {
-        return index * size + (size - 1)
+    override fun calculateStartChildPosition(size: Int): Int {
+        return ((size * size) / 2) - 1
+    }
+
+    override fun calculateEndChildPosition(size: Int): Int {
+        return calculateStartChildPosition(size) + size - 1
     }
 }

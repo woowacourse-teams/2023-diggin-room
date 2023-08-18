@@ -3,6 +3,8 @@ package com.digginroom.digginroom.feature.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initLoginBinding()
+        initGoogleLoginObserver()
     }
 
     private fun initLoginBinding() {
@@ -44,7 +47,28 @@ class LoginActivity : AppCompatActivity() {
                 }
     }
 
+    private fun initGoogleLoginObserver() {
+        val googleLoginResultLauncher = getSocialLoginResultLauncher(SocialLogin.Google)
+
+        loginViewModel.googleLoginEvent.observe(this) {
+            googleLoginResultLauncher.launch(SocialLogin.Google.getIntent(this))
+        }
+    }
+
+    private fun getSocialLoginResultLauncher(socialLogin: SocialLogin): ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                socialLogin
+                    .getIdToken(result)
+                    ?.let { idToken ->
+                        loginViewModel.login(idToken)
+                    }
+            }
+        }
+
     companion object {
+
+        private const val RESULT_OK = -1
 
         fun start(context: Context) {
             val intent = Intent(context, LoginActivity::class.java)

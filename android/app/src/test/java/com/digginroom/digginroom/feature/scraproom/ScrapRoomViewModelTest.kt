@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.scraproom
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel
 import com.digginroom.digginroom.repository.RoomRepository
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -46,10 +46,10 @@ class ScrapRoomViewModelTest {
         val roomId: Long = 10
 
         // when
-        scrapRoomViewModel.scrap(roomId)
+        scrapRoomViewModel.postScrap(roomId)
 
         // then
-        coVerify { roomRepository.scrapById(roomId) }
+        coVerify { roomRepository.postScrapById(roomId) }
     }
 
     @Test
@@ -58,9 +58,9 @@ class ScrapRoomViewModelTest {
         val roomId: Long = 10
 
         // when
-        scrapRoomViewModel.cancelScrap(roomId)
+        scrapRoomViewModel.removeScrap(roomId)
 
         // then
-        coVerify { roomRepository.cancelScrapById(roomId) }
+        coVerify { roomRepository.removeScrapById(roomId) }
     }
 }

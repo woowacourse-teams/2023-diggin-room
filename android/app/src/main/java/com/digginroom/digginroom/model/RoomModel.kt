@@ -5,6 +5,7 @@ import java.io.Serializable
 data class RoomModel(
     val videoId: String,
     val isScrapped: Boolean,
-    val trackModel: TrackModel,
-    val roomId: Long
+    val track: TrackModel,
+    val roomId: Long,
+    val scrapCount: Int
 ) : Serializable

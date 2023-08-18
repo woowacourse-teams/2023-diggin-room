@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapBinding
-import com.digginroom.digginroom.feature.scrap.ScrapViewModel
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 import com.digginroom.digginroom.feature.scrap.navigator.DefaultScrapNavigator
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
 
 class ScrapListActivity : AppCompatActivity() {
 
@@ -22,9 +22,8 @@ class ScrapListActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).scrapViewModelFactory
         )[ScrapViewModel::class.java]
     }
-
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
 
         scrapViewModel.findScrappedRooms()
     }

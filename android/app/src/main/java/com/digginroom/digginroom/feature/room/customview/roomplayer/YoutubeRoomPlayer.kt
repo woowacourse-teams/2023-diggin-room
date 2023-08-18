@@ -3,13 +3,20 @@ package com.digginroom.digginroom.feature.room.customview.roomplayer
 import android.content.Context
 import android.view.ViewGroup.LayoutParams
 import android.webkit.JavascriptInterface
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.digginroom.digginroom.feature.room.ScrapListener
+import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.model.RoomModel
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 class YoutubeRoomPlayer(
     context: Context,
@@ -24,11 +31,6 @@ class YoutubeRoomPlayer(
 
     private var videoId = ""
     private var isPlayerLoaded = false
-    private var onScrapListener: ScrapListener = object : ScrapListener {
-        override fun scrap(roomId: Long) {}
-
-        override fun cancelScrap(roomId: Long) {}
-    }
 
     init {
         preventTouchEvent()
@@ -36,8 +38,20 @@ class YoutubeRoomPlayer(
         initYoutubePlayer()
     }
 
-    fun setRoomInfoListener(onScrapListener: ScrapListener) {
-        this.onScrapListener = onScrapListener
+    fun updateOnScrapListener(callback: RoomEventListener) {
+        roomInfoView.updateOnScrapListener(callback)
+    }
+
+    fun updateOnRemoveScrapListener(callback: RoomEventListener) {
+        roomInfoView.updateOnRemoveScrapListener(callback)
+    }
+
+    fun updateShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
+        roomInfoView.updateOnShowRoomInfoListener(showRoomInfoListener)
+    }
+
+    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
+        roomInfoView.updateShowCommentsListener(showCommentsListener)
     }
 
     override fun play() {
@@ -49,6 +63,8 @@ class YoutubeRoomPlayer(
     }
 
     override fun navigate(room: RoomModel) {
+        roomInfoView.setRoomInfo(room)
+
         if (videoId == room.videoId) {
             return
         }
@@ -59,7 +75,6 @@ class YoutubeRoomPlayer(
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
-        roomInfoView.setRoomInfo(room, onScrapListener)
     }
 
     private fun preventTouchEvent() {
@@ -199,7 +214,25 @@ class YoutubeRoomPlayer(
         setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
         settings.javaScriptEnabled = true
         settings.mediaPlaybackRequiresUserGesture = false
+        webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): WebResourceResponse? {
+                if (request?.url.toString().contains("ad.youtube.com") ||
+                    request?.url.toString().contains("ads.youtube.com")
+                ) {
+                    val textStream = ByteArrayInputStream("".toByteArray())
+                    return getTextWebResource(textStream)
+                }
+                return super.shouldInterceptRequest(view, request)
+            }
+        }
         loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
+    }
+
+    private fun getTextWebResource(data: InputStream): WebResourceResponse? {
+        return WebResourceResponse("text/plain", "UTF-8", data)
     }
 
     private fun initJavascriptInterface() {
@@ -209,14 +242,14 @@ class YoutubeRoomPlayer(
                 fun onLoaded() {
                     isPlayerLoaded = true
                     if (videoId.isEmpty()) return
-                    this@YoutubeRoomPlayer.post {
+                    post {
                         loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
 
                 @JavascriptInterface
                 fun onPlay() {
-                    thumbnail.post {
+                    post {
                         onYoutubePlay()
                         thumbnail.turnOff()
                     }

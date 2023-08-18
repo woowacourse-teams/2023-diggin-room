@@ -9,7 +9,6 @@
 
         <import type="com.digginroom.digginroom.feature.login.LoginState" />
 
-
         <variable
             name="navigator"
             type="com.digginroom.digginroom.feature.login.navigator.LoginNavigator" />
@@ -27,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
+        app:loginNavigator="@{navigator}"
         app:loginState="@{viewModel.state}"
         app:loginStateListener="@{resultListener}"
         tools:context=".views.activity.LoginActivity">
@@ -35,11 +35,13 @@
             android:id="@+id/login_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.state == LoginState.LOADING ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.state instanceof LoginState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/login_iv_diggin_room_logo"
@@ -115,7 +117,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.state == LoginState.FAILED ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.state instanceof LoginState.Failed? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
@@ -167,6 +169,19 @@
             app:layout_constraintEnd_toStartOf="@+id/login_tv_join"
             app:layout_constraintStart_toEndOf="@+id/login_tv_forgot_account"
             app:layout_constraintTop_toBottomOf="@id/login_button" />
+
+        <ImageView
+            android:id="@+id/login_iv_google_login"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="90dp"
+            android:contentDescription="@string/login_google_login_img_description"
+            android:onClick="@{() -> viewModel.startGoogleLogin()}"
+            android:src="@drawable/ic_google_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/login_tv_forgot_account"
+            app:layout_constraintTop_toBottomOf="@id/login_tv_join" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -3,12 +3,15 @@ package com.digginroom.digginroom.feature.room.customview.scrollpager
 import android.content.Context
 import android.view.MotionEvent
 import android.widget.ScrollView
+import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
 
 class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
     override val screenSize = resources.displayMetrics.heightPixels
+    override val pagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
+    override var isScrollable: Boolean = true
 
     override fun smoothScrollTo(position: Int) {
         smoothScrollTo(0, position)
@@ -34,17 +37,18 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
 
     override fun setOnTouchListener(listener: (MotionEvent) -> Unit) {
         setOnTouchListener { _, event ->
+            if (!isScrollable) return@setOnTouchListener true
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
             false
         }
     }
 
-    override fun calculateStartChildPosition(index: Int, size: Int): Int {
-        return 0
+    override fun calculateStartChildPosition(size: Int): Int {
+        return size / 2
     }
 
-    override fun calculateEndChildPosition(index: Int, size: Int): Int {
-        return (size * size) - 1
+    override fun calculateEndChildPosition(size: Int): Int {
+        return (size * size) - calculateStartChildPosition(size) - 1
     }
 }

@@ -1,10 +1,11 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import com.digginroom.digginroom.data.entity.GoogleLoginRequest
+import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
-import com.digginroom.digginroom.data.entity.JoinErrorResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
-import com.digginroom.digginroom.data.entity.LoginErrorResponse
 import com.digginroom.digginroom.data.entity.LoginRequest
+import com.digginroom.digginroom.data.entity.MemberToken
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
@@ -20,12 +21,12 @@ class AccountRemoteDataSource(
             )
         )
 
-        if (!response.isSuccessful) {
-            throw JoinErrorResponse.Default()
-        }
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() != 201) throw HttpError.Unknown(response)
     }
 
-    suspend fun postLogin(id: String, password: String): String {
+    suspend fun postLogin(id: String, password: String): MemberToken {
         val response = accountService.postLogin(
             LoginRequest(
                 id = id,
@@ -33,19 +34,41 @@ class AccountRemoteDataSource(
             )
         )
 
-        if (response.isSuccessful) {
-            return response.headers().get(SET_COOKIE) ?: throw LoginErrorResponse.EmptyToken()
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return MemberToken(
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasSurveyed = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
+            )
         }
-        throw LoginErrorResponse.NoSuchAccount()
+
+        throw HttpError.Unknown(response)
+    }
+
+    suspend fun postLogin(idToken: String): MemberToken {
+        val response = accountService.postLogin(GoogleLoginRequest(idToken))
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return MemberToken(
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasSurveyed = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
+            )
+        }
+
+        throw HttpError.Unknown(response)
     }
 
     suspend fun fetchIsDuplicatedId(id: String): IdDuplicationResponse {
         val response: Response<IdDuplicationResponse> = accountService.fetchIsDuplicatedId(id)
 
-        if (response.isSuccessful) {
-            return response.body() ?: throw JoinErrorResponse.FailedCheckDuplicatedId()
+        if (response.code() == 200) {
+            return response.body() ?: throw HttpError.EmptyBody(response)
         }
-        throw JoinErrorResponse.FailedCheckDuplicatedId()
+
+        throw HttpError.Unknown(response)
     }
 
     companion object {

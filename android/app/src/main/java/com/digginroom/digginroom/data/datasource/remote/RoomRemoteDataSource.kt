@@ -1,12 +1,9 @@
 package com.digginroom.digginroom.data.datasource.remote
 
-import com.digginroom.digginroom.data.entity.CancelScrapErrorResponse
 import com.digginroom.digginroom.data.entity.CancelScrapRequest
-import com.digginroom.digginroom.data.entity.DislikeErrorResponse
 import com.digginroom.digginroom.data.entity.DislikeRequest
-import com.digginroom.digginroom.data.entity.RoomErrorResponse
+import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.RoomResponse
-import com.digginroom.digginroom.data.entity.ScrapErrorResponse
 import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
 import com.digginroom.digginroom.data.service.RoomService
@@ -15,46 +12,56 @@ import retrofit2.Response
 class RoomRemoteDataSource(
     private val roomService: RoomService
 ) {
-    suspend fun findNext(cookie: String): RoomResponse {
-        val response: Response<RoomResponse> = roomService.findNext(cookie)
 
-        if (response.isSuccessful) {
-            return response.body() ?: throw RoomErrorResponse.Default()
+    suspend fun findNext(): RoomResponse {
+        val response: Response<RoomResponse> = roomService.findNext()
+
+        if (response.code() == 401) throw HttpError.Unauthorized(response)
+
+        if (response.code() == 200) {
+            return response.body()
+                ?: throw HttpError.EmptyBody(response)
         }
-        throw RoomErrorResponse.Default()
+
+        throw HttpError.Unknown(response)
     }
 
-    suspend fun postDislike(cookie: String, roomId: Long) {
-        val response: Response<Void> = roomService.postDislike(cookie, DislikeRequest(roomId))
+    suspend fun findScrapped(): ScrappedRoomsResponse {
+        val response: Response<ScrappedRoomsResponse> = roomService.findScrapped()
 
-        if (!response.isSuccessful) {
-            throw DislikeErrorResponse.from(response.code())
+        if (response.code() == 401) throw HttpError.Unauthorized(response)
+
+        if (response.code() == 200) {
+            return response.body()
+                ?: throw HttpError.EmptyBody(response)
         }
+
+        throw HttpError.Unknown(response)
     }
 
-    suspend fun findScrapped(cookie: String): ScrappedRoomsResponse {
-        val response: Response<ScrappedRoomsResponse> = roomService.findScrapped(cookie)
+    suspend fun postScrapById(roomId: Long) {
+        val response: Response<Void> = roomService.postScrapById(ScrapRequest(roomId))
 
-        if (response.isSuccessful) {
-            return response.body() ?: throw RoomErrorResponse.NoSuchScrappedRooms()
-        }
-        throw RoomErrorResponse.Default()
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+        if (response.code() == 401) throw HttpError.Unauthorized(response)
+
+        if (response.code() != 201) throw HttpError.Unknown(response)
     }
 
-    suspend fun scrapById(cookie: String, roomId: Long) {
-        val response: Response<Void> = roomService.scrapById(cookie, ScrapRequest(roomId))
+    suspend fun removeScrapById(roomId: Long) {
+        val response: Response<Void> = roomService.removeScrapById(CancelScrapRequest(roomId))
 
-        if (!response.isSuccessful) {
-            throw ScrapErrorResponse.from(response.code())
-        }
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+        if (response.code() == 401) throw HttpError.Unauthorized(response)
+
+        if (response.code() != 200) throw HttpError.Unknown(response)
     }
 
-    suspend fun cancelScrapById(cookie: String, roomId: Long) {
-        val response: Response<Void> =
-            roomService.cancelScrapById(cookie, CancelScrapRequest(roomId))
+    suspend fun postDislike(roomId: Long) {
+        val response: Response<Void> = roomService.postDislike(DislikeRequest(roomId))
 
-        if (!response.isSuccessful) {
-            throw CancelScrapErrorResponse.from(response.code())
-        }
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() != 201) throw HttpError.Unknown(response)
     }
 }

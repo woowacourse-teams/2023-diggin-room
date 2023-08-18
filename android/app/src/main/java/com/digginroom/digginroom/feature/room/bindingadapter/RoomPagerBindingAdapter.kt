@@ -1,8 +1,9 @@
 package com.digginroom.digginroom.feature.room.bindingadapter
 
 import androidx.databinding.BindingAdapter
-import com.digginroom.digginroom.feature.room.DislikeListener
-import com.digginroom.digginroom.feature.room.ScrapListener
+import com.digginroom.digginroom.feature.room.RoomEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
 import com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
@@ -38,22 +39,44 @@ object RoomPagerBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("app:onLoadNextRoom")
-    fun onLoadNextRoom(roomPager: RoomPager, loadNextRoom: () -> Unit) {
-        roomPager.loadNextRoom = loadNextRoom
+    @BindingAdapter("app:onLoadNext")
+    fun onLoadNext(roomPager: RoomPager, callback: () -> Unit) {
+        roomPager.loadNextRoom = callback
     }
 
     @JvmStatic
-    @BindingAdapter("app:onRoomInfoListener")
-    fun onRoomInfoListener(roomPager: RoomPager, onScrapListener: ScrapListener) {
-        roomPager.updateRoomInfoListener(onScrapListener)
+    @BindingAdapter("app:onScrap")
+    fun onScrap(roomPager: RoomPager, callback: RoomEventListener) {
+        roomPager.updateOnScrapListener(callback)
     }
 
     @JvmStatic
-    @BindingAdapter("app:onDislikeRoom")
-    fun onDislikeRoom(roomPager: RoomPager, onDislike: DislikeListener) {
-        roomPager.updateDislikeListener {
-            onDislike.postDislike(it)
-        }
+    @BindingAdapter("app:onRemoveScrap")
+    fun onRemoveScrap(roomPager: RoomPager, callback: RoomEventListener) {
+        roomPager.updateOnRemoveScrapListener(callback)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:onDislike")
+    fun onDislike(roomPager: RoomPager, callback: RoomEventListener) {
+        roomPager.updateDislikeListener(callback)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:onShowRoomInfoListener")
+    fun onShowRoomInfoListener(roomPager: RoomPager, showRoomInfoListener: ShowRoomInfoListener) {
+        roomPager.updateShowInfoListener(showRoomInfoListener)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:showCommentsListener")
+    fun showCommentsListener(roomPager: RoomPager, showCommentsListener: ShowCommentsListener) {
+        roomPager.updateShowCommentsListener(showCommentsListener)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:setNextRoomLoadable")
+    fun setNextRoomLoadable(roomPager: RoomPager, isNextRoomLoadable: Boolean) {
+        roomPager.isNextRoomLoadable = isNextRoomLoadable
     }
 }

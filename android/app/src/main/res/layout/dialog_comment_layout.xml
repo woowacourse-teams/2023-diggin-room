@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="commentViewModel"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter" />
+
+        <variable
+            name="commentEventListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener" />
+
+        <variable
+            name="postCommentResultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
+
+        <variable
+            name="updateCommentResultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
+
+        <variable
+            name="deleteCommentResultListener"
+            type="com.digginroom.digginroom.feature.ResultListener" />
+
+        <variable
+            name="showMenuListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener" />
+
+        <variable
+            name="selectedCommentId"
+            type="long" />
+
+        <variable
+            name="selectedPosition"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:commentState="@{commentViewModel.commentState}"
+        app:deleteCommentResultListener="@{deleteCommentResultListener}">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapter}"
+            android:orientation="vertical"
+            app:comments="@{commentViewModel.comments}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@+id/editText_comment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onMenuClick="@{showMenuListener}" />
+
+        <EditText
+            android:id="@+id/editText_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:autofillHints="no"
+            android:hint="@string/dialog_comment_input_comment"
+            android:inputType="text"
+            android:text="@={commentViewModel.writtenComment}"
+            app:commentState="@{commentViewModel.commentState}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_send"
+            app:layout_constraintStart_toStartOf="parent"
+            app:postCommentResultListener="@{postCommentResultListener}"
+            app:updateCommentResultListener="@{updateCommentResultListener}" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_send"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/send_button_selector"
+            android:enabled="@{!TextUtils.isEmpty(commentViewModel.writtenComment)}"
+            android:textColor="@color/white"
+            app:clickListener="@{commentEventListener}"
+            app:comment="@{commentViewModel.writtenComment}"
+            app:commentState="@{commentViewModel.commentState}"
+            app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:selectedCommentId="@{selectedCommentId}"
+            app:selectedPosition="@{selectedPosition}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

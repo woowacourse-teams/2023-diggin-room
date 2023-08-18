@@ -9,7 +9,15 @@
 
         <variable
             name="viewModel"
-            type="com.digginroom.digginroom.feature.scrap.ScrapRoomViewModel" />
+            type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapRoomViewModel" />
+
+        <variable
+            name="showRoomInfoListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
+
+        <variable
+            name="showCommentsListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
 
         <variable
             name="initialPosition"
@@ -24,10 +32,15 @@
         <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:onRoomInfoListener="@{viewModel}"
-            app:rooms="@{viewModel.scrappedRooms}"
+            app:onDislike="@{viewModel::postDislike}"
+            app:onRemoveScrap="@{viewModel::removeScrap}"
+            app:onScrap="@{viewModel::postScrap}"
+            app:onShowRoomInfoListener="@{showRoomInfoListener}"
             app:orientation="@{PagingOrientation.VERTICAL}"
-            app:roomPosition="@{initialPosition}" />
+            app:roomPosition="@{initialPosition}"
+            app:rooms="@{viewModel.scrappedRooms}"
+            app:setNextRoomLoadable="@{false}"
+            app:showCommentsListener="@{showCommentsListener}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

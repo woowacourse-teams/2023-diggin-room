@@ -12,8 +12,9 @@ object RoomMapper {
         return Room(
             videoId,
             isScrapped,
-            trackModel.toDomain(),
-            roomId
+            track.toDomain(),
+            roomId,
+            scrapCount
         )
     }
 
@@ -22,7 +23,8 @@ object RoomMapper {
             videoId,
             isScrapped,
             track.toModel(),
-            roomId
+            roomId,
+            scrapCount
         )
     }
 
@@ -31,7 +33,8 @@ object RoomMapper {
             videoId,
             isScrapped,
             track.toDomain(),
-            roomId
+            roomId,
+            scrapCount
         )
     }
 
