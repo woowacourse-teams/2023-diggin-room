@@ -2,6 +2,7 @@ package com.digginroom.digginroom.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 
+import com.digginroom.digginroom.TestFixture;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberJoinControllerTest extends ControllerTest {
-    
+
     @Test
     void 회원가입을_할_수_있다() {
         RestAssured.given().log().all()

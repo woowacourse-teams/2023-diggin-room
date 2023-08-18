@@ -1,6 +1,5 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
 import com.digginroom.digginroom.exception.RoomException.NotDislikedException;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToMany;
@@ -19,14 +18,7 @@ public class DislikeRooms {
     private final List<Room> dislikeRooms = new ArrayList<>();
 
     public void dislike(final Room room) {
-        validateUndisliked(room);
         dislikeRooms.add(room);
-    }
-
-    private void validateUndisliked(final Room room) {
-        if (hasDisliked(room)) {
-            throw new AlreadyDislikeException();
-        }
     }
 
     public boolean hasDisliked(final Room room) {

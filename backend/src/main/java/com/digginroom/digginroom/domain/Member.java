@@ -1,13 +1,17 @@
 package com.digginroom.digginroom.domain;
 
-import com.digginroom.digginroom.exception.RoomException.AlreadyDislikeException;
-import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
-import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
+import com.digginroom.digginroom.exception.MemberException.DuplicatedFavoriteException;
+import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
+import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.util.HashSet;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +27,12 @@ public class Member {
     private Long id;
     @NonNull
     private String username;
-    @NonNull
-    private String password;
+    @Embedded
+    private Password password;
+    @Enumerated(value = EnumType.STRING)
+    private Provider provider;
+    @Getter(AccessLevel.NONE)
+    private boolean hasFavorite = false;
     @Embedded
     private final ScrapRooms scrapRooms = new ScrapRooms();
     @Embedded
@@ -32,58 +40,81 @@ public class Member {
     @Embedded
     private final MemberGenres memberGenres = new MemberGenres(this);
 
-    public Member(final String username, final String password) {
+    public Member(final String username, final Provider provider) {
         this.username = username;
-        this.password = DigginRoomPasswordEncoder.encode(password);
+        this.password = Password.EMPTY;
+        this.provider = provider;
     }
 
-    public boolean hasDifferentPassword(final String password) {
-        return !DigginRoomPasswordEncoder.matches(password, this.password);
+    public Member(final String username, final String password) {
+        this.username = username;
+        this.password = new Password(password);
+        this.provider = Provider.SELF;
     }
 
     public void scrap(final Room room) {
-        validateNotDisliked(room);
         scrapRooms.scrap(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.SCRAP);
-    }
-
-    private void validateNotDisliked(final Room room) {
-        if (dislikeRooms.hasDisliked(room)) {
-            throw new AlreadyDislikeException();
-        }
+        adjustMemberGenreWeight(room, WeightFactor.SCRAP);
     }
 
     public void unscrap(final Room room) {
         scrapRooms.unscrap(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.UNSCRAP);
+        adjustMemberGenreWeight(room, WeightFactor.UNSCRAP);
     }
 
     public void dislike(final Room room) {
-        validateNotScrapped(room);
         dislikeRooms.dislike(room);
-        Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.DISLIKE);
-    }
-
-    private void validateNotScrapped(final Room room) {
-        if (scrapRooms.hasScrapped(room)) {
-            throw new AlreadyScrappedException();
-        }
+        adjustMemberGenreWeight(room, WeightFactor.DISLIKE);
     }
 
     public void undislike(final Room room) {
         dislikeRooms.undislike(room);
+        adjustMemberGenreWeight(room, WeightFactor.UNDISLIKE);
+    }
+
+    public void markFavorite(final List<Genre> genres) {
+        if (hasFavorite) {
+            throw new FavoriteExistsException();
+        }
+        if (hasDuplicate(genres)) {
+            throw new DuplicatedFavoriteException();
+        }
+        if (genres.isEmpty()) {
+            throw new EmptyFavoriteException();
+        }
+
+        for (Genre genre : genres) {
+            memberGenres.adjustWeightBy(genre, WeightFactor.FAVORITE);
+        }
+        hasFavorite = true;
+    }
+
+    private boolean hasDuplicate(final List<Genre> genres) {
+        return new HashSet<>(genres).size() != genres.size();
+    }
+
+    private void adjustMemberGenreWeight(final Room room, final WeightFactor weightFactor) {
         Genre superGenre = room.getTrack().getSuperGenre();
-        memberGenres.adjustWeightBy(superGenre, Weight.UNDISLIKE);
+        memberGenres.adjustWeightBy(superGenre, weightFactor);
+    }
+
+    public boolean hasFavorite() {
+        return hasFavorite;
     }
 
     public boolean hasScrapped(final Room pickedRoom) {
         return scrapRooms.hasScrapped(pickedRoom);
     }
 
-    public MemberGenres getMemberGenres() {
-        return memberGenres;
+    public List<MemberGenre> getMemberGenres() {
+        return memberGenres.getAll();
+    }
+
+    public List<Room> getScrapRooms() {
+        return scrapRooms.getScrapRooms();
+    }
+
+    public List<Room> getDislikeRooms() {
+        return dislikeRooms.getDislikeRooms();
     }
 }

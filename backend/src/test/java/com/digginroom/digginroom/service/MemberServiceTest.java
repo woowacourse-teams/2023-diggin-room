@@ -1,17 +1,24 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.TestFixture.파워;
+import static com.digginroom.digginroom.domain.Genre.DANCE;
+import static com.digginroom.digginroom.domain.Genre.ROCK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -28,6 +35,8 @@ class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private GoogleUsernameResolver googleUsernameResolver;
     @InjectMocks
     private MemberService memberService;
 
@@ -83,7 +92,7 @@ class MemberServiceTest {
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
         assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
-                .isEqualTo(new MemberLoginResponse(power.getId()));
+                .isEqualTo(MemberLoginResponse.of(power));
     }
 
     @Test
@@ -104,5 +113,50 @@ class MemberServiceTest {
                 new MemberLoginRequest(power.getUsername(), power.getPassword() + "asd")))
                 .isInstanceOf(MemberException.NotFoundException.class)
                 .hasMessageContaining("회원 정보가 없습니다.");
+    }
+
+    @Test
+    void OAuth_로_처음_로그인한_유저는_유저_정보가_생성된다() {
+        Member member = 파워();
+        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.empty());
+        when(memberRepository.save(any())).thenReturn(member);
+
+        MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));
+
+        verify(memberRepository, times(1)).save(any());
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    void OAuth_로_이미_로그인했던_유저는_로그인할_수_있다() {
+        Member member = 파워();
+        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.of(member));
+
+        MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));
+
+        verify(memberRepository, times(0)).save(any());
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    void 취향_정보를_입력한다() {
+        Member member = 파워();
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+
+        memberService.markFavorite(member.getId(), new FavoriteGenresRequest(List.of(DANCE.getName(), ROCK.getName())));
+
+        assertThat(member.hasFavorite()).isTrue();
+    }
+
+    @Test
+    void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_반환한다() {
+        Member member = 파워();
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+
+        assertThat(memberService.getMemberDetails(member.getId()))
+                .extracting("memberId", "username", "hasFavorite")
+                .containsExactly(member.getId(), member.getUsername(), member.hasFavorite());
     }
 }
