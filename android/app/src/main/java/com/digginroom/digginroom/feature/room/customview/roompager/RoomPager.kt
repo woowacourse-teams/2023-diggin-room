@@ -135,16 +135,16 @@ class RoomPager(
     }
 
     private fun initScrollMotionEvent(scrollPager: ScrollPager) {
-        val pagingBaseline = (scrollPager.screenSize / PAGE_THRESHOLD)
+        val pagingThreshold = (scrollPager.screenSize / PAGE_THRESHOLD)
         scrollPager.setOnScrollChangeListener { scroll ->
             if (lastPagingOrientation != scrollPager.pagingOrientation) {
                 lastPagingOrientation = scrollPager.pagingOrientation
                 roomRecycler.swapOrientation()
             }
-            val headPosition = scrollPager.scrollPosition * scrollPager.screenSize
-            scrollPager.pagingState = if (scroll < headPosition - pagingBaseline) {
+            val topPosition = scrollPager.scrollPosition * scrollPager.screenSize
+            scrollPager.pagingState = if (scroll < topPosition - pagingThreshold) {
                 PagingState.PREVIOUS
-            } else if (scroll > headPosition + pagingBaseline) {
+            } else if (scroll > topPosition + pagingThreshold) {
                 PagingState.NEXT
             } else {
                 PagingState.CURRENT
@@ -154,13 +154,13 @@ class RoomPager(
 
     private fun initScrollEndEvent(scrollPager: ScrollPager) {
         scrollPager.setOnTouchListener {
-            determinePosition(scrollPager)
+            determinePositions(scrollPager)
             recycleRooms(scrollPager)
             pageToTargetRoom(scrollPager)
         }
     }
 
-    private fun determinePosition(scrollPager: ScrollPager) {
+    private fun determinePositions(scrollPager: ScrollPager) {
         when (scrollPager.pagingState) {
             PagingState.PREVIOUS -> {
                 roomRecycler.currentRoomPosition--
