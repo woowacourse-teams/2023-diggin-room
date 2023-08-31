@@ -79,12 +79,13 @@ class RoomViewModelTest {
     @Test
     fun `스크랩 요청을 보내면 해당 룸이 스크랩 된다`() {
         // given
-        val room = Room(isScrapped = false)
+        val defaultRoom = Room(isScrapped = false)
         val roomId = 0L
+        val expectedIsScrapped = true
 
         coEvery {
             roomRepository.findNext()
-        } returns LogResult.success(room)
+        } returns LogResult.success(defaultRoom)
 
         coEvery {
             roomRepository.postScrapById(roomId)
@@ -99,7 +100,7 @@ class RoomViewModelTest {
         // then
         coVerify { roomRepository.postScrapById(roomId) }
         assertEquals(
-            true,
+            expectedIsScrapped,
             actual
         )
     }
@@ -107,12 +108,13 @@ class RoomViewModelTest {
     @Test
     fun `스크랩 취소 요청을 보내면 해당 룸이 스크랩 취소 된다`() {
         // given
-        val room = Room(isScrapped = true)
+        val defaultRoom = Room(isScrapped = true)
         val roomId = 0L
+        val expectedIsScrapped = false
 
         coEvery {
             roomRepository.findNext()
-        } returns LogResult.success(room)
+        } returns LogResult.success(defaultRoom)
 
         coEvery {
             roomRepository.removeScrapById(roomId)
@@ -127,7 +129,7 @@ class RoomViewModelTest {
         // then
         coVerify { roomRepository.removeScrapById(roomId) }
         assertEquals(
-            false,
+            expectedIsScrapped,
             actual
         )
     }
