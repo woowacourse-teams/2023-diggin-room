@@ -80,12 +80,12 @@ class RoomViewModelTest {
     @Test
     fun `스크랩 요청을 보내면 해당 룸이 스크랩 된다`() {
         // given
-        val actual: Room = Room().copy(isScrapped = false)
+        val room: Room = Room().copy(isScrapped = false)
         val roomId = 0L
 
         coEvery {
             roomRepository.findNext()
-        } returns LogResult.success(actual)
+        } returns LogResult.success(room)
 
         coEvery {
             roomRepository.postScrapById(roomId)
@@ -95,23 +95,25 @@ class RoomViewModelTest {
         roomViewModel.findNext()
         roomViewModel.postScrap(roomId)
 
+        val actual = (roomViewModel.cachedRoom.value as RoomState.Success).rooms[0].isScrapped
+
         // then
         coVerify { roomRepository.postScrapById(roomId) }
         assertEquals(
             true,
-            (roomViewModel.cachedRoom.value as RoomState.Success).rooms[0].isScrapped
+            actual
         )
     }
 
     @Test
     fun `스크랩 취소 요청을 보내면 해당 룸이 스크랩 취소 된다`() {
         // given
-        val actual: Room = Room().copy(isScrapped = true)
+        val room: Room = Room().copy(isScrapped = true)
         val roomId = 0L
 
         coEvery {
             roomRepository.findNext()
-        } returns LogResult.success(actual)
+        } returns LogResult.success(room)
 
         coEvery {
             roomRepository.removeScrapById(roomId)
@@ -121,11 +123,13 @@ class RoomViewModelTest {
         roomViewModel.findNext()
         roomViewModel.removeScrap(roomId)
 
+        val actual = (roomViewModel.cachedRoom.value as RoomState.Success).rooms[0].isScrapped
+
         // then
         coVerify { roomRepository.removeScrapById(roomId) }
         assertEquals(
             false,
-            (roomViewModel.cachedRoom.value as RoomState.Success).rooms[0].isScrapped
+            actual
         )
     }
 }
