@@ -7,6 +7,7 @@ import com.digginroom.digginroom.fixture.RoomFixture.Room
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.repository.RoomRepository
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -73,5 +74,67 @@ class RoomViewModelTest {
 
         // then
         assert(roomViewModel.cachedRoom.value is RoomState.Error)
+    }
+
+    @Test
+    fun `스크랩 요청을 보내면 해당 룸이 스크랩 된다`() {
+        // given
+        val defaultRoom = Room(isScrapped = false)
+        val roomId = 0L
+
+        coEvery {
+            roomRepository.findNext()
+        } returns LogResult.success(defaultRoom)
+
+        coEvery {
+            roomRepository.postScrapById(roomId)
+        } returns LogResult.success(Unit)
+
+        // when
+        roomViewModel.findNext()
+        roomViewModel.postScrap(roomId)
+
+        // then
+        coVerify { roomRepository.postScrapById(roomId) }
+
+        val expected = true
+        val actualRooms = (roomViewModel.cachedRoom.value as RoomState.Success).rooms
+        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped ?: false
+
+        assertEquals(
+            expected,
+            actual
+        )
+    }
+
+    @Test
+    fun `스크랩 취소 요청을 보내면 해당 룸이 스크랩 취소 된다`() {
+        // given
+        val defaultRoom = Room(isScrapped = true)
+        val roomId = 0L
+
+        coEvery {
+            roomRepository.findNext()
+        } returns LogResult.success(defaultRoom)
+
+        coEvery {
+            roomRepository.removeScrapById(roomId)
+        } returns LogResult.success(Unit)
+
+        // when
+        roomViewModel.findNext()
+        roomViewModel.removeScrap(roomId)
+
+        // then
+        coVerify { roomRepository.removeScrapById(roomId) }
+
+        val expected = false
+        val actualRooms = (roomViewModel.cachedRoom.value as RoomState.Success).rooms
+        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped ?: true
+
+        assertEquals(
+            expected,
+            actual
+        )
     }
 }
