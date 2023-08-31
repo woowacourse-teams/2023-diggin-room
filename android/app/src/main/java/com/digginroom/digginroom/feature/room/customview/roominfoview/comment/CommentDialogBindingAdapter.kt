@@ -20,20 +20,23 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:commentState", "app:postCommentResultListener", "app:updateCommentResultListener"],
+        value = ["app:commentRequestState", "app:postCommentResultListener", "app:updateCommentResultListener"],
         requireAll = false
     )
     fun postCommentResultListener(
         editText: EditText,
-        commentState: CommentActionState,
+        commentRequestState: CommentRequestState,
         postCommentResultListener: ResultListener,
         updateCommentResultListener: ResultListener
     ) {
-        when (commentState) {
-            CommentActionState.Update -> {
-                editText.requestFocus()
-                editText.setSelection(editText.text.length)
+        when (commentRequestState) {
+            CommentRequestState.Done ->{
+                editText.text.clear()
             }
+//            CommentActionState.Update -> {
+//                editText.requestFocus()
+//                editText.setSelection(editText.text.length)
+//            }
 
             else -> {
             }
