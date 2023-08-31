@@ -25,6 +25,9 @@ class CommentViewModel(
     private val _commentActionState: MutableLiveData<CommentActionState> =
         MutableLiveData(CommentActionState.Post)
     val commentActionState: LiveData<CommentActionState> get() = _commentActionState
+    private val _commentRequestState: MutableLiveData<CommentRequestState> =
+        MutableLiveData(CommentRequestState.Done)
+    val commentRequestState: LiveData<CommentRequestState> get() = _commentRequestState
 
     fun findComments(roomId: Long) {
         writtenComment.value = ""
@@ -36,15 +39,21 @@ class CommentViewModel(
     }
 
     fun postComment(roomId: Long, comment: String) {
+        if (commentRequestState.value == CommentRequestState.Loading) return
+        startRequest()
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
                 _comments.value = _comments.value + it.toModel()
+                finishRequest()
             }.onFailure {
+                finishRequest()
             }
         }
     }
 
     fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
+        if (commentRequestState.value == CommentRequestState.Loading) return
+        startRequest()
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 _comments.value = _comments.value.toMutableList().apply {
@@ -73,6 +82,15 @@ class CommentViewModel(
 
     private fun finishUpdatingComment() {
         _commentActionState.value = CommentActionState.Post
+        finishRequest()
+    }
+
+    private fun startRequest() {
+        _commentRequestState.value = CommentRequestState.Loading
+    }
+
+    private fun finishRequest() {
+        _commentRequestState.value = CommentRequestState.Done
     }
 
     fun updateWrittenComment(comment: String) {
