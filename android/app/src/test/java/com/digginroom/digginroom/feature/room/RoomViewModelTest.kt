@@ -99,7 +99,7 @@ class RoomViewModelTest {
 
         val expected = true
         val actualRooms = (roomViewModel.cachedRoom.value as RoomState.Success).rooms
-        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped
+        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped ?: false
 
         assertEquals(
             expected,
@@ -130,7 +130,7 @@ class RoomViewModelTest {
 
         val expected = false
         val actualRooms = (roomViewModel.cachedRoom.value as RoomState.Success).rooms
-        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped
+        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped ?: true
 
         assertEquals(
             expected,
