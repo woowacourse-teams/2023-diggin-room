@@ -25,38 +25,17 @@ object CommentDialogBindingAdapter {
     )
     fun postCommentResultListener(
         editText: EditText,
-        commentState: CommentState,
+        commentState: CommentActionState,
         postCommentResultListener: ResultListener,
         updateCommentResultListener: ResultListener
     ) {
         when (commentState) {
-            CommentState.Update.Ready -> {
+            CommentActionState.Update -> {
                 editText.requestFocus()
                 editText.setSelection(editText.text.length)
             }
 
-            CommentState.Post.Succeed -> {
-                editText.text.clear()
-                postCommentResultListener.onSucceed()
-            }
-
-            CommentState.Post.Failed -> {
-                editText.text.clear()
-                postCommentResultListener.onFailed()
-            }
-
-            CommentState.Update.Succeed -> {
-                editText.text.clear()
-                updateCommentResultListener.onSucceed()
-            }
-
-            CommentState.Update.Failed -> {
-                editText.text.clear()
-                updateCommentResultListener.onFailed()
-            }
-
             else -> {
-                editText.text.clear()
             }
         }
     }
@@ -69,22 +48,18 @@ object CommentDialogBindingAdapter {
     fun clickListener(
         button: AppCompatButton,
         clickListener: CommentEventListener,
-        commentState: CommentState,
+        commentState: CommentActionState,
         comment: String,
         selectedCommentId: Long?,
         selectedPosition: Int?
     ) {
         button.setOnClickListener {
             when (commentState) {
-                CommentState.Delete.Succeed,
-                CommentState.Post.Succeed,
-                CommentState.Post.Ready -> {
+                CommentActionState.Post -> {
                     clickListener.postComment(comment)
                 }
 
-                CommentState.Delete.Succeed,
-                CommentState.Update.Succeed,
-                CommentState.Update.Ready -> {
+                CommentActionState.Update -> {
                     if (selectedCommentId == null || selectedPosition == null) return@setOnClickListener
                     clickListener.updateComment(
                         selectedCommentId,
@@ -92,8 +67,6 @@ object CommentDialogBindingAdapter {
                         selectedPosition
                     )
                 }
-
-                else -> {}
             }
         }
     }
@@ -112,16 +85,9 @@ object CommentDialogBindingAdapter {
     fun deleteCommentResultListener(
         constraintLayout: ConstraintLayout,
         deleteCommentResultListener: ResultListener,
-        commentState: CommentState
+        commentState: CommentActionState
     ) {
         when (commentState) {
-            CommentState.Delete.Succeed -> {
-                deleteCommentResultListener.onSucceed()
-            }
-
-            CommentState.Delete.Failed -> {
-                deleteCommentResultListener.onFailed()
-            }
 
             else -> {}
         }
