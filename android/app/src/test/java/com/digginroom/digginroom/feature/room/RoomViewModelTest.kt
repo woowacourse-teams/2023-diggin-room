@@ -98,7 +98,8 @@ class RoomViewModelTest {
         coVerify { roomRepository.postScrapById(roomId) }
 
         val expected = true
-        val actual = (roomViewModel.cachedRoom.value as RoomState.Success).rooms[0].isScrapped
+        val actualRooms = (roomViewModel.cachedRoom.value as RoomState.Success).rooms
+        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped
 
         assertEquals(
             expected,
@@ -128,7 +129,8 @@ class RoomViewModelTest {
         coVerify { roomRepository.removeScrapById(roomId) }
 
         val expected = false
-        val actual = (roomViewModel.cachedRoom.value as RoomState.Success).rooms[0].isScrapped
+        val actualRooms = (roomViewModel.cachedRoom.value as RoomState.Success).rooms
+        val actual = actualRooms.find { it.roomId == roomId }?.isScrapped
 
         assertEquals(
             expected,
