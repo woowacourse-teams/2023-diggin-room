@@ -5,7 +5,6 @@ import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.fixture.RoomFixture.Room
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
-import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -80,7 +79,7 @@ class RoomViewModelTest {
     @Test
     fun `스크랩 요청을 보내면 해당 룸이 스크랩 된다`() {
         // given
-        val room: Room = Room().copy(isScrapped = false)
+        val room = Room(isScrapped = false)
         val roomId = 0L
 
         coEvery {
@@ -108,7 +107,7 @@ class RoomViewModelTest {
     @Test
     fun `스크랩 취소 요청을 보내면 해당 룸이 스크랩 취소 된다`() {
         // given
-        val room: Room = Room().copy(isScrapped = true)
+        val room = Room(isScrapped = true)
         val roomId = 0L
 
         coEvery {
