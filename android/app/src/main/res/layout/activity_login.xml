@@ -10,14 +10,6 @@
         <import type="com.digginroom.digginroom.feature.login.LoginState" />
 
         <variable
-            name="navigator"
-            type="com.digginroom.digginroom.feature.login.navigator.LoginNavigator" />
-
-        <variable
-            name="resultListener"
-            type="com.digginroom.digginroom.feature.ResultListener" />
-
-        <variable
             name="viewModel"
             type="com.digginroom.digginroom.feature.login.LoginViewModel" />
     </data>
@@ -26,9 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        app:loginNavigator="@{navigator}"
-        app:loginState="@{viewModel.state}"
-        app:loginStateListener="@{resultListener}"
         tools:context=".views.activity.LoginActivity">
 
         <ProgressBar
@@ -143,7 +132,6 @@
             android:id="@+id/login_tv_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> navigator.navigateToJoinView()}"
             android:text="@string/common_join"
             android:textColor="#90909F"
             app:layout_constraintBaseline_toBaselineOf="@+id/login_separator"

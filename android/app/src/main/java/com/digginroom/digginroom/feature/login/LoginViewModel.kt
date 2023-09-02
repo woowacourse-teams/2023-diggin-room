@@ -20,7 +20,7 @@ class LoginViewModel(
     val googleLoginEvent: LiveData<Any>
         get() = _googleLoginEvent
 
-    private val _state: MutableLiveData<LoginState> = MutableLiveData(LoginState.Start)
+    private val _state: MutableLiveData<LoginState> = MutableLiveData()
     val state: LiveData<LoginState>
         get() = _state
 

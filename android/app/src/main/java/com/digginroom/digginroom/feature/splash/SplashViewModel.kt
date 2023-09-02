@@ -14,7 +14,7 @@ class SplashViewModel(
     private val memberRepository: MemberRepository
 ) : ViewModel() {
 
-    private val _loginState: MutableLiveData<LoginState> = MutableLiveData(LoginState.Start)
+    private val _loginState: MutableLiveData<LoginState> = MutableLiveData()
     val loginState: LiveData<LoginState>
         get() = _loginState
 
