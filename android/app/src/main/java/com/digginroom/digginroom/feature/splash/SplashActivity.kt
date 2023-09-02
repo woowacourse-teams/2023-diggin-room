@@ -9,6 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivitySplashBinding
+import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
+import com.digginroom.digginroom.feature.login.LoginActivity
+import com.digginroom.digginroom.feature.login.LoginState
+import com.digginroom.digginroom.feature.room.RoomActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -25,6 +29,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initSplashBinding()
+        initSplashObserver()
         validateToken()
     }
 
@@ -34,8 +39,18 @@ class SplashActivity : AppCompatActivity() {
                 .also {
                     it.lifecycleOwner = this
                     it.viewModel = splashViewModel
-                    it.navigator = DefaultSplashNavigator(this)
                 }
+    }
+
+    private fun initSplashObserver() {
+        splashViewModel.loginState.observe(this) {
+            finish()
+            when (it) {
+                is LoginState.Succeed.NotSurveyed -> GenreTasteActivity.start(this)
+                is LoginState.Succeed.Surveyed -> RoomActivity.start(this)
+                else -> LoginActivity.start(this)
+            }
+        }
     }
 
     private fun validateToken() {
