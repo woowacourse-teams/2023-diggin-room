@@ -2,6 +2,8 @@ package com.digginroom.digginroom.feature.login
 
 sealed interface LoginState {
 
+    object InProgress : LoginState
+
     object Loading : LoginState
 
     object Failed : LoginState

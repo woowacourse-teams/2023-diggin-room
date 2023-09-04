@@ -111,10 +111,10 @@ class LoginViewModelTest {
         } returns LogResult.failure()
 
         // when
-        loginViewModel.login(ID_TOKEN)
+        loginViewModel.googleLogin(ID_TOKEN)
 
         // then
-        assertEquals(LoginState.Failed, loginViewModel.state.value)
+        assertEquals(LoginState.Failed, loginViewModel.uiState.value?.loginState)
     }
 
     @Test
@@ -125,9 +125,9 @@ class LoginViewModelTest {
         } returns LogResult.success(Member(true))
 
         // when
-        loginViewModel.login(ID_TOKEN)
+        loginViewModel.googleLogin(ID_TOKEN)
 
         // then
-        assertEquals(LoginState.Succeed.Surveyed, loginViewModel.state.value)
+        assertEquals(LoginState.Succeed.Surveyed, loginViewModel.uiState.value?.loginState)
     }
 }

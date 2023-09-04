@@ -14,6 +14,7 @@ import com.digginroom.digginroom.databinding.ActivityLoginBinding
 import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
 import com.digginroom.digginroom.feature.join.JoinActivity
 import com.digginroom.digginroom.feature.room.RoomActivity
+import com.digginroom.digginroom.model.AccountModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
         )[LoginViewModel::class.java]
     }
+    private var account: AccountModel = AccountModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,25 +42,25 @@ class LoginActivity : AppCompatActivity() {
                 .also {
                     it.lifecycleOwner = this
                     it.viewModel = loginViewModel
+                    it.account = account
                 }
     }
 
     private fun initLoginStateObserver() {
-        loginViewModel.state.observe(this) {
-            when (it) {
+        loginViewModel.uiState.observe(this) {
+            when (it.loginState) {
                 is LoginState.Succeed.NotSurveyed -> {
                     finish()
                     GenreTasteActivity.start(this)
                 }
+
                 is LoginState.Succeed.Surveyed -> {
                     finish()
                     RoomActivity.start(this)
                 }
-                is LoginState.Failed -> {
-                    binding.loginEtInputId.text.clear()
-                    binding.loginEtInputPassword.text.clear()
-                }
 
+                is LoginState.Failed -> {
+                }
                 else -> {}
             }
         }
@@ -78,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
                 socialLogin
                     .getIdToken(result)
                     ?.let { idToken ->
-                        loginViewModel.login(idToken)
+                        loginViewModel.googleLogin(idToken)
                     }
             }
         }

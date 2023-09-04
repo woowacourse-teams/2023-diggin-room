@@ -5,9 +5,14 @@
 
     <data>
 
+
         <import type="android.view.View" />
 
         <import type="com.digginroom.digginroom.feature.login.LoginState" />
+
+        <variable
+            name="account"
+            type="com.digginroom.digginroom.model.AccountModel" />
 
         <variable
             name="viewModel"
@@ -24,7 +29,7 @@
             android:id="@+id/login_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.state instanceof LoginState.Loading ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.uiState.loginState instanceof LoginState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -72,7 +77,7 @@
             android:inputType="text"
             android:paddingHorizontal="22dp"
             android:paddingVertical="16dp"
-            android:text="@={viewModel.id}"
+            android:text="@={account.id}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +97,7 @@
             android:inputType="textPassword"
             android:paddingHorizontal="22dp"
             android:paddingVertical="16dp"
-            android:text="@={viewModel.password}"
+            android:text="@={account.password}"
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +111,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.state instanceof LoginState.Failed? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.uiState.loginState instanceof LoginState.Failed? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
@@ -119,7 +124,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="45dp"
             android:background="@drawable/bg_gradient_blue_radius"
-            android:onClick="@{() -> viewModel.login()}"
+            android:onClick="@{() -> viewModel.uiState.onLogin.invoke(account)}"
             android:paddingVertical="16dp"
             android:text="@string/common_login"
             android:textColor="@color/white"

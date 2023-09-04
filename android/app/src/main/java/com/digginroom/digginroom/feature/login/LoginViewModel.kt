@@ -1,10 +1,10 @@
 package com.digginroom.digginroom.feature.login
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.livedata.NonNullMutableLiveData
+import com.digginroom.digginroom.model.AccountModel
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.util.SingleLiveEvent
 import kotlinx.coroutines.launch
@@ -13,28 +13,34 @@ class LoginViewModel(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
-    val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
-
     private val _googleLoginEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+
     val googleLoginEvent: LiveData<Any>
         get() = _googleLoginEvent
 
-    private val _state: MutableLiveData<LoginState> = MutableLiveData()
-    val state: LiveData<LoginState>
-        get() = _state
+    private val _uiState: NonNullMutableLiveData<LoginUiState> = NonNullMutableLiveData(
+        LoginUiState(
+            accountModel = AccountModel(),
+            loginState = LoginState.InProgress
+        )
+    )
 
-    fun login() {
-        _state.value = LoginState.Loading
+    val uiState: LiveData<LoginUiState>
+        get() = _uiState
+
+    fun login(account: AccountModel) {
+        _uiState.value = _uiState.value.changeState(LoginState.Loading)
 
         viewModelScope.launch {
             accountRepository.postLogIn(
-                id = id.value,
-                password = password.value
+                id = account.id,
+                password = account.password
             ).onSuccess { loginResult ->
-                _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
+                _uiState.value = _uiState.value.changeState(
+                    LoginState.Succeed.from(loginResult.hasSurveyed)
+                )
             }.onFailure {
-                _state.value = LoginState.Failed
+                _uiState.value = _uiState.value.changeState(LoginState.Failed)
             }
         }
     }
@@ -43,21 +49,18 @@ class LoginViewModel(
         _googleLoginEvent.call()
     }
 
-    fun login(idToken: String) {
-        _state.value = LoginState.Loading
+    fun googleLogin(idToken: String) {
+        _uiState.value = _uiState.value.changeState(LoginState.Loading)
 
         viewModelScope.launch {
             accountRepository.postLogin(idToken)
                 .onSuccess { loginResult ->
-                    _state.value = LoginState.Succeed.from(loginResult.hasSurveyed)
+                    _uiState.value = _uiState.value.changeState(
+                        LoginState.Succeed.from(loginResult.hasSurveyed)
+                    )
                 }.onFailure {
-                    _state.value = LoginState.Failed
+                    _uiState.value = _uiState.value.changeState(LoginState.Failed)
                 }
         }
-    }
-
-    companion object {
-
-        private const val EMPTY_STRING = ""
     }
 }
