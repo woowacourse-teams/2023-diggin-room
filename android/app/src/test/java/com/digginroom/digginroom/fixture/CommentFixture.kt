@@ -31,7 +31,7 @@ object CommentFixture {
             isOwner = true
         ),
         Comment(
-            id = 0,
+            id = 1,
             writer = "test3",
             comment = "노래 좋아요3",
             createdAt = LocalDateTime.of(2023, 8, 31, 11, 39),
@@ -39,7 +39,7 @@ object CommentFixture {
             isOwner = true
         ),
         Comment(
-            id = 0,
+            id = 2,
             writer = "test4",
             comment = "노래 좋아요4",
             createdAt = LocalDateTime.of(2023, 8, 31, 11, 39),

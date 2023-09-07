@@ -46,7 +46,7 @@ class CommentViewModelTest {
         val roomId: Long = 0
 
         coEvery {
-            commentRepository.findComments(roomId)
+            commentRepository.findComments(any())
         } returns LogResult.success(defaultComments)
 
         // when
@@ -65,7 +65,7 @@ class CommentViewModelTest {
         val roomId: Long = 0
 
         coEvery {
-            commentRepository.postComment(roomId, defaultComment.comment)
+            commentRepository.postComment(any(), any())
         } returns LogResult.success(defaultComment)
 
         // when
@@ -75,5 +75,31 @@ class CommentViewModelTest {
         val actual = commentViewModel.comments.value
         val expected = listOf(defaultComment.toModel())
         assertEquals(actual, expected)
+    }
+
+    @Test
+    fun `댓글 삭제를 요청하면 댓글이 삭제된다`() {
+        // given
+        val roomId: Long = 0
+        val commentId: Long = 0
+        val deletedPosition = 0
+        val defaultComments = Comments()
+        val commentCount = defaultComments.size
+
+        coEvery {
+            commentRepository.findComments(any())
+        } returns LogResult.success(defaultComments)
+        coEvery {
+            commentRepository.deleteComment(any(), any())
+        } returns LogResult.success(Unit)
+
+        // when
+        commentViewModel.findComments(roomId)
+        commentViewModel.deleteComment(roomId, commentId, deletedPosition)
+
+        // then
+        val actual = commentViewModel.comments.value ?: listOf()
+        assertEquals(commentCount - 1, actual.size)
+
     }
 }
