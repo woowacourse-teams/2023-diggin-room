@@ -5,11 +5,6 @@ data class AccountModel(
     var password: String = EMPTY_STRING
 ) {
 
-    fun clear() {
-        id = ""
-        password = ""
-    }
-
     companion object {
         private const val EMPTY_STRING = ""
     }

@@ -25,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
         )[LoginViewModel::class.java]
     }
-    private var account: AccountModel = AccountModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,25 +41,27 @@ class LoginActivity : AppCompatActivity() {
                 .also {
                     it.lifecycleOwner = this
                     it.viewModel = loginViewModel
-                    it.account = account
+                    it.account = AccountModel()
                 }
     }
 
     private fun initLoginStateObserver() {
         loginViewModel.uiState.observe(this) {
-            when (it.loginState) {
-                is LoginState.Succeed.NotSurveyed -> {
+            when (it) {
+                is LoginUiState.Succeed.NotSurveyed -> {
                     finish()
                     GenreTasteActivity.start(this)
                 }
 
-                is LoginState.Succeed.Surveyed -> {
+                is LoginUiState.Succeed.Surveyed -> {
                     finish()
                     RoomActivity.start(this)
                 }
 
-                is LoginState.Failed -> {
+                is LoginUiState.Failed -> {
+                    binding.account = it.account
                 }
+
                 else -> {}
             }
         }
@@ -80,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
                 socialLogin
                     .getIdToken(result)
                     ?.let { idToken ->
-                        loginViewModel.googleLogin(idToken)
+                        loginViewModel.login(idToken)
                     }
             }
         }

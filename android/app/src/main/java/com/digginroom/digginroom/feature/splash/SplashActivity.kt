@@ -11,7 +11,7 @@ import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivitySplashBinding
 import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
 import com.digginroom.digginroom.feature.login.LoginActivity
-import com.digginroom.digginroom.feature.login.LoginState
+import com.digginroom.digginroom.feature.login.LoginUiState
 import com.digginroom.digginroom.feature.room.RoomActivity
 
 @SuppressLint("CustomSplashScreen")
@@ -43,11 +43,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initSplashObserver() {
-        splashViewModel.loginState.observe(this) {
+        splashViewModel.loginUiState.observe(this) {
             finish()
             when (it) {
-                is LoginState.Succeed.NotSurveyed -> GenreTasteActivity.start(this)
-                is LoginState.Succeed.Surveyed -> RoomActivity.start(this)
+                is LoginUiState.Succeed.NotSurveyed -> GenreTasteActivity.start(this)
+                is LoginUiState.Succeed.Surveyed -> RoomActivity.start(this)
                 else -> LoginActivity.start(this)
             }
         }

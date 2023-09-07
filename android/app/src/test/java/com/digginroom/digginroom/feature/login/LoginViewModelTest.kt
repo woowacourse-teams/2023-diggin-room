@@ -5,6 +5,7 @@ import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_ID
 import com.digginroom.digginroom.fixture.AccountFixture.EXAMPLE_PASSWORD
 import com.digginroom.digginroom.fixture.AccountFixture.ID_TOKEN
 import com.digginroom.digginroom.fixture.LogResult
+import com.digginroom.digginroom.model.AccountModel
 import com.digginroom.digginroom.model.user.Member
 import com.digginroom.digginroom.repository.AccountRepository
 import io.mockk.coEvery
@@ -53,14 +54,16 @@ class LoginViewModelTest {
             )
         } returns LogResult.failure()
 
-        loginViewModel.id.value = EXAMPLE_ID
-        loginViewModel.password.value = EXAMPLE_PASSWORD
-
         // when
-        loginViewModel.login()
+        loginViewModel.login(
+            AccountModel(
+                id = EXAMPLE_ID,
+                password = EXAMPLE_PASSWORD
+            )
+        )
 
         // then
-        assertEquals(LoginState.Failed, loginViewModel.state.value)
+        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -73,14 +76,16 @@ class LoginViewModelTest {
             )
         } returns LogResult.success(Member(true))
 
-        loginViewModel.id.value = EXAMPLE_ID
-        loginViewModel.password.value = EXAMPLE_PASSWORD
-
         // when
-        loginViewModel.login()
+        loginViewModel.login(
+            AccountModel(
+                id = EXAMPLE_ID,
+                password = EXAMPLE_PASSWORD
+            )
+        )
 
         // then
-        assertEquals(LoginState.Succeed.Surveyed, loginViewModel.state.value)
+        assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -93,14 +98,16 @@ class LoginViewModelTest {
             )
         } returns LogResult.success(Member(false))
 
-        loginViewModel.id.value = EXAMPLE_ID
-        loginViewModel.password.value = EXAMPLE_PASSWORD
-
         // when
-        loginViewModel.login()
+        loginViewModel.login(
+            AccountModel(
+                id = EXAMPLE_ID,
+                password = EXAMPLE_PASSWORD
+            )
+        )
 
         // then
-        assertEquals(LoginState.Succeed.NotSurveyed, loginViewModel.state.value)
+        assertEquals(LoginUiState.Succeed.NotSurveyed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -111,10 +118,10 @@ class LoginViewModelTest {
         } returns LogResult.failure()
 
         // when
-        loginViewModel.googleLogin(ID_TOKEN)
+        loginViewModel.login(ID_TOKEN)
 
         // then
-        assertEquals(LoginState.Failed, loginViewModel.uiState.value?.loginState)
+        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -125,9 +132,9 @@ class LoginViewModelTest {
         } returns LogResult.success(Member(true))
 
         // when
-        loginViewModel.googleLogin(ID_TOKEN)
+        loginViewModel.login(ID_TOKEN)
 
         // then
-        assertEquals(LoginState.Succeed.Surveyed, loginViewModel.uiState.value?.loginState)
+        assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.value)
     }
 }
