@@ -21,8 +21,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:paddingTop="15dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/tv_writer"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@{comment.writer}"
             android:textColor="@color/room_info_text_color"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,7 @@
             android:layout_marginStart="10dp"
             android:text="@{comment.elapsedTime}"
             android:textColor="@color/room_info_sub_text_color"
-            android:textSize="15sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/tv_writer"
             app:layout_constraintTop_toTopOf="@id/tv_writer"
             tools:text="2일" />
@@ -62,11 +62,12 @@
 
         <ImageView
             android:id="@+id/img_menu"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:onClick="@{()->showMenuListener.invoke()}"
             android:src="@drawable/comment_menu_icon"
             android:visibility="@{comment.owner ? View.VISIBLE : View.GONE}"
+            app:increaseTouchRect="@{32}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_writer"
             app:tint="#808080" />
