@@ -79,7 +79,7 @@ class CommentViewModelTest {
     }
 
     @Test
-    fun `댓글 작성 요청에 실패하면 commentRequestState가 Failed 이 된다`(){
+    fun `댓글 작성 요청에 실패하면 commentRequestState가 Failed 이 된다`() {
         // given
         val defaultComment = Comment()
         val roomId: Long = 0

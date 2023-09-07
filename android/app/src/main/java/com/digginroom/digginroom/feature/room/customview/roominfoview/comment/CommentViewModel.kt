@@ -34,7 +34,9 @@ class CommentViewModel(
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
                 _comments.value = comments.map { it.toModel() }
-            }.onFailure {}
+            }.onFailure {
+                _commentRequestState.value = CommentRequestState.Failed(FIND_COMMENT_FAILED)
+            }
         }
     }
 
@@ -46,7 +48,7 @@ class CommentViewModel(
                 _comments.value = _comments.value + it.toModel()
                 finishRequest()
             }.onFailure {
-                finishRequest()
+                _commentRequestState.value = CommentRequestState.Failed(POST_COMMENT_FAILED)
             }
         }
     }
@@ -62,6 +64,7 @@ class CommentViewModel(
                 finishUpdatingComment()
             }.onFailure {
                 finishUpdatingComment()
+                _commentRequestState.value = CommentRequestState.Failed(UPDATE_COMMENT_FAILED)
             }
         }
     }
@@ -72,6 +75,7 @@ class CommentViewModel(
                 _comments.value =
                     _comments.value.filterIndexed { index, _ -> index != deletePosition }
             }.onFailure {
+                _commentRequestState.value = CommentRequestState.Failed(DELETE_COMMENT_FAILED)
             }
         }
     }
@@ -82,7 +86,6 @@ class CommentViewModel(
 
     private fun finishUpdatingComment() {
         _commentActionState.value = CommentActionState.Post
-        finishRequest()
     }
 
     private fun startRequest() {
@@ -99,5 +102,12 @@ class CommentViewModel(
 
     fun updateCommentState(commentState: CommentActionState) {
         _commentActionState.value = commentState
+    }
+
+    companion object {
+        const val FIND_COMMENT_FAILED = "댓글을 불러올 수 없습니다."
+        const val POST_COMMENT_FAILED = "댓글 작성에 실패하였습니다."
+        const val UPDATE_COMMENT_FAILED = "댓글 수정에 실패하였습니다."
+        const val DELETE_COMMENT_FAILED = "댓글 삭제에 실패하였습니다."
     }
 }

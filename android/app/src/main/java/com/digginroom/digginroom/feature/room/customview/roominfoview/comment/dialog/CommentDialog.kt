@@ -7,20 +7,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
-import com.digginroom.digginroom.feature.ResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.RequestResultListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 
 class CommentDialog : BottomSheetDialogFragment() {
     lateinit var binding: DialogCommentLayoutBinding
     private lateinit var commentEventListener: CommentEventListener
-    private lateinit var postCommentResultListener: ResultListener
-    private lateinit var updateCommentResultListener: ResultListener
-    private lateinit var deleteCommentResultListener: ResultListener
+    private lateinit var requestResultListener: RequestResultListener
     private lateinit var commentViewModel: ViewModel
     private lateinit var showCommentMenuListener: ShowCommentMenuListener
 
@@ -34,9 +32,7 @@ class CommentDialog : BottomSheetDialogFragment() {
         binding.commentViewModel = commentViewModel as CommentViewModel?
         binding.adapter = CommentAdapter()
         binding.commentEventListener = commentEventListener
-        binding.postCommentResultListener = postCommentResultListener
-        binding.updateCommentResultListener = updateCommentResultListener
-        binding.deleteCommentResultListener = deleteCommentResultListener
+        binding.requestResultListener = requestResultListener
         binding.showMenuListener = showCommentMenuListener
         isCancelable = true
         return binding.root
@@ -53,16 +49,8 @@ class CommentDialog : BottomSheetDialogFragment() {
         this.commentEventListener = commentEventListener
     }
 
-    fun updatePostCommentResultListener(resultListener: ResultListener) {
-        this.postCommentResultListener = resultListener
-    }
-
-    fun updateUpdateCommentResultListener(resultListener: ResultListener) {
-        this.updateCommentResultListener = resultListener
-    }
-
-    fun updateDeleteCommentResultListener(deleteCommentResultListener: ResultListener) {
-        this.deleteCommentResultListener = deleteCommentResultListener
+    fun updateRequestResultListener(requestResultListener: RequestResultListener) {
+        this.requestResultListener = requestResultListener
     }
 
     fun updateViewModel(viewModel: ViewModel) {

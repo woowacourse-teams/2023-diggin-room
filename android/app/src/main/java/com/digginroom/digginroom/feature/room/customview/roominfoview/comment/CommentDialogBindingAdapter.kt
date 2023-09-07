@@ -5,10 +5,10 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.digginroom.feature.ResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.RequestResultListener
 import com.digginroom.digginroom.model.CommentModel
 
 object CommentDialogBindingAdapter {
@@ -20,14 +20,12 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:commentRequestState", "app:postCommentResultListener", "app:updateCommentResultListener"],
+        value = ["app:commentRequestState"],
         requireAll = false
     )
     fun postCommentResultListener(
         editText: EditText,
-        commentRequestState: CommentRequestState,
-        postCommentResultListener: ResultListener,
-        updateCommentResultListener: ResultListener
+        commentRequestState: CommentRequestState
     ) {
         when (commentRequestState) {
             CommentRequestState.Done -> {
@@ -78,16 +76,14 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:deleteCommentResultListener", "app:commentState"],
+        value = ["app:requestResultListener", "app:commentRequestState"],
         requireAll = true
     )
-    fun deleteCommentResultListener(
+    fun requestResultListener(
         constraintLayout: ConstraintLayout,
-        deleteCommentResultListener: ResultListener,
-        commentState: CommentActionState
+        requestResultListener: RequestResultListener,
+        commentRequestState: CommentRequestState
     ) {
-        when (commentState) {
-            else -> {}
-        }
+        requestResultListener.handleResult(commentRequestState)
     }
 }
