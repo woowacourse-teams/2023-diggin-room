@@ -27,14 +27,15 @@
                 android:layout_height="20dp"
                 android:src="@drawable/edit_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/room_info_text_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/edit_comment"
-                android:textColor="@color/black"
+                android:textColor="@color/room_info_text_color"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/img_edit"
                 app:layout_constraintStart_toEndOf="@id/img_edit"
@@ -53,14 +54,15 @@
                 android:layout_height="20dp"
                 android:src="@drawable/delete_icon"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/room_info_text_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="@string/delete_comment"
-                android:textColor="@color/black"
+                android:textColor="@color/room_info_text_color"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/img_delete"
                 app:layout_constraintStart_toEndOf="@id/img_delete"
