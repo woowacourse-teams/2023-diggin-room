@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -75,6 +76,24 @@ class CommentViewModelTest {
         val actual = commentViewModel.comments.value
         val expected = listOf(defaultComment.toModel())
         assertEquals(actual, expected)
+    }
+
+    @Test
+    fun `댓글 작성 요청에 실패하면 commentRequestState가 Failed 이 된다`(){
+        // given
+        val defaultComment = Comment()
+        val roomId: Long = 0
+
+        coEvery {
+            commentRepository.postComment(any(), any())
+        } returns LogResult.failure()
+
+        // when
+        commentViewModel.postComment(roomId, defaultComment.comment)
+
+        // then
+        val actual = commentViewModel.commentRequestState.value
+        assertTrue(actual is CommentRequestState.Failed)
     }
 
     @Test
