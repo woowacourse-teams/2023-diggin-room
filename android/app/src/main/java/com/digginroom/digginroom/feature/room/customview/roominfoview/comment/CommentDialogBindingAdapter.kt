@@ -25,7 +25,7 @@ object CommentDialogBindingAdapter {
     )
     fun postCommentResultListener(
         editText: EditText,
-        commentRequestState: CommentRequestState
+        commentRequestState: CommentRequestState?
     ) {
         when (commentRequestState) {
             CommentRequestState.Done -> {
@@ -76,14 +76,16 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:requestResultListener", "app:commentRequestState"],
+        value = ["app:requestResultListener", "app:commentRequestState", "app:onShowMessage"],
         requireAll = true
     )
     fun requestResultListener(
         constraintLayout: ConstraintLayout,
         requestResultListener: RequestResultListener,
-        commentRequestState: CommentRequestState
+        commentRequestState: CommentRequestState?,
+        onShowMessage: () -> Unit
     ) {
         requestResultListener.handleResult(commentRequestState)
+        onShowMessage()
     }
 }

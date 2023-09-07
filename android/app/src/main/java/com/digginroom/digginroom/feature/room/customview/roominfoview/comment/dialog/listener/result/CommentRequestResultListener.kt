@@ -7,7 +7,7 @@ import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.Co
 class CommentRequestResultListener(
     val context: Context
 ) : RequestResultListener {
-    override fun handleResult(commentRequestState: CommentRequestState) {
+    override fun handleResult(commentRequestState: CommentRequestState?) {
         when (commentRequestState) {
             is CommentRequestState.Succeed -> {
             }

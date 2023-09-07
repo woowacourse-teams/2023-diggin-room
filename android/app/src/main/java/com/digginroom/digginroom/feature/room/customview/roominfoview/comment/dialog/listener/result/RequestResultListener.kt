@@ -3,5 +3,5 @@ package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.d
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentRequestState
 
 interface RequestResultListener {
-    fun handleResult(commentRequestState: CommentRequestState)
+    fun handleResult(commentRequestState: CommentRequestState?)
 }

@@ -8,6 +8,7 @@ import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
+import com.digginroom.digginroom.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class CommentViewModel(
@@ -25,8 +26,8 @@ class CommentViewModel(
     private val _commentActionState: MutableLiveData<CommentActionState> =
         MutableLiveData(CommentActionState.Post)
     val commentActionState: LiveData<CommentActionState> get() = _commentActionState
-    private val _commentRequestState: MutableLiveData<CommentRequestState> =
-        MutableLiveData(CommentRequestState.Done)
+    private val _commentRequestState: SingleLiveEvent<CommentRequestState> =
+        SingleLiveEvent()
     val commentRequestState: LiveData<CommentRequestState> get() = _commentRequestState
 
     fun findComments(roomId: Long) {
@@ -102,6 +103,10 @@ class CommentViewModel(
 
     fun updateCommentState(commentState: CommentActionState) {
         _commentActionState.value = commentState
+    }
+
+    fun showMessage() {
+        _commentRequestState.call()
     }
 
     companion object {
