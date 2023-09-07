@@ -30,13 +30,9 @@ object CommentDialogBindingAdapter {
         updateCommentResultListener: ResultListener
     ) {
         when (commentRequestState) {
-            CommentRequestState.Done ->{
+            CommentRequestState.Done -> {
                 editText.text.clear()
             }
-//            CommentActionState.Update -> {
-//                editText.requestFocus()
-//                editText.setSelection(editText.text.length)
-//            }
 
             else -> {
             }
@@ -91,7 +87,6 @@ object CommentDialogBindingAdapter {
         commentState: CommentActionState
     ) {
         when (commentState) {
-
             else -> {}
         }
     }
