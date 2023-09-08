@@ -14,6 +14,7 @@ import com.digginroom.digginroom.databinding.ActivityLoginBinding
 import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
 import com.digginroom.digginroom.feature.join.JoinActivity
 import com.digginroom.digginroom.feature.room.RoomActivity
+import com.digginroom.digginroom.model.AccountModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -40,23 +41,25 @@ class LoginActivity : AppCompatActivity() {
                 .also {
                     it.lifecycleOwner = this
                     it.viewModel = loginViewModel
+                    it.account = AccountModel()
                 }
     }
 
     private fun initLoginStateObserver() {
-        loginViewModel.state.observe(this) {
+        loginViewModel.uiState.observe(this) {
             when (it) {
-                is LoginState.Succeed.NotSurveyed -> {
+                is LoginUiState.Succeed.NotSurveyed -> {
                     finish()
                     GenreTasteActivity.start(this)
                 }
-                is LoginState.Succeed.Surveyed -> {
+
+                is LoginUiState.Succeed.Surveyed -> {
                     finish()
                     RoomActivity.start(this)
                 }
-                is LoginState.Failed -> {
-                    binding.loginEtInputId.text.clear()
-                    binding.loginEtInputPassword.text.clear()
+
+                is LoginUiState.Failed -> {
+                    binding.account = it.account
                 }
 
                 else -> {}

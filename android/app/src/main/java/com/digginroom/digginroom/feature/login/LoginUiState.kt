@@ -1,12 +1,16 @@
 package com.digginroom.digginroom.feature.login
 
-sealed interface LoginState {
+import com.digginroom.digginroom.model.AccountModel
 
-    object Loading : LoginState
+sealed interface LoginUiState {
 
-    object Failed : LoginState
+    object Loading : LoginUiState
 
-    sealed interface Succeed : LoginState {
+    object Failed : LoginUiState {
+        val account = AccountModel()
+    }
+
+    sealed interface Succeed : LoginUiState {
 
         object Surveyed : Succeed
 
