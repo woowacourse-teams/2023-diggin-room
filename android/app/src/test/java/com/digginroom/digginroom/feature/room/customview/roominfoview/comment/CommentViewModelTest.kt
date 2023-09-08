@@ -118,6 +118,7 @@ class CommentViewModelTest {
 
         // then
         val actual = commentViewModel.comments.value ?: listOf()
-        assertEquals(commentCount - 1, actual.size)
+        val expected = commentCount - 1
+        assertEquals(expected, actual.size)
     }
 }
