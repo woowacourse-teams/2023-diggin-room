@@ -108,19 +108,22 @@
             app:postCommentResultListener="@{postCommentResultListener}"
             app:updateCommentResultListener="@{updateCommentResultListener}" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageButton
             android:id="@+id/button_send"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/send_button_selector"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:enabled="@{!TextUtils.isEmpty(commentViewModel.writtenComment)}"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/send_button_selector"
             android:textColor="@color/white"
             app:clickListener="@{commentEventListener}"
             app:comment="@{commentViewModel.writtenComment}"
             app:commentState="@{commentViewModel.commentState}"
-            app:increaseTouchRect="@{20}"
-            app:layout_constraintBaseline_toBaselineOf="@+id/editText_comment"
+            app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:selectedCommentId="@{selectedCommentId}"
             app:selectedPosition="@{selectedPosition}" />

@@ -60,14 +60,17 @@
             app:layout_constraintTop_toBottomOf="@id/tv_writer"
             tools:text="우와~ 노래 좋네요~" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img_menu"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:cropToPadding="true"
             android:onClick="@{()->showMenuListener.invoke()}"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
             android:src="@drawable/comment_menu_icon"
+            android:scaleType="centerInside"
             android:visibility="@{comment.owner ? View.VISIBLE : View.GONE}"
-            app:increaseTouchRect="@{32}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_writer"
             app:tint="#808080" />

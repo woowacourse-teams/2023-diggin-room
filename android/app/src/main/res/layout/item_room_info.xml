@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -40,17 +41,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        android:paddingHorizontal="@dimen/scrap_horizontal_margin"
         android:paddingTop="@dimen/scrap_horizontal_margin"
-        android:paddingBottom="@dimen/scrap_vertical_margin">
+        android:paddingEnd="8dp"
+        android:paddingBottom="@dimen/scrap_vertical_margin"
+        tools:background="@color/black">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/room_info_ib_scrap"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:onClick="@{() -> roomNavigator.navigateToScrap()}"
+            android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/cube_icon"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +63,7 @@
             android:id="@+id/room_info_iv_music"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginStart="@dimen/scrap_horizontal_margin"
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:src="@drawable/music_icon"
@@ -83,11 +87,11 @@
 
         <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
             android:id="@id/room_info_scrap_toggle"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="6dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:cropToPadding="true"
+            android:padding="12dp"
             android:scaleType="centerInside"
-            app:increaseTouchRect="@{16}"
             app:isScrapped="@{room.isScrapped}"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -96,7 +100,7 @@
             android:id="@+id/room_info_tv_scrap_count"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@{scrapCountFormatter.convert(room.scrapCount)}"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -104,29 +108,30 @@
             app:layout_constraintEnd_toEndOf="@id/room_info_scrap_toggle"
             app:layout_constraintStart_toStartOf="@id/room_info_scrap_toggle" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/room_info_ib_comment"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:onClick="@{() -> showCommentsListener.show(room.roomId)}"
+            android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/comment_icon"
-            app:increaseTouchRect="@{16}"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_info"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/room_info_ib_info"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:onClick="@{() -> showRoomInfoListener.show(room.track)}"
+            android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/info_icon"
-            app:increaseTouchRect="@{16}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

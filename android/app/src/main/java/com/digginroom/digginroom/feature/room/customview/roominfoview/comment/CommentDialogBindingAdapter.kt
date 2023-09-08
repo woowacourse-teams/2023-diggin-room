@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.comment
 
+import android.view.View
 import android.widget.EditText
-import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -67,7 +67,7 @@ object CommentDialogBindingAdapter {
         requireAll = false
     )
     fun clickListener(
-        button: AppCompatButton,
+        button: View,
         clickListener: CommentEventListener,
         commentState: CommentState,
         comment: String,
