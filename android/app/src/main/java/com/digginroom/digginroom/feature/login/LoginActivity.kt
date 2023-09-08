@@ -11,7 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityLoginBinding
-import com.digginroom.digginroom.feature.login.navigator.DefaultLoginNavigator
+import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
+import com.digginroom.digginroom.feature.join.JoinActivity
+import com.digginroom.digginroom.feature.room.RoomActivity
+import com.digginroom.digginroom.model.AccountModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,7 +30,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initLoginBinding()
+        initLoginStateObserver()
         initGoogleLoginObserver()
+        initJoinClickListener()
     }
 
     private fun initLoginBinding() {
@@ -35,16 +40,31 @@ class LoginActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
                 .also {
                     it.lifecycleOwner = this
-                    it.resultListener = LoginResultListener(
-                        context = this,
-                        inputTexts = listOf(
-                            it.loginEtInputPassword,
-                            it.loginEtInputPassword
-                        )
-                    )
-                    it.navigator = DefaultLoginNavigator(this)
                     it.viewModel = loginViewModel
+                    it.account = AccountModel()
                 }
+    }
+
+    private fun initLoginStateObserver() {
+        loginViewModel.uiState.observe(this) {
+            when (it) {
+                is LoginUiState.Succeed.NotSurveyed -> {
+                    finish()
+                    GenreTasteActivity.start(this)
+                }
+
+                is LoginUiState.Succeed.Surveyed -> {
+                    finish()
+                    RoomActivity.start(this)
+                }
+
+                is LoginUiState.Failed -> {
+                    binding.account = it.account
+                }
+
+                else -> {}
+            }
+        }
     }
 
     private fun initGoogleLoginObserver() {
@@ -65,6 +85,12 @@ class LoginActivity : AppCompatActivity() {
                     }
             }
         }
+
+    private fun initJoinClickListener() {
+        binding.loginTvJoin.setOnClickListener {
+            JoinActivity.start(this)
+        }
+    }
 
     companion object {
 
