@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.splash
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.login.LoginState
+import com.digginroom.digginroom.feature.login.LoginUiState
 import com.digginroom.digginroom.fixture.AccountFixture.TOKEN
 import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.model.user.Member
@@ -51,8 +51,8 @@ class SplashViewModelTest {
         splashViewModel.validateToken()
 
         // then
-        val expected = LoginState.Failed
-        val actual = splashViewModel.loginState.value
+        val expected = LoginUiState.Failed
+        val actual = splashViewModel.loginUiState.value
 
         assertEquals(expected, actual)
     }
@@ -72,8 +72,8 @@ class SplashViewModelTest {
         splashViewModel.validateToken()
 
         // then
-        val expected = LoginState.Succeed.NotSurveyed
-        val actual = splashViewModel.loginState.value
+        val expected = LoginUiState.Succeed.NotSurveyed
+        val actual = splashViewModel.loginUiState.value
 
         assertEquals(expected, actual)
     }
@@ -93,8 +93,8 @@ class SplashViewModelTest {
         splashViewModel.validateToken()
 
         // then
-        val expected = LoginState.Succeed.Surveyed
-        val actual = splashViewModel.loginState.value
+        val expected = LoginUiState.Succeed.Surveyed
+        val actual = splashViewModel.loginUiState.value
 
         assertEquals(expected, actual)
     }
