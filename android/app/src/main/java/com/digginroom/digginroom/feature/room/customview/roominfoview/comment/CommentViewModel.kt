@@ -43,11 +43,11 @@ class CommentViewModel(
 
     fun postComment(roomId: Long, comment: String) {
         if (commentRequestState.value == CommentRequestState.Loading) return
-        startRequest()
+        _commentRequestState.value = CommentRequestState.Loading
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
                 _comments.value = _comments.value + it.toModel()
-                finishRequest()
+                _commentRequestState.value = CommentRequestState.Done
             }.onFailure {
                 _commentRequestState.value = CommentRequestState.Failed(POST_COMMENT_FAILED)
             }
@@ -56,15 +56,15 @@ class CommentViewModel(
 
     fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
         if (commentRequestState.value == CommentRequestState.Loading) return
-        startRequest()
+        _commentRequestState.value = CommentRequestState.Loading
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 _comments.value = _comments.value.toMutableList().apply {
                     this[updatePosition] = this[updatePosition].copy(comment = comment)
                 }
-                finishUpdatingComment()
+                _commentActionState.value = CommentActionState.Post
             }.onFailure {
-                finishUpdatingComment()
+                _commentActionState.value = CommentActionState.Post
                 _commentRequestState.value = CommentRequestState.Failed(UPDATE_COMMENT_FAILED)
             }
         }
@@ -83,18 +83,6 @@ class CommentViewModel(
 
     fun startUpdatingComment() {
         _commentActionState.value = CommentActionState.Update
-    }
-
-    private fun finishUpdatingComment() {
-        _commentActionState.value = CommentActionState.Post
-    }
-
-    private fun startRequest() {
-        _commentRequestState.value = CommentRequestState.Loading
-    }
-
-    private fun finishRequest() {
-        _commentRequestState.value = CommentRequestState.Done
     }
 
     fun updateWrittenComment(comment: String) {
