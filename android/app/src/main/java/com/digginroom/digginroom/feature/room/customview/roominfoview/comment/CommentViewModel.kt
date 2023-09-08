@@ -93,7 +93,7 @@ class CommentViewModel(
         _commentActionState.value = commentState
     }
 
-    fun showMessage() {
+    fun handleCommentRequestState() {
         _commentRequestState.call()
     }
 

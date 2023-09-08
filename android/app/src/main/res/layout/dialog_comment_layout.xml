@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         app:requestResultListener="@{requestResultListener}"
         app:commentRequestState="@{commentViewModel.commentRequestState}"
-        app:onShowMessage="@{commentViewModel::showMessage}">
+        app:onShowMessage="@{commentViewModel::handleCommentRequestState}">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
