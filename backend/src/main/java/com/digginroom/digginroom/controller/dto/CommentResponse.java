@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.controller.dto;
 
-import com.digginroom.digginroom.domain.Comment;
+import com.digginroom.digginroom.domain.comment.Comment;
 import java.time.LocalDateTime;
 
 public record CommentResponse(

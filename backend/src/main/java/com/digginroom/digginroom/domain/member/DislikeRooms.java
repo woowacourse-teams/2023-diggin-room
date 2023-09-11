@@ -1,5 +1,6 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.member;
 
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RoomException.NotDislikedException;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToMany;

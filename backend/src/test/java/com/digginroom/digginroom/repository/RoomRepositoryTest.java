@@ -3,7 +3,7 @@ package com.digginroom.digginroom.repository;
 import static com.digginroom.digginroom.TestFixture.나무;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.domain.room.Room;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;

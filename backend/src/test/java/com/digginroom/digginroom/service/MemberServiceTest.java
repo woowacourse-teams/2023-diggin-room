@@ -15,7 +15,7 @@ import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import java.util.List;

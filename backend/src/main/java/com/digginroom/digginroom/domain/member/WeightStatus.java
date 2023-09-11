@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

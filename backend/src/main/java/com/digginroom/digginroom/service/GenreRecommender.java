@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.MemberGenre;
+import com.digginroom.digginroom.domain.member.MemberGenre;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;

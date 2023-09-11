@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.hasSize;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.RoomRequest;
 import com.digginroom.digginroom.controller.dto.RoomResponse;
-import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import io.restassured.RestAssured;

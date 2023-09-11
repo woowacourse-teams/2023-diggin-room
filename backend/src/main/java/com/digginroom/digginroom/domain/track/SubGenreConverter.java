@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.track;
 
 import com.digginroom.digginroom.exception.SubGenreConvertingException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,8 +10,6 @@ import java.util.List;
 
 @Converter
 public class SubGenreConverter implements AttributeConverter<List<String>, String> {
-
-    private static final String DELIMITER = ",";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

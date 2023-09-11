@@ -4,10 +4,10 @@ import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.MediaSource;
-import com.digginroom.digginroom.domain.Member;
-import com.digginroom.digginroom.domain.Room;
-import com.digginroom.digginroom.domain.Track;
+import com.digginroom.digginroom.domain.mediasource.MediaSource;
+import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.domain.track.Track;
 import java.util.List;
 
 //TODO: 픽스쳐 분리

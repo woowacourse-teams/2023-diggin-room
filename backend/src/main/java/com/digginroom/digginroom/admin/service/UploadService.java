@@ -1,9 +1,9 @@
 package com.digginroom.digginroom.admin.service;
 
 import com.digginroom.digginroom.admin.controller.dto.UploadRequest;
-import com.digginroom.digginroom.domain.MediaSource;
-import com.digginroom.digginroom.domain.Room;
-import com.digginroom.digginroom.domain.Track;
+import com.digginroom.digginroom.domain.mediasource.MediaSource;
+import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.domain.track.Track;
 import com.digginroom.digginroom.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import java.util.Arrays;
