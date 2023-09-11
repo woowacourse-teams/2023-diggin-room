@@ -32,8 +32,8 @@ class RoomActivity : AppCompatActivity() {
             ViewModelFactory.getInstance(applicationContext).commentViewModelFactory
         )[CommentViewModel::class.java]
     }
-    private var trackInfoDialog: TrackInfoDialog = TrackInfoDialog()
-    private var commentDialog: CommentDialog = CommentDialog()
+    private val trackInfoDialog: TrackInfoDialog = TrackInfoDialog()
+    private val commentDialog: CommentDialog = CommentDialog()
 
     private val roomPagerAdapter by lazy {
         RoomPagerAdapter(3) {

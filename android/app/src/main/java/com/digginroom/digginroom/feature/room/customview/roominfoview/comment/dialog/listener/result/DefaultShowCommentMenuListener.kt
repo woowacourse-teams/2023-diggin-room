@@ -1,7 +1,6 @@
 package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result
 
 import androidx.fragment.app.FragmentManager
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentState
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog
@@ -23,9 +22,7 @@ class DefaultShowCommentMenuListener(
         commentMenuDialog.updateEventListener(
             object : CommentMenuEventListener {
                 override fun update() {
-                    commentViewModel.updateCommentState(
-                        CommentState.Update.Ready
-                    )
+                    commentViewModel.startUpdatingComment()
                     commentViewModel.updateWrittenComment(comment.comment)
                     commentDialog.updateSelectedCommentId(comment.id)
                     commentDialog.updateSelectedPosition(selectedPosition)
