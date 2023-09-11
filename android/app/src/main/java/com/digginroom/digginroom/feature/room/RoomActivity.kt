@@ -10,22 +10,22 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.RoomPagerAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfoview.DefaultShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.DefaultShowCommentsListener
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 
 class RoomActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRoomBinding
+
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
             this,
             ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
     }
+
     private val commentViewModel: CommentViewModel by lazy {
         ViewModelProvider(
             this,
@@ -45,7 +45,6 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBinding()
         initRoomPager()
-        initListeners()
     }
 
     private fun initBinding() {
@@ -66,19 +65,6 @@ class RoomActivity : AppCompatActivity() {
         repeat(3) {
             roomViewModel.findNext()
         }
-    }
-
-    private fun initListeners() {
-        binding.showRoomInfoListener = DefaultShowRoomInfoListener(
-            trackInfoDialog,
-            supportFragmentManager
-        )
-        binding.showCommentsListener = DefaultShowCommentsListener(
-            commentDialog,
-            commentViewModel,
-            supportFragmentManager,
-            this
-        )
     }
 
     override fun onResume() {

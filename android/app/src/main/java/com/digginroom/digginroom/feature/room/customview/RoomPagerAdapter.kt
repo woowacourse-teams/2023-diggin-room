@@ -8,7 +8,7 @@ import com.dygames.roompager.Adapter
 class RoomPagerAdapter(
     private val gridSize: Int,
     var rooms: List<RoomModel> = emptyList(),
-    private val loadNextRoom: () -> Unit
+    private val loadNextRoom: () -> Unit,
 ) : Adapter {
 
     private var viewHolders: List<YoutubeRoomPlayer> = emptyList()

@@ -14,13 +14,6 @@
             name="roomViewModel"
             type="com.digginroom.digginroom.feature.room.RoomViewModel" />
 
-        <variable
-            name="showRoomInfoListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
-
-        <variable
-            name="showCommentsListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
     </data>
 
     <com.dygames.roompager.RoomPager
