@@ -15,11 +15,11 @@
         android:layout_height="match_parent"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/scrapToggle"
+        app:layout_constraintEnd_toStartOf="@+id/room_info_scrap_toggle"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/iv_music"
+            android:id="@+id/room_info_iv_music"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:src="@drawable/music_icon"
@@ -28,7 +28,7 @@
             app:tint="@color/room_info_text_color" />
 
         <TextView
-            android:id="@+id/tv_title_artist"
+            android:id="@+id/room_info_tv_title_artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/scrap_horizontal_margin"
@@ -37,7 +37,7 @@
             android:textColor="@color/room_info_text_color"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_music"
+            app:layout_constraintStart_toEndOf="@+id/room_info_iv_music"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -48,8 +48,8 @@
             android:text="@{@string/track_genre(trackModel.superGenre)}"
             android:textColor="@color/room_info_text_color"
             android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="@id/iv_music"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_artist" />
+            app:layout_constraintStart_toStartOf="@id/room_info_iv_music"
+            app:layout_constraintTop_toBottomOf="@id/room_info_tv_title_artist" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -59,7 +59,7 @@
             android:text="@{trackModel.description}"
             android:textColor="@color/room_info_text_color"
             android:textSize="17sp"
-            app:layout_constraintStart_toStartOf="@id/iv_music"
+            app:layout_constraintStart_toStartOf="@id/room_info_iv_music"
             app:layout_constraintTop_toBottomOf="@id/tv_genre" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
