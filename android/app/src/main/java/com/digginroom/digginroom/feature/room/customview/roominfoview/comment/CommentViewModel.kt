@@ -8,6 +8,7 @@ import com.digginroom.digginroom.livedata.NonNullMutableLiveData
 import com.digginroom.digginroom.model.CommentModel
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
+import com.digginroom.digginroom.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class CommentViewModel(
@@ -22,69 +23,84 @@ class CommentViewModel(
 
     val writtenComment: NonNullMutableLiveData<String> = NonNullMutableLiveData("")
 
-    private val _commentState: MutableLiveData<CommentState> = MutableLiveData()
-    val commentState: LiveData<CommentState> get() = _commentState
+    private val _commentActionState: MutableLiveData<CommentActionState> =
+        MutableLiveData(CommentActionState.Post)
+    val commentActionState: LiveData<CommentActionState> get() = _commentActionState
+    private val _commentRequestState: SingleLiveEvent<CommentRequestState> =
+        SingleLiveEvent()
+    val commentRequestState: LiveData<CommentRequestState> get() = _commentRequestState
 
     fun findComments(roomId: Long) {
         writtenComment.value = ""
-        _commentState.value = CommentState.Post.Ready
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { comments ->
                 _comments.value = comments.map { it.toModel() }
-            }.onFailure {}
+            }.onFailure {
+                _commentRequestState.value = CommentRequestState.Failed(FIND_COMMENT_FAILED)
+            }
         }
     }
 
     fun postComment(roomId: Long, comment: String) {
-        if (_commentState.value == CommentState.Post.Loading) return
-        _commentState.value = CommentState.Post.Loading
-
+        if (commentRequestState.value == CommentRequestState.Loading) return
+        _commentRequestState.value = CommentRequestState.Loading
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess {
                 _comments.value = _comments.value + it.toModel()
-                _commentState.value = CommentState.Post.Succeed
+                _commentRequestState.value = CommentRequestState.Done
             }.onFailure {
-                _commentState.value = CommentState.Post.Failed
+                _commentRequestState.value = CommentRequestState.Failed(POST_COMMENT_FAILED)
             }
         }
     }
 
     fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
-        if (_commentState.value == CommentState.Update.Loading) return
-        _commentState.value = CommentState.Update.Loading
-
+        if (commentRequestState.value == CommentRequestState.Loading) return
+        _commentRequestState.value = CommentRequestState.Loading
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
                 _comments.value = _comments.value.toMutableList().apply {
                     this[updatePosition] = this[updatePosition].copy(comment = comment)
                 }
-                _commentState.value = CommentState.Update.Succeed
+                _commentActionState.value = CommentActionState.Post
             }.onFailure {
-                _commentState.value = CommentState.Update.Failed
+                _commentActionState.value = CommentActionState.Post
+                _commentRequestState.value = CommentRequestState.Failed(UPDATE_COMMENT_FAILED)
             }
         }
     }
 
     fun deleteComment(roomId: Long, commentId: Long, deletePosition: Int) {
-        if (_commentState.value == CommentState.Delete.Loading) return
-        _commentState.value = CommentState.Delete.Loading
-
         viewModelScope.launch {
             commentRepository.deleteComment(roomId, commentId).onSuccess {
                 _comments.value =
                     _comments.value.filterIndexed { index, _ -> index != deletePosition }
-                _commentState.value = CommentState.Delete.Succeed
             }.onFailure {
-                _commentState.value = CommentState.Delete.Failed
+                _commentRequestState.value = CommentRequestState.Failed(DELETE_COMMENT_FAILED)
             }
         }
+    }
+
+    fun startUpdatingComment() {
+        _commentActionState.value = CommentActionState.Update
     }
 
     fun updateWrittenComment(comment: String) {
         this.writtenComment.value = comment
     }
 
-    fun updateCommentState(commentState: CommentState) {
-        _commentState.value = commentState
+    fun updateCommentState(commentState: CommentActionState) {
+        _commentActionState.value = commentState
+    }
+
+    fun stopMessage() {
+        _commentRequestState.call()
+    }
+
+    companion object {
+        const val FIND_COMMENT_FAILED = "댓글을 불러올 수 없습니다."
+        const val POST_COMMENT_FAILED = "댓글 작성에 실패하였습니다."
+        const val UPDATE_COMMENT_FAILED = "댓글 수정에 실패하였습니다."
+        const val DELETE_COMMENT_FAILED = "댓글 삭제에 실패하였습니다."
     }
 }
