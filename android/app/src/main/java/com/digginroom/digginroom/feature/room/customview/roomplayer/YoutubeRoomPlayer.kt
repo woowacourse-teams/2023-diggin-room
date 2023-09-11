@@ -6,6 +6,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import com.digginroom.digginroom.feature.room.RoomEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
@@ -17,15 +18,16 @@ import java.io.InputStream
 class YoutubeRoomPlayer(
     context: Context,
     private val onYoutubePlay: () -> Unit
-) : WebView(context), RoomPlayer {
+) : FrameLayout(context), RoomPlayer {
 
     private val roomInfoView: RoomInfoView = RoomInfoView(context)
+    private val webView: WebView = WebView(context)
 
     private var videoId = ""
     private var isPlayerLoaded = false
 
     init {
-        preventTouchEvent()
+        initLayout()
         initYoutubePlayer()
     }
 
@@ -46,11 +48,11 @@ class YoutubeRoomPlayer(
     }
 
     override fun play() {
-        loadUrl("javascript:play()")
+        webView.loadUrl("javascript:play()")
     }
 
     override fun pause() {
-        loadUrl("javascript:pause()")
+        webView.loadUrl("javascript:pause()")
     }
 
     override fun navigate(room: RoomModel) {
@@ -61,13 +63,19 @@ class YoutubeRoomPlayer(
         }
 
         if (isPlayerLoaded) {
-            loadUrl("javascript:navigate(\"${room.videoId}\")")
+            webView.loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
         videoId = room.videoId
     }
 
+    private fun initLayout() {
+        addView(webView)
+        addView(roomInfoView)
+        preventTouchEvent()
+    }
+
     private fun preventTouchEvent() {
-        setOnTouchListener { _, _ -> true }
+        webView.setOnTouchListener { _, _ -> true }
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
@@ -178,10 +186,10 @@ class YoutubeRoomPlayer(
         """.trimIndent()
 
         initJavascriptInterface()
-        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
-        settings.javaScriptEnabled = true
-        settings.mediaPlaybackRequiresUserGesture = false
-        webViewClient = object : WebViewClient() {
+        webView.setRendererPriorityPolicy(WebView.RENDERER_PRIORITY_IMPORTANT, false)
+        webView.settings.javaScriptEnabled = true
+        webView.settings.mediaPlaybackRequiresUserGesture = false
+        webView.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(
                 view: WebView?,
                 request: WebResourceRequest?
@@ -195,7 +203,7 @@ class YoutubeRoomPlayer(
                 return super.shouldInterceptRequest(view, request)
             }
         }
-        loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
+        webView.loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
     }
 
     private fun getTextWebResource(data: InputStream): WebResourceResponse? {
@@ -203,14 +211,14 @@ class YoutubeRoomPlayer(
     }
 
     private fun initJavascriptInterface() {
-        addJavascriptInterface(
+        webView.addJavascriptInterface(
             object {
                 @JavascriptInterface
                 fun onLoaded() {
                     isPlayerLoaded = true
                     if (videoId.isEmpty()) return
                     post {
-                        loadUrl("javascript:navigate(\"$videoId\")")
+                        webView.loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
 
