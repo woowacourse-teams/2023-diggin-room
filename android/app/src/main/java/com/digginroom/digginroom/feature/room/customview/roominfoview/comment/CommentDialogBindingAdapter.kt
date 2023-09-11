@@ -5,10 +5,10 @@ import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.digginroom.feature.ResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.RequestResultListener
 import com.digginroom.digginroom.model.CommentModel
 
 object CommentDialogBindingAdapter {
@@ -20,43 +20,19 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:commentState", "app:postCommentResultListener", "app:updateCommentResultListener"],
+        value = ["app:commentRequestState"],
         requireAll = false
     )
     fun postCommentResultListener(
         editText: EditText,
-        commentState: CommentState,
-        postCommentResultListener: ResultListener,
-        updateCommentResultListener: ResultListener
+        commentRequestState: CommentRequestState?
     ) {
-        when (commentState) {
-            CommentState.Update.Ready -> {
-                editText.requestFocus()
-                editText.setSelection(editText.text.length)
-            }
-
-            CommentState.Post.Succeed -> {
+        when (commentRequestState) {
+            CommentRequestState.Done -> {
                 editText.text.clear()
-                postCommentResultListener.onSucceed()
-            }
-
-            CommentState.Post.Failed -> {
-                editText.text.clear()
-                postCommentResultListener.onFailed()
-            }
-
-            CommentState.Update.Succeed -> {
-                editText.text.clear()
-                updateCommentResultListener.onSucceed()
-            }
-
-            CommentState.Update.Failed -> {
-                editText.text.clear()
-                updateCommentResultListener.onFailed()
             }
 
             else -> {
-                editText.text.clear()
             }
         }
     }
@@ -69,22 +45,18 @@ object CommentDialogBindingAdapter {
     fun clickListener(
         button: View,
         clickListener: CommentEventListener,
-        commentState: CommentState,
+        commentState: CommentActionState,
         comment: String,
         selectedCommentId: Long?,
         selectedPosition: Int?
     ) {
         button.setOnClickListener {
             when (commentState) {
-                CommentState.Delete.Succeed,
-                CommentState.Post.Succeed,
-                CommentState.Post.Ready -> {
+                CommentActionState.Post -> {
                     clickListener.postComment(comment)
                 }
 
-                CommentState.Delete.Succeed,
-                CommentState.Update.Succeed,
-                CommentState.Update.Ready -> {
+                CommentActionState.Update -> {
                     if (selectedCommentId == null || selectedPosition == null) return@setOnClickListener
                     clickListener.updateComment(
                         selectedCommentId,
@@ -92,8 +64,6 @@ object CommentDialogBindingAdapter {
                         selectedPosition
                     )
                 }
-
-                else -> {}
             }
         }
     }
@@ -106,24 +76,16 @@ object CommentDialogBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(
-        value = ["app:deleteCommentResultListener", "app:commentState"],
+        value = ["app:requestResultListener", "app:commentRequestState", "app:onShowMessage"],
         requireAll = true
     )
-    fun deleteCommentResultListener(
+    fun requestResultListener(
         constraintLayout: ConstraintLayout,
-        deleteCommentResultListener: ResultListener,
-        commentState: CommentState
+        requestResultListener: RequestResultListener,
+        commentRequestState: CommentRequestState?,
+        onShowMessage: () -> Unit
     ) {
-        when (commentState) {
-            CommentState.Delete.Succeed -> {
-                deleteCommentResultListener.onSucceed()
-            }
-
-            CommentState.Delete.Failed -> {
-                deleteCommentResultListener.onFailed()
-            }
-
-            else -> {}
-        }
+        requestResultListener.handleResult(commentRequestState)
+        onShowMessage()
     }
 }

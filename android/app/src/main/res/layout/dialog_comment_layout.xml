@@ -21,16 +21,8 @@
             type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener" />
 
         <variable
-            name="postCommentResultListener"
-            type="com.digginroom.digginroom.feature.ResultListener" />
-
-        <variable
-            name="updateCommentResultListener"
-            type="com.digginroom.digginroom.feature.ResultListener" />
-
-        <variable
-            name="deleteCommentResultListener"
-            type="com.digginroom.digginroom.feature.ResultListener" />
+            name="requestResultListener"
+            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.RequestResultListener" />
 
         <variable
             name="showMenuListener"
@@ -48,8 +40,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:commentState="@{commentViewModel.commentState}"
-        app:deleteCommentResultListener="@{deleteCommentResultListener}">
+        app:requestResultListener="@{requestResultListener}"
+        app:commentRequestState="@{commentViewModel.commentRequestState}"
+        app:onShowMessage="@{commentViewModel::stopMessage}">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
@@ -101,12 +94,10 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
             android:text="@={commentViewModel.writtenComment}"
-            app:commentState="@{commentViewModel.commentState}"
+            app:commentRequestState="@{commentViewModel.commentRequestState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
-            app:layout_constraintStart_toStartOf="parent"
-            app:postCommentResultListener="@{postCommentResultListener}"
-            app:updateCommentResultListener="@{updateCommentResultListener}" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/button_send"
@@ -122,7 +113,7 @@
             android:textColor="@color/white"
             app:clickListener="@{commentEventListener}"
             app:comment="@{commentViewModel.writtenComment}"
-            app:commentState="@{commentViewModel.commentState}"
+            app:commentState="@{commentViewModel.commentActionState}"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:selectedCommentId="@{selectedCommentId}"

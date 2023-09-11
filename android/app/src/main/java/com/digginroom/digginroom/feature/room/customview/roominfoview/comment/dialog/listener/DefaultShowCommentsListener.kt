@@ -5,10 +5,8 @@ import androidx.fragment.app.FragmentManager
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentMenuDialog
+import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.CommentRequestResultListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.DefaultShowCommentMenuListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.DeleteCommentResultListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.PostCommentResultListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.UpdateCommentResultListener
 
 class DefaultShowCommentsListener(
     private val commentDialog: CommentDialog,
@@ -22,15 +20,15 @@ class DefaultShowCommentsListener(
         if (commentDialog.isAdded) return
         commentDialog.show(fragmentManager, "")
         commentDialog.updateViewModel(commentViewModel)
-        commentDialog.updateCommentEventListener(DefaultCommentEventListener(commentViewModel, roomId))
-        commentDialog.updatePostCommentResultListener(
-            PostCommentResultListener(context)
+        commentDialog.updateCommentEventListener(
+            DefaultCommentEventListener(
+                commentViewModel,
+                roomId
+            )
         )
-        commentDialog.updateUpdateCommentResultListener(
-            UpdateCommentResultListener(context)
-        )
-        commentDialog.updateDeleteCommentResultListener(
-            DeleteCommentResultListener(context)
+
+        commentDialog.updateRequestResultListener(
+            CommentRequestResultListener(context)
         )
         commentDialog.updateShowCommentMenuListener(
             DefaultShowCommentMenuListener(
