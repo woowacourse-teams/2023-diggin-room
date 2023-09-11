@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.service.OAuthUsernameResolver;
+import com.digginroom.digginroom.oauth.OAuthIdTokenResolver;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -10,7 +10,7 @@ public class OAuthTestConfig {
 
     @Bean
     @Primary
-    public OAuthUsernameResolver oAuthUsernameResolver() {
+    public OAuthIdTokenResolver oAuthUsernameResolver() {
         return (idToken) -> "username";
     }
 }

@@ -17,6 +17,7 @@ import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Member;
 import com.digginroom.digginroom.exception.MemberException;
+import com.digginroom.digginroom.oauth.google.GoogleIdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
     @Mock
-    private GoogleUsernameResolver googleUsernameResolver;
+    private GoogleIdTokenResolver googleIdTokenResolver;
     @InjectMocks
     private MemberService memberService;
 
@@ -118,7 +119,7 @@ class MemberServiceTest {
     @Test
     void OAuth_로_처음_로그인한_유저는_유저_정보가_생성된다() {
         Member member = 파워();
-        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(googleIdTokenResolver.resolve(any())).thenReturn(member.getUsername());
         when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.empty());
         when(memberRepository.save(any())).thenReturn(member);
 
@@ -131,7 +132,7 @@ class MemberServiceTest {
     @Test
     void OAuth_로_이미_로그인했던_유저는_로그인할_수_있다() {
         Member member = 파워();
-        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(googleIdTokenResolver.resolve(any())).thenReturn(member.getUsername());
         when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.of(member));
 
         MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));

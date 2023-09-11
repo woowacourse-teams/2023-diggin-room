@@ -1,7 +1,8 @@
-package com.digginroom.digginroom.service;
+package com.digginroom.digginroom.oauth.google;
 
 import com.digginroom.digginroom.exception.OAuthResolverException.IdTokenNotReadableException;
 import com.digginroom.digginroom.exception.OAuthResolverException.InvalidIdTokenException;
+import com.digginroom.digginroom.oauth.OAuthIdTokenResolver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -11,7 +12,7 @@ import java.security.GeneralSecurityException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GoogleUsernameResolver implements OAuthUsernameResolver {
+public class GoogleIdTokenResolver implements OAuthIdTokenResolver {
 
     private static final NetHttpTransport NET_HTTP_TRANSPORT = new NetHttpTransport();
 
