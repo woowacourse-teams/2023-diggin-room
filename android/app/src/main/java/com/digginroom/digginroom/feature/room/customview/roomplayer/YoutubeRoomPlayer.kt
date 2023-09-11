@@ -1,16 +1,12 @@
 package com.digginroom.digginroom.feature.room.customview.roomplayer
 
 import android.content.Context
-import android.view.ViewGroup.LayoutParams
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
-import android.widget.ImageView
 import com.digginroom.digginroom.feature.room.RoomEventListener
-import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
 import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
@@ -23,10 +19,6 @@ class YoutubeRoomPlayer(
     private val onYoutubePlay: () -> Unit
 ) : WebView(context), RoomPlayer {
 
-    val currentRoomId: Long
-        get() = roomInfoView.roomId
-
-    private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
     private val roomInfoView: RoomInfoView = RoomInfoView(context)
 
     private var videoId = ""
@@ -34,7 +26,6 @@ class YoutubeRoomPlayer(
 
     init {
         preventTouchEvent()
-        initThumbnail()
         initYoutubePlayer()
     }
 
@@ -69,8 +60,6 @@ class YoutubeRoomPlayer(
             return
         }
 
-        thumbnail.load(room)
-
         if (isPlayerLoaded) {
             loadUrl("javascript:navigate(\"${room.videoId}\")")
         }
@@ -82,28 +71,6 @@ class YoutubeRoomPlayer(
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
-    }
-
-    private fun initThumbnail() {
-        val frameLayout = FrameLayout(context)
-        frameLayout.layoutParams = LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        addView(frameLayout)
-
-        thumbnail.scaleType = ImageView.ScaleType.CENTER_CROP
-        thumbnail.layoutParams = LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        // frameLayout.addView(thumbnail)
-
-        roomInfoView.layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        frameLayout.addView(roomInfoView)
     }
 
     private fun initYoutubePlayer() {
@@ -251,7 +218,6 @@ class YoutubeRoomPlayer(
                 fun onPlay() {
                     post {
                         onYoutubePlay()
-                        thumbnail.turnOff()
                     }
                 }
             },

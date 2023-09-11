@@ -1,31 +1,28 @@
-package com.digginroom.digginroom.feature.room.customview.scrollpager
+package com.dygames.roompager.scrollpager
 
 import android.content.Context
 import android.view.MotionEvent
-import android.widget.HorizontalScrollView
-import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
-import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
+import android.widget.ScrollView
+import com.dygames.roompager.PagingOrientation
+import com.dygames.roompager.PagingState
 
-class HorizontalScrollPager(
-    context: Context
-) : ScrollPager, HorizontalScrollView(context) {
+class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
-    override val screenSize = resources.displayMetrics.widthPixels
-    override val pagingOrientation: PagingOrientation = PagingOrientation.HORIZONTAL
+    override val screenSize = resources.displayMetrics.heightPixels
+    override val pagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
     override var isScrollable: Boolean = true
-    var dislikeRoom: () -> Unit = { }
 
     override fun smoothScrollTo(position: Int) {
-        smoothScrollTo(position, 0)
+        smoothScrollTo(0, position)
     }
 
     override fun scrollBy(position: Int) {
-        scrollBy(position, 0)
+        scrollBy(0, position)
     }
 
     override fun scrollTo(position: Int) {
-        scrollTo(position, 0)
+        scrollTo(0, position)
     }
 
     override fun post(action: () -> Unit) {
@@ -33,8 +30,8 @@ class HorizontalScrollPager(
     }
 
     override fun setOnScrollChangeListener(listener: (Int) -> Unit) {
-        setOnScrollChangeListener { _, scrollX, _, _, _ ->
-            listener(scrollX)
+        setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            listener(scrollY)
         }
     }
 
@@ -43,20 +40,15 @@ class HorizontalScrollPager(
             if (!isScrollable) return@setOnTouchListener true
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
-            dislikeRoom()
             false
         }
     }
 
-    override fun onTouchEvent(ev: MotionEvent?): Boolean {
-        return super.onTouchEvent(ev)
-    }
-
     override fun calculateStartChildPosition(size: Int): Int {
-        return ((size * size) / 2) - 1
+        return size / 2
     }
 
     override fun calculateEndChildPosition(size: Int): Int {
-        return calculateStartChildPosition(size) + size - 1
+        return (size * size) - calculateStartChildPosition(size) - 1
     }
 }

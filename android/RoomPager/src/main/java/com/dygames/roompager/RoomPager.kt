@@ -1,17 +1,12 @@
-package com.digginroom.digginroom.feature.room.customview.roompager
+package com.dygames.roompager
 
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import com.digginroom.digginroom.feature.room.RoomEventListener
-import com.digginroom.digginroom.feature.room.customview.RoomRecycler
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
-import com.digginroom.digginroom.feature.room.customview.scrollpager.HorizontalScrollPager
-import com.digginroom.digginroom.feature.room.customview.scrollpager.ScrollPager
-import com.digginroom.digginroom.feature.room.customview.scrollpager.VerticalScrollPager
-import com.digginroom.digginroom.model.RoomModel
+import com.dygames.roompager.scrollpager.HorizontalScrollPager
+import com.dygames.roompager.scrollpager.ScrollPager
+import com.dygames.roompager.scrollpager.VerticalScrollPager
 
 class RoomPager(
     context: Context,
@@ -21,62 +16,32 @@ class RoomPager(
     private val verticalScrollPager: VerticalScrollPager = VerticalScrollPager(context)
     private val horizontalScrollPager: HorizontalScrollPager = HorizontalScrollPager(context)
     private val roomRecycler: RoomRecycler = RoomRecycler(context, GRID_SIZE)
-    var loadNextRoom: () -> Unit = { }
+
+    private var currentRoomPosition: Int = 0
     var lastPagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
     var isNextRoomLoadable: Boolean = true
 
-    init {
+    fun setAdapter(adapter: Adapter) {
+        roomRecycler.setAdapter(adapter)
+
         initVerticalScrollView()
         initHorizontalScrollView()
         initOrientation()
     }
 
-    fun updateData(rooms: List<RoomModel>) {
-        roomRecycler.updateData(rooms)
-        navigateTargetRoom()
+    fun setOrientation(pagingOrientation: PagingOrientation) {
+        horizontalScrollPager.isScrollable =
+            pagingOrientation == PagingOrientation.BOTH || pagingOrientation == PagingOrientation.HORIZONTAL
+        verticalScrollPager.isScrollable =
+            pagingOrientation == PagingOrientation.BOTH || pagingOrientation == PagingOrientation.VERTICAL
     }
 
-    fun updateOrientation(pagingOrientation: PagingOrientation) {
-        when (pagingOrientation) {
-            PagingOrientation.BOTH -> {
-                horizontalScrollPager.isScrollable = true
-                verticalScrollPager.isScrollable = true
-            }
-
-            PagingOrientation.VERTICAL -> {
-                horizontalScrollPager.isScrollable = false
-                verticalScrollPager.isScrollable = true
-            }
-
-            PagingOrientation.HORIZONTAL -> {
-                horizontalScrollPager.isScrollable = true
-                verticalScrollPager.isScrollable = false
-            }
-        }
+    fun setRoomPosition(position: Int) {
+        currentRoomPosition = position
     }
 
-    fun updateRoomPosition(position: Int) {
-        roomRecycler.currentRoomPosition = position
-        navigateTargetRoom()
-        playCurrentRoom()
-    }
-
-    fun updateOnScrapListener(callback: RoomEventListener) {
-        roomRecycler.updateOnScrapListener(callback)
-    }
-
-    fun updateOnRemoveScrapListener(callback: RoomEventListener) {
-        roomRecycler.updateOnRemoveScrapListener(callback)
-    }
-
-    fun updateDislikeListener(callback: RoomEventListener) {
-        horizontalScrollPager.dislikeRoom = {
-            callback.event(roomRecycler.currentRoomPlayerRoomId())
-        }
-    }
-
-    fun updateShowInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
-        roomRecycler.updateShowRoomInfoListener(showRoomInfoListener)
+    fun setRoomLoadable(isNextRoomLoadable: Boolean) {
+        this.isNextRoomLoadable = isNextRoomLoadable
     }
 
     private fun initOrientation() {
@@ -88,22 +53,7 @@ class RoomPager(
                 verticalScrollPager.scrollPosition * verticalScrollPager.screenSize
             )
             lastPagingOrientation = verticalScrollPager.pagingOrientation
-            updateRoomPosition(roomRecycler.currentRoomPosition)
         }
-    }
-
-    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
-        roomRecycler.updateShowCommentsListener(showCommentsListener)
-    }
-
-    fun playCurrentRoom() {
-        roomRecycler.post {
-            roomRecycler.playCurrentRoomPlayer()
-        }
-    }
-
-    fun pausePlayers() {
-        roomRecycler.pausePlayers()
     }
 
     private fun initVerticalScrollView() {
@@ -163,49 +113,45 @@ class RoomPager(
     private fun determinePositions(scrollPager: ScrollPager) {
         when (scrollPager.pagingState) {
             PagingState.PREVIOUS -> {
-                roomRecycler.currentRoomPosition--
+                currentRoomPosition--
                 scrollPager.scrollPosition--
             }
 
             PagingState.CURRENT -> Unit
             PagingState.NEXT -> {
-                roomRecycler.currentRoomPosition++
+                currentRoomPosition++
                 scrollPager.scrollPosition++
             }
         }
     }
 
     private fun recycleRooms(scrollPager: ScrollPager) {
-        if (roomRecycler.currentRoomPosition == roomRecycler.roomSize() - 2) loadNextRoom()
-        if (roomRecycler.currentRoomPosition < 0) {
+        if (currentRoomPosition == roomRecycler.roomSize() - 2) roomRecycler.loadMore()
+        if (currentRoomPosition < 0) {
             scrollPager.scrollPosition = 1
-            roomRecycler.navigateFirstRoom()
-        } else if (roomRecycler.currentRoomPosition >= roomRecycler.roomSize() && !isNextRoomLoadable) {
+            currentRoomPosition = 0
+            roomRecycler.navigate(scrollPager, currentRoomPosition)
+        } else if (currentRoomPosition >= roomRecycler.roomSize() && !isNextRoomLoadable) {
             scrollPager.scrollPosition = 1
-            roomRecycler.navigateLastRoom()
+            currentRoomPosition = roomRecycler.roomSize() - 1
+            roomRecycler.navigate(scrollPager, currentRoomPosition)
         } else if (scrollPager.scrollPosition <= 0) {
-            roomRecycler.recyclePrevRooms(scrollPager)
+            roomRecycler.recyclePrevRooms(scrollPager, currentRoomPosition)
             scrollPager.scrollPosition++
             scrollPager.scrollBy(scrollPager.screenSize)
         } else if (scrollPager.scrollPosition >= GRID_SIZE - 1) {
-            roomRecycler.recycleNextRooms(scrollPager)
+            roomRecycler.recycleNextRooms(scrollPager, currentRoomPosition)
             scrollPager.scrollPosition--
             scrollPager.scrollBy(-scrollPager.screenSize)
         }
     }
 
     private fun pageToTargetRoom(scrollPager: ScrollPager) {
-        navigateTargetRoom()
-        playCurrentRoom()
         scrollPager.post {
             scrollPager.smoothScrollTo(
                 scrollPager.scrollPosition * scrollPager.screenSize
             )
         }
-    }
-
-    private fun navigateTargetRoom() {
-        roomRecycler.navigateRooms()
     }
 
     companion object {

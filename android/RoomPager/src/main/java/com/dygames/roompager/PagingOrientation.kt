@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roompager
+package com.dygames.roompager
 
 enum class PagingOrientation {
     VERTICAL,

@@ -1,28 +1,31 @@
-package com.digginroom.digginroom.feature.room.customview.scrollpager
+package com.dygames.roompager.scrollpager
 
 import android.content.Context
 import android.view.MotionEvent
-import android.widget.ScrollView
-import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
-import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
+import android.widget.HorizontalScrollView
+import com.dygames.roompager.PagingOrientation
+import com.dygames.roompager.PagingState
 
-class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
+class HorizontalScrollPager(
+    context: Context
+) : ScrollPager, HorizontalScrollView(context) {
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
-    override val screenSize = resources.displayMetrics.heightPixels
-    override val pagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
+    override val screenSize = resources.displayMetrics.widthPixels
+    override val pagingOrientation: PagingOrientation = PagingOrientation.HORIZONTAL
     override var isScrollable: Boolean = true
+    var dislikeRoom: () -> Unit = { }
 
     override fun smoothScrollTo(position: Int) {
-        smoothScrollTo(0, position)
+        smoothScrollTo(position, 0)
     }
 
     override fun scrollBy(position: Int) {
-        scrollBy(0, position)
+        scrollBy(position, 0)
     }
 
     override fun scrollTo(position: Int) {
-        scrollTo(0, position)
+        scrollTo(position, 0)
     }
 
     override fun post(action: () -> Unit) {
@@ -30,8 +33,8 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
     }
 
     override fun setOnScrollChangeListener(listener: (Int) -> Unit) {
-        setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            listener(scrollY)
+        setOnScrollChangeListener { _, scrollX, _, _, _ ->
+            listener(scrollX)
         }
     }
 
@@ -40,15 +43,20 @@ class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
             if (!isScrollable) return@setOnTouchListener true
             if (event.action != MotionEvent.ACTION_UP) return@setOnTouchListener false
             listener(event)
+            dislikeRoom()
             false
         }
     }
 
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        return super.onTouchEvent(ev)
+    }
+
     override fun calculateStartChildPosition(size: Int): Int {
-        return size / 2
+        return ((size * size) / 2) - 1
     }
 
     override fun calculateEndChildPosition(size: Int): Int {
-        return (size * size) - calculateStartChildPosition(size) - 1
+        return calculateStartChildPosition(size) + size - 1
     }
 }

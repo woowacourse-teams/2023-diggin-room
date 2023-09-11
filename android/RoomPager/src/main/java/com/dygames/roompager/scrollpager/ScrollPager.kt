@@ -1,8 +1,8 @@
-package com.digginroom.digginroom.feature.room.customview.scrollpager
+package com.dygames.roompager.scrollpager
 
 import android.view.MotionEvent
-import com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation
-import com.digginroom.digginroom.feature.room.customview.roompager.PagingState
+import com.dygames.roompager.PagingOrientation
+import com.dygames.roompager.PagingState
 
 interface ScrollPager {
     var pagingState: PagingState
