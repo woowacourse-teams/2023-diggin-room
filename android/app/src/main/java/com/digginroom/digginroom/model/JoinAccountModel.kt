@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.model
 
-class JoinAccountModel(
+data class JoinAccountModel(
     var id: String = EMPTY_STRING,
     var password: String = EMPTY_STRING,
     var reInputPassword: String = EMPTY_STRING

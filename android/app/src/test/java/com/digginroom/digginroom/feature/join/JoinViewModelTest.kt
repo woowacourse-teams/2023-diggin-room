@@ -8,6 +8,7 @@ import com.digginroom.digginroom.fixture.AccountFixture.INVALID_PASSWORD
 import com.digginroom.digginroom.fixture.AccountFixture.VALID_ID
 import com.digginroom.digginroom.fixture.AccountFixture.VALID_PASSWORD
 import com.digginroom.digginroom.fixture.LogResult
+import com.digginroom.digginroom.model.JoinAccountModel
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.Password
@@ -51,13 +52,17 @@ class JoinViewModelTest {
         // given
         val id = VALID_ID
 
-        joinViewModel.id.value = id
-
         // when
-        joinViewModel.validateId()
+        joinViewModel.validateId(id)
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isValidId
 
         // then
-        assertEquals(joinViewModel.idVerification.value?.isValid, true)
+        val expected = true
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -65,13 +70,17 @@ class JoinViewModelTest {
         // given
         val id = INVALID_ID
 
-        joinViewModel.id.value = id
-
         // when
-        joinViewModel.validateId()
+        joinViewModel.validateId(id)
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isValidId
 
         // then
-        assertEquals(joinViewModel.idVerification.value?.isValid, false)
+        val expected = false
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -79,13 +88,16 @@ class JoinViewModelTest {
         // given
         val id = INVALID_ID
 
-        joinViewModel.id.value = id
-
         // when
-        joinViewModel.validateId()
+        joinViewModel.validateId(id)
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isJoinAble
 
         // then
-        assertEquals(joinViewModel.isJoinAble.value, false)
+        val expected = false
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -97,16 +109,17 @@ class JoinViewModelTest {
             accountRepository.fetchIsDuplicatedId(id)
         } returns LogResult.success(true)
 
-        joinViewModel.id.value = id.value
-
         // when
-        joinViewModel.validateIdDuplication()
+        joinViewModel.validateIdDuplication(id.value)
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isCheckedIdDuplication
 
         // then
-        assertEquals(
-            true,
-            joinViewModel.idVerification.value?.isCheckedDuplication
-        )
+        val expected = true
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -118,16 +131,17 @@ class JoinViewModelTest {
             accountRepository.fetchIsDuplicatedId(id)
         } returns LogResult.success(true)
 
-        joinViewModel.id.value = id.value
-
         // when
-        joinViewModel.validateIdDuplication()
+        joinViewModel.validateIdDuplication(id.value)
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isDuplicatedId
 
         // then
-        assertEquals(
-            true,
-            joinViewModel.idVerification.value?.isDuplicated
-        )
+        val expected = true
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -139,13 +153,17 @@ class JoinViewModelTest {
             accountRepository.fetchIsDuplicatedId(id)
         } returns LogResult.success(true)
 
-        joinViewModel.id.value = id.value
-
         // when
-        joinViewModel.validateIdDuplication()
+        joinViewModel.validateIdDuplication(id.value)
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isJoinAble
 
         // then
-        assertEquals(false, joinViewModel.isJoinAble.value)
+        val expected = false
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -153,30 +171,36 @@ class JoinViewModelTest {
         // given
         val password = INVALID_PASSWORD
 
-        joinViewModel.password.value = password
-
         // when
-        joinViewModel.validatePassword()
+        joinViewModel.validatePassword(password, "")
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isValidPassword
 
         // then
-        assertEquals(
-            false,
-            joinViewModel.passwordVerification.value?.isValid
-        )
+        val expected = false
+
+        assertEquals(expected, actual)
     }
 
+    //
     @Test
     fun `비밀번호 유효성 검증 성공 시 유효한 비밀번호이다`() {
         // given
         val password = VALID_PASSWORD
 
-        joinViewModel.password.value = password
-
         // when
-        joinViewModel.validatePassword()
+        joinViewModel.validatePassword(password, "")
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isValidPassword
 
         // then
-        assertEquals(joinViewModel.passwordVerification.value?.isValid, true)
+        val expected = true
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -184,13 +208,16 @@ class JoinViewModelTest {
         // given
         val password = INVALID_PASSWORD
 
-        joinViewModel.password.value = password
-
         // when
-        joinViewModel.validatePassword()
+        joinViewModel.validatePassword(password, "")
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.isJoinAble
 
         // then
-        assertEquals(false, joinViewModel.isJoinAble.value)
+        val expected = false
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -199,17 +226,14 @@ class JoinViewModelTest {
         val password = VALID_PASSWORD
         val reInputPassword = INVALID_PASSWORD
 
-        joinViewModel.password.value = password
-        joinViewModel.reInputPassword.value = reInputPassword
-
         // when
-        joinViewModel.validatePasswordEquality()
+        joinViewModel.validatePasswordEquality(password, reInputPassword)
+        val actual = joinViewModel.uiState.value?.isEqualReInputPassword
 
         // then
-        assertEquals(
-            false,
-            joinViewModel.passwordVerification.value?.isEqualReInput
-        )
+        val expected = false
+
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -218,66 +242,74 @@ class JoinViewModelTest {
         val password = VALID_PASSWORD
         val reInputPassword = INVALID_PASSWORD
 
-        joinViewModel.password.value = password
-        joinViewModel.reInputPassword.value = reInputPassword
-
         // when
-        joinViewModel.validatePasswordEquality()
+        joinViewModel.validatePasswordEquality(password, reInputPassword)
+        val actual = joinViewModel.uiState.value?.isJoinAble
 
         // then
-        assertEquals(
-            false,
-            joinViewModel.isJoinAble.value
-        )
+        val expected = false
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `회원가입 성공시 회원가입 성공 상태가 된다`() {
         // given
-        val id = Id(VALID_ID)
-        val password = Password(VALID_PASSWORD)
+        val id = VALID_ID
+        val password = VALID_PASSWORD
+        val reInputPassword = VALID_PASSWORD
 
         coEvery {
             accountRepository.postJoin(
                 Account(
-                    id = id,
-                    password = password
+                    id = Id(id),
+                    password = Password(password)
                 )
             )
         } returns LogResult.success(Unit)
 
-        joinViewModel.id.value = id.value
-        joinViewModel.password.value = password.value
-
         // when
-        joinViewModel.join()
+        joinViewModel.join(
+            JoinAccountModel(
+                id = id,
+                password = password,
+                reInputPassword = reInputPassword
+            )
+        )
+        val actual = joinViewModel.uiState.value
 
         // then
-        assertEquals(JoinState.Succeed, joinViewModel.state.value)
+        val expected = JoinUiState.Succeed
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `회원가입 실패시 회원가입 실패 상태가 된다`() {
         // given
-        val id = Id(VALID_ID)
-        val password = Password(VALID_PASSWORD)
+        val id = VALID_ID
+        val password = VALID_PASSWORD
+        val reInputPassword = VALID_PASSWORD
 
         coEvery {
             accountRepository.postJoin(
                 Account(
-                    id = id,
-                    password = password
+                    id = Id(id),
+                    password = Password(password)
                 )
             )
         } returns LogResult.failure()
 
-        joinViewModel.id.value = id.value
-        joinViewModel.password.value = password.value
-
         // when
-        joinViewModel.join()
+        joinViewModel.join(
+            JoinAccountModel(
+                id = id,
+                password = password,
+                reInputPassword = reInputPassword
+            )
+        )
+        val actual = joinViewModel.uiState.value
 
         // then
-        assertEquals(JoinState.Failed(), joinViewModel.state.value)
+        val expected = JoinUiState.Failed()
+        assertEquals(expected, actual)
     }
 }
