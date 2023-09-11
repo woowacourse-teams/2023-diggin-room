@@ -21,16 +21,11 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         runCatching {
             Id(id)
         }.onSuccess {
-            _uiState.value = _uiState
-                .value
-                ?.setInProgress(isValidId = true)
-                ?.setInProgress(isCheckedIdDuplication = false)
+            _uiState.value = _uiState.value?.setInProgress(isValidId = true)
         }.onFailure {
-            _uiState.value = _uiState
-                .value
-                ?.setInProgress(isValidId = false)
-                ?.setInProgress(isCheckedIdDuplication = false)
+            _uiState.value = _uiState.value?.setInProgress(isValidId = false)
         }
+        _uiState.value = _uiState.value?.setInProgress(isCheckedIdDuplication = false)
     }
 
     fun validateIdDuplication(id: String) {
