@@ -8,17 +8,12 @@
             name="viewModel"
             type="com.digginroom.digginroom.feature.splash.SplashViewModel" />
 
-        <variable
-            name="navigator"
-            type="com.digginroom.digginroom.feature.splash.SplashNavigator" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#110B2E"
-        app:loginState="@{viewModel.loginState}"
-        app:splashNavigator="@{navigator}">
+        android:background="#110B2E">
 
         <ImageView
             android:id="@+id/splash_iv_diggin_room_logo"
