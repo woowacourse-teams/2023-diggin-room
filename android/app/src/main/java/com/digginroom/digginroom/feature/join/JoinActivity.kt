@@ -10,6 +10,7 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
 import com.digginroom.digginroom.feature.join.navigator.DefaultJoinNavigator
+import com.digginroom.digginroom.model.JoinAccountModel
 
 class JoinActivity : AppCompatActivity() {
 
@@ -40,6 +41,7 @@ class JoinActivity : AppCompatActivity() {
                         it.joinEtReInputPassword
                     )
                 )
+                it.account = JoinAccountModel()
                 it.viewModel = joinViewModel
             }
     }
