@@ -3,6 +3,9 @@ package com.digginroom.digginroom.domain;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.digginroom.digginroom.domain.member.MemberGenre;
+import com.digginroom.digginroom.domain.member.WeightFactor;
+import com.digginroom.digginroom.domain.member.WeightStatus;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;

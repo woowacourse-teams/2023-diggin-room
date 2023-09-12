@@ -7,14 +7,16 @@ import static com.digginroom.digginroom.domain.Genre.DANCE;
 import static com.digginroom.digginroom.domain.Genre.EXPERIMENTAL;
 import static com.digginroom.digginroom.domain.Genre.NEW_AGE;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
-import static com.digginroom.digginroom.domain.WeightFactor.DISLIKE;
-import static com.digginroom.digginroom.domain.WeightStatus.DEFAULT;
+import static com.digginroom.digginroom.domain.member.WeightFactor.DISLIKE;
+import static com.digginroom.digginroom.domain.member.WeightStatus.DEFAULT;
 import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.MemberException.DuplicatedFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;

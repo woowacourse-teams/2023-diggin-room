@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.controller.dto;
 
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.member.Member;
 
 public record MemberLoginResponse(Long memberId, boolean hasFavorite) {
 
