@@ -11,7 +11,7 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-    baseline-version: 0
+    baseline-version: 5
 springdoc:
   api-docs:
     path: /docs

@@ -1,5 +1,8 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.member;
 
+import com.digginroom.digginroom.domain.BaseEntity;
+import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.MemberException.DuplicatedFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
@@ -7,9 +10,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import java.util.HashSet;
 import java.util.List;
 import lombok.AccessLevel;
@@ -20,11 +20,8 @@ import lombok.NonNull;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @NonNull
     private String username;
     @Embedded

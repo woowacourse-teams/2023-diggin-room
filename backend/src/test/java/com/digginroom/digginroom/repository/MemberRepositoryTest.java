@@ -4,7 +4,7 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.member.Member;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;

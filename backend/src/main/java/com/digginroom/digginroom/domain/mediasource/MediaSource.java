@@ -1,11 +1,9 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.mediasource;
 
 import static com.digginroom.digginroom.exception.MediaSourceException.NoIdentifierException;
 
+import com.digginroom.digginroom.domain.BaseEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,11 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MediaSource {
+public class MediaSource extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String identifier;
 
     public MediaSource(final String identifier) {

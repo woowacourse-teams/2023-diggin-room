@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.repository;
 
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.Track;
+import com.digginroom.digginroom.domain.track.Track;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

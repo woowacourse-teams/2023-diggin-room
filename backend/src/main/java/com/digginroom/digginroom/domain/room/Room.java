@@ -1,13 +1,13 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.room;
 
 import static com.digginroom.digginroom.exception.RoomException.NoMediaSourceException;
 
+import com.digginroom.digginroom.domain.BaseEntity;
+import com.digginroom.digginroom.domain.mediasource.MediaSource;
+import com.digginroom.digginroom.domain.track.Track;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
@@ -19,11 +19,8 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Room {
+public class Room extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @NotNull
     @ManyToOne(cascade = CascadeType.PERSIST)
     private MediaSource mediaSource;

@@ -1,13 +1,13 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.track;
 
+import com.digginroom.digginroom.domain.BaseEntity;
+import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Room;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -23,11 +23,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"title", "artist"}))
-public class Track {
+public class Track extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String title;
     private String artist;
     @Enumerated(value = EnumType.STRING)

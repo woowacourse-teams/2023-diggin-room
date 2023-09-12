@@ -1,5 +1,7 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.comment;
 
+import com.digginroom.digginroom.domain.BaseEntity;
+import com.digginroom.digginroom.domain.member.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;

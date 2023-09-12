@@ -2,6 +2,7 @@ package com.digginroom.digginroom.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.digginroom.digginroom.domain.track.Track;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;

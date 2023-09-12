@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.controller.dto;
 
-import com.digginroom.digginroom.domain.Track;
+import com.digginroom.digginroom.domain.track.Track;
 
 public record TrackResponse(String title, String artist, String superGenre, String description) {
 
