@@ -5,37 +5,49 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.JoinAccountModel
+import com.digginroom.digginroom.model.mapper.JoinVerificationMapper.toModel
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
+import com.digginroom.digginroom.model.user.IdVerification
+import com.digginroom.digginroom.model.user.JoinVerification
 import com.digginroom.digginroom.model.user.Password
+import com.digginroom.digginroom.model.user.PasswordVerification
 import com.digginroom.digginroom.repository.AccountRepository
 import kotlinx.coroutines.launch
 
 class JoinViewModel(private val accountRepository: AccountRepository) : ViewModel() {
 
-    private val _uiState: MutableLiveData<JoinUiState> = MutableLiveData(JoinUiState.InProgress())
+    private var joinVerification = JoinVerification(
+        idVerification = IdVerification(),
+        passwordVerification = PasswordVerification()
+    )
+
+    private val _uiState: MutableLiveData<JoinUiState> =
+        MutableLiveData(JoinUiState.InProgress(joinVerification.toModel()))
     val uiState: LiveData<JoinUiState>
         get() = _uiState
 
     fun validateId(id: String) {
-        runCatching {
-            Id(id)
-        }.onSuccess {
-            _uiState.value = _uiState.value?.setInProgress(isValidId = true)
-        }.onFailure {
-            _uiState.value = _uiState.value?.setInProgress(isValidId = false)
+        with(joinVerification) {
+            joinVerification =
+                joinVerification.copy(idVerification = idVerification.checkIsValid(id))
+
+            _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
         }
-        _uiState.value = _uiState.value?.setInProgress(isCheckedIdDuplication = false)
     }
 
     fun validateIdDuplication(id: String) {
         viewModelScope.launch {
             accountRepository.fetchIsDuplicatedId(Id(id))
                 .onSuccess {
-                    _uiState.value = _uiState
-                        .value
-                        ?.setInProgress(isDuplicatedId = it)
-                        ?.setInProgress(isCheckedIdDuplication = true)
+                    joinVerification = joinVerification.copy(
+                        idVerification = joinVerification.idVerification.copy(
+                            isCheckedDuplication = true,
+                            isDuplicated = it
+                        )
+                    )
+
+                    _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
                 }.onFailure {
                 }
         }
@@ -45,20 +57,32 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
         runCatching {
             Password(password)
         }.onSuccess {
-            _uiState.value = _uiState.value?.setInProgress(isValidPassword = true)
+            joinVerification = joinVerification.copy(
+                passwordVerification = joinVerification.passwordVerification.copy(isValid = true)
+            )
+            _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
         }.onFailure {
-            _uiState.value = _uiState.value?.setInProgress(isValidPassword = false)
+            joinVerification = joinVerification.copy(
+                passwordVerification = joinVerification.passwordVerification.copy(isValid = false)
+            )
+            _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
         }
         validatePasswordEquality(password, reInputPassword)
     }
 
     fun validatePasswordEquality(password: String, reInputPassword: String) {
-        _uiState.value =
-            _uiState.value?.setInProgress(isEqualReInputPassword = password == reInputPassword)
+        joinVerification = joinVerification.copy(
+            passwordVerification = joinVerification.passwordVerification.copy(
+                isEqualReInput = password == reInputPassword
+            )
+        )
+
+        _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
     }
 
     fun join(account: JoinAccountModel) {
         viewModelScope.launch {
+            _uiState.value = JoinUiState.Loading
             accountRepository.postJoin(
                 Account(
                     id = Id(account.id),

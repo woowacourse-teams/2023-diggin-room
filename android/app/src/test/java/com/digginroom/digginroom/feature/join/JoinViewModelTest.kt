@@ -57,6 +57,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isValidId
 
         // then
@@ -66,7 +67,7 @@ class JoinViewModelTest {
     }
 
     @Test
-    fun `아이디 유효성 검증 성공 시 유효하지 않은 아이디이다`() {
+    fun `아이디 유효성 검증 실패 시 유효하지 않은 아이디이다`() {
         // given
         val id = INVALID_ID
 
@@ -75,11 +76,11 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isValidId
 
         // then
         val expected = false
-
         assertEquals(expected, actual)
     }
 
@@ -93,6 +94,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isJoinAble
 
         // then
@@ -114,6 +116,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isCheckedIdDuplication
 
         // then
@@ -136,6 +139,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isDuplicatedId
 
         // then
@@ -158,6 +162,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isJoinAble
 
         // then
@@ -176,6 +181,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isValidPassword
 
         // then
@@ -195,6 +201,7 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isValidPassword
 
         // then
@@ -213,22 +220,28 @@ class JoinViewModelTest {
         val actual = joinViewModel
             .uiState
             .value
+            ?.joinVerification
             ?.isJoinAble
 
         // then
         val expected = false
+
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `재입력한 비밀번호와 기존에 입력한 비밀번호가 일치하지 않은 경우 비밀번호 동일성이 보장되지 않은 비밀번호이다`() {
+    fun `재입력한 비밀번호와 기존에 입력한 비밀번호가 일치하지 않은 경우 비밀번호 동일하지 않은 비밀번호이다`() {
         // given
         val password = VALID_PASSWORD
         val reInputPassword = INVALID_PASSWORD
 
         // when
         joinViewModel.validatePasswordEquality(password, reInputPassword)
-        val actual = joinViewModel.uiState.value?.isEqualReInputPassword
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.joinVerification
+            ?.isEqualReInputPassword
 
         // then
         val expected = false
@@ -244,10 +257,15 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validatePasswordEquality(password, reInputPassword)
-        val actual = joinViewModel.uiState.value?.isJoinAble
+        val actual = joinViewModel
+            .uiState
+            .value
+            ?.joinVerification
+            ?.isJoinAble
 
         // then
         val expected = false
+
         assertEquals(expected, actual)
     }
 

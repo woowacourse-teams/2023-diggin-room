@@ -46,9 +46,7 @@ class JoinActivity : AppCompatActivity() {
                     LoginActivity.start(this)
                 }
                 is JoinUiState.Failed -> {
-                    binding.joinEtInputId.setText(it.account.id)
-                    binding.joinEtInputPassword.setText(it.account.password)
-                    binding.joinEtReInputPassword.setText(it.account.reInputPassword)
+                    binding.account = it.account
                 }
 
                 else -> {}
