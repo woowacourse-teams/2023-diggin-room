@@ -72,8 +72,9 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
 
     fun validatePasswordEquality(password: String, reInputPassword: String) {
         joinVerification = joinVerification.copy(
-            passwordVerification = joinVerification.passwordVerification.copy(
-                isEqualReInput = password == reInputPassword
+            passwordVerification = joinVerification.passwordVerification.checkIsEqualReInput(
+                password = password,
+                reInputPassword = reInputPassword
             )
         )
 
