@@ -34,12 +34,12 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-            commentDialog.show(supportFragmentManager, id)
-        }, openInfo = { track ->
-            roomInfoDialog.show(supportFragmentManager, track)
-        }, openScrap = {
-            ScrapListActivity.start(this)
-        })
+                commentDialog.show(supportFragmentManager, id)
+            }, openInfo = { track ->
+                roomInfoDialog.show(supportFragmentManager, track)
+            }, openScrap = {
+                ScrapListActivity.start(this)
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

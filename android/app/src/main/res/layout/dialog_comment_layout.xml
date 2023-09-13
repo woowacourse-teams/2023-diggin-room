@@ -20,7 +20,7 @@
 
         <variable
             name="postComment"
-            type="kotlin.jvm.functions.Function1" />
+            type="kotlin.jvm.functions.Function2" />
 
         <variable
             name="commentViewModel"
@@ -96,7 +96,7 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:enabled="@{!TextUtils.isEmpty(currentComment)}"
-            android:onClick="@{() -> commentViewModel.postComment(roomId, currentComment)}"
+            android:onClick="@{() -> postComment.invoke(roomId, currentComment)}"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/send_button_selector"

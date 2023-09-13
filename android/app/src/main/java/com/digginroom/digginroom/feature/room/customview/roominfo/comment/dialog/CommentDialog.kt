@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentPostState
 import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.customview.roominfo.comment.adapter.CommentAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener.CommentMenuEvent
+import com.digginroom.digginroom.model.CommentModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CommentDialog : BottomSheetDialogFragment() {
@@ -26,42 +27,9 @@ class CommentDialog : BottomSheetDialogFragment() {
     ): View {
         binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-        binding.commentViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(inflater.context).commentViewModelFactory
-        )[CommentViewModel::class.java]
-        binding.postComment = {
-            when (commentPostState) {
-                CommentPostState.Post -> binding.commentViewModel?.postComment(
-                    binding.roomId!!,
-                    binding.currentComment!!
-                )
-
-                is CommentPostState.Update -> binding.commentViewModel?.updateComment(
-                    binding.roomId!!,
-                    (commentPostState as CommentPostState.Update).commentId,
-                    binding.currentComment!!
-                )
-            }
-        }
-        binding.adapter = CommentAdapter { comment ->
-            CommentMenuDialog(object : CommentMenuEvent {
-                override fun update() {
-                    commentPostState = CommentPostState.Update(comment.id)
-                }
-
-                override fun delete() {
-                    DeleteCommentAlertDialog {
-                        binding.roomId?.let {
-                            binding.commentViewModel?.deleteComment(
-                                it,
-                                comment.id
-                            )
-                        }
-                    }.show(parentFragmentManager, "DeleteCommentAlertDialog")
-                }
-            }).show(parentFragmentManager, "CommentMenuDialog")
-        }
+        binding.commentViewModel = makeViewModel(inflater.context)
+        binding.postComment = ::processPostComment
+        binding.adapter = CommentAdapter(::showCommentMenuDialog)
         isCancelable = true
         return binding.root
     }
@@ -70,5 +38,63 @@ class CommentDialog : BottomSheetDialogFragment() {
         showNow(fragmentManager, "CommentDialog")
         binding.commentViewModel?.findComments(id)
         binding.roomId = id
+    }
+
+    private fun makeViewModel(context: Context): CommentViewModel {
+        return ViewModelProvider(
+            this,
+            ViewModelFactory.getInstance(context).commentViewModelFactory
+        )[CommentViewModel::class.java]
+    }
+
+    private fun processPostComment(roomId: Long, currentComment: String) {
+        when (commentPostState) {
+            CommentPostState.Post -> postComment(roomId, currentComment)
+
+            is CommentPostState.Update -> updateComment(roomId, currentComment)
+        }
+    }
+
+    private fun postComment(roomId: Long, currentComment: String) {
+        binding.commentViewModel?.postComment(
+            roomId,
+            currentComment
+        )
+    }
+
+    private fun updateComment(roomId: Long, currentComment: String) {
+        binding.commentViewModel?.updateComment(
+            roomId,
+            (commentPostState as CommentPostState.Update).commentId,
+            currentComment
+        )
+    }
+
+    private fun showCommentMenuDialog(comment: CommentModel) {
+        CommentMenuDialog(
+            CommentMenuUiState(update = {
+                updateCommentPostState(comment)
+            }, delete = {
+                    showCommentDeleteAlertDialog(comment)
+                })
+        ).show(parentFragmentManager, "CommentMenuDialog")
+    }
+
+    private fun updateCommentPostState(comment: CommentModel) {
+        commentPostState = CommentPostState.Update(comment.id)
+    }
+
+    private fun showCommentDeleteAlertDialog(comment: CommentModel) {
+        CommentDeleteAlertDialog(
+            CommentDeleteAlertUiState(deleteComment = {
+                binding.roomId?.let {
+                    binding.commentViewModel?.deleteComment(
+                        it,
+                        comment.id
+                    )
+                }
+            }, dismissParentDialog = {
+                })
+        ).show(parentFragmentManager, "DeleteCommentAlertDialog")
     }
 }
