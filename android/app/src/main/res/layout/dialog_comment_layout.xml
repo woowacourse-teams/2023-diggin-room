@@ -10,39 +10,16 @@
 
         <variable
             name="commentViewModel"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel" />
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter" />
-
-        <variable
-            name="commentEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener" />
-
-        <variable
-            name="requestResultListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.RequestResultListener" />
-
-        <variable
-            name="showMenuListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener" />
-
-        <variable
-            name="selectedCommentId"
-            type="long" />
-
-        <variable
-            name="selectedPosition"
-            type="int" />
+            type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.adapter.CommentAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:requestResultListener="@{requestResultListener}"
-        app:commentRequestState="@{commentViewModel.commentRequestState}"
-        app:onShowMessage="@{commentViewModel::stopMessage}">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
@@ -58,8 +35,7 @@
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:onMenuClick="@{showMenuListener}" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:layout_width="0dp"
@@ -94,7 +70,6 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
             android:text="@={commentViewModel.writtenComment}"
-            app:commentRequestState="@{commentViewModel.commentRequestState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
             app:layout_constraintStart_toStartOf="parent" />
@@ -111,13 +86,8 @@
             android:scaleType="centerInside"
             android:src="@drawable/send_button_selector"
             android:textColor="@color/white"
-            app:clickListener="@{commentEventListener}"
-            app:comment="@{commentViewModel.writtenComment}"
-            app:commentState="@{commentViewModel.commentActionState}"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:selectedCommentId="@{selectedCommentId}"
-            app:selectedPosition="@{selectedPosition}" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

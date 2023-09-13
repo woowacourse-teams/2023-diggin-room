@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview
+package com.digginroom.digginroom.feature.room.customview.roominfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import com.digginroom.digginroom.model.TrackModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class RoomInfoDialog : BottomSheetDialogFragment() {
+
     private lateinit var binding: DialogTrackInfoLayoutBinding
 
     override fun onCreateView(
@@ -22,8 +23,8 @@ class RoomInfoDialog : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    fun show(fragmentManager: FragmentManager, track: TrackModel) {
-        binding.trackModel = track
-        show(fragmentManager, "")
+    fun show(fragmentManager: FragmentManager, trackModel: TrackModel) {
+        showNow(fragmentManager, "")
+        binding.trackModel = trackModel
     }
 }

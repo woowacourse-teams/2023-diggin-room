@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.feature.room.customview
 
 import android.content.Context
+import com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.TrackModel
@@ -10,7 +11,8 @@ class RoomPagerAdapter(
     var rooms: List<RoomModel> = emptyList(),
     private val loadNextRoom: () -> Unit,
     private val openComment: (Long) -> Unit,
-    private val openInfo: (TrackModel) -> Unit
+    private val openInfo: (TrackModel) -> Unit,
+    private val openScrap: () -> Unit
 ) : Adapter<YoutubeRoomPlayer> {
 
     private var viewHolders: List<YoutubeRoomPlayer> = emptyList()
@@ -69,7 +71,15 @@ class RoomPagerAdapter(
         val target = repeat(center + position, 3)
         val room = viewHolders[target]
         if (rooms.size > currentRoomPosition + position && currentRoomPosition + position >= 0) {
-            room.navigate(rooms[currentRoomPosition + position])
+            room.navigate(
+                RoomInfoUiState(
+                    rooms[currentRoomPosition + position],
+                    openComment,
+                    openInfo,
+                    openScrap
+                )
+
+            )
         }
     }
 

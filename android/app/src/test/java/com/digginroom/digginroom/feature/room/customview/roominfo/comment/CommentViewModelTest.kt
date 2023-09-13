@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment
+package com.digginroom.digginroom.feature.room.customview.roominfo.comment
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.digginroom.digginroom.fixture.CommentFixture.Comment

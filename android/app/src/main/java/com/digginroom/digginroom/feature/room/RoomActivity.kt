@@ -10,9 +10,10 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.RoomPagerAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
+import com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoDialog
+import com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
+import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.model.RoomsModel
 
 class RoomActivity : AppCompatActivity() {
@@ -33,10 +34,12 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-                commentDialog.show(supportFragmentManager, id)
-            }, openInfo = { track ->
-                roomInfoDialog.show(supportFragmentManager, track)
-            })
+            commentDialog.show(supportFragmentManager, id)
+        }, openInfo = { track ->
+            roomInfoDialog.show(supportFragmentManager, track)
+        }, openScrap = {
+            ScrapListActivity.start(this)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

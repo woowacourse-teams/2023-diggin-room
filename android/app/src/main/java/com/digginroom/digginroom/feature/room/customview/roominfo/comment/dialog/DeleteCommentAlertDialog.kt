@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog
+package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
 
 import android.app.Dialog
 import android.os.Bundle

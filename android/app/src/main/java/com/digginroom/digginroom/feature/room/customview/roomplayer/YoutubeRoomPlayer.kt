@@ -9,7 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import com.digginroom.digginroom.databinding.ItemRoomInfoBinding
-import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 import java.io.ByteArrayInputStream
 import java.io.InputStream
@@ -39,18 +39,17 @@ class YoutubeRoomPlayer(
         webView.loadUrl("javascript:pause()")
     }
 
-    override fun navigate(room: RoomModel) {
-        println(room)
-        roomInfoBinding.room = room
+    override fun navigate(roomInfoUiState: RoomInfoUiState) {
+        roomInfoBinding.roomInfoUiState = roomInfoUiState
 
-        if (videoId == room.videoId) {
+        if (videoId == roomInfoUiState.roomModel.videoId) {
             return
         }
 
         if (isPlayerLoaded) {
-            webView.loadUrl("javascript:navigate(\"${room.videoId}\")")
+            webView.loadUrl("javascript:navigate(\"${roomInfoUiState.roomModel.videoId}\")")
         }
-        videoId = room.videoId
+        videoId = roomInfoUiState.roomModel.videoId
     }
 
     private fun initLayout() {

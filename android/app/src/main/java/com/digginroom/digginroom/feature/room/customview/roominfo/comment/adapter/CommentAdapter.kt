@@ -1,8 +1,8 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter
+package com.digginroom.digginroom.feature.room.customview.roominfo.comment.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener
+import com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener.ShowCommentMenuListener
 import com.digginroom.digginroom.model.CommentModel
 
 class CommentAdapter : ListAdapter<CommentModel, CommentViewHolder>(CommentDiffUtilCallback()) {

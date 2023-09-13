@@ -8,7 +8,7 @@ import com.digginroom.digginroom.feature.genretaste.GenreTasteViewModel
 import com.digginroom.digginroom.feature.join.JoinViewModel
 import com.digginroom.digginroom.feature.login.LoginViewModel
 import com.digginroom.digginroom.feature.room.RoomViewModel
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
 import com.digginroom.digginroom.feature.splash.SplashViewModel
 

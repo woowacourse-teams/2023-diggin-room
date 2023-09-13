@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment
+package com.digginroom.digginroom.feature.room.customview.roominfo.comment
 
 sealed interface CommentRequestState {
     object Loading : CommentRequestState

@@ -1,7 +1,7 @@
-package com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener
+package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener
 
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentActionState
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentActionState
+import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel
 
 class DefaultCommentEventListener(val commentViewModel: CommentViewModel, val roomId: Long) :
     CommentEventListener {
