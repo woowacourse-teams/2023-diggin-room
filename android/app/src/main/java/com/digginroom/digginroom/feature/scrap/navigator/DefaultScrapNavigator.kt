@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.feature.scrap.navigator
 
 import android.content.Context
-import com.digginroom.digginroom.feature.scrap.activity.ScrapRoomActivity
+import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.RoomsModel
 
@@ -13,7 +13,7 @@ class DefaultScrapNavigator(
         rooms: List<RoomModel>,
         position: Int
     ) {
-        ScrapRoomActivity.start(
+        RoomActivity.start(
             context = context,
             rooms = RoomsModel(rooms),
             position = position

@@ -27,8 +27,4 @@ class CommentMenuDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.commentMenuEventListener = eventListener
     }
-
-    fun updateEventListener(eventListener: CommentMenuEventListener) {
-        this.eventListener = eventListener
-    }
 }

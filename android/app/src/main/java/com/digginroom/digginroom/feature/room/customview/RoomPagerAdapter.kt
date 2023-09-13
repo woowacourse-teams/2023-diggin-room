@@ -3,22 +3,22 @@ package com.digginroom.digginroom.feature.room.customview
 import android.content.Context
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.TrackModel
 import com.dygames.roompager.Adapter
 
 class RoomPagerAdapter(
-    private val gridSize: Int,
     var rooms: List<RoomModel> = emptyList(),
     private val loadNextRoom: () -> Unit,
-) : Adapter {
+    private val openComment: (Long) -> Unit,
+    private val openInfo: (TrackModel) -> Unit
+) : Adapter<YoutubeRoomPlayer> {
 
     private var viewHolders: List<YoutubeRoomPlayer> = emptyList()
 
-    override fun createViewHolder(context: Context): Adapter.ViewHolder =
+    override fun createViewHolder(context: Context): YoutubeRoomPlayer =
         YoutubeRoomPlayer(context) {
             play()
         }
-
-    override fun getGridSize(): Int = gridSize
 
     override fun getItemCount(): Int = rooms.size
 
@@ -36,10 +36,8 @@ class RoomPagerAdapter(
     }
 
     fun setData(data: List<RoomModel>) {
+        rooms = data
         if (rooms.isEmpty()) {
-            rooms = data
-            navigateRooms(0)
-        } else {
             rooms = data
         }
     }
@@ -68,7 +66,7 @@ class RoomPagerAdapter(
 
     private fun navigateRoom(position: Int, currentRoomPosition: Int) {
         val center = 1
-        val target = repeat(center + position, gridSize)
+        val target = repeat(center + position, 3)
         val room = viewHolders[target]
         if (rooms.size > currentRoomPosition + position && currentRoomPosition + position >= 0) {
             room.navigate(rooms[currentRoomPosition + position])

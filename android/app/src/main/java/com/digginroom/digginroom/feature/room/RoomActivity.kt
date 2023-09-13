@@ -10,10 +10,10 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.customview.RoomPagerAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfoview.TrackInfoDialog
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoDialog
 import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
+import com.digginroom.digginroom.model.RoomsModel
 
 class RoomActivity : AppCompatActivity() {
 
@@ -26,19 +26,17 @@ class RoomActivity : AppCompatActivity() {
         )[RoomViewModel::class.java]
     }
 
-    private val commentViewModel: CommentViewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(applicationContext).commentViewModelFactory
-        )[CommentViewModel::class.java]
-    }
-    private val trackInfoDialog: TrackInfoDialog = TrackInfoDialog()
+    private val roomInfoDialog: RoomInfoDialog = RoomInfoDialog()
     private val commentDialog: CommentDialog = CommentDialog()
 
-    private val roomPagerAdapter by lazy {
-        RoomPagerAdapter(3) {
+    private val roomPagerAdapter: RoomPagerAdapter by lazy {
+        RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
-        }
+        }, openComment = { id ->
+                commentDialog.show(supportFragmentManager, id)
+            }, openInfo = { track ->
+                roomInfoDialog.show(supportFragmentManager, track)
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,8 +76,24 @@ class RoomActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        private const val KEY_ROOMS = "rooms"
+        private const val KEY_INITIAL_POSITION = "initial_position"
+        private const val DEFAULT_POSITION = 0
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun start(
+            context: Context,
+            rooms: RoomsModel,
+            position: Int
+        ) {
+            val intent = Intent(context, RoomActivity::class.java).apply {
+                putExtra(KEY_ROOMS, rooms)
+                putExtra(KEY_INITIAL_POSITION, position)
+            }
             context.startActivity(intent)
         }
     }

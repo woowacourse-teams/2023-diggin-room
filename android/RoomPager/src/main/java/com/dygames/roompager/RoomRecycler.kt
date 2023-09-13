@@ -14,14 +14,14 @@ class RoomRecycler(
     private val gridSize: Int
 ) : GridLayout(context) {
 
-    private lateinit var adapter: Adapter
+    private lateinit var adapter: Adapter<Adapter.ViewHolder>
     private val viewHolders: List<Adapter.ViewHolder> by lazy {
         (0 until gridSize).map {
             adapter.createViewHolder(context)
         }
     }
 
-    fun setAdapter(adapter: Adapter) {
+    fun setAdapter(adapter: Adapter<Adapter.ViewHolder>) {
         this.adapter = adapter
 
         initLayout()

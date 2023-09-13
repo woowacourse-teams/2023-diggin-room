@@ -8,7 +8,7 @@
 
         <variable
             name="adapter"
-            type="com.dygames.roompager.Adapter" />
+            type="com.dygames.roompager.Adapter&lt;com.dygames.roompager.Adapter.ViewHolder>" />
 
         <variable
             name="roomViewModel"

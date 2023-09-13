@@ -1,23 +1,26 @@
 package com.digginroom.digginroom.feature.room.customview.roomplayer
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
-import com.digginroom.digginroom.feature.room.customview.YoutubeRoomPlayerUIState
-import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
+import com.digginroom.digginroom.databinding.ItemRoomInfoBinding
 import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 class YoutubeRoomPlayer(
-    context: Context, private val onYoutubePlay: () -> Unit
+    context: Context,
+    private val onYoutubePlay: () -> Unit
 ) : FrameLayout(context), RoomPlayer {
 
-    private val roomInfoView: RoomInfoView = RoomInfoView(context)
+    private val roomInfoBinding: ItemRoomInfoBinding =
+        ItemRoomInfoBinding.inflate(LayoutInflater.from(context))
     private val webView: WebView = WebView(context)
 
     private var videoId = ""
@@ -26,10 +29,6 @@ class YoutubeRoomPlayer(
     init {
         initLayout()
         initYoutubePlayer()
-    }
-
-    fun setUIState(youtubeRoomPlayerUIState: YoutubeRoomPlayerUIState) {
-        roomInfoView.setUIState(youtubeRoomPlayerUIState)
     }
 
     override fun play() {
@@ -41,7 +40,8 @@ class YoutubeRoomPlayer(
     }
 
     override fun navigate(room: RoomModel) {
-        roomInfoView.setRoomInfo(room)
+        println(room)
+        roomInfoBinding.room = room
 
         if (videoId == room.videoId) {
             return
@@ -55,7 +55,8 @@ class YoutubeRoomPlayer(
 
     private fun initLayout() {
         addView(webView)
-        addView(roomInfoView)
+        roomInfoBinding.scrapCountFormatter = ScrapCountFormatter
+        addView(roomInfoBinding.root)
         preventTouchEvent()
     }
 
@@ -176,10 +177,11 @@ class YoutubeRoomPlayer(
         webView.settings.mediaPlaybackRequiresUserGesture = false
         webView.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(
-                view: WebView?, request: WebResourceRequest?
+                view: WebView?,
+                request: WebResourceRequest?
             ): WebResourceResponse? {
                 if (request?.url.toString().contains("ad.youtube.com") || request?.url.toString()
-                        .contains("ads.youtube.com")
+                    .contains("ads.youtube.com")
                 ) {
                     val textStream = ByteArrayInputStream("".toByteArray())
                     return getTextWebResource(textStream)
@@ -212,7 +214,8 @@ class YoutubeRoomPlayer(
                         onYoutubePlay()
                     }
                 }
-            }, "Player"
+            },
+            "Player"
         )
     }
 }

@@ -21,7 +21,7 @@ class RoomPager(
     var lastPagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
     var isNextRoomLoadable: Boolean = true
 
-    fun setAdapter(adapter: Adapter) {
+    fun setAdapter(adapter: Adapter<Adapter.ViewHolder>) {
         roomRecycler.setAdapter(adapter)
 
         initVerticalScrollView()
