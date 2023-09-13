@@ -1,10 +1,9 @@
-package com.digginroom.digginroom.feature.room.bindingadapter
+package com.digginroom.digginroom.feature.room.customview.scraptoggle
 
 import androidx.databinding.BindingAdapter
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
 
-object RoomInfoBindingAdapter {
+object ScrapToggleBindingAdapter {
     @JvmStatic
     @BindingAdapter("app:isScrapped")
     fun isScrapped(scrapToggle: ScrapToggle, isScrapped: Boolean) {

@@ -6,8 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 
 class DeleteCommentAlertDialog(
-    private val onClickDeleteComment: () -> Unit,
-    private val dismissCommentMenu: () -> Unit
+    private val onClickDeleteComment: () -> Unit
 ) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -16,9 +15,9 @@ class DeleteCommentAlertDialog(
             builder.setMessage(ALERT_DIALOG_MESSAGE)
                 .setPositiveButton(ALERT_DIALOG_POSITIVE_MESSAGE) { _, _ ->
                     onClickDeleteComment()
-                    dismissCommentMenu()
+                    (parentFragment as? DialogFragment)?.dismiss()
                 }.setNegativeButton(ALERT_DIALOG_NEGATIVE_MESSAGE) { _, _ ->
-                    dismissCommentMenu()
+                    (parentFragment as? DialogFragment)?.dismiss()
                 }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

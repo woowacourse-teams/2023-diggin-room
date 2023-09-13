@@ -114,7 +114,7 @@ class CommentViewModelTest {
 
         // when
         commentViewModel.findComments(roomId)
-        commentViewModel.deleteComment(roomId, commentId, deletedPosition)
+        commentViewModel.deleteComment(roomId, commentId)
 
         // then
         val actual = commentViewModel.comments.value ?: listOf()

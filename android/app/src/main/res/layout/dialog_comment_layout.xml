@@ -8,6 +8,20 @@
 
         <import type="android.view.View" />
 
+        <import type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentState" />
+
+        <variable
+            name="roomId"
+            type="java.lang.Long" />
+
+        <variable
+            name="currentComment"
+            type="java.lang.String" />
+
+        <variable
+            name="postComment"
+            type="kotlin.jvm.functions.Function1" />
+
         <variable
             name="commentViewModel"
             type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel" />
@@ -29,8 +43,8 @@
             android:adapter="@{adapter}"
             android:orientation="vertical"
             android:paddingTop="8dp"
-            android:visibility="@{(commentViewModel.comments.size() > 0) ? View.VISIBLE : View.GONE}"
-            app:comments="@{commentViewModel.comments}"
+            android:visibility="@{((commentViewModel.commentState instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
+            app:comments="@{commentViewModel.commentState}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
@@ -43,7 +57,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/dialog_comment_empty_comment"
-            android:visibility="@{(commentViewModel.comments.size() > 0) ? View.GONE : View.VISIBLE}"
+            android:visibility="@{((commentViewModel.commentState instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +83,7 @@
             android:inputType="text"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
-            android:text="@={commentViewModel.writtenComment}"
+            android:text="@={currentComment}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
             app:layout_constraintStart_toStartOf="parent" />
@@ -81,7 +95,8 @@
             android:layout_marginEnd="10dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:enabled="@{!TextUtils.isEmpty(commentViewModel.writtenComment)}"
+            android:enabled="@{!TextUtils.isEmpty(currentComment)}"
+            android:onClick="@{() -> commentViewModel.postComment(roomId, currentComment)}"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/send_button_selector"

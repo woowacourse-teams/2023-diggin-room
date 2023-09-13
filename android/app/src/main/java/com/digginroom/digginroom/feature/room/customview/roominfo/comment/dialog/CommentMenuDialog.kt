@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.digginroom.digginroom.databinding.DialogCommentMenuLayoutBinding
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener.CommentMenuEventListener
+import com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener.CommentMenuEvent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class CommentMenuDialog : BottomSheetDialogFragment() {
+class CommentMenuDialog(
+    private val commentMenuEvent: CommentMenuEvent
+) : BottomSheetDialogFragment() {
     lateinit var binding: DialogCommentMenuLayoutBinding
-    private lateinit var eventListener: CommentMenuEventListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +26,6 @@ class CommentMenuDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.commentMenuEventListener = eventListener
+        binding.commentMenuEvent = commentMenuEvent
     }
 }

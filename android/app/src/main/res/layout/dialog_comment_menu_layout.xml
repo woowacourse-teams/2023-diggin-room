@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="commentMenuEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener.CommentMenuEventListener" />
+            name="commentMenuEvent"
+            type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.listener.CommentMenuEvent" />
 
     </data>
 
@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->commentMenuEventListener.update()}"
+            android:onClick="@{()->commentMenuEvent.update()}"
             android:padding="20dp">
 
             <ImageView
@@ -45,7 +45,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->commentMenuEventListener.delete()}"
+            android:onClick="@{()->commentMenuEvent.delete()}"
             android:padding="20dp">
 
             <ImageView

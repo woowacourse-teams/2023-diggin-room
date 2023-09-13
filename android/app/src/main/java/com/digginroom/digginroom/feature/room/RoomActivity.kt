@@ -82,7 +82,6 @@ class RoomActivity : AppCompatActivity() {
 
         private const val KEY_ROOMS = "rooms"
         private const val KEY_INITIAL_POSITION = "initial_position"
-        private const val DEFAULT_POSITION = 0
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
             context.startActivity(intent)

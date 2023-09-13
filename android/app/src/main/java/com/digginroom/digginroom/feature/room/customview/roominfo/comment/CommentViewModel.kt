@@ -4,97 +4,72 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.livedata.NonNullMutableLiveData
-import com.digginroom.digginroom.model.CommentModel
+import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
-import com.digginroom.digginroom.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class CommentViewModel(
-    private val commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
+    private var comments: List<Comment> = emptyList()
 ) : ViewModel() {
 
-    private val _comments: NonNullMutableLiveData<List<CommentModel>> = NonNullMutableLiveData(
-        emptyList()
-    )
-    val comments: LiveData<List<CommentModel>>
-        get() = _comments
-
-    val writtenComment: NonNullMutableLiveData<String> = NonNullMutableLiveData("")
-
-    private val _commentActionState: MutableLiveData<CommentActionState> =
-        MutableLiveData(CommentActionState.Post)
-    val commentActionState: LiveData<CommentActionState> get() = _commentActionState
-    private val _commentRequestState: SingleLiveEvent<CommentRequestState> =
-        SingleLiveEvent()
-    val commentRequestState: LiveData<CommentRequestState> get() = _commentRequestState
+    private val _commentState: MutableLiveData<CommentState> = MutableLiveData(CommentState.Loading)
+    val commentState: LiveData<CommentState> get() = _commentState
 
     fun findComments(roomId: Long) {
-        writtenComment.value = ""
+        if (_commentState.value == CommentState.Loading) return
+        _commentState.value = CommentState.Loading
         viewModelScope.launch {
-            commentRepository.findComments(roomId).onSuccess { comments ->
-                _comments.value = comments.map { it.toModel() }
+            commentRepository.findComments(roomId).onSuccess { newComments ->
+                comments = newComments
+                _commentState.value = CommentState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentRequestState.value = CommentRequestState.Failed(FIND_COMMENT_FAILED)
+                _commentState.value = CommentState.Failed(FIND_COMMENT_FAILED)
             }
         }
     }
 
     fun postComment(roomId: Long, comment: String) {
-        if (commentRequestState.value == CommentRequestState.Loading) return
-        _commentRequestState.value = CommentRequestState.Loading
+        if (_commentState.value == CommentState.Loading) return
+        _commentState.value = CommentState.Loading
         viewModelScope.launch {
-            commentRepository.postComment(roomId, comment).onSuccess {
-                _comments.value = _comments.value + it.toModel()
-                _commentRequestState.value = CommentRequestState.Done
+            commentRepository.postComment(roomId, comment).onSuccess { comment ->
+                comments = comments + comment
+                _commentState.value = CommentState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentRequestState.value = CommentRequestState.Failed(POST_COMMENT_FAILED)
+                _commentState.value = CommentState.Failed(POST_COMMENT_FAILED)
             }
         }
     }
 
-    fun updateWrittenComment(roomId: Long, commentId: Long, comment: String, updatePosition: Int) {
-        if (commentRequestState.value == CommentRequestState.Loading) return
-        _commentRequestState.value = CommentRequestState.Loading
+    fun updateComment(roomId: Long, commentId: Long, comment: String) {
+        if (_commentState.value == CommentState.Loading) return
+        _commentState.value = CommentState.Loading
         viewModelScope.launch {
             commentRepository.updateComment(roomId, commentId, comment).onSuccess {
-                _comments.value = _comments.value.toMutableList().apply {
-                    this[updatePosition] = this[updatePosition].copy(comment = comment)
+                comments = comments.toMutableList().apply {
+                    val index = indexOfFirst { it.id == commentId }
+                    this[index] = this[index].copy(comment = comment)
                 }
-                _commentActionState.value = CommentActionState.Post
+                _commentState.value = CommentState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentActionState.value = CommentActionState.Post
-                _commentRequestState.value = CommentRequestState.Failed(UPDATE_COMMENT_FAILED)
+                _commentState.value = CommentState.Failed(UPDATE_COMMENT_FAILED)
             }
         }
     }
 
-    fun deleteComment(roomId: Long, commentId: Long, deletePosition: Int) {
+    fun deleteComment(roomId: Long, commentId: Long) {
+        if (_commentState.value == CommentState.Loading) return
+        _commentState.value = CommentState.Loading
         viewModelScope.launch {
             commentRepository.deleteComment(roomId, commentId).onSuccess {
-                _comments.value =
-                    _comments.value.filterIndexed { index, _ -> index != deletePosition }
+                comments = comments.filter { it.id != commentId }
+                _commentState.value = CommentState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentRequestState.value = CommentRequestState.Failed(DELETE_COMMENT_FAILED)
+                _commentState.value = CommentState.Failed(DELETE_COMMENT_FAILED)
             }
         }
-    }
-
-    fun startUpdatingComment() {
-        _commentActionState.value = CommentActionState.Update
-    }
-
-    fun updateWrittenComment(comment: String) {
-        this.writtenComment.value = comment
-    }
-
-    fun updateCommentState(commentState: CommentActionState) {
-        _commentActionState.value = commentState
-    }
-
-    fun stopMessage() {
-        _commentRequestState.call()
     }
 
     companion object {
