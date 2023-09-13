@@ -1,6 +1,8 @@
 package com.digginroom.model.join
 
 import com.digginroom.digginroom.model.user.IdVerification
+import com.digginroom.model.AccountFixture.INVALID_ID
+import com.digginroom.model.AccountFixture.VALID_ID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -88,11 +90,5 @@ class IdVerificationTest {
         val expected = true
 
         assertEquals(expected, actual)
-    }
-
-    companion object {
-
-        private const val INVALID_ID = "abc"
-        private const val VALID_ID = "jinuk99"
     }
 }

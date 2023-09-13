@@ -1,6 +1,8 @@
 package com.digginroom.model.join
 
 import com.digginroom.digginroom.model.user.PasswordVerification
+import com.digginroom.model.AccountFixture.INVALID_PASSWORD
+import com.digginroom.model.AccountFixture.VALID_PASSWORD
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -72,11 +74,5 @@ class PasswordVerificationTest {
         val expected = true
 
         assertEquals(expected, actual)
-    }
-
-    companion object {
-
-        private const val INVALID_PASSWORD = "abc"
-        private const val VALID_PASSWORD = "test1234!"
     }
 }
