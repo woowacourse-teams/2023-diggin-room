@@ -9,7 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
-import com.digginroom.digginroom.feature.join.navigator.DefaultJoinNavigator
+import com.digginroom.digginroom.feature.login.LoginActivity
+import com.digginroom.digginroom.model.JoinAccountModel
 
 class JoinActivity : AppCompatActivity() {
 
@@ -25,23 +26,32 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initJoinBinding()
+        initJoinStateObserver()
     }
 
     private fun initJoinBinding() {
         binding =
             DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
-                it.navigator = DefaultJoinNavigator(this)
-                it.resultListener = JoinResultListener(
-                    context = this,
-                    inputTexts = listOf(
-                        it.joinEtInputId,
-                        it.joinEtInputPassword,
-                        it.joinEtReInputPassword
-                    )
-                )
+                it.account = JoinAccountModel()
                 it.viewModel = joinViewModel
             }
+    }
+
+    private fun initJoinStateObserver() {
+        joinViewModel.uiState.observe(this) {
+            when (it) {
+                is JoinUiState.Succeed -> {
+                    finish()
+                    LoginActivity.start(this)
+                }
+                is JoinUiState.Failed -> {
+                    binding.account = it.account
+                }
+
+                else -> {}
+            }
+        }
     }
 
     companion object {

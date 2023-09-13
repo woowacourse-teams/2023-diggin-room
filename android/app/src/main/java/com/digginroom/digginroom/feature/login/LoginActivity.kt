@@ -97,7 +97,9 @@ class LoginActivity : AppCompatActivity() {
         private const val RESULT_OK = -1
 
         fun start(context: Context) {
-            val intent = Intent(context, LoginActivity::class.java)
+            val intent = Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
 
             context.startActivity(intent)
         }

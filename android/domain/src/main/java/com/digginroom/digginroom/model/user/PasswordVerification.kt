@@ -18,9 +18,9 @@ data class PasswordVerification(
         return PasswordVerification(isValid)
     }
 
-    fun setIsEqualReInput(value: Boolean) =
+    fun checkIsEqualReInput(password: String, reInputPassword: String) =
         PasswordVerification(
             isValid = isValid,
-            isEqualReInput = value
+            isEqualReInput = password == reInputPassword
         )
 }

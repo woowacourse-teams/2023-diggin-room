@@ -1,11 +1,11 @@
 package com.digginroom.model.join
 
 import com.digginroom.digginroom.model.user.PasswordVerification
+import com.digginroom.model.AccountFixture.INVALID_PASSWORD
+import com.digginroom.model.AccountFixture.VALID_PASSWORD
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
 
 class PasswordVerificationTest {
 
@@ -44,16 +44,52 @@ class PasswordVerificationTest {
         assertEquals(expected, actual)
     }
 
-    @ParameterizedTest
-    @ValueSource(booleans = [true, false])
-    fun `password가 처음으로 입력한 비밀번호와 재입력한 비밀번호와의 동일성 여부를 설정한다`(isEqualReInputPassword: Boolean) {
+    @Test
+    fun `password가 규칙에 맞지 않는 형태라면 검증되지 않은 password이다`() {
         // given
+        val password = INVALID_PASSWORD
 
         // when
-        val actual = passwordVerification.setIsEqualReInput(isEqualReInputPassword).isEqualReInput
+        val actual = passwordVerification.checkIsValid(password).isVerified
 
         // then
-        val expected = isEqualReInputPassword
+        val expected = false
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `기존 password와 재입력한 password가 일치하지 않는다면 동일하지 않은 비밀번호이다`() {
+        // given
+        val inputPassword = VALID_PASSWORD
+        val reInputPassword = INVALID_PASSWORD
+
+        // when
+        val actual = passwordVerification.checkIsEqualReInput(
+            password = inputPassword,
+            reInputPassword = reInputPassword
+        ).isEqualReInput
+
+        // then
+        val expected = false
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `기존 password와 재입력한 password가 일치하지 않는다면 검증되지 않은 비밀번호이다`() {
+        // given
+        val inputPassword = VALID_PASSWORD
+        val reInputPassword = INVALID_PASSWORD
+
+        // when
+        val actual = passwordVerification.checkIsEqualReInput(
+            password = inputPassword,
+            reInputPassword = reInputPassword
+        ).isVerified
+
+        // then
+        val expected = false
 
         assertEquals(expected, actual)
     }
@@ -61,22 +97,18 @@ class PasswordVerificationTest {
     @Test
     fun `password 규칙 검사와 재입력한 비밀번호와의 동일성 여부가 검증이 되면 검증된 비밀번호이다`() {
         // given
-        val password = VALID_PASSWORD
+        val inputPassword = VALID_PASSWORD
+        val reInputPassword = VALID_PASSWORD
 
         // when
-        val actual = passwordVerification.checkIsValid(password)
-            .setIsEqualReInput(true)
-            .isVerified
+        val actual = passwordVerification.checkIsEqualReInput(
+            password = inputPassword,
+            reInputPassword = reInputPassword
+        ).isEqualReInput
 
         // then
         val expected = true
 
         assertEquals(expected, actual)
-    }
-
-    companion object {
-
-        private const val INVALID_PASSWORD = "abc"
-        private const val VALID_PASSWORD = "test1234!"
     }
 }
