@@ -7,7 +7,4 @@ data class JoinVerification(
 
     val isJoinAble: Boolean
         get() = idVerification.isVerified && passwordVerification.isVerified
-
-    fun setIdVerification(idVerification: IdVerification) {
-    }
 }
