@@ -17,9 +17,6 @@
             name="adapter"
             type="com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter" />
 
-        <variable
-            name="resultListener"
-            type="com.digginroom.digginroom.feature.ResultListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
