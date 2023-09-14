@@ -1,5 +1,6 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.member;
 
+import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.exception.GenreException.MemberGenreNotFoundException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;

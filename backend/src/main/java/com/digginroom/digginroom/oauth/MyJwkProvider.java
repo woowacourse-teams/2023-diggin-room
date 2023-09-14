@@ -2,7 +2,7 @@ package com.digginroom.digginroom.oauth;
 
 import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
-import com.digginroom.digginroom.domain.Provider;
+import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.exception.OAuthResolverException.InvalidJwkUrlException;
 import java.net.MalformedURLException;
 import java.net.URL;

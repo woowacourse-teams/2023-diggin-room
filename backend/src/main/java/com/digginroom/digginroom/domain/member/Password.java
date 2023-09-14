@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.member;
 
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
 import jakarta.persistence.Embeddable;

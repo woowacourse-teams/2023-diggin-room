@@ -3,10 +3,8 @@ package com.digginroom.digginroom.service;
 import static com.digginroom.digginroom.TestFixture.idTokenResolver;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.auth0.jwk.JwkProvider;
-import com.digginroom.digginroom.domain.Provider;
+import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.exception.OAuthResolverException.InvalidIdTokenException;
-import com.digginroom.digginroom.oauth.MyJwkProvider;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;

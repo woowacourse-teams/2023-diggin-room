@@ -11,7 +11,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.digginroom.digginroom.domain.Provider;
+import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.exception.OAuthResolverException.ExpireIdTokenException;
 import com.digginroom.digginroom.exception.OAuthResolverException.IdTokenNotReadableException;
 import com.digginroom.digginroom.exception.OAuthResolverException.InvalidIdTokenException;

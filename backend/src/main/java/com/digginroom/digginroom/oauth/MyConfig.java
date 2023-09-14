@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.oauth;
 
-import com.digginroom.digginroom.domain.Provider;
+import com.digginroom.digginroom.domain.member.Provider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

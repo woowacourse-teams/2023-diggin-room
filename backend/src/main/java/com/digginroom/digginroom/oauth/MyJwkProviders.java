@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.oauth;
 
 import com.auth0.jwk.JwkProvider;
-import com.digginroom.digginroom.domain.Provider;
+import com.digginroom.digginroom.domain.member.Provider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
