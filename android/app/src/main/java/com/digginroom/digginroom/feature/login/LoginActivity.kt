@@ -30,8 +30,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initLoginBinding()
-        initLoginStateObserver()
-        initGoogleLoginObserver()
+        initLoginObserver()
         initJoinClickListener()
     }
 
@@ -45,9 +44,17 @@ class LoginActivity : AppCompatActivity() {
                 }
     }
 
-    private fun initLoginStateObserver() {
+    private fun initLoginObserver() {
+        val googleLoginResultLauncher = getSocialLoginResultLauncher(SocialLogin.Google)
+
         loginViewModel.uiState.observe(this) {
             when (it) {
+                is LoginUiState.InProgress.GoogleLogin -> googleLoginResultLauncher.launch(
+                    SocialLogin.Google.getIntent(this)
+                )
+
+                is LoginUiState.InProgress.KaKaoLogin -> SocialLogin.KaKao.getIdToken(this)
+
                 is LoginUiState.Succeed.NotSurveyed -> {
                     finish()
                     GenreTasteActivity.start(this)
@@ -67,21 +74,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun initGoogleLoginObserver() {
-        val googleLoginResultLauncher = getSocialLoginResultLauncher(SocialLogin.Google)
-
-        loginViewModel.googleLoginEvent.observe(this) {
-            googleLoginResultLauncher.launch(SocialLogin.Google.getIntent(this))
-        }
-    }
-
-    private fun getSocialLoginResultLauncher(socialLogin: SocialLogin): ActivityResultLauncher<Intent> =
+    private fun getSocialLoginResultLauncher(googleLogin: SocialLogin.Google): ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                socialLogin
+                googleLogin
                     .getIdToken(result)
                     ?.let { idToken ->
-                        loginViewModel.login(idToken)
+                        loginViewModel.googleLogin(idToken)
                     }
             }
         }

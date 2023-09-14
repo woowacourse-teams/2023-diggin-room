@@ -4,6 +4,15 @@ import com.digginroom.digginroom.model.AccountModel
 
 sealed interface LoginUiState {
 
+    sealed interface InProgress: LoginUiState{
+
+        object Login : InProgress
+
+        object GoogleLogin : InProgress
+
+        object KaKaoLogin : InProgress
+    }
+
     object Loading : LoginUiState
 
     object Failed : LoginUiState {

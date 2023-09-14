@@ -28,7 +28,7 @@
             android:id="@+id/login_pb"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.uiState instanceof LoginUiState.Loading ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.uiState.value instanceof LoginUiState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:text="@string/login_check_account"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.uiState instanceof LoginUiState.Failed? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.uiState.value instanceof LoginUiState.Failed? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/login_button"
             app:layout_constraintEnd_toEndOf="@id/login_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/login_et_input_password" />
@@ -123,7 +123,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="45dp"
             android:background="@drawable/bg_gradient_blue_radius"
-            android:onClick="@{() -> viewModel.login(account)}"
+            android:onClick="@{() -> viewModel.startGoogleLogin()}"
             android:paddingVertical="16dp"
             android:text="@string/common_login"
             android:textColor="@color/white"
@@ -172,7 +172,22 @@
             android:onClick="@{() -> viewModel.startGoogleLogin()}"
             android:src="@drawable/ic_google_login"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/login_tv_forgot_account"
+            app:layout_constraintEnd_toStartOf="@+id/login_iv_kakao_login"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_tv_join" />
+
+        <ImageView
+            android:id="@+id/login_iv_kakao_login"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="90dp"
+            android:contentDescription="@string/login_google_login_img_description"
+            android:onClick="@{() -> viewModel.startKakaoLogin()}"
+            android:src="@drawable/ic_kakao_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/login_iv_google_login"
             app:layout_constraintTop_toBottomOf="@id/login_tv_join" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
