@@ -13,7 +13,7 @@ object CommentDialogBindingAdapter {
             is CommentState.Failed -> Unit
             CommentState.Loading -> Unit
             is CommentState.Succeed -> {
-                (recyclerView.adapter as CommentAdapter).submitList(
+                (recyclerView.adapter as? CommentAdapter)?.submitList(
                     comments.comments
                 )
             }

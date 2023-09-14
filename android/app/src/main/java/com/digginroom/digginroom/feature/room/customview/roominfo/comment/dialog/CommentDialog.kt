@@ -48,10 +48,14 @@ class CommentDialog : BottomSheetDialogFragment() {
     }
 
     private fun processPostComment(roomId: Long, currentComment: String) {
-        when (commentPostState) {
+        when (val commentPostState = commentPostState) {
             CommentPostState.Post -> postComment(roomId, currentComment)
 
-            is CommentPostState.Update -> updateComment(roomId, currentComment)
+            is CommentPostState.Update -> updateComment(
+                roomId,
+                commentPostState.commentId,
+                currentComment
+            )
         }
     }
 
@@ -62,10 +66,10 @@ class CommentDialog : BottomSheetDialogFragment() {
         )
     }
 
-    private fun updateComment(roomId: Long, currentComment: String) {
+    private fun updateComment(roomId: Long, commentId: Long, currentComment: String) {
         binding.commentViewModel?.updateComment(
             roomId,
-            (commentPostState as CommentPostState.Update).commentId,
+            commentId,
             currentComment
         )
     }
@@ -75,8 +79,8 @@ class CommentDialog : BottomSheetDialogFragment() {
             CommentMenuUiState(update = {
                 updateCommentPostState(comment)
             }, delete = {
-                    showCommentDeleteAlertDialog(comment)
-                })
+                showCommentDeleteAlertDialog(comment)
+            })
         ).show(parentFragmentManager, "CommentMenuDialog")
     }
 
@@ -94,7 +98,7 @@ class CommentDialog : BottomSheetDialogFragment() {
                     )
                 }
             }, dismissParentDialog = {
-                })
+            })
         ).show(parentFragmentManager, "DeleteCommentAlertDialog")
     }
 }

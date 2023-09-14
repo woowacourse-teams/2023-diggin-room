@@ -14,7 +14,7 @@ class CommentViewModel(
     private var comments: List<Comment> = emptyList()
 ) : ViewModel() {
 
-    private val _commentState: MutableLiveData<CommentState> = MutableLiveData(CommentState.Loading)
+    private val _commentState: MutableLiveData<CommentState> = MutableLiveData(CommentState.Succeed(comments.map { it.toModel() }))
     val commentState: LiveData<CommentState> get() = _commentState
 
     fun findComments(roomId: Long) {
@@ -31,6 +31,7 @@ class CommentViewModel(
     }
 
     fun postComment(roomId: Long, comment: String) {
+        println(_commentState.value)
         if (_commentState.value == CommentState.Loading) return
         _commentState.value = CommentState.Loading
         viewModelScope.launch {
