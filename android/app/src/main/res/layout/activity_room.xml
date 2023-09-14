@@ -4,33 +4,22 @@
 
     <data>
 
-        <import type="com.digginroom.digginroom.feature.room.customview.roompager.PagingOrientation" />
+        <import type="com.dygames.roompager.PagingOrientation" />
+
+        <variable
+            name="adapter"
+            type="com.dygames.roompager.Adapter&lt;com.dygames.roompager.Adapter.ViewHolder>" />
 
         <variable
             name="roomViewModel"
             type="com.digginroom.digginroom.feature.room.RoomViewModel" />
 
-        <variable
-            name="showRoomInfoListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
-
-        <variable
-            name="showCommentsListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
     </data>
 
-    <com.digginroom.digginroom.feature.room.customview.roompager.RoomPager
+    <com.dygames.roompager.RoomPager
+        android:id="@+id/room_roomPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/room_roomPager"
-        app:onDislike="@{roomViewModel::postDislike}"
-        app:onLoadNext="@{() -> roomViewModel.findNext()}"
-        app:onRemoveScrap="@{roomViewModel::removeScrap}"
-        app:onScrap="@{roomViewModel::postScrap}"
-        app:onShowRoomInfoListener="@{showRoomInfoListener}"
-        app:orientation="@{PagingOrientation.BOTH}"
-        app:roomPosition="@{0}"
-        app:rooms="@{roomViewModel.cachedRoom}"
-        app:showCommentsListener="@{showCommentsListener}" />
+        app:adapter="@{adapter}" />
 
 </layout>

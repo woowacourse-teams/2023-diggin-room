@@ -1,8 +1,6 @@
 package com.digginroom.digginroom.feature.splash
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +12,6 @@ import com.digginroom.digginroom.feature.login.LoginActivity
 import com.digginroom.digginroom.feature.login.LoginUiState
 import com.digginroom.digginroom.feature.room.RoomActivity
 
-@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by lazy {
@@ -54,14 +51,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun validateToken() {
-        Handler(mainLooper).postDelayed(
-            { splashViewModel.validateToken() },
-            SHOWING_TIME
-        )
-    }
-
-    companion object {
-
-        private const val SHOWING_TIME: Long = 1000
+        splashViewModel.validateToken()
     }
 }

@@ -5,8 +5,16 @@
     <data>
 
         <variable
-            name="commentMenuEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentMenuEventListener" />
+            name="uiState"
+            type="com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState" />
+
+        <variable
+            name="deleteComment"
+            type="kotlin.jvm.functions.Function0" />
+
+        <variable
+            name="updateComment"
+            type="kotlin.jvm.functions.Function0" />
 
     </data>
 
@@ -18,7 +26,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->commentMenuEventListener.update()}"
+            android:onClick="@{() -> updateComment.invoke()}"
             android:padding="20dp">
 
             <ImageView
@@ -45,7 +53,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->commentMenuEventListener.delete()}"
+            android:onClick="@{() -> deleteComment.invoke()}"
             android:padding="20dp">
 
             <ImageView
