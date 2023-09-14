@@ -45,9 +45,7 @@ class JoinActivity : AppCompatActivity() {
                     finish()
                     LoginActivity.start(this)
                 }
-                is JoinUiState.Failed -> {
-                    binding.account = it.account
-                }
+                is JoinUiState.Failed -> binding.account = it.account
 
                 else -> {}
             }
