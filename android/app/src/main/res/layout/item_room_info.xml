@@ -60,7 +60,7 @@
             android:onClick="@{() -> roomInfoUiState.openInfo.invoke(roomInfoUiState.roomModel.track)}"
             android:text="@{@string/title_artist_format(roomInfoUiState.roomModel.track.title, roomInfoUiState.roomModel.track.artist)}"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/room_info_ib_info"
             app:layout_constraintStart_toEndOf="@id/room_info_iv_music" />
@@ -72,7 +72,9 @@
             android:cropToPadding="true"
             android:padding="12dp"
             android:scaleType="centerInside"
-            app:isScrapped="@{roomInfoUiState.roomModel.isScrapped}"
+            app:onScrap="@{() -> roomInfoUiState.scrap.invoke(roomInfoUiState.roomModel.roomId)}"
+            app:onUnScrap="@{() -> roomInfoUiState.unScrap.invoke(roomInfoUiState.roomModel.roomId)}"
+            app:scrapped="@{roomInfoUiState.roomModel.isScrapped}"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
             app:layout_constraintEnd_toEndOf="parent" />
 

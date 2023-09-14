@@ -7,5 +7,7 @@ data class RoomInfoUiState(
     val roomModel: RoomModel,
     val openComment: (Long) -> Unit,
     val openInfo: (TrackModel) -> Unit,
-    val openScrap: () -> Unit
+    val openScrap: () -> Unit,
+    val scrap: (Long) -> Unit,
+    val unScrap: (Long) -> Unit
 )
