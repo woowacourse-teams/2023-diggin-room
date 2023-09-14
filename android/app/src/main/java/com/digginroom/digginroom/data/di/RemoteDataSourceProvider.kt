@@ -22,16 +22,18 @@ import retrofit2.Retrofit
 class RemoteDataSourceProvider(tokenLocalDataSource: TokenLocalDataSource) {
     private val url = BuildConfig.SERVER_URL
 
-    private val interceptor = Interceptor { chain ->
-        chain.proceed(
-            chain.request().newBuilder().addHeader(
-                "cookie",
-                tokenLocalDataSource.fetch()
-            ).build()
-        )
+    private val interceptor by lazy {
+        Interceptor { chain ->
+            chain.proceed(
+                chain.request().newBuilder().addHeader(
+                    "cookie",
+                    tokenLocalDataSource.fetch()
+                ).build()
+            )
+        }
     }
 
-    private val tokenClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+    private val tokenClient by lazy { OkHttpClient.Builder().addInterceptor(interceptor).build() }
 
     private val tokenRetrofit: Retrofit by lazy {
         Retrofit.Builder().baseUrl(url).client(tokenClient)
@@ -45,16 +47,17 @@ class RemoteDataSourceProvider(tokenLocalDataSource: TokenLocalDataSource) {
             .build()
     }
 
-    private val accountService: AccountService = retrofit.create(AccountService::class.java)
-    private val memberService: MemberService = retrofit.create(MemberService::class.java)
-    private val roomService: RoomService = tokenRetrofit.create(RoomService::class.java)
-    private val commentService: CommentService = tokenRetrofit.create(CommentService::class.java)
-    private val genreTasteService: GenreTasteService =
+    private val accountService: AccountService by lazy { retrofit.create(AccountService::class.java) }
+    private val memberService: MemberService by lazy { retrofit.create(MemberService::class.java) }
+    private val roomService: RoomService by lazy { tokenRetrofit.create(RoomService::class.java) }
+    private val commentService: CommentService by lazy { tokenRetrofit.create(CommentService::class.java) }
+    private val genreTasteService: GenreTasteService by lazy {
         tokenRetrofit.create(GenreTasteService::class.java)
+    }
 
-    val accountDataSource = AccountRemoteDataSource(accountService)
-    val roomRemoteDataSource = RoomRemoteDataSource(roomService)
-    val memberRemoteDataSource = MemberRemoteDataSource(memberService)
-    val commentRemoteDataSource = CommentRemoteDataSource(commentService)
-    val genreTasteRemoteDataSource = GenreTasteRemoteDataSource(genreTasteService)
+    val accountDataSource by lazy { AccountRemoteDataSource(accountService) }
+    val roomRemoteDataSource by lazy { RoomRemoteDataSource(roomService) }
+    val memberRemoteDataSource by lazy { MemberRemoteDataSource(memberService) }
+    val commentRemoteDataSource by lazy { CommentRemoteDataSource(commentService) }
+    val genreTasteRemoteDataSource by lazy { GenreTasteRemoteDataSource(genreTasteService) }
 }
