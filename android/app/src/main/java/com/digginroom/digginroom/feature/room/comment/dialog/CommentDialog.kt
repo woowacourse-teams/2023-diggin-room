@@ -19,7 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class CommentDialog : BottomSheetDialogFragment() {
 
     lateinit var binding: DialogCommentLayoutBinding
-    var commentPostState: CommentPostState = CommentPostState.Post
+    private var commentPostState: CommentPostState = CommentPostState.Post
 
     override fun onCreateView(
         inflater: LayoutInflater,

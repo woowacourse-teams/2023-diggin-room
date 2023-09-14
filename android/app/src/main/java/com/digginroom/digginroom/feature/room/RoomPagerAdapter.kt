@@ -39,8 +39,8 @@ class RoomPagerAdapter(
 
     fun setData(data: List<RoomModel>) {
         rooms = data
-        if (rooms.isEmpty()) {
-            rooms = data
+        if (rooms.size == 1) {
+            navigateRooms(0)
         }
     }
 
@@ -78,7 +78,6 @@ class RoomPagerAdapter(
                     openInfo,
                     openScrap
                 )
-
             )
         }
     }

@@ -14,6 +14,8 @@ import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.model.RoomsModel
+import com.digginroom.digginroom.util.getSerializable
+import com.dygames.roompager.PagingOrientation
 
 class RoomActivity : AppCompatActivity() {
 
@@ -62,8 +64,23 @@ class RoomActivity : AppCompatActivity() {
                 is RoomState.Success -> roomPagerAdapter.setData(it.rooms)
             }
         }
-        repeat(3) {
-            roomViewModel.findNext()
+        roomPagerAdapter.setData(
+            intent.getSerializable<RoomsModel>(KEY_ROOMS)?.value ?: emptyList()
+        )
+        binding.roomRoomPager.setRoomLoadable(roomPagerAdapter.rooms.isEmpty())
+        binding.roomRoomPager.setOrientation(
+            PagingOrientation.values()[
+                intent.getIntExtra(
+                    KEY_PAGING_ORIENTATION,
+                    2
+                )
+            ]
+        )
+        binding.roomRoomPager.setRoomPosition(intent.getIntExtra(KEY_INITIAL_POSITION, 0))
+        if (binding.roomRoomPager.isNextRoomLoadable) {
+            repeat(3) {
+                roomViewModel.findNext()
+            }
         }
     }
 
@@ -81,6 +98,7 @@ class RoomActivity : AppCompatActivity() {
 
         private const val KEY_ROOMS = "rooms"
         private const val KEY_INITIAL_POSITION = "initial_position"
+        private const val KEY_PAGING_ORIENTATION = "paging_orientation"
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
             context.startActivity(intent)
@@ -89,11 +107,13 @@ class RoomActivity : AppCompatActivity() {
         fun start(
             context: Context,
             rooms: RoomsModel,
-            position: Int
+            position: Int,
+            pagingOrientation: PagingOrientation
         ) {
             val intent = Intent(context, RoomActivity::class.java).apply {
                 putExtra(KEY_ROOMS, rooms)
                 putExtra(KEY_INITIAL_POSITION, position)
+                putExtra(KEY_PAGING_ORIENTATION, pagingOrientation.ordinal)
             }
             context.startActivity(intent)
         }

@@ -20,8 +20,6 @@
         android:id="@+id/room_roomPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:adapter="@{adapter}"
-        app:orientation="@{PagingOrientation.BOTH}"
-        app:roomPosition="@{0}" />
+        app:adapter="@{adapter}" />
 
 </layout>

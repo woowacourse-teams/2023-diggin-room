@@ -27,6 +27,8 @@ class RoomPager(
         initVerticalScrollView()
         initHorizontalScrollView()
         initOrientation()
+
+        roomRecycler.navigate(verticalScrollPager, currentRoomPosition)
     }
 
     fun setOrientation(pagingOrientation: PagingOrientation) {
@@ -126,7 +128,9 @@ class RoomPager(
     }
 
     private fun recycleRooms(scrollPager: ScrollPager) {
-        if (currentRoomPosition == roomRecycler.roomSize() - 2) roomRecycler.loadMore()
+        if (currentRoomPosition == roomRecycler.roomSize() - 2 && isNextRoomLoadable) {
+            roomRecycler.loadMore()
+        }
         if (currentRoomPosition < 0) {
             scrollPager.scrollPosition = 1
             currentRoomPosition = 0

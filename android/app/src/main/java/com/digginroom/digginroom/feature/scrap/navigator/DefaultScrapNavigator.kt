@@ -4,6 +4,7 @@ import android.content.Context
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.RoomsModel
+import com.dygames.roompager.PagingOrientation
 
 class DefaultScrapNavigator(
     private val context: Context
@@ -16,7 +17,8 @@ class DefaultScrapNavigator(
         RoomActivity.start(
             context = context,
             rooms = RoomsModel(rooms),
-            position = position
+            position = position,
+            pagingOrientation = PagingOrientation.VERTICAL
         )
     }
 }
