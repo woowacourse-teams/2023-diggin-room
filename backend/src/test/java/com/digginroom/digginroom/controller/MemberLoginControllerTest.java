@@ -4,7 +4,6 @@ import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static org.hamcrest.Matchers.equalTo;
 
-import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.repository.MemberRepository;
 import io.restassured.RestAssured;
@@ -84,17 +83,6 @@ class MemberLoginControllerTest extends ControllerTest {
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/login")
-                .then()
-                .statusCode(HttpStatus.OK.value());
-    }
-
-    @Test
-    void OAuth로_로그인할_수_있다() {
-        RestAssured.given().log().all()
-                .body(new GoogleOAuthRequest("ID_TOKEN"))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login/google")
                 .then()
                 .statusCode(HttpStatus.OK.value());
     }

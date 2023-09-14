@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.oauth.kakao;
+package com.digginroom.digginroom.oauth.google;
 
 import com.auth0.jwk.InvalidPublicKeyException;
 import com.auth0.jwk.Jwk;
@@ -21,9 +21,10 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Component;
 
 @Component
-public class KakaoIdTokenVerifier implements IdTokenVerifier {
+public class GoogleIdTokenVerifier implements IdTokenVerifier {
 
-    private static final JwkUrl url = JwkUrl.of("https://kauth.kakao.com/.well-known/jwks.json");
+    private static final JwkUrl url = JwkUrl.of("https://www.googleapis.com/oauth2/v3/certs");
+
     private static final JwkProvider jwkProvider = new JwkProviderBuilder(url.url())
             .cached(10, 7, TimeUnit.DAYS)
             .build();
