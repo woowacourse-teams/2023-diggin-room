@@ -87,6 +87,8 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore-ktx"
 
     implementation 'com.google.firebase:firebase-crashlytics'
+    implementation "de.hdodenhof:circleimageview:3.1.0"
 
     implementation project(':domain')
+
 }
