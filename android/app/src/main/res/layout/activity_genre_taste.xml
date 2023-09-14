@@ -26,8 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#110B2E"
-        app:surveyState="@{viewModel.state}"
-        app:surveyStateListener="@{resultListener}"
         tools:context=".feature.genretaste.GenreTasteActivity">
 
         <TextView
@@ -47,7 +45,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adapter="@{adapter}"
-            app:items="@{viewModel.genres}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/genre_taste_button_start"
             app:layout_constraintEnd_toEndOf="parent"

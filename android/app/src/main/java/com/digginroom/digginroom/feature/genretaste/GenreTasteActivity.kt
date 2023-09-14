@@ -10,6 +10,7 @@ import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityGenreTasteBinding
 import com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter
+import com.digginroom.digginroom.feature.room.RoomActivity
 
 class GenreTasteActivity : AppCompatActivity() {
 
@@ -25,6 +26,7 @@ class GenreTasteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initGenreTasteBinding()
+        initGenreTasteObserver()
     }
 
     private fun initGenreTasteBinding() {
@@ -34,9 +36,21 @@ class GenreTasteActivity : AppCompatActivity() {
         ).also {
             it.lifecycleOwner = this
             it.viewModel = genreTasteViewModel
-            it.resultListener = GenreTasteResultListener(this)
-            it.adapter = GenreTasteAdapter { genreTaste ->
-                genreTasteViewModel.switchSelection(genreTaste)
+            it.adapter = GenreTasteAdapter()
+        }
+    }
+
+    private fun initGenreTasteObserver() {
+        genreTasteViewModel.uiState.observe(this) {
+            when (it) {
+                is GenreTasteUiState.InProgress -> binding.adapter?.update(it.genreTasteSelection)
+
+                is GenreTasteUiState.Succeed -> {
+                    finish()
+                    RoomActivity.start(this)
+                }
+
+                is GenreTasteUiState.Failed -> {}
             }
         }
     }

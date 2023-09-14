@@ -5,15 +5,17 @@ import androidx.recyclerview.widget.ListAdapter
 import com.digginroom.digginroom.feature.genretaste.GenreTasteClickListener
 import com.digginroom.digginroom.feature.genretaste.GenreTasteViewHolder
 import com.digginroom.digginroom.model.GenreTasteModel
+import com.digginroom.digginroom.model.GenreTasteSelectionModel
 
-class GenreTasteAdapter(
-    private val genreTasteClickListener: GenreTasteClickListener
-) : ListAdapter<GenreTasteModel, GenreTasteViewHolder>(GenreTasteDiffUtilCallback()) {
+class GenreTasteAdapter :
+    ListAdapter<GenreTasteModel, GenreTasteViewHolder>(GenreTasteDiffUtilCallback()) {
+
+    private var onGenreClick: GenreTasteClickListener = GenreTasteClickListener {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreTasteViewHolder {
         return GenreTasteViewHolder.of(
             parent = parent,
-            clickListener = genreTasteClickListener
+            clickListener = onGenreClick
         )
     }
 
@@ -23,5 +25,10 @@ class GenreTasteAdapter(
 
     override fun submitList(list: MutableList<GenreTasteModel>?) {
         super.submitList(list)
+    }
+
+    fun update(genreTasteSelectionModel: GenreTasteSelectionModel) {
+        submitList(genreTasteSelectionModel.genresTaste.toMutableList())
+        onGenreClick = GenreTasteClickListener { genreTasteSelectionModel.onSelect(it) }
     }
 }
