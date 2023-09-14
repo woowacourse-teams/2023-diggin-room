@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="clickListener"
             type="com.digginroom.digginroom.feature.genretaste.GenreTasteClickListener" />
@@ -17,22 +19,38 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="8dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_genre_iv_genre"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/scrap_thumbnail_description"
             android:onClick="@{()->clickListener.onClick(model)}"
             android:scaleType="centerCrop"
-            app:hasBrightness="@{model.selected}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:hasDarkness="@{model.selected}"
+            tools:src="@drawable/ic_scrapped_room_example"
             app:src="@{model.descriptionImageId}" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_genre_iv_selected"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="15dp"
+            android:contentDescription="@string/scrap_thumbnail_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_checked"
+            android:visibility="@{model.selected ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/item_genre_iv_genre"
+            app:layout_constraintEnd_toEndOf="@id/item_genre_iv_genre"
+            app:layout_constraintStart_toStartOf="@id/item_genre_iv_genre"
+            app:layout_constraintTop_toTopOf="@id/item_genre_iv_genre"
+            tools:src="@drawable/ic_checked" />
 
         <TextView
             android:layout_width="0dp"
