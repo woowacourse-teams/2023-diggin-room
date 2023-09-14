@@ -1,10 +1,11 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment
+package com.digginroom.digginroom.feature.room.comment
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.room.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
 import com.digginroom.digginroom.fixture.CommentFixture.Comment
 import com.digginroom.digginroom.fixture.CommentFixture.Comments
 import com.digginroom.digginroom.fixture.LogResult
+import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
 import io.mockk.coEvery
@@ -25,6 +26,7 @@ import org.junit.Test
 class CommentViewModelTest {
     private lateinit var commentViewModel: CommentViewModel
     private lateinit var commentRepository: CommentRepository
+    private val comments = Comments()
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -33,7 +35,7 @@ class CommentViewModelTest {
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         commentRepository = mockk()
-        commentViewModel = CommentViewModel(commentRepository)
+        commentViewModel = CommentViewModel(commentRepository, comments)
     }
 
     @After
@@ -44,45 +46,44 @@ class CommentViewModelTest {
     @Test
     fun `해당 룸의 댓글 요청 시 성공하면 성공 상태와 함께 댓글을 받아온다`() {
         // given
-        val defaultComments = Comments()
         val roomId: Long = 0
 
         coEvery {
             commentRepository.findComments(any())
-        } returns LogResult.success(defaultComments)
+        } returns LogResult.success(comments)
 
         // when
         commentViewModel.findComments(roomId)
 
         // then
-        val actual = commentViewModel.comments.value
-        val expected = defaultComments.map { it.toModel() }
-        assertEquals(actual, expected)
+        val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
+        val expected = comments.map { it.toModel() }
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `댓글 작성을 요청하면 새 댓글이 생성된다`() {
         // given
-        val defaultComment = Comment()
+        val comment = Comment(id = 3)
         val roomId: Long = 0
 
         coEvery {
             commentRepository.postComment(any(), any())
-        } returns LogResult.success(defaultComment)
+        } returns LogResult.success(comment)
 
         // when
-        commentViewModel.postComment(roomId, defaultComment.comment)
+        commentViewModel.postComment(roomId, comment.comment)
 
         // then
-        val actual = commentViewModel.comments.value
-        val expected = listOf(defaultComment.toModel())
-        assertEquals(actual, expected)
+        val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
+        val expected = (comments + comment).map { it.toModel() }
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun `댓글 작성 요청에 실패하면 commentRequestState가 Failed 이 된다`() {
+    fun `댓글 작성 요청에 실패하면 commentRequestState가 Failed 된다`() {
         // given
-        val defaultComment = Comment()
+        val comment = comments[0]
         val roomId: Long = 0
 
         coEvery {
@@ -90,11 +91,11 @@ class CommentViewModelTest {
         } returns LogResult.failure()
 
         // when
-        commentViewModel.postComment(roomId, defaultComment.comment)
+        commentViewModel.postComment(roomId, comment.comment)
 
         // then
-        val actual = commentViewModel.commentRequestState.value
-        assertTrue(actual is CommentRequestState.Failed)
+        val actual = commentViewModel.commentState.value?.state
+        assertTrue(actual is CommentState.Failed)
     }
 
     @Test
@@ -102,23 +103,17 @@ class CommentViewModelTest {
         // given
         val roomId: Long = 0
         val commentId: Long = 0
-        val deletedPosition = 0
-        val defaultComments = Comments()
-        val commentCount = defaultComments.size
+        val commentCount = comments.size
 
-        coEvery {
-            commentRepository.findComments(any())
-        } returns LogResult.success(defaultComments)
         coEvery {
             commentRepository.deleteComment(any(), any())
         } returns LogResult.success(Unit)
 
         // when
-        commentViewModel.findComments(roomId)
         commentViewModel.deleteComment(roomId, commentId)
 
         // then
-        val actual = commentViewModel.comments.value ?: listOf()
+        val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
         val expected = commentCount - 1
         assertEquals(expected, actual.size)
     }
