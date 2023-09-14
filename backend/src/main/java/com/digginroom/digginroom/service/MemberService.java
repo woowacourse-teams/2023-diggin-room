@@ -87,10 +87,11 @@ public class MemberService {
     public MemberLoginResponse loginMember(final GoogleOAuthRequest request) {
         Map<String, Claim> idToken = idTokenResolver.resolve(request.idToken(), Provider.GOOGLE);
         String googleUsername = idToken.get("sub").asString();
+        String name = idToken.get("name").asString();
 
         Member member = memberRepository.findMemberByUsername(googleUsername)
                 .orElseGet(() -> memberRepository.save(
-                        new Member(googleUsername, Provider.GOOGLE))
+                        new Member(googleUsername, Provider.GOOGLE, name))
                 );
 
         return MemberLoginResponse.of(member);
@@ -99,10 +100,11 @@ public class MemberService {
     public MemberLoginResponse loginMember(final KakaoOAuthRequest request) {
         Map<String, Claim> idToken = idTokenResolver.resolve(request.idToken(), Provider.KAKAO);
         String kakaoUsername = idToken.get("sub").asString();
+        String name = idToken.get("nickname").asString();
 
         Member member = memberRepository.findMemberByUsername(kakaoUsername)
                 .orElseGet(() -> memberRepository.save(
-                        new Member(kakaoUsername, Provider.KAKAO))
+                        new Member(kakaoUsername, Provider.KAKAO, name))
                 );
 
         return MemberLoginResponse.of(member);
