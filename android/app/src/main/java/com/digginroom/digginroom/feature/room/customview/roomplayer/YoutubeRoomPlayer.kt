@@ -1,109 +1,69 @@
 package com.digginroom.digginroom.feature.room.customview.roomplayer
 
 import android.content.Context
-import android.view.ViewGroup.LayoutParams
+import android.view.LayoutInflater
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
-import android.widget.ImageView
-import com.digginroom.digginroom.feature.room.RoomEventListener
-import com.digginroom.digginroom.feature.room.customview.RoomPlayerThumbnail
-import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
-import com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener
-import com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener
-import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.databinding.ItemRoomInfoBinding
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
+import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 class YoutubeRoomPlayer(
     context: Context,
     private val onYoutubePlay: () -> Unit
-) : WebView(context), RoomPlayer {
+) : FrameLayout(context), RoomPlayer {
 
-    val currentRoomId: Long
-        get() = roomInfoView.roomId
-
-    private val thumbnail: RoomPlayerThumbnail = RoomPlayerThumbnail(context)
-    private val roomInfoView: RoomInfoView = RoomInfoView(context)
+    private val roomInfoBinding: ItemRoomInfoBinding =
+        ItemRoomInfoBinding.inflate(LayoutInflater.from(context))
+    private val webView: WebView = WebView(context)
 
     private var videoId = ""
     private var isPlayerLoaded = false
 
     init {
-        preventTouchEvent()
-        initThumbnail()
+        initLayout()
         initYoutubePlayer()
     }
 
-    fun updateOnScrapListener(callback: RoomEventListener) {
-        roomInfoView.updateOnScrapListener(callback)
-    }
-
-    fun updateOnRemoveScrapListener(callback: RoomEventListener) {
-        roomInfoView.updateOnRemoveScrapListener(callback)
-    }
-
-    fun updateShowRoomInfoListener(showRoomInfoListener: ShowRoomInfoListener) {
-        roomInfoView.updateOnShowRoomInfoListener(showRoomInfoListener)
-    }
-
-    fun updateShowCommentsListener(showCommentsListener: ShowCommentsListener) {
-        roomInfoView.updateShowCommentsListener(showCommentsListener)
-    }
-
     override fun play() {
-        loadUrl("javascript:play()")
+        webView.loadUrl("javascript:play()")
     }
 
     override fun pause() {
-        loadUrl("javascript:pause()")
+        webView.loadUrl("javascript:pause()")
     }
 
-    override fun navigate(room: RoomModel) {
-        roomInfoView.setRoomInfo(room)
+    override fun navigate(roomInfoUiState: RoomInfoUiState) {
+        roomInfoBinding.roomInfoUiState = roomInfoUiState
 
-        if (videoId == room.videoId) {
+        if (videoId == roomInfoUiState.roomModel.videoId) {
             return
         }
 
-        thumbnail.load(room)
-
         if (isPlayerLoaded) {
-            loadUrl("javascript:navigate(\"${room.videoId}\")")
+            webView.loadUrl("javascript:navigate(\"${roomInfoUiState.roomModel.videoId}\")")
         }
-        videoId = room.videoId
+        videoId = roomInfoUiState.roomModel.videoId
+    }
+
+    private fun initLayout() {
+        addView(webView)
+        roomInfoBinding.scrapCountFormatter = ScrapCountFormatter
+        addView(roomInfoBinding.root)
+        preventTouchEvent()
     }
 
     private fun preventTouchEvent() {
-        setOnTouchListener { _, _ -> true }
+        webView.setOnTouchListener { _, _ -> true }
         focusable = NOT_FOCUSABLE
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = false
-    }
-
-    private fun initThumbnail() {
-        val frameLayout = FrameLayout(context)
-        frameLayout.layoutParams = LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        addView(frameLayout)
-
-        thumbnail.scaleType = ImageView.ScaleType.CENTER_CROP
-        thumbnail.layoutParams = LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        // frameLayout.addView(thumbnail)
-
-        roomInfoView.layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        frameLayout.addView(roomInfoView)
     }
 
     private fun initYoutubePlayer() {
@@ -211,16 +171,16 @@ class YoutubeRoomPlayer(
         """.trimIndent()
 
         initJavascriptInterface()
-        setRendererPriorityPolicy(RENDERER_PRIORITY_IMPORTANT, false)
-        settings.javaScriptEnabled = true
-        settings.mediaPlaybackRequiresUserGesture = false
-        webViewClient = object : WebViewClient() {
+        webView.setRendererPriorityPolicy(WebView.RENDERER_PRIORITY_IMPORTANT, false)
+        webView.settings.javaScriptEnabled = true
+        webView.settings.mediaPlaybackRequiresUserGesture = false
+        webView.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-                if (request?.url.toString().contains("ad.youtube.com") ||
-                    request?.url.toString().contains("ads.youtube.com")
+                if (request?.url.toString().contains("ad.youtube.com") || request?.url.toString()
+                    .contains("ads.youtube.com")
                 ) {
                     val textStream = ByteArrayInputStream("".toByteArray())
                     return getTextWebResource(textStream)
@@ -228,7 +188,7 @@ class YoutubeRoomPlayer(
                 return super.shouldInterceptRequest(view, request)
             }
         }
-        loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
+        webView.loadDataWithBaseURL("https://www.youtube.com", iframe, "text/html", "utf-8", null)
     }
 
     private fun getTextWebResource(data: InputStream): WebResourceResponse? {
@@ -236,14 +196,14 @@ class YoutubeRoomPlayer(
     }
 
     private fun initJavascriptInterface() {
-        addJavascriptInterface(
+        webView.addJavascriptInterface(
             object {
                 @JavascriptInterface
                 fun onLoaded() {
                     isPlayerLoaded = true
                     if (videoId.isEmpty()) return
                     post {
-                        loadUrl("javascript:navigate(\"$videoId\")")
+                        webView.loadUrl("javascript:navigate(\"$videoId\")")
                     }
                 }
 
@@ -251,7 +211,6 @@ class YoutubeRoomPlayer(
                 fun onPlay() {
                     post {
                         onYoutubePlay()
-                        thumbnail.turnOff()
                     }
                 }
             },

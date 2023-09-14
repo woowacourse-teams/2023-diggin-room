@@ -10,28 +10,8 @@
         <import type="com.digginroom.digginroom.model.CommentModel" />
 
         <variable
-            name="room"
-            type="com.digginroom.digginroom.model.RoomModel" />
-
-        <variable
-            name="showRoomInfoListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.ShowRoomInfoListener" />
-
-        <variable
-            name="roomNavigator"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.navigator.RoomNavigator" />
-
-        <variable
-            name="findCommentsListener"
-            type="com.digginroom.digginroom.feature.room.RoomEventListener" />
-
-        <variable
-            name="comments"
-            type="List&lt;CommentModel>" />
-
-        <variable
-            name="showCommentsListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentsListener" />
+            name="roomInfoUiState"
+            type="com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState" />
 
         <variable
             name="scrapCountFormatter"
@@ -52,7 +32,7 @@
             android:layout_height="56dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:onClick="@{() -> roomNavigator.navigateToScrap()}"
+            android:onClick="@{() -> roomInfoUiState.openScrap.invoke()}"
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/cube_icon"
@@ -77,8 +57,8 @@
             android:layout_marginStart="@dimen/scrap_horizontal_margin"
             android:layout_marginEnd="8dp"
             android:includeFontPadding="false"
-            android:onClick="@{() -> showRoomInfoListener.show(room.track)}"
-            android:text="@{@string/title_artist_format(room.track.title, room.track.artist)}"
+            android:onClick="@{() -> roomInfoUiState.openInfo.invoke(roomInfoUiState.roomModel.track)}"
+            android:text="@{@string/title_artist_format(roomInfoUiState.roomModel.track.title, roomInfoUiState.roomModel.track.artist)}"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +72,7 @@
             android:cropToPadding="true"
             android:padding="12dp"
             android:scaleType="centerInside"
-            app:isScrapped="@{room.isScrapped}"
+            app:isScrapped="@{roomInfoUiState.roomModel.isScrapped}"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -101,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_marginBottom="8dp"
-            android:text="@{scrapCountFormatter.convert(room.scrapCount)}"
+            android:text="@{scrapCountFormatter.convert(roomInfoUiState.roomModel.scrapCount)}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_comment"
@@ -114,7 +94,7 @@
             android:layout_height="56dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:onClick="@{() -> showCommentsListener.show(room.roomId)}"
+            android:onClick="@{() -> roomInfoUiState.openComment.invoke(roomInfoUiState.roomModel.roomId)}"
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/comment_icon"
@@ -127,7 +107,7 @@
             android:layout_height="56dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:onClick="@{() -> showRoomInfoListener.show(room.track)}"
+            android:onClick="@{() -> roomInfoUiState.openInfo.invoke(roomInfoUiState.roomModel.track)}"
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/info_icon"
