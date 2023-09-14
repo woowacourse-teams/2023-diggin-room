@@ -8,41 +8,32 @@
 
         <import type="android.view.View" />
 
+        <import type="com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState" />
+
+        <variable
+            name="roomId"
+            type="java.lang.Long" />
+
+        <variable
+            name="currentComment"
+            type="java.lang.String" />
+
+        <variable
+            name="postComment"
+            type="kotlin.jvm.functions.Function2" />
+
         <variable
             name="commentViewModel"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.CommentViewModel" />
+            type="com.digginroom.digginroom.feature.room.comment.CommentViewModel" />
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.adapter.CommentAdapter" />
-
-        <variable
-            name="commentEventListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.CommentEventListener" />
-
-        <variable
-            name="requestResultListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.result.RequestResultListener" />
-
-        <variable
-            name="showMenuListener"
-            type="com.digginroom.digginroom.feature.room.customview.roominfoview.comment.dialog.listener.ShowCommentMenuListener" />
-
-        <variable
-            name="selectedCommentId"
-            type="long" />
-
-        <variable
-            name="selectedPosition"
-            type="int" />
+            type="com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:requestResultListener="@{requestResultListener}"
-        app:commentRequestState="@{commentViewModel.commentRequestState}"
-        app:onShowMessage="@{commentViewModel::stopMessage}">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
@@ -52,14 +43,13 @@
             android:adapter="@{adapter}"
             android:orientation="vertical"
             android:paddingTop="8dp"
-            android:visibility="@{(commentViewModel.comments.size() > 0) ? View.VISIBLE : View.GONE}"
-            app:comments="@{commentViewModel.comments}"
+            android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
+            app:comments="@{commentViewModel.commentState.state}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:onMenuClick="@{showMenuListener}" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:layout_width="0dp"
@@ -67,7 +57,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/dialog_comment_empty_comment"
-            android:visibility="@{(commentViewModel.comments.size() > 0) ? View.GONE : View.VISIBLE}"
+            android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,8 +83,7 @@
             android:inputType="text"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
-            android:text="@={commentViewModel.writtenComment}"
-            app:commentRequestState="@{commentViewModel.commentRequestState}"
+            android:text="@={currentComment}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_send"
             app:layout_constraintStart_toStartOf="parent" />
@@ -106,18 +95,14 @@
             android:layout_marginEnd="10dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:enabled="@{!TextUtils.isEmpty(commentViewModel.writtenComment)}"
+            android:enabled="@{!TextUtils.isEmpty(currentComment)}"
+            android:onClick="@{() -> postComment.invoke(roomId, currentComment)}"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/send_button_selector"
             android:textColor="@color/white"
-            app:clickListener="@{commentEventListener}"
-            app:comment="@{commentViewModel.writtenComment}"
-            app:commentState="@{commentViewModel.commentActionState}"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:selectedCommentId="@{selectedCommentId}"
-            app:selectedPosition="@{selectedPosition}" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
