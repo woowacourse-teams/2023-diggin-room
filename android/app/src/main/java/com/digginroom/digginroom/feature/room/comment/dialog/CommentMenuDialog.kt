@@ -1,10 +1,12 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
+package com.digginroom.digginroom.feature.room.comment.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.digginroom.digginroom.databinding.DialogCommentMenuLayoutBinding
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentDeleteAlertUiState
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CommentMenuDialog(
@@ -19,6 +21,8 @@ class CommentMenuDialog(
     ): View {
         binding = DialogCommentMenuLayoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.deleteComment = ::showCommentDeleteAlertDialog
+        binding.updateComment = ::updateCommentPostState
         isCancelable = true
         return binding.root
     }
@@ -26,5 +30,20 @@ class CommentMenuDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.uiState = uiState
+    }
+
+    private fun updateCommentPostState() {
+        uiState.update()
+        dismiss()
+    }
+
+    private fun showCommentDeleteAlertDialog() {
+        CommentDeleteAlertDialog(
+            CommentDeleteAlertUiState(deleteComment = {
+                uiState.delete()
+            }, dismissParentDialog = {
+                    dismiss()
+                })
+        ).show(parentFragmentManager, "DeleteCommentAlertDialog")
     }
 }

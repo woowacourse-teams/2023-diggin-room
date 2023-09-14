@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment
+package com.digginroom.digginroom.feature.room.comment.uistate.state
 
 sealed class CommentPostState {
     object Post : CommentPostState()

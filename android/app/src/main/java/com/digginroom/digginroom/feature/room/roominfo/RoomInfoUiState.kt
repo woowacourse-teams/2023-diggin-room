@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo
+package com.digginroom.digginroom.feature.room.roominfo
 
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.TrackModel

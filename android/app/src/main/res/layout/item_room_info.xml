@@ -11,7 +11,7 @@
 
         <variable
             name="roomInfoUiState"
-            type="com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoUiState" />
+            type="com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState" />
 
         <variable
             name="scrapCountFormatter"

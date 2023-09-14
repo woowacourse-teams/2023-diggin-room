@@ -9,10 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
-import com.digginroom.digginroom.feature.room.customview.RoomPagerAdapter
-import com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoDialog
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog.CommentDialog
+import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.model.RoomsModel
 

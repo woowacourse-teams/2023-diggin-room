@@ -8,7 +8,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentState" />
+        <import type="com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState" />
 
         <variable
             name="roomId"
@@ -24,11 +24,11 @@
 
         <variable
             name="commentViewModel"
-            type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel" />
+            type="com.digginroom.digginroom.feature.room.comment.CommentViewModel" />
 
         <variable
             name="adapter"
-            type="com.digginroom.digginroom.feature.room.customview.roominfo.comment.adapter.CommentAdapter" />
+            type="com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,8 +43,8 @@
             android:adapter="@{adapter}"
             android:orientation="vertical"
             android:paddingTop="8dp"
-            android:visibility="@{((commentViewModel.commentState instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
-            app:comments="@{commentViewModel.commentState}"
+            android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
+            app:comments="@{commentViewModel.commentState.state}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
@@ -57,7 +57,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="center"
             android:text="@string/dialog_comment_empty_comment"
-            android:visibility="@{((commentViewModel.commentState instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
+            android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintDimensionRatio="W, 10:9"
             app:layout_constraintEnd_toEndOf="parent"

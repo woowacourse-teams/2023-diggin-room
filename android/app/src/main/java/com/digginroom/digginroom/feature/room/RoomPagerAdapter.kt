@@ -1,8 +1,8 @@
-package com.digginroom.digginroom.feature.room.customview
+package com.digginroom.digginroom.feature.room
 
 import android.content.Context
-import com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.TrackModel
 import com.dygames.roompager.Adapter

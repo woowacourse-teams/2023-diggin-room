@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
+package com.digginroom.digginroom.feature.room.comment.uistate
 
 data class CommentDeleteAlertUiState(
     val deleteComment: () -> Unit,

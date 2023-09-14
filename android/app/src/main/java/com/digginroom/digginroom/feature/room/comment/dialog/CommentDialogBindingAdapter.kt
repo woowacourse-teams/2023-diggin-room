@@ -1,9 +1,9 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
+package com.digginroom.digginroom.feature.room.comment.dialog
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentState
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
 
 object CommentDialogBindingAdapter {
     @JvmStatic

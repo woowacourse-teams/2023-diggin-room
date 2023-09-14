@@ -9,7 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import com.digginroom.digginroom.databinding.ItemRoomInfoBinding
-import com.digginroom.digginroom.feature.room.customview.roominfo.RoomInfoUiState
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 import java.io.ByteArrayInputStream
 import java.io.InputStream

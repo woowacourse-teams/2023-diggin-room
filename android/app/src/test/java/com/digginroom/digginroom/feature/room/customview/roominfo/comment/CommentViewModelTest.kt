@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.feature.room.customview.roominfo.comment
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.fixture.CommentFixture.Comment
 import com.digginroom.digginroom.fixture.CommentFixture.Comments
 import com.digginroom.digginroom.fixture.LogResult

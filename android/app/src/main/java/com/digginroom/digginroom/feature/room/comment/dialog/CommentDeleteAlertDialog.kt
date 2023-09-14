@@ -1,9 +1,10 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
+package com.digginroom.digginroom.feature.room.comment.dialog
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentDeleteAlertUiState
 
 class CommentDeleteAlertDialog(
     private val uiState: CommentDeleteAlertUiState
@@ -17,7 +18,6 @@ class CommentDeleteAlertDialog(
                     uiState.deleteComment()
                     uiState.dismissParentDialog()
                 }.setNegativeButton(ALERT_DIALOG_NEGATIVE_MESSAGE) { _, _ ->
-                    (parentFragment as DialogFragment).dismiss()
                     uiState.dismissParentDialog()
                 }
             builder.create()

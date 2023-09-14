@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.feature.room.customview.roominfo.comment.dialog
+package com.digginroom.digginroom.feature.room.comment.dialog
 
 import android.content.Context
 import android.os.Bundle
@@ -9,9 +9,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentPostState
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.CommentViewModel
-import com.digginroom.digginroom.feature.room.customview.roominfo.comment.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.comment.CommentViewModel
+import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
+import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentPostState
 import com.digginroom.digginroom.model.CommentModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -57,6 +58,7 @@ class CommentDialog : BottomSheetDialogFragment() {
                 currentComment
             )
         }
+        binding.currentComment = ""
     }
 
     private fun postComment(roomId: Long, currentComment: String) {
@@ -79,26 +81,23 @@ class CommentDialog : BottomSheetDialogFragment() {
             CommentMenuUiState(update = {
                 updateCommentPostState(comment)
             }, delete = {
-                showCommentDeleteAlertDialog(comment)
-            })
+                    deleteComment(comment)
+                })
         ).show(parentFragmentManager, "CommentMenuDialog")
     }
 
     private fun updateCommentPostState(comment: CommentModel) {
         commentPostState = CommentPostState.Update(comment.id)
+        binding.currentComment = comment.comment
     }
 
-    private fun showCommentDeleteAlertDialog(comment: CommentModel) {
-        CommentDeleteAlertDialog(
-            CommentDeleteAlertUiState(deleteComment = {
-                binding.roomId?.let {
-                    binding.commentViewModel?.deleteComment(
-                        it,
-                        comment.id
-                    )
-                }
-            }, dismissParentDialog = {
-            })
-        ).show(parentFragmentManager, "DeleteCommentAlertDialog")
+    private fun deleteComment(comment: CommentModel) {
+        binding.roomId?.let {
+            binding.commentViewModel?.deleteComment(
+                it,
+                comment.id
+            )
+        }
+        binding.currentComment = ""
     }
 }
