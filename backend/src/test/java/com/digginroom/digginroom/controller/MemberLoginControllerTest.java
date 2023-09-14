@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
-@Import({OAuthTestConfig.class})
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberLoginControllerTest extends ControllerTest {
