@@ -43,7 +43,7 @@ public class TestFixture {
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
                 .description("코건은 코건")
                 .build();
-        return new Room(new MediaSource("lQcnNPqy2Ww"), track);
+        return new Room("lQcnNPqy2Ww", track);
     }
 
     public static Room 차이() {
@@ -54,6 +54,6 @@ public class TestFixture {
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
                 .description("콩하나는 콩둘")
                 .build();
-        return new Room(new MediaSource("2VkWaOOF4Rc"), track);
+        return new Room("2VkWaOOF4Rc", track);
     }
 }

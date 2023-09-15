@@ -18,7 +18,6 @@ public class UploadService {
 
     @Transactional
     public void save(final UploadRequest request) {
-        MediaSource mediaSource = new MediaSource(request.youtubeVideoId());
         Track track = Track.builder()
                 .title(request.title())
                 .artist(request.artist())
@@ -27,7 +26,7 @@ public class UploadService {
                 .description(request.description())
                 .build();
 
-        Room room = new Room(mediaSource, track);
+        Room room = new Room(request.youtubeVideoId(), track);
         roomRepository.save(room);
     }
 }
