@@ -17,7 +17,7 @@ public class CachedJwkProvider {
     private final JwkProvider jwkProvider;
     private final Provider provider;
 
-    public static CachedJwkProvider of(String url, Provider provider) {
+    public static CachedJwkProvider of(final String url, final Provider provider) {
         try {
             JwkProvider jwk = new JwkProviderBuilder(new URL(url))
                     .cached(10, 7, TimeUnit.DAYS)
@@ -29,7 +29,7 @@ public class CachedJwkProvider {
         }
     }
 
-    public boolean support(Provider provider) {
+    public boolean support(final Provider provider) {
         return this.provider.equals(provider);
     }
 }

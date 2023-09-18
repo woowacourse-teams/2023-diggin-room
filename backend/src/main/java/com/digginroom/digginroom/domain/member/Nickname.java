@@ -15,7 +15,7 @@ public class Nickname {
 
     private String nickname;
 
-    public static Nickname of(String nickname) {
+    public static Nickname of(final String nickname) {
         return new Nickname(nickname);
     }
 

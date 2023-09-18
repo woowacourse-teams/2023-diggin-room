@@ -13,7 +13,7 @@ public class CachedJwkProviders {
 
     private final List<CachedJwkProvider> cachedJwkProviders;
 
-    public JwkProvider getJwkProvider(Provider provider) {
+    public JwkProvider getJwkProvider(final Provider provider) {
         return cachedJwkProviders.stream()
                 .filter(cachedJwkProvider -> cachedJwkProvider.support(provider))
                 .map(CachedJwkProvider::getJwkProvider)
