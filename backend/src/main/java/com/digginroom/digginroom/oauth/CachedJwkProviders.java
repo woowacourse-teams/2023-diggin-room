@@ -2,6 +2,7 @@ package com.digginroom.digginroom.oauth;
 
 import com.auth0.jwk.JwkProvider;
 import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.exception.OAuthResolverException.UnsupportedProviderException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,8 @@ public class CachedJwkProviders {
     public JwkProvider getJwkProvider(Provider provider) {
         return cachedJwkProviders.stream()
                 .filter(cachedJwkProvider -> cachedJwkProvider.support(provider))
-                .map(CachedJwkProvider::jwkProvider)
+                .map(CachedJwkProvider::getJwkProvider)
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new UnsupportedProviderException(provider.name()));
     }
 }

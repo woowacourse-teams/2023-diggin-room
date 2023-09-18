@@ -7,8 +7,15 @@ import com.digginroom.digginroom.exception.OAuthResolverException.InvalidJwkUrlE
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public record CachedJwkProvider(JwkProvider jwkProvider, Provider provider) {
+@Getter
+@RequiredArgsConstructor
+public class CachedJwkProvider {
+
+    private final JwkProvider jwkProvider;
+    private final Provider provider;
 
     public static CachedJwkProvider of(String url, Provider provider) {
         try {

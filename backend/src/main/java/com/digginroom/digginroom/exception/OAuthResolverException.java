@@ -35,4 +35,11 @@ public abstract class OAuthResolverException extends DigginRoomException {
             super("잘못된 Url 형식 입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public static class UnsupportedProviderException extends OAuthResolverException {
+
+        public UnsupportedProviderException(String provider) {
+            super("지원하지 않는 프로바이더입니다.: " + provider, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
