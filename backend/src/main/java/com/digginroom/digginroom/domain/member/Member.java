@@ -12,7 +12,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +30,8 @@ public class Member extends BaseEntity {
     private Provider provider;
     @Getter(AccessLevel.NONE)
     private boolean hasFavorite = false;
-    @NonNull
-    private String nickname;
+    @Embedded
+    private Nickname nickname;
     @Embedded
     private final ScrapRooms scrapRooms = new ScrapRooms();
     @Embedded
@@ -44,14 +43,14 @@ public class Member extends BaseEntity {
         this.username = username;
         this.password = Password.EMPTY;
         this.provider = provider;
-        this.nickname = nickname;
+        this.nickname = Nickname.of(nickname);
     }
 
     public Member(final String username, final String password) {
         this.username = username;
         this.password = new Password(password);
         this.provider = Provider.SELF;
-        this.nickname = "user-" + UUID.randomUUID().toString().split("-")[0];
+        this.nickname = Nickname.random();
     }
 
     public void scrap(final Room room) {
@@ -118,5 +117,9 @@ public class Member extends BaseEntity {
 
     public List<Room> getDislikeRooms() {
         return dislikeRooms.getDislikeRooms();
+    }
+
+    public String getNickname() {
+        return nickname.getNickname();
     }
 }

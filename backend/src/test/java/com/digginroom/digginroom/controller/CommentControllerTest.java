@@ -65,7 +65,7 @@ class CommentControllerTest extends ControllerTest {
                 .when().post("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
-                .body("writer", Matchers.equalTo(TestFixture.MEMBER_USERNAME))
+                .body("writer", Matchers.startsWith("user-"))
                 .body("comment", Matchers.equalTo(TestFixture.COMMENT_REQUEST.comment()))
                 .body("createdAt", Matchers.notNullValue())
                 .body("updatedAt", Matchers.notNullValue())
