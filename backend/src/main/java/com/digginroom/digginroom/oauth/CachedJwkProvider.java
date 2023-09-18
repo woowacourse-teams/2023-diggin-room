@@ -8,15 +8,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-public record MyJwkProvider(JwkProvider jwkProvider, Provider provider) {
+public record CachedJwkProvider(JwkProvider jwkProvider, Provider provider) {
 
-    public static MyJwkProvider of(String url, Provider provider) {
+    public static CachedJwkProvider of(String url, Provider provider) {
         try {
             JwkProvider jwk = new JwkProviderBuilder(new URL(url))
                     .cached(10, 7, TimeUnit.DAYS)
                     .build();
 
-            return new MyJwkProvider(jwk, provider);
+            return new CachedJwkProvider(jwk, provider);
         } catch (MalformedURLException e) {
             throw new InvalidJwkUrlException();
         }

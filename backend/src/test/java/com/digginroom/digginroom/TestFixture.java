@@ -10,8 +10,8 @@ import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
 import com.digginroom.digginroom.oauth.IdTokenResolver;
-import com.digginroom.digginroom.oauth.MyJwkProvider;
-import com.digginroom.digginroom.oauth.MyJwkProviders;
+import com.digginroom.digginroom.oauth.CachedJwkProvider;
+import com.digginroom.digginroom.oauth.CachedJwkProviders;
 import java.util.List;
 
 //TODO: 픽스쳐 분리
@@ -39,12 +39,12 @@ public class TestFixture {
     public static final CommentRequest COMMENT_REQUEST = new CommentRequest("베리는 REST API 고수");
     public static final CommentRequest COMMENT_UPDATE_REQUEST = new CommentRequest("파워는 인텔리제이 평생 무료일듯?");
 
-    public static final MyJwkProvider googleProvider = MyJwkProvider.of("https://www.googleapis.com/oauth2/v3/certs",
+    public static final CachedJwkProvider googleProvider = CachedJwkProvider.of("https://www.googleapis.com/oauth2/v3/certs",
             Provider.GOOGLE);
-    public static final MyJwkProvider kakaoProvider = MyJwkProvider.of("https://kauth.kakao.com/.well-known/jwks.json",
+    public static final CachedJwkProvider kakaoProvider = CachedJwkProvider.of("https://kauth.kakao.com/.well-known/jwks.json",
             Provider.KAKAO);
-    public static final MyJwkProviders myJwkProviders = new MyJwkProviders(List.of(googleProvider, kakaoProvider));
-    public static final IdTokenResolver idTokenResolver = new IdTokenResolver(myJwkProviders);
+    public static final CachedJwkProviders CACHED_JWK_PROVIDERS = new CachedJwkProviders(List.of(googleProvider, kakaoProvider));
+    public static final IdTokenResolver idTokenResolver = new IdTokenResolver(CACHED_JWK_PROVIDERS);
 
     public static Room 나무() {
         Track track = Track.builder()

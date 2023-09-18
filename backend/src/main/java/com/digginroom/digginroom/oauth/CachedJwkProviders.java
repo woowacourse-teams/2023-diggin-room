@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MyJwkProviders {
+public class CachedJwkProviders {
 
-    private final List<MyJwkProvider> myJwkProviders;
+    private final List<CachedJwkProvider> cachedJwkProviders;
 
     public JwkProvider getJwkProvider(Provider provider) {
-        return myJwkProviders.stream()
-                .filter(myJwkProvider -> myJwkProvider.support(provider))
-                .map(MyJwkProvider::jwkProvider)
+        return cachedJwkProviders.stream()
+                .filter(cachedJwkProvider -> cachedJwkProvider.support(provider))
+                .map(CachedJwkProvider::jwkProvider)
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
     }

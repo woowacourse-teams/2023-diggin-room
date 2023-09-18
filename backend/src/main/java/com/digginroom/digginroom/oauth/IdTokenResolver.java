@@ -24,10 +24,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class IdTokenResolver {
 
-    private final MyJwkProviders myJwkProviders;
+    private final CachedJwkProviders cachedJwkProviders;
 
     public Map<String, Claim> resolve(final String idToken, final Provider provider) {
-        JwkProvider jwkProvider = myJwkProviders.getJwkProvider(provider);
+        JwkProvider jwkProvider = cachedJwkProviders.getJwkProvider(provider);
 
         try {
             DecodedJWT jwtOrigin = JWT.decode(idToken);
