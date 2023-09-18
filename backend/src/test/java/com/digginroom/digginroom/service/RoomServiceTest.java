@@ -69,12 +69,12 @@ class RoomServiceTest {
                 .isEqualTo(List.of(
                         new RoomResponse(
                                 나무.getId(),
-                                나무.getMediaSource().getIdentifier(),
+                                나무.getIdentifier(),
                                 true,
                                 나무.getScrapCount(),
                                 TrackResponse.of(나무.getTrack())),
                         new RoomResponse(차이.getId(),
-                                차이.getMediaSource().getIdentifier(),
+                                차이.getIdentifier(),
                                 true,
                                 나무.getScrapCount(),
                                 TrackResponse.of(차이.getTrack()))

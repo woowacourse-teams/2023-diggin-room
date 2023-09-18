@@ -4,7 +4,6 @@ import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.mediasource.MediaSource;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.domain.room.Room;
@@ -54,7 +53,7 @@ public class TestFixture {
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
                 .description("코건은 코건")
                 .build();
-        return new Room(new MediaSource("lQcnNPqy2Ww"), track);
+        return new Room("lQcnNPqy2Ww", track);
     }
 
     public static Room 차이() {
@@ -65,6 +64,6 @@ public class TestFixture {
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
                 .description("콩하나는 콩둘")
                 .build();
-        return new Room(new MediaSource("2VkWaOOF4Rc"), track);
+        return new Room("2VkWaOOF4Rc", track);
     }
 }

@@ -2,6 +2,8 @@ package com.digginroom.digginroom.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.digginroom.digginroom.TestFixture;
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
 import jakarta.persistence.EntityManager;
 import java.util.List;
@@ -31,14 +33,15 @@ class TrackTest {
                 .subGenres(List.of("Alternative Rock", "Noise Rock"))
                 .description("코건은 코건")
                 .build();
+        Room room = new Room(TestFixture.나무().getIdentifier(), track);
 
-        em.persist(track);
+        em.persist(room);
         em.flush();
 
         String subGenre = jdbcTemplate.queryForObject(
-                "select sub_genres from track where id=?",
+                "select sub_genres from room where id=?",
                 String.class,
-                track.getId()
+                room.getId()
         );
         assertThat(subGenre).isEqualTo("[\"Alternative Rock\",\"Noise Rock\"]");
     }

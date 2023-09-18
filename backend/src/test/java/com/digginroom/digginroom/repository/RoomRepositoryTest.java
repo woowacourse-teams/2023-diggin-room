@@ -23,13 +23,6 @@ class RoomRepositoryTest {
     private RoomRepository roomRepository;
 
     @Test
-    void 룸_저장_시_미디어_소스도_같아_저장된다() {
-        Room 나무 = roomRepository.save(나무());
-
-        assertThat(나무.getMediaSource().getId()).isNotNull();
-    }
-
-    @Test
     void Jpa는_엔티티의_동등성을_재정의하지_않는다(@Autowired EntityManager entityManager) {
         Room 나무 = roomRepository.save(나무());
 
