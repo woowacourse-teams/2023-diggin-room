@@ -1,24 +1,18 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.CommentRequest;
-import com.digginroom.digginroom.controller.dto.CommentResponse;
-import com.digginroom.digginroom.controller.dto.CommentsResponse;
-import com.digginroom.digginroom.controller.dto.RoomResponse;
-import com.digginroom.digginroom.controller.dto.RoomsResponse;
-import com.digginroom.digginroom.controller.dto.TrackResponse;
+import com.digginroom.digginroom.controller.dto.*;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.domain.track.Track;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.RoomRepository;
-import com.digginroom.digginroom.repository.TrackRepository;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @Transactional
@@ -26,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final TrackRepository trackRepository;
     private final MemberService memberService;
     private final CommentService commentService;
 
@@ -36,12 +29,11 @@ public class RoomService {
 
         try {
             Genre recommendedGenre = new GenreRecommender().recommend(member.getMemberGenres());
-            Track recommendedTrack = recommendTrack(recommendedGenre);
-            Room recommendedRoom = recommendedTrack.recommendRoom();
+            Room recommendedRoom = recommendRoom(recommendedGenre);
 
             return new RoomResponse(
                     recommendedRoom.getId(),
-                    recommendedRoom.getMediaSource().getIdentifier(),
+                    recommendedRoom.getIdentifier(),
                     member.hasScrapped(recommendedRoom),
                     recommendedRoom.getScrapCount(),
                     TrackResponse.of(recommendedRoom.getTrack())
@@ -51,11 +43,11 @@ public class RoomService {
         }
     }
 
-    private Track recommendTrack(final Genre recommendedGenre) {
-        List<Track> tracks = trackRepository.findBySuperGenre(recommendedGenre);
-        int pickedIndex = ThreadLocalRandom.current().nextInt(tracks.size());
+    private Room recommendRoom(final Genre recommendedGenre) {
+        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
+        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
 
-        return tracks.get(pickedIndex);
+        return rooms.get(pickedIndex);
     }
 
     @Transactional(readOnly = true)
@@ -64,7 +56,7 @@ public class RoomService {
         return new RoomsResponse(member.getScrapRooms().stream()
                 .map(room -> new RoomResponse(
                         room.getId(),
-                        room.getMediaSource().getIdentifier(),
+                        room.getIdentifier(),
                         member.hasScrapped(room),
                         room.getScrapCount(),
                         TrackResponse.of(room.getTrack())
