@@ -4,8 +4,6 @@
 
     <data>
 
-        <import type="com.dygames.roompager.PagingOrientation" />
-
         <variable
             name="adapter"
             type="com.dygames.roompager.Adapter&lt;com.dygames.roompager.Adapter.ViewHolder>" />

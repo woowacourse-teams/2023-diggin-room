@@ -2,5 +2,5 @@
 <resources>
     <dimen name="scrap_icon_size">32dp</dimen>
     <dimen name="scrap_horizontal_margin">20dp</dimen>
-    <dimen name="scrap_vertical_margin">46dp</dimen>
+    <dimen name="scrap_vertical_margin">20dp</dimen>
 </resources>

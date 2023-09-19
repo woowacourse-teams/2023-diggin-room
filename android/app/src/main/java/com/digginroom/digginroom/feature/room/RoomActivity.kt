@@ -40,6 +40,10 @@ class RoomActivity : AppCompatActivity() {
                 roomInfoDialog.show(supportFragmentManager, track)
             }, openScrap = {
                 ScrapListActivity.start(this)
+            }, scrap = { id ->
+                roomViewModel.postScrap(id)
+            }, unScrap = { id ->
+                roomViewModel.removeScrap(id)
             })
     }
 

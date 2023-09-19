@@ -12,10 +12,13 @@ class RoomPagerAdapter(
     private val loadNextRoom: () -> Unit,
     private val openComment: (Long) -> Unit,
     private val openInfo: (TrackModel) -> Unit,
-    private val openScrap: () -> Unit
+    private val openScrap: () -> Unit,
+    private val scrap: (Long) -> Unit,
+    private val unScrap: (Long) -> Unit
 ) : Adapter<YoutubeRoomPlayer> {
 
     private var viewHolders: List<YoutubeRoomPlayer> = emptyList()
+    private var lastCurrentRoomPosition = 0
 
     override fun createViewHolder(context: Context): YoutubeRoomPlayer =
         YoutubeRoomPlayer(context) {
@@ -29,6 +32,7 @@ class RoomPagerAdapter(
         recycledViewHolders: List<Adapter.ViewHolder>
     ) {
         viewHolders = recycledViewHolders.map { it as YoutubeRoomPlayer }
+        lastCurrentRoomPosition = currentRoomPosition
         navigateRooms(currentRoomPosition)
         play()
     }
@@ -39,9 +43,7 @@ class RoomPagerAdapter(
 
     fun setData(data: List<RoomModel>) {
         rooms = data
-        if (rooms.size == 1) {
-            navigateRooms(0)
-        }
+        navigateRooms(lastCurrentRoomPosition)
     }
 
     fun play() {
@@ -69,6 +71,9 @@ class RoomPagerAdapter(
     private fun navigateRoom(position: Int, currentRoomPosition: Int) {
         val center = 1
         val target = repeat(center + position, 3)
+        if (target >= viewHolders.size) {
+            return
+        }
         val room = viewHolders[target]
         if (rooms.size > currentRoomPosition + position && currentRoomPosition + position >= 0) {
             room.navigate(
@@ -76,7 +81,9 @@ class RoomPagerAdapter(
                     rooms[currentRoomPosition + position],
                     openComment,
                     openInfo,
-                    openScrap
+                    openScrap,
+                    scrap,
+                    unScrap
                 )
             )
         }
