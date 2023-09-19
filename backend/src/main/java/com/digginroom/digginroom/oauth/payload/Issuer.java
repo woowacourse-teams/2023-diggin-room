@@ -2,7 +2,7 @@ package com.digginroom.digginroom.oauth.payload;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.Claim;
-import com.digginroom.digginroom.exception.OAuthResolverException;
+import com.digginroom.digginroom.exception.OAuthResolverException.UnsupportedIdTokenException;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -25,7 +25,7 @@ public enum Issuer {
         return Arrays.stream(values())
                 .filter(it -> it.supports(issuer))
                 .findFirst()
-                .orElseThrow(() -> new OAuthResolverException.UnsupportedIdTokenException(issuer));
+                .orElseThrow(() -> new UnsupportedIdTokenException(issuer));
     }
 
     private boolean supports(String issuer) {
