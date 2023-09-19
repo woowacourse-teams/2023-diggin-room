@@ -34,9 +34,17 @@ class DefaultAccountRepository(
             Member(memberToken.hasSurveyed)
         }
 
-    override suspend fun postLogin(idToken: String): LogResult<Member> =
+    override suspend fun postGoogleLogin(idToken: String): LogResult<Member> =
         logRunCatching {
-            val memberToken: MemberToken = accountRemoteDataSource.postLogin(idToken)
+            val memberToken: MemberToken = accountRemoteDataSource.postGoogleLogin(idToken)
+
+            tokenRepository.save(memberToken.token)
+            Member(memberToken.hasSurveyed)
+        }
+
+    override suspend fun postKakaoLogin(idToken: String): LogResult<Member> =
+        logRunCatching {
+            val memberToken: MemberToken = accountRemoteDataSource.postKakaoLogin(idToken)
 
             tokenRepository.save(memberToken.token)
             Member(memberToken.hasSurveyed)

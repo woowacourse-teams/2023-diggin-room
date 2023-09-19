@@ -15,7 +15,7 @@ import com.digginroom.digginroom.data.service.RoomService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -35,13 +35,13 @@ class RemoteDataSourceProvider(tokenLocalDataSource: TokenLocalDataSource) {
 
     private val tokenRetrofit: Retrofit by lazy {
         Retrofit.Builder().baseUrl(url).client(tokenClient)
-            .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
             .build()
     }
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder().baseUrl(url)
-            .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
             .build()
     }
 

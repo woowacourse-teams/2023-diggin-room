@@ -117,7 +117,7 @@ class LoginViewModelTest {
         val actual = loginViewModel.uiState.getValue()
 
         // then
-        val expected = LoginUiState.InProgress.GoogleLogin
+        val expected = LoginUiState.InProgress.Google
         assertEquals(expected, actual)
     }
 
@@ -125,7 +125,7 @@ class LoginViewModelTest {
     fun `id 토큰을 이용한 구글 로그인 실패시 로그인 실패 상태가 된다`() {
         // given
         coEvery {
-            accountRepository.postLogin(ID_TOKEN)
+            accountRepository.postGoogleLogin(ID_TOKEN)
         } returns LogResult.failure()
 
         // when
@@ -139,7 +139,7 @@ class LoginViewModelTest {
     fun `id 토큰을 이용한 구글 로그인 성공시 로그인 성공 상태가 된다`() {
         // given
         coEvery {
-            accountRepository.postLogin(ID_TOKEN)
+            accountRepository.postGoogleLogin(ID_TOKEN)
         } returns LogResult.success(Member(true))
 
         // when
@@ -156,7 +156,7 @@ class LoginViewModelTest {
         val actual = loginViewModel.uiState.getValue()
 
         // then
-        val expected = LoginUiState.InProgress.KaKaoLogin
+        val expected = LoginUiState.InProgress.KaKao
         assertEquals(expected, actual)
     }
 }

@@ -3,6 +3,7 @@ package com.digginroom.digginroom.data.service
 import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
+import com.digginroom.digginroom.data.entity.KakaoLoginRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.entity.LoginResponse
 import retrofit2.Response
@@ -24,8 +25,13 @@ interface AccountService {
     ): Response<LoginResponse>
 
     @POST("/login/google")
-    suspend fun postLogin(
+    suspend fun postGoogleLogin(
         @Body loginRequest: GoogleLoginRequest
+    ): Response<LoginResponse>
+
+    @POST("/login/kakao")
+    suspend fun postKakaoLogin(
+        @Body loginRequest: KakaoLoginRequest
     ): Response<LoginResponse>
 
     @GET("/join/exist")

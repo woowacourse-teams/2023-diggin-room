@@ -4,6 +4,7 @@ import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
+import com.digginroom.digginroom.data.entity.KakaoLoginRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.entity.MemberToken
 import com.digginroom.digginroom.data.service.AccountService
@@ -46,8 +47,23 @@ class AccountRemoteDataSource(
         throw HttpError.Unknown(response)
     }
 
-    suspend fun postLogin(idToken: String): MemberToken {
-        val response = accountService.postLogin(GoogleLoginRequest(idToken))
+    suspend fun postGoogleLogin(idToken: String): MemberToken {
+        val response = accountService.postGoogleLogin(GoogleLoginRequest(idToken))
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return MemberToken(
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasSurveyed = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
+            )
+        }
+
+        throw HttpError.Unknown(response)
+    }
+
+    suspend fun postKakaoLogin(idToken: String): MemberToken {
+        val response = accountService.postKakaoLogin(KakaoLoginRequest(idToken))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
 

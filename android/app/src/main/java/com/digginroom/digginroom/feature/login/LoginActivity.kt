@@ -45,15 +45,19 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initLoginObserver() {
-        val googleLoginResultLauncher = getSocialLoginResultLauncher(SocialLogin.Google)
+        val googleLoginResultLauncher = getGoogleLoginResultLauncher(SocialLogin.Google)
 
         loginViewModel.uiState.observe(this) {
             when (it) {
-                is LoginUiState.InProgress.GoogleLogin -> googleLoginResultLauncher.launch(
+                is LoginUiState.InProgress.Google -> googleLoginResultLauncher.launch(
                     SocialLogin.Google.getIntent(this)
                 )
 
-                is LoginUiState.InProgress.KaKaoLogin -> SocialLogin.KaKao.getIdToken(this)
+                is LoginUiState.InProgress.KaKao -> {
+                    SocialLogin.KaKao.getIdToken(this) { idToken ->
+                        loginViewModel.kakaoLogin(idToken)
+                    }
+                }
 
                 is LoginUiState.Succeed.NotSurveyed -> {
                     finish()
@@ -74,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun getSocialLoginResultLauncher(googleLogin: SocialLogin.Google): ActivityResultLauncher<Intent> =
+    private fun getGoogleLoginResultLauncher(googleLogin: SocialLogin.Google): ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 googleLogin

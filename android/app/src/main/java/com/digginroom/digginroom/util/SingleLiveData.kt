@@ -30,5 +30,4 @@ abstract class SingleLiveData<T> {
     fun observePeek(owner: LifecycleOwner, onResult: (T) -> Unit) {
         liveData.observe(owner) { onResult(it.peekContent()) }
     }
-
 }

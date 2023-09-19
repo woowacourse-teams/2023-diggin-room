@@ -123,7 +123,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="45dp"
             android:background="@drawable/bg_gradient_blue_radius"
-            android:onClick="@{() -> viewModel.startGoogleLogin()}"
+            android:onClick="@{() -> viewModel.login(account)}"
             android:paddingVertical="16dp"
             android:text="@string/common_login"
             android:textColor="@color/white"

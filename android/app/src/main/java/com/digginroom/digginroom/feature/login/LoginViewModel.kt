@@ -13,7 +13,7 @@ class LoginViewModel(
 ) : ViewModel() {
 
     private val _uiState: MutableSingleLiveData<LoginUiState> =
-        MutableSingleLiveData(LoginUiState.InProgress.Login)
+        MutableSingleLiveData(LoginUiState.InProgress.General)
     val uiState: SingleLiveData<LoginUiState>
         get() = _uiState
 
@@ -32,11 +32,19 @@ class LoginViewModel(
         }
     }
 
+    fun startGoogleLogin() {
+        _uiState.setValue(LoginUiState.InProgress.Google)
+    }
+
+    fun startKakaoLogin() {
+        _uiState.setValue(LoginUiState.InProgress.KaKao)
+    }
+
     fun googleLogin(idToken: String) {
         _uiState.setValue(LoginUiState.Loading)
 
         viewModelScope.launch {
-            accountRepository.postLogin(idToken)
+            accountRepository.postGoogleLogin(idToken)
                 .onSuccess { loginResult ->
                     _uiState.setValue(LoginUiState.Succeed.from(loginResult.hasSurveyed))
                 }.onFailure {
@@ -45,24 +53,16 @@ class LoginViewModel(
         }
     }
 
-    fun startGoogleLogin() {
-        _uiState.setValue(LoginUiState.InProgress.GoogleLogin)
-    }
-
-    fun startKakaoLogin() {
-        _uiState.setValue(LoginUiState.InProgress.KaKaoLogin)
-    }
-
     fun kakaoLogin(idToken: String) {
-//        _uiState.value = LoginUiState.Loading
-//
-//        viewModelScope.launch {
-//            accountRepository.postLogin(idToken)
-//                .onSuccess { loginResult ->
-//                    _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
-//                }.onFailure {
-//                    _uiState.value = LoginUiState.Failed
-//                }
-//        }
+        _uiState.setValue(LoginUiState.Loading)
+
+        viewModelScope.launch {
+            accountRepository.postKakaoLogin(idToken)
+                .onSuccess { loginResult ->
+                    _uiState.setValue(LoginUiState.Succeed.from(loginResult.hasSurveyed))
+                }.onFailure {
+                    _uiState.setValue(LoginUiState.Failed)
+                }
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.login
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import com.digginroom.digginroom.BuildConfig
 import com.digginroom.digginroom.logging.DefaultLogResult
@@ -24,6 +23,7 @@ sealed interface SocialLogin {
         fun getIntent(context: Context): Intent {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(BuildConfig.CLIENT_ID)
+                .requestServerAuthCode(BuildConfig.CLIENT_ID)
                 .build()
 
             return GoogleSignIn.getClient(context, gso).signInIntent
@@ -34,8 +34,8 @@ sealed interface SocialLogin {
                 GoogleSignIn.getSignedInAccountFromIntent(result.data)
 
             val idToken: DefaultLogResult<String> = logRunCatching {
-                task.getResult(ApiException::class.java)
-                    .idToken ?: throw NoSuchElementException(ID_TOKEN_ERROR)
+                task.getResult(ApiException::class.java).idToken
+                    ?: throw NoSuchElementException(ID_TOKEN_ERROR)
             }.onFailure {
             }
 
@@ -45,31 +45,27 @@ sealed interface SocialLogin {
 
     object KaKao : SocialLogin {
 
-        fun getIdToken(context: Context): String? =
+        fun getIdToken(context: Context, login: (idToken: String) -> Unit) {
             when (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                true -> loginWithKakaoApplication(context)
-                false -> loginWithKakaoAccount(context)
+                true -> loginWithKakaoApplication(context) { login(it) }
+                false -> loginWithKakaoAccount(context) { login(it) }
             }
-
-        private fun loginWithKakaoApplication(context: Context): String? {
-            var idToken: String? = null
-
-            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                Log.d("woogi", "loginWithKakaoApplication: ${token?.idToken}")
-                idToken = getIdToken(token, error)
-            }
-
-            return idToken
         }
 
-        private fun loginWithKakaoAccount(context: Context): String? {
-            var idToken: String? = null
-
-            UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
-                Log.d("woogi", "loginWithKakaoApplication: ${token?.idToken}")
-                idToken = getIdToken(token, error)
+        private fun loginWithKakaoApplication(context: Context, login: (idToken: String) -> Unit) {
+            UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                getIdToken(token, error)?.let {
+                    login(it)
+                }
             }
-            return idToken
+        }
+
+        private fun loginWithKakaoAccount(context: Context, login: (idToken: String) -> Unit) {
+            UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+                getIdToken(token, error)?.let {
+                    login(it)
+                }
+            }
         }
 
         private fun getIdToken(token: OAuthToken?, exception: Throwable?): String? {
