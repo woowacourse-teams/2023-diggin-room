@@ -31,22 +31,26 @@ public class Member extends BaseEntity {
     @Getter(AccessLevel.NONE)
     private boolean hasFavorite = false;
     @Embedded
+    private Nickname nickname;
+    @Embedded
     private final ScrapRooms scrapRooms = new ScrapRooms();
     @Embedded
     private final DislikeRooms dislikeRooms = new DislikeRooms();
     @Embedded
     private final MemberGenres memberGenres = new MemberGenres(this);
 
-    public Member(final String username, final Provider provider) {
+    public Member(final String username, final Provider provider, final String nickname) {
         this.username = username;
         this.password = Password.EMPTY;
         this.provider = provider;
+        this.nickname = Nickname.of(nickname);
     }
 
     public Member(final String username, final String password) {
         this.username = username;
         this.password = new Password(password);
         this.provider = Provider.SELF;
+        this.nickname = Nickname.random();
     }
 
     public void scrap(final Room room) {
@@ -113,5 +117,9 @@ public class Member extends BaseEntity {
 
     public List<Room> getDislikeRooms() {
         return dislikeRooms.getDislikeRooms();
+    }
+
+    public String getNickname() {
+        return nickname.getNickname();
     }
 }
