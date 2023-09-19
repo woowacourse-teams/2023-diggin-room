@@ -1,4 +1,4 @@
 package com.digginroom.digginroom.controller.dto;
 
-public record GoogleOAuthRequest(String idToken) {
+public record IdTokenRequest(String idToken) {
 }
