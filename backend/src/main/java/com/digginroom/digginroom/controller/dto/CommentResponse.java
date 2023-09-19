@@ -15,7 +15,7 @@ public record CommentResponse(
     public static CommentResponse of(final Comment comment, boolean isOwner) {
         return new CommentResponse(
                 comment.getId(),
-                comment.getMember().getUsername(),
+                comment.getMember().getNickname(),
                 comment.getComment(),
                 comment.getCreatedAt(),
                 comment.getUpdatedAt(),

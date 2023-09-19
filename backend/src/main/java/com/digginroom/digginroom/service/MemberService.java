@@ -1,7 +1,9 @@
 package com.digginroom.digginroom.service;
 
+import com.auth0.jwt.interfaces.Claim;
 import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
+import com.digginroom.digginroom.controller.dto.KakaoOAuthRequest;
 import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
 import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
@@ -13,8 +15,10 @@ import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.exception.MemberException.WrongProviderException;
+import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final OAuthUsernameResolver googleUsernameRetriever;
+    private final IdTokenResolver idTokenResolver;
+
 
     public void save(final MemberSaveRequest request) {
         if (isDuplicated(request.username())) {
@@ -80,11 +85,26 @@ public class MemberService {
     }
 
     public MemberLoginResponse loginMember(final GoogleOAuthRequest request) {
-        String googleUsername = googleUsernameRetriever.resolve(request.idToken());
+        Map<String, Claim> idToken = idTokenResolver.resolve(request.idToken(), Provider.GOOGLE);
+        String googleUsername = idToken.get("sub").asString();
+        String name = idToken.get("name").asString();
 
         Member member = memberRepository.findMemberByUsername(googleUsername)
                 .orElseGet(() -> memberRepository.save(
-                        new Member(googleUsername, Provider.GOOGLE))
+                        new Member(googleUsername, Provider.GOOGLE, name))
+                );
+
+        return MemberLoginResponse.of(member);
+    }
+
+    public MemberLoginResponse loginMember(final KakaoOAuthRequest request) {
+        Map<String, Claim> idToken = idTokenResolver.resolve(request.idToken(), Provider.KAKAO);
+        String kakaoUsername = idToken.get("sub").asString();
+        String name = idToken.get("nickname").asString();
+
+        Member member = memberRepository.findMemberByUsername(kakaoUsername)
+                .orElseGet(() -> memberRepository.save(
+                        new Member(kakaoUsername, Provider.KAKAO, name))
                 );
 
         return MemberLoginResponse.of(member);
