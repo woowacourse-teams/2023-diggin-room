@@ -25,8 +25,8 @@ jobs:
     - name: Init with Gradle
       run: ./android/gradlew init
 
-    - name: Build with Gradle
-      run: ./android/gradlew build
+    - name: Run test
+      run: ./android/gradlew test
       
     - name: Run ktlint
       working-directory: ./android
