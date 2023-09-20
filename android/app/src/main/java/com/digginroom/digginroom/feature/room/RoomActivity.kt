@@ -35,24 +35,23 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-                commentDialog.show(supportFragmentManager, id)
-            }, openInfo = { track ->
-                roomInfoDialog.show(supportFragmentManager, track)
-            }, openScrap = {
-                ScrapListActivity.start(this)
-            }, scrap = { id ->
-                roomViewModel.postScrap(id)
-            }, unScrap = { id ->
-                roomViewModel.removeScrap(id)
-            })
+            commentDialog.show(supportFragmentManager, id)
+        }, openInfo = { track ->
+            roomInfoDialog.show(supportFragmentManager, track)
+        }, openScrap = {
+            ScrapListActivity.start(this)
+        }, scrap = { id ->
+            roomViewModel.postScrap(id)
+        }, unScrap = { id ->
+            roomViewModel.removeScrap(id)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBinding()
         initRoomPager()
-        navigateToTutorial(false)
-//        initTutorial()
+        initTutorial()
     }
 
     private fun initBinding() {
