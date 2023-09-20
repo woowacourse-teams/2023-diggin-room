@@ -36,6 +36,9 @@ android {
         buildConfigField "String", "SERVER_URL", properties.getProperty("server.url")
         buildConfigField "String", "CLIENT_ID", properties.getProperty("server.clientId", "")
         buildConfigField "String", "KAKAO_NATIVE_KEY", properties.getProperty("kakao.nativeKey", "")
+
+        def kakaoNativeKey = properties.getProperty("kakao.nativeKey", "")
+        manifestPlaceholders = [kakaoNativeKey: kakaoNativeKey.substring(1, kakaoNativeKey.length() - 1)]
     }
     buildTypes {
         debug {

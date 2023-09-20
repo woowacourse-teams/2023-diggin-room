@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
+     
         <activity
             android:name=".feature.splash.SplashActivity"
             android:exported="true">
@@ -38,7 +39,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:host="oauth"
-                    android:scheme="kakao29c197304e8a8a049e79c41670d34ce2" />
+                    android:scheme="kakao${kakaoNativeKey}" />
             </intent-filter>
         </activity>
         <activity
