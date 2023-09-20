@@ -1,14 +1,7 @@
 package com.digginroom.digginroom.service;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
-import com.digginroom.digginroom.controller.dto.KakaoOAuthRequest;
-import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
-import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
-import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
+import com.digginroom.digginroom.controller.dto.*;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.Provider;
@@ -17,11 +10,12 @@ import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.exception.MemberException.WrongProviderException;
 import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -67,6 +61,11 @@ public class MemberService {
     @Transactional(readOnly = true)
     public MemberDetailsResponse getMemberDetails(final Long id) {
         return MemberDetailsResponse.of(findMember(id));
+    }
+
+    public MemberLoginResponse loginGuest() {
+        Member member = memberRepository.save(Member.guest());
+        return MemberLoginResponse.of(member);
     }
 
     @Transactional(readOnly = true)

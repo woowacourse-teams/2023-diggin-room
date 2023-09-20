@@ -162,4 +162,12 @@ class MemberServiceTest {
                 .extracting("memberId", "username", "hasFavorite")
                 .containsExactly(member.getId(), member.getUsername(), member.hasFavorite());
     }
+
+    @Test
+    void 게스트로_로그인한다() {
+        when(memberRepository.save(any(Member.class))).thenReturn(Member.guest());
+
+        memberService.loginGuest();
+        verify(memberRepository).save(any(Member.class));
+    }
 }

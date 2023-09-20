@@ -10,12 +10,14 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import java.util.HashSet;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -51,6 +53,19 @@ public class Member extends BaseEntity {
         this.password = new Password(password);
         this.provider = Provider.SELF;
         this.nickname = Nickname.random();
+    }
+
+    public Member(String username) {
+        this.username = username;
+        this.password = Password.EMPTY;
+        this.provider = Provider.SELF;
+        this.nickname = Nickname.random();
+    }
+
+    public static Member guest() {
+        return new Member(
+                "guest-" + UUID.randomUUID().toString().split("-")[0]
+        );
     }
 
     public void scrap(final Room room) {
