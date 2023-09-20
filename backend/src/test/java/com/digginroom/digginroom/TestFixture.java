@@ -9,7 +9,9 @@ import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
 import com.digginroom.digginroom.oauth.IdTokenResolver;
-import com.digginroom.digginroom.oauth.cache.CachedJwkProviders;
+import com.digginroom.digginroom.oauth.jwk.GoogleJwkProvider;
+import com.digginroom.digginroom.oauth.jwk.KakaoJwkProvider;
+import com.digginroom.digginroom.oauth.jwk.ThirdPartyJwkProviders;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
 
 import java.util.List;
@@ -62,7 +64,11 @@ public class TestFixture {
         }
     };
 
-    public static final IdTokenResolver ID_TOKEN_RESOLVER = new IdTokenResolver(new CachedJwkProviders());
+    public static final ThirdPartyJwkProviders THIRD_PARTY_JWK_PROVIDERS = new ThirdPartyJwkProviders(List.of(
+            new KakaoJwkProvider(),
+            new GoogleJwkProvider()
+    ));
+    public static final IdTokenResolver ID_TOKEN_RESOLVER = new IdTokenResolver(THIRD_PARTY_JWK_PROVIDERS);
 
     public static Room 나무() {
         Track track = Track.builder()
