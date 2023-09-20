@@ -35,12 +35,16 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-            commentDialog.show(supportFragmentManager, id)
-        }, openInfo = { track ->
-            roomInfoDialog.show(supportFragmentManager, track)
-        }, openScrap = {
-            ScrapListActivity.start(this)
-        })
+                commentDialog.show(supportFragmentManager, id)
+            }, openInfo = { track ->
+                roomInfoDialog.show(supportFragmentManager, track)
+            }, openScrap = {
+                ScrapListActivity.start(this)
+            }, scrap = { id ->
+                roomViewModel.postScrap(id)
+            }, unScrap = { id ->
+                roomViewModel.removeScrap(id)
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,7 +128,10 @@ class RoomActivity : AppCompatActivity() {
         }
 
         fun start(
-            context: Context, rooms: RoomsModel, position: Int, pagingOrientation: PagingOrientation
+            context: Context,
+            rooms: RoomsModel,
+            position: Int,
+            pagingOrientation: PagingOrientation
         ) {
             val intent = Intent(context, RoomActivity::class.java).apply {
                 putExtra(KEY_ROOMS, rooms)

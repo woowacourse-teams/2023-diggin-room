@@ -4,14 +4,15 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
+import com.digginroom.digginroom.R
 
 class ScrapToggle(
     context: Context,
     attributeSet: AttributeSet? = null
 ) : AppCompatImageView(context, attributeSet) {
-    var isScrapped: Boolean = false
-    var scrapListener: () -> Unit = {}
-    var cancelScrapListener: () -> Unit = {}
+    private var _isScrapped: Boolean = false
+    var scrap: () -> Unit = {}
+    var unScrap: () -> Unit = {}
 
     init {
         isClickable = true
@@ -25,11 +26,37 @@ class ScrapToggle(
         return super.dispatchTouchEvent(event)
     }
 
-    private fun toggle() {
-        if (!isScrapped) {
-            scrapListener()
-        } else {
-            cancelScrapListener()
+    fun interface Function {
+        fun invoke()
+    }
+
+    fun setOnScrap(event: Function) {
+        scrap = {
+            event.invoke()
         }
+    }
+
+    fun setOnUnScrap(event: Function) {
+        unScrap = {
+            event.invoke()
+        }
+    }
+
+    fun setScrapped(isScrapped: Boolean) {
+        _isScrapped = isScrapped
+        if (isScrapped) {
+            setImageResource(R.drawable.scrap_icon)
+        } else {
+            setImageResource(R.drawable.unscrap_icon)
+        }
+    }
+
+    private fun toggle() {
+        if (!_isScrapped) {
+            scrap()
+        } else {
+            unScrap()
+        }
+        setScrapped(!_isScrapped)
     }
 }
