@@ -27,10 +27,10 @@
             android:layout_margin="20dp"
             android:text="@string/tutorial_skip"
             android:textColor="#BEB8DC"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/tutorial_layout_indicators"

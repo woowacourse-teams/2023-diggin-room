@@ -51,7 +51,8 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBinding()
         initRoomPager()
-        initTutorial()
+        navigateToTutorial(false)
+//        initTutorial()
     }
 
     private fun initBinding() {

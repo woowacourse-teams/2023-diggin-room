@@ -19,9 +19,8 @@
             android:layout_marginTop="60dp"
             android:text="@string/tutorial_find_room_ment"
             android:textAlignment="center"
-            android:textColor="#BEB8DC"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,8 +40,7 @@
                 android:src="@drawable/ic_tutorial_gesture_arrow"
                 app:layout_constraintBottom_toTopOf="@id/tutorial1_tv_previous_room"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:tint="#BEB8DC" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tutorial1_tv_previous_room"
@@ -50,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/tutorial_previous_room"
-                android:textColor="#BEB8DC"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,10 +59,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="200dp"
-                android:layout_marginBottom="10dp"
                 android:text="@string/tutorial_next_room"
-                android:textColor="#BEB8DC"
                 android:textSize="18sp"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@id/tutorial2_iv_right_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,12 +71,12 @@
                 android:id="@+id/tutorial2_iv_right_arrow"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
+                android:layout_marginTop="10dp"
                 android:rotation="90"
                 android:src="@drawable/ic_tutorial_gesture_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tutorial1_tv_next_room"
-                app:tint="#BEB8DC" />
+                app:layout_constraintTop_toBottomOf="@id/tutorial1_tv_next_room" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

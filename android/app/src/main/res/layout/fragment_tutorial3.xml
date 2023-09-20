@@ -16,6 +16,7 @@
         tools:context=".feature.tutorial.TutorialFragment3">
 
         <ImageButton
+            android:visibility="invisible"
             android:id="@+id/room_info_ib_scrap"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -30,6 +31,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/room_info_iv_music"
             android:layout_width="24dp"
+            android:visibility="invisible"
             android:layout_height="24dp"
             android:layout_marginStart="@dimen/scrap_horizontal_margin"
             android:background="?attr/selectableItemBackground"
@@ -56,6 +58,7 @@
             android:id="@id/room_info_scrap_toggle"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:visibility="invisible"
             android:cropToPadding="true"
             android:padding="12dp"
             android:scaleType="centerInside"
@@ -81,6 +84,7 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:padding="12dp"
+            android:visibility="invisible"
             android:scaleType="centerInside"
             android:src="@drawable/comment_icon"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_info"
@@ -95,6 +99,7 @@
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/info_icon"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -106,15 +111,14 @@
             android:rotation="-90"
             android:src="@drawable/ic_tutorial_curve_arrow"
             app:layout_constraintBottom_toTopOf="@id/room_info_iv_music"
-            app:layout_constraintStart_toStartOf="@id/room_info_iv_music"
-            app:tint="#BEB8DC" />
+            app:layout_constraintStart_toStartOf="@id/room_info_iv_music"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/tutorial_room_info"
-            android:textColor="#BEB8DC"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/arrow_room_info_iv_music"
             app:layout_constraintTop_toTopOf="@+id/arrow_room_info_iv_music" />
@@ -129,8 +133,7 @@
             android:src="@drawable/ic_tutorial_curve_arrow"
             app:layout_constraintEnd_toEndOf="@+id/room_info_ib_scrap"
             app:layout_constraintStart_toStartOf="@+id/room_info_ib_scrap"
-            app:layout_constraintTop_toBottomOf="@+id/room_info_ib_scrap"
-            app:tint="#BEB8DC" />
+            app:layout_constraintTop_toBottomOf="@+id/room_info_ib_scrap" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -138,7 +141,7 @@
             android:layout_marginTop="-10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/tutorial_navigate_to_scrap"
-            android:textColor="#BEB8DC"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/arrow_room_info_ib_scrap"
             app:layout_constraintEnd_toStartOf="@id/arrow_room_info_ib_scrap" />
@@ -150,8 +153,7 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
             app:layout_constraintEnd_toStartOf="@id/room_info_scrap_toggle"
-            app:layout_constraintTop_toTopOf="@+id/room_info_scrap_toggle"
-            app:tint="#BEB8DC" />
+            app:layout_constraintTop_toTopOf="@+id/room_info_scrap_toggle" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -159,7 +161,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/tutorial_scrap"
-            android:textColor="#BEB8DC"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/arrow_room_info_scrap_toggle"
             app:layout_constraintTop_toTopOf="@id/arrow_room_info_scrap_toggle" />
@@ -171,8 +173,7 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
             app:layout_constraintEnd_toStartOf="@id/room_info_scrap_toggle"
-            app:layout_constraintTop_toTopOf="@id/room_info_ib_comment"
-            app:tint="#BEB8DC" />
+            app:layout_constraintTop_toTopOf="@id/room_info_ib_comment" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -180,7 +181,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/tutorial_comment"
-            android:textColor="#BEB8DC"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/arrow_room_info_scrap_toggle"
             app:layout_constraintTop_toTopOf="@id/arrow_room_info_ib_comment" />
@@ -192,8 +193,7 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
             app:layout_constraintEnd_toStartOf="@id/room_info_ib_info"
-            app:layout_constraintTop_toTopOf="@id/room_info_ib_info"
-            app:tint="#BEB8DC" />
+            app:layout_constraintTop_toTopOf="@id/room_info_ib_info"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/tutorial_room_info"
-            android:textColor="#BEB8DC"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/arrow_room_info_ib_info"
             app:layout_constraintTop_toTopOf="@id/arrow_room_info_ib_info" />
