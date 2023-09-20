@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
-import com.digginroom.digginroom.feature.tutorial.TutorialUiState
+import com.digginroom.digginroom.feature.tutorial.TutorialState
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
@@ -21,8 +21,8 @@ class RoomViewModel(
     private val _cachedRoom: MutableLiveData<RoomState> = MutableLiveData(RoomState.Loading)
     val cachedRoom: LiveData<RoomState>
         get() = _cachedRoom
-    private val _tutorialCompleted: MutableLiveData<TutorialUiState> = MutableLiveData()
-    val tutorialCompleted: LiveData<TutorialUiState> get() = _tutorialCompleted
+    private val _tutorialCompleted: MutableLiveData<TutorialState> = MutableLiveData()
+    val tutorialCompleted: LiveData<TutorialState> get() = _tutorialCompleted
 
     fun findNext() {
         _cachedRoom.value = RoomState.Loading
@@ -71,12 +71,21 @@ class RoomViewModel(
         }
     }
 
+    fun completeTutorial() {
+        _tutorialCompleted.value = TutorialState.Loading
+        viewModelScope.launch {
+            tutorialRepository.save(true).onSuccess {
+                _tutorialCompleted.value = TutorialState.Success(true)
+            }.onFailure { _tutorialCompleted.value = TutorialState.Error(it) }
+        }
+    }
+
     fun fetchTutorialCompleted() {
-        _tutorialCompleted.value = TutorialUiState.Loading
+        _tutorialCompleted.value = TutorialState.Loading
         viewModelScope.launch {
             tutorialRepository.fetch().onSuccess {
-                _tutorialCompleted.value = TutorialUiState.Success(it)
-            }.onFailure { _tutorialCompleted.value = TutorialUiState.Error(it) }
+                _tutorialCompleted.value = TutorialState.Success(it)
+            }.onFailure { _tutorialCompleted.value = TutorialState.Error(it) }
         }
     }
 }

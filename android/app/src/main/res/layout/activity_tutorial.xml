@@ -14,25 +14,26 @@
         tools:context=".feature.tutorial.TutorialActivity">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/tutorial_vp"
+            android:id="@+id/tutorial_viewpager_tutorial"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_skip"
+            android:id="@+id/tutorial_tv_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="@string/tutorial_skip"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textColor="#BEB8DC"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
-            android:id="@+id/indicators"
+            android:id="@+id/tutorial_layout_indicators"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"

@@ -14,7 +14,7 @@ import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialActivity
-import com.digginroom.digginroom.feature.tutorial.TutorialUiState
+import com.digginroom.digginroom.feature.tutorial.TutorialState
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.roompager.PagingOrientation
@@ -47,13 +47,7 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBinding()
         initRoomPager()
-        roomViewModel.fetchTutorialCompleted()
-        roomViewModel.tutorialCompleted.observe(this) {
-            when (it) {
-                is TutorialUiState.Success -> navigateToTutorial(it.tutorialCompleted)
-                else -> Unit
-            }
-        }
+        initTutorial()
     }
 
     private fun initBinding() {
@@ -88,6 +82,16 @@ class RoomActivity : AppCompatActivity() {
         }
     }
 
+    private fun initTutorial() {
+        roomViewModel.fetchTutorialCompleted()
+        roomViewModel.tutorialCompleted.observe(this) {
+            when (it) {
+                is TutorialState.Success -> navigateToTutorial(it.tutorialCompleted)
+                else -> Unit
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         roomPagerAdapter.play()
@@ -95,7 +99,11 @@ class RoomActivity : AppCompatActivity() {
 
     private fun navigateToTutorial(tutorialCompleted: Boolean) {
         when (tutorialCompleted) {
-            false -> TutorialActivity.start(this)
+            false -> {
+                TutorialActivity.start(this)
+                roomViewModel.completeTutorial()
+            }
+
             true -> Unit
         }
     }

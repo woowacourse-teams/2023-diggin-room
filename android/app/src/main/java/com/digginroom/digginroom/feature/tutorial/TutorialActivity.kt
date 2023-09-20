@@ -8,61 +8,40 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityTutorialBinding
-import com.digginroom.digginroom.feature.room.RoomViewModel
 import java.lang.IllegalArgumentException
 
 
 class TutorialActivity : AppCompatActivity() {
-    private val tutorialViewModel: TutorialViewModel by lazy {
-        ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(applicationContext).tutorialViewModelFactory
-        )[TutorialViewModel::class.java]
-    }
     private lateinit var viewPager: ViewPager2
     private lateinit var binding: ActivityTutorialBinding
     private val fragments: List<Fragment> by lazy {
         listOf(
-            TutorialStartFragment(),
-            TutorialFragment1(),
-            TutorialFragment2(),
-            TutorialFragment3(),
-            TutorialFragment4(),
-            TutorialFragment5()
+            TutorialStartFragment(), TutorialFragment1(), TutorialFragment2(), TutorialFragment3()
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tutorial)
-        viewPager = binding.tutorialVp
+        viewPager = binding.tutorialViewpagerTutorial
 
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         viewPager.adapter = pagerAdapter
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
 
         setupOnBoardingIndicators()
-        setCurrentOnboardingIndicator(0)
-        binding.tvSkip.setOnClickListener {
-            tutorialViewModel.completeTutorial()
-        }
-        tutorialViewModel.tutorialCompleted.observe(this) {
-            when (it) {
-                is TutorialUiState.Success, is TutorialUiState.Error -> finish()
-                is TutorialUiState.Loading -> {}
-            }
+        setCurrentIndicator(0)
+        binding.tutorialTvSkip.setOnClickListener {
+            finish()
         }
     }
 
@@ -76,23 +55,20 @@ class TutorialActivity : AppCompatActivity() {
     }
 
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {
-            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-        }
 
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            setCurrentOnboardingIndicator(position)
+            setCurrentIndicator(position)
+            if (position == fragments.size - 1) {
+                binding.tutorialTvSkip.text = getString(R.string.tutorial_start)
+            } else {
+                binding.tutorialTvSkip.text = getString(R.string.tutorial_skip)
+            }
         }
     }
 
     private fun setupOnBoardingIndicators() {
-        val indicators =
-            arrayOfNulls<ImageView>(fragments.size)
+        val indicators = arrayOfNulls<ImageView>(fragments.size)
 
         val layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
@@ -104,26 +80,23 @@ class TutorialActivity : AppCompatActivity() {
             indicators[i] = ImageView(this)
             indicators[i]?.setImageDrawable(
                 ContextCompat.getDrawable(
-                    this,
-                    R.drawable.onboarding_indicator_inactivie
+                    this, R.drawable.ic_indicator_inactivie
                 )
             )
 
             indicators[i]?.layoutParams = layoutParams
 
-            binding.indicators.addView(indicators[i])
+            binding.tutorialLayoutIndicators.addView(indicators[i])
         }
     }
 
-    private fun setCurrentOnboardingIndicator(position: Int) {
-        val indicators = binding.indicators.children.toList()
+    private fun setCurrentIndicator(position: Int) {
+        val indicators = binding.tutorialLayoutIndicators.children.toList()
         val activeIndicatorDrawable: Drawable = ContextCompat.getDrawable(
-            this,
-            R.drawable.onboarding_indicator_active
+            this, R.drawable.ic_indicator_active
         ) ?: throw IllegalArgumentException(DRAWABLE_NOT_EXIST_ERROR)
         val inactiveIndicatorDrawable: Drawable = ContextCompat.getDrawable(
-            this,
-            R.drawable.onboarding_indicator_inactivie
+            this, R.drawable.ic_indicator_inactivie
         ) ?: throw IllegalArgumentException(DRAWABLE_NOT_EXIST_ERROR)
         indicators.forEachIndexed { index, view ->
             if (index == position) {

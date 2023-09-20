@@ -7,62 +7,79 @@
     <data>
 
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        tools:context=".feature.tutorial.TutorialFragment1"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".feature.tutorial.TutorialFragment1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="@string/tutorial_find_room_ment"
+            android:textAlignment="center"
+            android:textColor="#BEB8DC"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/tutorial1_iv_top_arrow"
+                android:id="@+id/tutorial2_iv_left_arrow"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:rotation="-90"
-                android:src="@drawable/arrow"
-                app:layout_constraintBottom_toTopOf="@id/tv_previous_room"
+                android:src="@drawable/ic_tutorial_gesture_arrow"
+                app:layout_constraintBottom_toTopOf="@id/tutorial1_tv_previous_room"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="#BEB8DC" />
 
             <TextView
-                android:id="@+id/tv_previous_room"
+                android:id="@+id/tutorial1_tv_previous_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="이전 곡"
-                android:textColor="@color/white"
+                android:text="@string/tutorial_previous_room"
+                android:textColor="#BEB8DC"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tutorial1_iv_top_arrow" />
+                app:layout_constraintTop_toBottomOf="@id/tutorial2_iv_left_arrow" />
 
             <TextView
-                android:id="@+id/tv_next_room"
+                android:id="@+id/tutorial1_tv_next_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="200dp"
                 android:layout_marginBottom="10dp"
-                android:text="다음 곡"
-                android:textColor="@color/white"
+                android:text="@string/tutorial_next_room"
+                android:textColor="#BEB8DC"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@id/tutorial1_iv_bottom_arrow"
+                app:layout_constraintBottom_toTopOf="@id/tutorial2_iv_right_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_previous_room" />
+                app:layout_constraintTop_toBottomOf="@id/tutorial1_tv_previous_room" />
 
             <ImageView
-                android:id="@+id/tutorial1_iv_bottom_arrow"
+                android:id="@+id/tutorial2_iv_right_arrow"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:rotation="90"
-                android:src="@drawable/arrow"
+                android:src="@drawable/ic_tutorial_gesture_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_next_room" />
+                app:layout_constraintTop_toBottomOf="@id/tutorial1_tv_next_room"
+                app:tint="#BEB8DC" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

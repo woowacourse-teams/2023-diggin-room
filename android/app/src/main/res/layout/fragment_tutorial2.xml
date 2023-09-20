@@ -10,24 +10,38 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
         tools:context=".feature.tutorial.TutorialFragment2">
-
-        <ImageView
-            android:id="@+id/tutorial1_iv_top_arrow"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:rotation="180"
-            android:src="@drawable/arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="@string/tutorial_dislike_ment"
+            android:textAlignment="center"
+            android:textColor="#BEB8DC"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/tutorial2_iv_left_arrow"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:rotation="180"
+            android:src="@drawable/ic_tutorial_gesture_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#BEB8DC" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/tutorial_dislike"
-            android:textColor="@color/white"
+            android:textColor="#BEB8DC"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,13 +49,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/tutorial1_iv_bottom_arrow"
+            android:id="@+id/tutorial2_iv_right_arrow"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/arrow"
+            android:src="@drawable/ic_tutorial_gesture_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#BEB8DC" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
