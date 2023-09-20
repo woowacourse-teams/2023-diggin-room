@@ -10,14 +10,13 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -41,30 +40,27 @@ public class Member extends BaseEntity {
     @Embedded
     private final MemberGenres memberGenres = new MemberGenres(this);
 
-    public Member(final String username, final Provider provider, final String nickname) {
+    private Member(String username, Password password, Provider provider, Nickname nickname) {
         this.username = username;
-        this.password = Password.EMPTY;
+        this.password = password;
         this.provider = provider;
-        this.nickname = Nickname.of(nickname);
+        this.nickname = nickname;
     }
 
-    public Member(final String username, final String password) {
-        this.username = username;
-        this.password = new Password(password);
-        this.provider = Provider.SELF;
-        this.nickname = Nickname.random();
+    public static Member self(final String username, final String password) {
+        return new Member(username, new Password(password), Provider.SELF, Nickname.random());
     }
 
-    public Member(String username) {
-        this.username = username;
-        this.password = Password.EMPTY;
-        this.provider = Provider.SELF;
-        this.nickname = Nickname.random();
+    public static Member social(final String username, final Provider provider, final String nickname) {
+        return new Member(username, Password.EMPTY, provider, Nickname.of(nickname));
     }
 
     public static Member guest() {
         return new Member(
-                "guest-" + UUID.randomUUID().toString().split("-")[0]
+                "guest-" + UUID.randomUUID().toString().split("-")[0],
+                Password.EMPTY,
+                Provider.SELF,
+                Nickname.random()
         );
     }
 

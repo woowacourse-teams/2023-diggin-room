@@ -54,7 +54,7 @@ class RoomServiceTest {
 
     @Test
     void 스크랩_항목이_있는_경우_멤버가_스크랩한_룸_목록을_조회할_수_있다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
+        Member member = memberRepository.save(Member.self("member", "1234"));
         Room 나무 = 나무();
         Room 차이 = 차이();
         roomRepository.save(나무);
@@ -83,7 +83,7 @@ class RoomServiceTest {
 
     @Test
     void 스크랩_항목이_없는_경우_멤버가_빈_룸_목록을_조회할_수_있다() {
-        Member member = memberRepository.save(new Member("member", "1234"));
+        Member member = memberRepository.save(Member.self("member", "1234"));
 
         RoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
 
@@ -279,6 +279,6 @@ class RoomServiceTest {
 
         roomService.unscrap(파워.getId(), 나무.getId());
 
-        assertThat(나무.getScrapCount()).isEqualTo(0L);
+        assertThat(나무.getScrapCount()).isZero();
     }
 }

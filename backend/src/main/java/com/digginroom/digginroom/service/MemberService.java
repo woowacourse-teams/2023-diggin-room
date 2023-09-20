@@ -90,7 +90,7 @@ public class MemberService {
 
         Member member = memberRepository.findMemberByUsername(googleUsername)
                 .orElseGet(() -> memberRepository.save(
-                        new Member(googleUsername, Provider.GOOGLE, name))
+                        Member.social(googleUsername, Provider.GOOGLE, name))
                 );
 
         return MemberLoginResponse.of(member);
@@ -103,7 +103,7 @@ public class MemberService {
 
         Member member = memberRepository.findMemberByUsername(kakaoUsername)
                 .orElseGet(() -> memberRepository.save(
-                        new Member(kakaoUsername, Provider.KAKAO, name))
+                        Member.social(kakaoUsername, Provider.KAKAO, name))
                 );
 
         return MemberLoginResponse.of(member);

@@ -73,7 +73,7 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_있는_경우_멤버를_반환한다() {
-        Member power = new Member("power", "power123!");
+        Member power = Member.self("power", "power123!");
         when(memberRepository.findById(1L)).thenReturn(Optional.of(power));
 
         assertThat(memberService.findMember(1L)).isEqualTo(power);
@@ -91,7 +91,7 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_있다면_로그인_할_수_있다() {
-        Member power = new Member("power", "power123!");
+        Member power = Member.self("power", "power123!");
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
         assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
@@ -109,7 +109,7 @@ class MemberServiceTest {
 
     @Test
     void 비밀번호가_틀리면_로그인_할_수_없다() {
-        Member power = new Member("power", "power123!");
+        Member power = Member.self("power", "power123!");
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
         assertThatThrownBy(() -> memberService.loginMember(
