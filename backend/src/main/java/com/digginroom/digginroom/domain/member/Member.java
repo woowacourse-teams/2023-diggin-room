@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
     @Embedded
     private final MemberGenres memberGenres = new MemberGenres(this);
 
-    private Member(String username, Password password, Provider provider, Nickname nickname) {
+    private Member(final String username, final Password password, final Provider provider, final Nickname nickname) {
         this.username = username;
         this.password = password;
         this.provider = provider;
