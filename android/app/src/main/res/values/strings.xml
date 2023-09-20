@@ -35,5 +35,11 @@
     <string name="edit_comment">수정</string>
     <string name="delete_comment">삭제</string>
     <string name="updated_comment">(편집됨)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tutorial_skip">SKIP</string>
+    <string name="tutorial_next">다음</string>
+    <string name="tutorial_previous">이전</string>
+    <string name="tutorial_dislike">싫어요</string>
 
 </resources>

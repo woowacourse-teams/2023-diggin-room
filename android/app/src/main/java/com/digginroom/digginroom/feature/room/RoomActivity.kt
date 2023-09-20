@@ -13,18 +13,18 @@ import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
+import com.digginroom.digginroom.feature.tutorial.TutorialActivity
+import com.digginroom.digginroom.feature.tutorial.TutorialUiState
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.roompager.PagingOrientation
 
 class RoomActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityRoomBinding
 
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
-            this,
-            ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
+            this, ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
     }
 
@@ -35,18 +35,25 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-                commentDialog.show(supportFragmentManager, id)
-            }, openInfo = { track ->
-                roomInfoDialog.show(supportFragmentManager, track)
-            }, openScrap = {
-                ScrapListActivity.start(this)
-            })
+            commentDialog.show(supportFragmentManager, id)
+        }, openInfo = { track ->
+            roomInfoDialog.show(supportFragmentManager, track)
+        }, openScrap = {
+            ScrapListActivity.start(this)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBinding()
         initRoomPager()
+        roomViewModel.fetchTutorialCompleted()
+        roomViewModel.tutorialCompleted.observe(this) {
+            when (it) {
+                is TutorialUiState.Success -> navigateToTutorial(it.tutorialCompleted)
+                else -> Unit
+            }
+        }
     }
 
     private fun initBinding() {
@@ -69,12 +76,9 @@ class RoomActivity : AppCompatActivity() {
         )
         binding.roomRoomPager.setRoomLoadable(roomPagerAdapter.rooms.isEmpty())
         binding.roomRoomPager.setOrientation(
-            PagingOrientation.values()[
-                intent.getIntExtra(
-                    KEY_PAGING_ORIENTATION,
-                    2
-                )
-            ]
+            PagingOrientation.values()[intent.getIntExtra(
+                KEY_PAGING_ORIENTATION, 2
+            )]
         )
         binding.roomRoomPager.setRoomPosition(intent.getIntExtra(KEY_INITIAL_POSITION, 0))
         if (binding.roomRoomPager.isNextRoomLoadable) {
@@ -87,6 +91,13 @@ class RoomActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         roomPagerAdapter.play()
+    }
+
+    private fun navigateToTutorial(tutorialCompleted: Boolean) {
+        when (tutorialCompleted) {
+            false -> TutorialActivity.start(this)
+            true -> Unit
+        }
     }
 
     override fun onPause() {
@@ -105,10 +116,7 @@ class RoomActivity : AppCompatActivity() {
         }
 
         fun start(
-            context: Context,
-            rooms: RoomsModel,
-            position: Int,
-            pagingOrientation: PagingOrientation
+            context: Context, rooms: RoomsModel, position: Int, pagingOrientation: PagingOrientation
         ) {
             val intent = Intent(context, RoomActivity::class.java).apply {
                 putExtra(KEY_ROOMS, rooms)

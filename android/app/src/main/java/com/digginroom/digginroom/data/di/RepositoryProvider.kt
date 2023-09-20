@@ -7,6 +7,7 @@ import com.digginroom.digginroom.data.repository.DefaultGenreTasteRepository
 import com.digginroom.digginroom.data.repository.DefaultMemberRepository
 import com.digginroom.digginroom.data.repository.DefaultRoomRepository
 import com.digginroom.digginroom.data.repository.DefaultTokenRepository
+import com.digginroom.digginroom.data.repository.DefaultTutorialRepository
 
 class RepositoryProvider(context: Context) {
     private val localDataSourceProvider = LocalDataSourceProvider(context)
@@ -24,4 +25,6 @@ class RepositoryProvider(context: Context) {
         DefaultCommentRepository(remoteDataSourceProvider.commentRemoteDataSource)
     val genreTasteRepository =
         DefaultGenreTasteRepository(remoteDataSourceProvider.genreTasteRemoteDataSource)
+    val tutorialRepository =
+        DefaultTutorialRepository(localDataSourceProvider.tutorialLocalDataSource)
 }

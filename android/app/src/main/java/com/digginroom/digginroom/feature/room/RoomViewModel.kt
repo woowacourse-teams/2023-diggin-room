@@ -5,19 +5,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
+import com.digginroom.digginroom.feature.tutorial.TutorialUiState
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
+import com.digginroom.digginroom.repository.TutorialRepository
 import kotlinx.coroutines.launch
 
 class RoomViewModel(
     private val rooms: MutableList<Room>,
-    private val roomRepository: RoomRepository
+    private val roomRepository: RoomRepository,
+    private val tutorialRepository: TutorialRepository
 ) : ViewModel() {
 
     private val _cachedRoom: MutableLiveData<RoomState> = MutableLiveData(RoomState.Loading)
     val cachedRoom: LiveData<RoomState>
         get() = _cachedRoom
+    private val _tutorialCompleted: MutableLiveData<TutorialUiState> = MutableLiveData()
+    val tutorialCompleted: LiveData<TutorialUiState> get() = _tutorialCompleted
 
     fun findNext() {
         _cachedRoom.value = RoomState.Loading
@@ -63,6 +68,15 @@ class RoomViewModel(
                     }
                 }
             }.onFailure {}
+        }
+    }
+
+    fun fetchTutorialCompleted() {
+        _tutorialCompleted.value = TutorialUiState.Loading
+        viewModelScope.launch {
+            tutorialRepository.fetch().onSuccess {
+                _tutorialCompleted.value = TutorialUiState.Success(it)
+            }.onFailure { _tutorialCompleted.value = TutorialUiState.Error(it) }
         }
     }
 }

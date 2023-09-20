@@ -11,6 +11,7 @@ import com.digginroom.digginroom.feature.room.RoomViewModel
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
 import com.digginroom.digginroom.feature.splash.SplashViewModel
+import com.digginroom.digginroom.feature.tutorial.TutorialViewModel
 
 class ViewModelFactory(context: Context) {
     private val repositoryProvider = RepositoryProvider(context)
@@ -35,7 +36,8 @@ class ViewModelFactory(context: Context) {
         initializer {
             RoomViewModel(
                 rooms = mutableListOf(),
-                roomRepository = repositoryProvider.roomRepository
+                roomRepository = repositoryProvider.roomRepository,
+                tutorialRepository = repositoryProvider.tutorialRepository
             )
         }
     }
@@ -71,6 +73,14 @@ class ViewModelFactory(context: Context) {
         initializer {
             CommentViewModel(
                 commentRepository = repositoryProvider.commentRepository
+            )
+        }
+    }
+
+    val tutorialViewModelFactory = viewModelFactory {
+        initializer {
+            TutorialViewModel(
+                tutorialRepository = repositoryProvider.tutorialRepository
             )
         }
     }

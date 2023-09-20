@@ -39,6 +39,10 @@
         <activity
             android:name=".feature.join.JoinActivity"
             android:exported="true" />
+        <activity
+            android:name=".feature.tutorial.TutorialActivity"
+            android:exported="true"
+            android:theme="@style/Theme.DigginRoom.Transparent.NoActionBar" />
     </application>
 
 </manifest>
