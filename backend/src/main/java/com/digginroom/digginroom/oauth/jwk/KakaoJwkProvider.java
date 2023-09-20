@@ -23,7 +23,7 @@ public class KakaoJwkProvider implements ThirdPartyJwkProvider {
     }
 
     @Override
-    public Jwk getJwkBy(String keyId) {
+    public Jwk getJwkBy(final String keyId) {
         try {
             return jwkProvider.get(keyId);
         } catch (JwkException e) {

@@ -9,7 +9,7 @@ public class KakaoIdTokenPayload implements IdTokenPayload {
 
     private final Map<String, Claim> claims;
 
-    public KakaoIdTokenPayload(Map<String, Claim> claims) {
+    public KakaoIdTokenPayload(final Map<String, Claim> claims) {
         this.claims = claims;
     }
 

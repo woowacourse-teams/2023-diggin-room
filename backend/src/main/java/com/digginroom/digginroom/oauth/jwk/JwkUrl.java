@@ -12,7 +12,7 @@ public enum JwkUrl {
 
     private final String keyUrl;
 
-    JwkUrl(String keyUrl) {
+    JwkUrl(final String keyUrl) {
         this.keyUrl = keyUrl;
     }
 

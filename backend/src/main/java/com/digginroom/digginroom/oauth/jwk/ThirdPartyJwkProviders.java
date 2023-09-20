@@ -33,7 +33,7 @@ public class ThirdPartyJwkProviders {
 
     private final List<ThirdPartyJwkProvider> thirdPartyJwkProviders;
 
-    public void verify(String rawIdToken) {
+    public void verify(final String rawIdToken) {
         try {
             DecodedJWT decoded = JWT.decode(rawIdToken);
             Provider provider = Provider.of(decoded.getIssuer())
@@ -60,7 +60,7 @@ public class ThirdPartyJwkProviders {
                 .orElseThrow(() -> new UnsupportedProviderException(provider.name()));
     }
 
-    public IdTokenPayload resolve(String rawIdToken) {
+    public IdTokenPayload resolve(final String rawIdToken) {
         DecodedJWT decoded = JWT.decode(rawIdToken);
         Provider provider = Provider.of(decoded.getIssuer())
                 .orElseThrow(() -> new UnsupportedIdTokenException(decoded.getIssuer()));
@@ -69,7 +69,7 @@ public class ThirdPartyJwkProviders {
         );
     }
 
-    private Function<Map<String, Claim>, IdTokenPayload> getConstructorFor(Provider provider) {
+    private Function<Map<String, Claim>, IdTokenPayload> getConstructorFor(final Provider provider) {
         if (PAYLOAD_CONSTRUCTORS.containsKey(provider)) {
             return PAYLOAD_CONSTRUCTORS.get(provider);
         }

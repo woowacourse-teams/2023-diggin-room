@@ -9,7 +9,7 @@ public class GoogleIdTokenPayload implements IdTokenPayload {
 
     private final Map<String, Claim> claims;
 
-    public GoogleIdTokenPayload(Map<String, Claim> claims) {
+    public GoogleIdTokenPayload(final Map<String, Claim> claims) {
         this.claims = claims;
     }
 

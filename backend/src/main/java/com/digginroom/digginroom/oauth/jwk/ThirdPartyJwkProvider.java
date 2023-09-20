@@ -5,7 +5,7 @@ import com.digginroom.digginroom.domain.member.Provider;
 
 public interface ThirdPartyJwkProvider {
 
-    Jwk getJwkBy(String keyId);
+    Jwk getJwkBy(final String keyId);
 
-    boolean supports(Provider provider);
+    boolean supports(final Provider provider);
 }

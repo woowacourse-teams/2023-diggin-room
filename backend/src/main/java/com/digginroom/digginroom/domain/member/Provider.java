@@ -11,17 +11,17 @@ public enum Provider {
 
     private final String issueUrl;
 
-    Provider(String issueUrl) {
+    Provider(final String issueUrl) {
         this.issueUrl = issueUrl;
     }
 
-    public static Optional<Provider> of(String issuer) {
+    public static Optional<Provider> of(final String issuer) {
         return Arrays.stream(values())
                 .filter(it -> it.matches(issuer))
                 .findFirst();
     }
 
-    private boolean matches(String issueUrl) {
+    private boolean matches(final String issueUrl) {
         if (this.issueUrl.isEmpty()) {
             return false;
         }

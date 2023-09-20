@@ -45,7 +45,7 @@ public abstract class OAuthResolverException extends DigginRoomException {
 
     public static class UnsupportedIdTokenException extends OAuthResolverException {
 
-        public UnsupportedIdTokenException(String issuer) {
+        public UnsupportedIdTokenException(final String issuer) {
             super("지원하지 않는 Issuer의 IdToken입니다: " + issuer, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
