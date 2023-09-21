@@ -42,6 +42,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/common_back_button_description"
+            android:onClick="@{() -> viewModel.cancel()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

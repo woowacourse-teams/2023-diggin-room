@@ -99,4 +99,8 @@ class JoinViewModel @Keep constructor(
             }
         }
     }
+
+    fun cancel() {
+        _uiState.value = JoinUiState.Cancel
+    }
 }

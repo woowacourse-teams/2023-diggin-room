@@ -17,8 +17,8 @@ data class IdVerification(
         }
         return IdVerification(
             isValid = isValid,
-            isCheckedDuplication = isCheckedDuplication,
-            isDuplicated = isDuplicated
+            isCheckedDuplication = false,
+            isDuplicated = false
         )
     }
 }
