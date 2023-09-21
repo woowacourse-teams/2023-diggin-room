@@ -1,24 +1,24 @@
 package com.digginroom.digginroom.feature.login
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.AccountModel
 import com.digginroom.digginroom.repository.AccountRepository
-import com.digginroom.digginroom.util.MutableSingleLiveData
-import com.digginroom.digginroom.util.SingleLiveData
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableSingleLiveData<LoginUiState> =
-        MutableSingleLiveData(LoginUiState.InProgress.General)
-    val uiState: SingleLiveData<LoginUiState>
+    private val _uiState: MutableLiveData<LoginUiState> =
+        MutableLiveData(LoginUiState.InProgress.General)
+    val uiState: LiveData<LoginUiState>
         get() = _uiState
 
     fun login(account: AccountModel) {
-        _uiState.setValue(LoginUiState.Loading)
+        _uiState.value = LoginUiState.Loading
 
         viewModelScope.launch {
             accountRepository.postLogIn(
@@ -33,15 +33,15 @@ class LoginViewModel(
     }
 
     fun startGoogleLogin() {
-        _uiState.setValue(LoginUiState.InProgress.Google)
+        _uiState.value = LoginUiState.InProgress.Google
     }
 
     fun startKakaoLogin() {
-        _uiState.setValue(LoginUiState.InProgress.KaKao)
+        _uiState.value = LoginUiState.InProgress.KaKao
     }
 
     fun googleLogin(idToken: String) {
-        _uiState.setValue(LoginUiState.Loading)
+        _uiState.value = LoginUiState.Loading
 
         viewModelScope.launch {
             accountRepository.postGoogleLogin(idToken)
@@ -54,7 +54,7 @@ class LoginViewModel(
     }
 
     fun kakaoLogin(idToken: String) {
-        _uiState.setValue(LoginUiState.Loading)
+        _uiState.value = LoginUiState.Loading
 
         viewModelScope.launch {
             accountRepository.postKakaoLogin(idToken)
