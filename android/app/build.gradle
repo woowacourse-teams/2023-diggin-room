@@ -35,6 +35,10 @@ android {
 
         buildConfigField 'String', 'SERVER_URL', properties.getProperty('server.url')
         buildConfigField 'String', 'CLIENT_ID', properties.getProperty('server.clientId', '')
+        buildConfigField "String", "KAKAO_NATIVE_KEY", properties.getProperty("kakao.nativeKey", "")
+
+        def kakaoNativeKey = properties.getProperty("kakao.nativeKey", "")
+        manifestPlaceholders = [kakaoNativeKey: kakaoNativeKey.substring(1, kakaoNativeKey.length() - 1)]
     }
     buildTypes {
         debug {
@@ -91,6 +95,9 @@ dependencies {
 
     // custom view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // kakao
+    implementation "com.kakao.sdk:v2-all:2.16.0"
 
     // test
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'

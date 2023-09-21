@@ -11,7 +11,9 @@ interface AccountRepository {
 
     suspend fun postLogIn(id: String, password: String): LogResult<Member>
 
-    suspend fun postLogin(idToken: String): LogResult<Member>
+    suspend fun postSocialLogin(idToken: String): LogResult<Member>
+
+    suspend fun postKakaoLogin(idToken: String): LogResult<Member>
 
     suspend fun fetchIsDuplicatedId(id: Id): LogResult<Boolean>
 }

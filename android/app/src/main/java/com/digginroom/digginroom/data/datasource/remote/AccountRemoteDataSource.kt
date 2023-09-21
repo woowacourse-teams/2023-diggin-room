@@ -2,12 +2,13 @@ package com.digginroom.digginroom.data.datasource.remote
 
 import androidx.annotation.Keep
 import com.digginroom.digginroom.data.di.UnAuthorized
-import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
+import com.digginroom.digginroom.data.entity.KakaoLoginRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.entity.MemberToken
+import com.digginroom.digginroom.data.entity.SocialLoginRequest
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
@@ -48,8 +49,23 @@ class AccountRemoteDataSource @Keep constructor(
         throw HttpError.Unknown(response)
     }
 
-    suspend fun postLogin(idToken: String): MemberToken {
-        val response = accountService.postLogin(GoogleLoginRequest(idToken))
+    suspend fun postSocialLogin(idToken: String): MemberToken {
+        val response = accountService.postSocialLogin(SocialLoginRequest(idToken))
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return MemberToken(
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasSurveyed = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
+            )
+        }
+
+        throw HttpError.Unknown(response)
+    }
+
+    suspend fun postKakaoLogin(idToken: String): MemberToken {
+        val response = accountService.postKakaoLogin(KakaoLoginRequest(idToken))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
 

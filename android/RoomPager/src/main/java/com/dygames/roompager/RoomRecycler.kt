@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.dygames.roompager.scrollpager.ScrollPager
+import com.dygames.roompager.util.getNotchHeight
 
 @SuppressLint("ViewConstructor")
 class RoomRecycler(
@@ -117,7 +118,7 @@ class RoomRecycler(
                 }
             view.layoutParams = LinearLayout.LayoutParams(
                 resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels
+                resources.displayMetrics.heightPixels + getNotchHeight()
             )
             addView(view)
         }

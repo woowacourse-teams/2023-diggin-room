@@ -172,7 +172,22 @@
             android:onClick="@{() -> viewModel.startGoogleLogin()}"
             android:src="@drawable/ic_google_login"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/login_tv_forgot_account"
+            app:layout_constraintEnd_toStartOf="@+id/login_iv_kakao_login"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_tv_join" />
+
+        <ImageView
+            android:id="@+id/login_iv_kakao_login"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="90dp"
+            android:contentDescription="@string/login_google_login_img_description"
+            android:onClick="@{() -> viewModel.startKakaoLogin()}"
+            android:src="@drawable/ic_kakao_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/login_iv_google_login"
             app:layout_constraintTop_toBottomOf="@id/login_tv_join" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
