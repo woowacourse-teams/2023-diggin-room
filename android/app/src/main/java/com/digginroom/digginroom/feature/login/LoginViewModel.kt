@@ -21,7 +21,6 @@ class LoginViewModel @Keep constructor(
 
     fun login(account: AccountModel) {
         _uiState.value = LoginUiState.Loading
-
         viewModelScope.launch {
             accountRepository.postLogIn(
                 id = account.id,

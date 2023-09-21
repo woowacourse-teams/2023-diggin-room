@@ -34,7 +34,7 @@ class CommentViewModelTest {
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         commentRepository = mockk()
-        commentViewModel = CommentViewModel(commentRepository, comments)
+        commentViewModel = CommentViewModel(commentRepository)
     }
 
     @After
