@@ -1,11 +1,15 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import androidx.annotation.Keep
+import com.digginroom.digginroom.data.di.Token
 import com.digginroom.digginroom.data.entity.GenresTasteRequest
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.service.GenreTasteService
 import retrofit2.Response
 
-class GenreTasteRemoteDataSource(private val genreTasteService: GenreTasteService) {
+class GenreTasteRemoteDataSource @Keep constructor(
+    @Token private val genreTasteService: GenreTasteService
+) {
 
     suspend fun post(genres: List<String>) {
         val response: Response<Void> = genreTasteService.post(GenresTasteRequest(genres))

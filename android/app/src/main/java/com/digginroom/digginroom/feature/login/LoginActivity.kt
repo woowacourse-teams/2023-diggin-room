@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityLoginBinding
 import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
 import com.digginroom.digginroom.feature.join.JoinActivity
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.model.AccountModel
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
+            injectViewModel<LoginViewModel>()
         )[LoginViewModel::class.java]
     }
 
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
                 is LoginUiState.InProgress.KaKao -> {
                     SocialLogin.KaKao.getIdToken(this) { idToken ->
-                        loginViewModel.kakaoLogin(idToken)
+                        loginViewModel.socialLogin(idToken)
                     }
                 }
 
@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                 googleLogin
                     .getIdToken(result)
                     ?.let { idToken ->
-                        loginViewModel.googleLogin(idToken)
+                        loginViewModel.socialLogin(idToken)
                     }
             }
         }

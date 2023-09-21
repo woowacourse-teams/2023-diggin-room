@@ -1,19 +1,26 @@
 package com.digginroom.digginroom.feature.login
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.AccountModel
 import com.digginroom.digginroom.repository.AccountRepository
+import com.digginroom.digginroom.util.SingleLiveEvent
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class LoginViewModel(
+@NotCaching
+class LoginViewModel @Keep constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableLiveData<LoginUiState> =
-        MutableLiveData(LoginUiState.InProgress.General)
+    private val _googleLoginEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val googleLoginEvent: LiveData<Any>
+        get() = _googleLoginEvent
+
+    private val _uiState: MutableLiveData<LoginUiState> = MutableLiveData()
     val uiState: LiveData<LoginUiState>
         get() = _uiState
 
@@ -25,9 +32,9 @@ class LoginViewModel(
                 id = account.id,
                 password = account.password
             ).onSuccess { loginResult ->
-                _uiState.setValue(LoginUiState.Succeed.from(loginResult.hasSurveyed))
+                _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
             }.onFailure {
-                _uiState.setValue(LoginUiState.Failed)
+                _uiState.value = LoginUiState.Failed
             }
         }
     }
@@ -40,15 +47,15 @@ class LoginViewModel(
         _uiState.value = LoginUiState.InProgress.KaKao
     }
 
-    fun googleLogin(idToken: String) {
+    fun socialLogin(idToken: String) {
         _uiState.value = LoginUiState.Loading
 
         viewModelScope.launch {
-            accountRepository.postGoogleLogin(idToken)
+            accountRepository.postSocialLogin(idToken)
                 .onSuccess { loginResult ->
-                    _uiState.setValue(LoginUiState.Succeed.from(loginResult.hasSurveyed))
+                    _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
                 }.onFailure {
-                    _uiState.setValue(LoginUiState.Failed)
+                    _uiState.value = (LoginUiState.Failed)
                 }
         }
     }
@@ -59,9 +66,9 @@ class LoginViewModel(
         viewModelScope.launch {
             accountRepository.postKakaoLogin(idToken)
                 .onSuccess { loginResult ->
-                    _uiState.setValue(LoginUiState.Succeed.from(loginResult.hasSurveyed))
+                    _uiState.value = (LoginUiState.Succeed.from(loginResult.hasSurveyed))
                 }.onFailure {
-                    _uiState.setValue(LoginUiState.Failed)
+                    _uiState.value = (LoginUiState.Failed)
                 }
         }
     }

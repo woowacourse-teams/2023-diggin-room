@@ -11,7 +11,7 @@ interface AccountRepository {
 
     suspend fun postLogIn(id: String, password: String): LogResult<Member>
 
-    suspend fun postGoogleLogin(idToken: String): LogResult<Member>
+    suspend fun postSocialLogin(idToken: String): LogResult<Member>
 
     suspend fun postKakaoLogin(idToken: String): LogResult<Member>
 
