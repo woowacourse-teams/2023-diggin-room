@@ -19,7 +19,6 @@ class TutorialFragment : Fragment() {
     private lateinit var binding: FragmentTutorialBinding
     private val fragments: List<Fragment> by lazy {
         listOf(
-            TutorialStartFragment(),
             TutorialFragment1(),
             TutorialFragment2(),
             TutorialFragment3()

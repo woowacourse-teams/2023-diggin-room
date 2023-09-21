@@ -14,7 +14,6 @@ import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
-import com.digginroom.digginroom.feature.tutorial.TutorialState
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
@@ -92,13 +91,8 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun initTutorial() {
-        roomViewModel.fetchTutorialCompleted()
-        roomViewModel.tutorialCompleted.observe(this) {
-            when (it) {
-                is TutorialState.Success -> navigateToTutorial(it.tutorialCompleted)
-                else -> Unit
-            }
-        }
+        val tutorialCompleted = intent.getBooleanExtra(KEY_TUTORIAL_COMPLETED, true)
+        navigateToTutorial(tutorialCompleted)
     }
 
     override fun onResume() {
@@ -107,16 +101,11 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun navigateToTutorial(tutorialCompleted: Boolean) {
-        when (tutorialCompleted) {
-            false -> {
-                supportFragmentManager.commit {
-                    setReorderingAllowed(true)
-                    replace(R.id.room_fragment_container, TutorialFragment())
-                }
-                roomViewModel.completeTutorial()
+        if (!tutorialCompleted) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.room_fragment_container, TutorialFragment())
             }
-
-            true -> Unit
         }
     }
 
@@ -130,6 +119,7 @@ class RoomActivity : AppCompatActivity() {
         private const val KEY_ROOMS = "rooms"
         private const val KEY_INITIAL_POSITION = "initial_position"
         private const val KEY_PAGING_ORIENTATION = "paging_orientation"
+        private const val KEY_TUTORIAL_COMPLETED = "tutorial_completed"
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
             context.startActivity(intent)
@@ -145,6 +135,16 @@ class RoomActivity : AppCompatActivity() {
                 putExtra(KEY_ROOMS, rooms)
                 putExtra(KEY_INITIAL_POSITION, position)
                 putExtra(KEY_PAGING_ORIENTATION, pagingOrientation.ordinal)
+            }
+            context.startActivity(intent)
+        }
+
+        fun start(
+            context: Context,
+            tutorialCompleted: Boolean
+        ) {
+            val intent = Intent(context, RoomActivity::class.java).apply {
+                putExtra(KEY_TUTORIAL_COMPLETED, tutorialCompleted)
             }
             context.startActivity(intent)
         }

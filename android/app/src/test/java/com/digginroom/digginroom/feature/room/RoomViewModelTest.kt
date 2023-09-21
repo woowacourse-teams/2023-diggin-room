@@ -6,7 +6,6 @@ import com.digginroom.digginroom.fixture.LogResult
 import com.digginroom.digginroom.fixture.RoomFixture.Room
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.repository.TutorialRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -26,7 +25,6 @@ class RoomViewModelTest {
 
     private lateinit var roomViewModel: RoomViewModel
     private lateinit var roomRepository: RoomRepository
-    private lateinit var tutorialRepository: TutorialRepository
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -35,8 +33,7 @@ class RoomViewModelTest {
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         roomRepository = mockk()
-        tutorialRepository = mockk()
-        roomViewModel = RoomViewModel(roomRepository, tutorialRepository)
+        roomViewModel = RoomViewModel(roomRepository)
     }
 
     @After

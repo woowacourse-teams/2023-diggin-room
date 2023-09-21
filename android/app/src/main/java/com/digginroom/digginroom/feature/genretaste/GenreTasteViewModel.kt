@@ -15,13 +15,11 @@ import com.digginroom.digginroom.model.room.genre.GenreTaste
 import com.digginroom.digginroom.model.room.genre.GenresTaste
 import com.digginroom.digginroom.repository.GenreTasteRepository
 import com.dygames.di.annotation.NotCaching
-import com.digginroom.digginroom.repository.TutorialRepository
 import kotlinx.coroutines.launch
 
 @NotCaching
 class GenreTasteViewModel @Keep constructor(
-    private val genreTasteRepository: GenreTasteRepository,
-    private val tutorialRepository: TutorialRepository
+    private val genreTasteRepository: GenreTasteRepository
 ) : ViewModel() {
 
     private val genresTaste = GenresTaste(
@@ -59,14 +57,6 @@ class GenreTasteViewModel @Keep constructor(
                 }.onFailure {
                     _uiState.value = GenreTasteUiState.Failed
                 }
-        }
-    }
-
-    fun startTutorial() {
-        viewModelScope.launch {
-            tutorialRepository.save(false).onSuccess {
-                _tutorialState.value = TutorialState.Success(false)
-            }.onFailure { _tutorialState.value = TutorialState.Error(it) }
         }
     }
 }

@@ -7,7 +7,6 @@ import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toModel
 import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.genre.GenreTaste
 import com.digginroom.digginroom.repository.GenreTasteRepository
-import com.digginroom.digginroom.repository.TutorialRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +26,6 @@ class GenreTasteViewModelTest {
 
     private lateinit var genreTasteViewModel: GenreTasteViewModel
     private lateinit var genreTasteRepository: GenreTasteRepository
-    private lateinit var tutorialRepository: TutorialRepository
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -36,8 +34,7 @@ class GenreTasteViewModelTest {
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         genreTasteRepository = mockk(relaxed = true)
-        tutorialRepository = mockk(relaxed = true)
-        genreTasteViewModel = GenreTasteViewModel(genreTasteRepository, tutorialRepository)
+        genreTasteViewModel = GenreTasteViewModel(genreTasteRepository)
     }
 
     @After
