@@ -75,7 +75,7 @@ class CommentViewModelTest {
 
         // then
         val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
-        val expected = (comments + comment).map { it.toModel() }
+        val expected = listOf(comment.toModel())
         assertEquals(expected, actual)
     }
 
@@ -101,19 +101,24 @@ class CommentViewModelTest {
     fun `댓글 삭제를 요청하면 댓글이 삭제된다`() {
         // given
         val roomId: Long = 0
-        val commentId: Long = 0
-        val commentCount = comments.size
+        val commentId: Long = 3
+        val comment = Comment(id = commentId)
+
+        coEvery {
+            commentRepository.postComment(any(), any())
+        } returns LogResult.success(comment)
 
         coEvery {
             commentRepository.deleteComment(any(), any())
         } returns LogResult.success(Unit)
 
         // when
+        commentViewModel.postComment(roomId, "test")
         commentViewModel.deleteComment(roomId, commentId)
 
         // then
         val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
-        val expected = commentCount - 1
+        val expected = 0
         assertEquals(expected, actual.size)
     }
 }
