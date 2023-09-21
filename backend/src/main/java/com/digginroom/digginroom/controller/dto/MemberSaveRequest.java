@@ -1,11 +1,10 @@
 package com.digginroom.digginroom.controller.dto;
 
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.member.Member;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-// TODO 검증 로직 위치 논의
 public record MemberSaveRequest(
         @NotBlank(message = "아이디를 입력해주세요.")
         @Size(min = 5, max = 20, message = "아이디는 5~20자만 가능합니다.")
@@ -24,6 +23,6 @@ public record MemberSaveRequest(
 ) {
 
     public Member toMember() {
-        return new Member(username, password);
+        return Member.self(username, password);
     }
 }

@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.repository;
 
-import com.digginroom.digginroom.domain.Comment;
+import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.exception.CommentException.NotFoundException;
 import java.util.List;
 import java.util.Optional;

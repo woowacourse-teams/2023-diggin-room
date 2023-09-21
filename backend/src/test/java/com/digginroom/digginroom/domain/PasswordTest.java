@@ -2,6 +2,7 @@ package com.digginroom.digginroom.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.digginroom.digginroom.domain.member.Password;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -37,5 +38,10 @@ class PasswordTest {
         Password password = new Password(PLAIN_TEXT);
 
         assertThat(password.doesNotMatch("anotherpassword")).isTrue();
+    }
+
+    @Test
+    void 빈_패스워드는_어떤_문자열과도_일치하지_않는다() {
+        assertThat(Password.EMPTY.doesNotMatch("")).isFalse();
     }
 }
