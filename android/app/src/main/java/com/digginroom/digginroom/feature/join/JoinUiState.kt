@@ -13,6 +13,8 @@ sealed class JoinUiState(
 
     object Loading : JoinUiState()
 
+    object Cancel : JoinUiState()
+
     data class Failed(
         val account: JoinAccountModel = JoinAccountModel(),
         override val joinVerification: JoinVerificationModel = JoinVerificationModel()
