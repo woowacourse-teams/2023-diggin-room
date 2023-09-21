@@ -31,9 +31,10 @@ import com.dygames.di.lifecycle
 import com.dygames.di.provider
 import com.dygames.di.qualifier
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.kakao.sdk.common.KakaoSdk
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import kotlin.reflect.typeOf
@@ -48,20 +49,21 @@ class DigginRoomApplication : LifecycleWatcherApplication(typeOf<DigginRoomAppli
                     Interceptor { chain ->
                         chain.proceed(
                             chain.request().newBuilder().addHeader(
-                                "cookie", inject<TokenLocalDataSource>().fetch()
+                                "cookie",
+                                inject<TokenLocalDataSource>().fetch()
                             ).build()
                         )
                     }
                 }
 
                 provider<OkHttpClient> {
-                    OkHttpClient.Builder().addInterceptor(inject()).build()
+                    OkHttpClient.Builder().addInterceptor(interceptor = inject()).build()
                 }
 
                 qualifier(Token()) {
                     provider<Retrofit> {
                         Retrofit.Builder().baseUrl(url).client(inject())
-                            .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
+                            .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
                             .build()
                     }
 
@@ -82,7 +84,7 @@ class DigginRoomApplication : LifecycleWatcherApplication(typeOf<DigginRoomAppli
                 qualifier(UnAuthorized()) {
                     provider<Retrofit> {
                         Retrofit.Builder().baseUrl(url)
-                            .addConverterFactory(Json.asConverterFactory(MediaType.parse("application/json")!!))
+                            .addConverterFactory(Json.asConverterFactory("application/json".toMediaTypeOrNull()!!))
                             .build()
                     }
 
@@ -111,5 +113,6 @@ class DigginRoomApplication : LifecycleWatcherApplication(typeOf<DigginRoomAppli
         }
 
         super.onCreate()
+        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_KEY)
     }
 }

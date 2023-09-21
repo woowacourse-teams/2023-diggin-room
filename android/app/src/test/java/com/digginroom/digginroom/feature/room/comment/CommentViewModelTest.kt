@@ -5,7 +5,6 @@ import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
 import com.digginroom.digginroom.fixture.CommentFixture.Comment
 import com.digginroom.digginroom.fixture.CommentFixture.Comments
 import com.digginroom.digginroom.fixture.LogResult
-import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
 import io.mockk.coEvery

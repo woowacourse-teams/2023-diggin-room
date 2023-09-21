@@ -40,18 +40,35 @@ class LoginViewModel @Keep constructor(
     }
 
     fun startGoogleLogin() {
-        _googleLoginEvent.call()
+        _uiState.value = LoginUiState.InProgress.Google
     }
 
-    fun login(idToken: String) {
+    fun startKakaoLogin() {
+        _uiState.value = LoginUiState.InProgress.KaKao
+    }
+
+    fun socialLogin(idToken: String) {
         _uiState.value = LoginUiState.Loading
 
         viewModelScope.launch {
-            accountRepository.postLogin(idToken)
+            accountRepository.postSocialLogin(idToken)
                 .onSuccess { loginResult ->
                     _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
                 }.onFailure {
-                    _uiState.value = LoginUiState.Failed
+                    _uiState.value = (LoginUiState.Failed)
+                }
+        }
+    }
+
+    fun kakaoLogin(idToken: String) {
+        _uiState.value = LoginUiState.Loading
+
+        viewModelScope.launch {
+            accountRepository.postKakaoLogin(idToken)
+                .onSuccess { loginResult ->
+                    _uiState.value = (LoginUiState.Succeed.from(loginResult.hasSurveyed))
+                }.onFailure {
+                    _uiState.value = (LoginUiState.Failed)
                 }
         }
     }
