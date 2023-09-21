@@ -48,6 +48,7 @@ class GenreTasteActivity : AppCompatActivity() {
                 is GenreTasteUiState.Succeed -> {
                     finish()
                     RoomActivity.start(this)
+                    genreTasteViewModel.startTutorial()
                 }
 
                 is GenreTasteUiState.Failed -> {}

@@ -25,7 +25,6 @@
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/cube_icon"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,7 +36,6 @@
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:src="@drawable/music_icon"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -63,7 +61,6 @@
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/scrap_icon"
-            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -87,7 +84,6 @@
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/comment_icon"
-            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_info"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -100,7 +96,6 @@
             android:padding="12dp"
             android:scaleType="centerInside"
             android:src="@drawable/info_icon"
-            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
 

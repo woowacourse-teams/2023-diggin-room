@@ -16,7 +16,7 @@ class TutorialLocalDataSource(context: Context) {
     }
 
     fun fetch(): Boolean =
-        tutorialPreference.getBoolean(KEY_TUTORIAL, false)
+        tutorialPreference.getBoolean(KEY_TUTORIAL, true)
 
     companion object {
 

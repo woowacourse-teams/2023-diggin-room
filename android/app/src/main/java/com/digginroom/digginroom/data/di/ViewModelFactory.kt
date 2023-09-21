@@ -63,7 +63,8 @@ class ViewModelFactory(context: Context) {
         viewModelFactory {
             initializer {
                 GenreTasteViewModel(
-                    genreTasteRepository = repositoryProvider.genreTasteRepository
+                    genreTasteRepository = repositoryProvider.genreTasteRepository,
+                    tutorialRepository = repositoryProvider.tutorialRepository
                 )
             }
         }
