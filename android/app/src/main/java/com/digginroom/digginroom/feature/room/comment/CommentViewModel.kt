@@ -15,10 +15,9 @@ import kotlinx.coroutines.launch
 
 @NotCaching
 class CommentViewModel @Keep constructor(
-    private val commentRepository: CommentRepository,
-    private var comments: List<Comment> = emptyList()
+    private val commentRepository: CommentRepository
 ) : ViewModel() {
-
+    private var comments: List<Comment> = emptyList()
     private val _commentState: MutableLiveData<CommentUiState> =
         MutableLiveData(CommentUiState(CommentState.Succeed(comments.map { it.toModel() })))
     val commentState: LiveData<CommentUiState> get() = _commentState
