@@ -43,14 +43,6 @@ class DefaultAccountRepository @Keep constructor(
             Member(memberToken.hasSurveyed)
         }
 
-    override suspend fun postKakaoLogin(idToken: String): LogResult<Member> =
-        logRunCatching {
-            val memberToken: MemberToken = accountRemoteDataSource.postKakaoLogin(idToken)
-
-            tokenRepository.save(memberToken.token)
-            Member(memberToken.hasSurveyed)
-        }
-
     override suspend fun fetchIsDuplicatedId(id: Id): LogResult<Boolean> =
         logRunCatching {
             accountRemoteDataSource.fetchIsDuplicatedId(id.value).isDuplicated
