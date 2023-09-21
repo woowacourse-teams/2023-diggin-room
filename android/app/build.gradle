@@ -91,4 +91,5 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation "de.hdodenhof:circleimageview:3.1.0"
+    implementation("androidx.fragment:fragment-ktx:1.4.0")
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.data.di.ViewModelFactory
@@ -13,7 +14,7 @@ import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
-import com.digginroom.digginroom.feature.tutorial.TutorialActivity
+import com.digginroom.digginroom.feature.tutorial.TutorialFragment
 import com.digginroom.digginroom.feature.tutorial.TutorialState
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.util.getSerializable
@@ -24,7 +25,8 @@ class RoomActivity : AppCompatActivity() {
 
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
-            this, ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
+            this,
+            ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
         )[RoomViewModel::class.java]
     }
 
@@ -35,16 +37,16 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-            commentDialog.show(supportFragmentManager, id)
-        }, openInfo = { track ->
-            roomInfoDialog.show(supportFragmentManager, track)
-        }, openScrap = {
-            ScrapListActivity.start(this)
-        }, scrap = { id ->
-            roomViewModel.postScrap(id)
-        }, unScrap = { id ->
-            roomViewModel.removeScrap(id)
-        })
+                commentDialog.show(supportFragmentManager, id)
+            }, openInfo = { track ->
+                roomInfoDialog.show(supportFragmentManager, track)
+            }, openScrap = {
+                ScrapListActivity.start(this)
+            }, scrap = { id ->
+                roomViewModel.postScrap(id)
+            }, unScrap = { id ->
+                roomViewModel.removeScrap(id)
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,9 +76,12 @@ class RoomActivity : AppCompatActivity() {
         )
         binding.roomRoomPager.setRoomLoadable(roomPagerAdapter.rooms.isEmpty())
         binding.roomRoomPager.setOrientation(
-            PagingOrientation.values()[intent.getIntExtra(
-                KEY_PAGING_ORIENTATION, 2
-            )]
+            PagingOrientation.values()[
+                intent.getIntExtra(
+                    KEY_PAGING_ORIENTATION,
+                    2
+                )
+            ]
         )
         binding.roomRoomPager.setRoomPosition(intent.getIntExtra(KEY_INITIAL_POSITION, 0))
         if (binding.roomRoomPager.isNextRoomLoadable) {
@@ -104,7 +109,10 @@ class RoomActivity : AppCompatActivity() {
     private fun navigateToTutorial(tutorialCompleted: Boolean) {
         when (tutorialCompleted) {
             false -> {
-                TutorialActivity.start(this)
+                supportFragmentManager.commit {
+                    setReorderingAllowed(true)
+                    replace(R.id.room_fragment_container, TutorialFragment())
+                }
                 roomViewModel.completeTutorial()
             }
 

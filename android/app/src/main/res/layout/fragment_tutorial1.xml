@@ -10,6 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="#77000000"
         android:layout_height="match_parent"
         tools:context=".feature.tutorial.TutorialFragment1">
 
@@ -60,8 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="200dp"
                 android:text="@string/tutorial_next_room"
-                android:textSize="18sp"
                 android:textColor="@color/white"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@id/tutorial2_iv_right_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
