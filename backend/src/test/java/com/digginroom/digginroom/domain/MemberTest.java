@@ -119,6 +119,20 @@ class MemberTest {
                 .isInstanceOf(EmptyFavoriteException.class);
     }
 
+    @Test
+    void Username이_guest로_시작하는_게스트를_생성한다() {
+        Member member = Member.guest();
+
+        assertThat(member.getUsername()).startsWith("guest-");
+    }
+
+    @Test
+    void 게스트의_비밀번호는_없다() {
+        Member member = Member.guest();
+
+        assertThat(member.getPassword().isEmpty()).isTrue();
+    }
+
     private int getWeight(final Member member, final Genre targetGenre) {
         return member.getMemberGenres()
                 .stream()

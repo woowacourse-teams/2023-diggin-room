@@ -31,11 +31,11 @@ public class TestFixture {
             MEMBER2_PASSWORD);
 
     public static Member 파워() {
-        return new Member(MEMBER_USERNAME, MEMBER_PASSWORD);
+        return Member.self(MEMBER_USERNAME, MEMBER_PASSWORD);
     }
 
     public static Member 블랙캣() {
-        return new Member(MEMBER2_USERNAME, MEMBER2_PASSWORD);
+        return Member.self(MEMBER2_USERNAME, MEMBER2_PASSWORD);
     }
 
     public static final CommentRequest COMMENT_REQUEST = new CommentRequest("베리는 REST API 고수");

@@ -22,6 +22,9 @@ public class Password {
     }
 
     public boolean doesNotMatch(final String password) {
+        if (this.isEmpty()) {
+            return false;
+        }
         return !DigginRoomPasswordEncoder.matches(password, this.password);
     }
 

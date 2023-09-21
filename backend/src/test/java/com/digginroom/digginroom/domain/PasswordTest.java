@@ -39,4 +39,9 @@ class PasswordTest {
 
         assertThat(password.doesNotMatch("anotherpassword")).isTrue();
     }
+
+    @Test
+    void 빈_패스워드는_어떤_문자열과도_일치하지_않는다() {
+        assertThat(Password.EMPTY.doesNotMatch("")).isFalse();
+    }
 }

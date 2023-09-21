@@ -62,6 +62,11 @@ public class MemberService {
         return MemberDetailsResponse.of(findMember(id));
     }
 
+    public MemberLoginResponse loginGuest() {
+        Member member = memberRepository.save(Member.guest());
+        return MemberLoginResponse.of(member);
+    }
+
     @Transactional(readOnly = true)
     public MemberLoginResponse loginMember(final MemberLoginRequest request) {
         Member member = memberRepository.findMemberByUsername(request.username())
@@ -81,12 +86,11 @@ public class MemberService {
         IdTokenPayload payload = idTokenResolver.resolve(idToken);
 
         Member member = memberRepository.findMemberByUsername(payload.getUsername())
-                .orElseGet(() -> memberRepository.save(new Member(
+                .orElseGet(() -> memberRepository.save(Member.social(
                         payload.getUsername(),
                         payload.getProvider(),
                         payload.getNickname()
                 )));
-
         return MemberLoginResponse.of(member);
     }
 }

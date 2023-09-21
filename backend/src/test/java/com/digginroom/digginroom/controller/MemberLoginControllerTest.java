@@ -1,9 +1,5 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.TestFixture.파워;
-import static org.hamcrest.Matchers.equalTo;
-
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
 import com.digginroom.digginroom.repository.MemberRepository;
 import io.restassured.RestAssured;
@@ -12,9 +8,12 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
+
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.파워;
+import static org.hamcrest.Matchers.*;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -84,5 +83,16 @@ class MemberLoginControllerTest extends ControllerTest {
                 .post("/login")
                 .then()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 게스트로_로그인을_할_수_있다() {
+        RestAssured.given().log().all()
+                .when()
+                .post("/login/guest")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("hasFavorite", is(false))
+                .body("memberId", isA(Integer.class));
     }
 }

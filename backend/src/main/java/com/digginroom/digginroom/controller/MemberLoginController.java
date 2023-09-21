@@ -36,6 +36,16 @@ public class MemberLoginController {
                 .body(member);
     }
 
+    @PostMapping("/guest")
+    public ResponseEntity<MemberLoginResponse> loginGuest(final HttpSession httpSession) {
+        MemberLoginResponse member = memberService.loginGuest();
+
+        httpSession.setAttribute("memberId", member.memberId());
+        httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
+    }
+
     @PostMapping("/oauth")
     public ResponseEntity<MemberLoginResponse> login(
             @RequestBody @Valid final IdTokenRequest idTokenRequest,
