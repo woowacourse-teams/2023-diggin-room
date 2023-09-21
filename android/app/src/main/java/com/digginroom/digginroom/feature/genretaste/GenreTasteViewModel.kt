@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.feature.tutorial.TutorialState
 import com.digginroom.digginroom.model.GenreTasteModel
 import com.digginroom.digginroom.model.GenreTasteSelectionModel
 import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toDomain
@@ -36,7 +35,6 @@ class GenreTasteViewModel @Keep constructor(
     )
     val uiState: LiveData<GenreTasteUiState>
         get() = _uiState
-    private val _tutorialState: MutableLiveData<TutorialState> = MutableLiveData()
 
     fun switchSelection(genreTasteModel: GenreTasteModel) {
         genresTaste.switchSelection(genreTasteModel.toDomain())
