@@ -1,9 +1,9 @@
-package com.dygames.android_di.lifecycle
+package com.dygames.androiddi.lifecycle
 
-import com.dygames.android_di.FakeActivity
-import com.dygames.android_di.FakeDefaultDependency
-import com.dygames.android_di.FakeDependency
-import com.dygames.android_di.FakeViewModel
+import com.dygames.androiddi.FakeActivity
+import com.dygames.androiddi.FakeDefaultDependency
+import com.dygames.androiddi.FakeDependency
+import com.dygames.androiddi.FakeViewModel
 import com.dygames.di.DependencyInjector.inject
 import com.dygames.di.dependencies
 import com.dygames.di.error.InjectError

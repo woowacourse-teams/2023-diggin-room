@@ -28,7 +28,7 @@ object DependencyInjector {
     fun inject(
         type: KType,
         qualifier: Annotation? = null,
-        lifecycle: KType? = null,
+        lifecycle: KType? = null
     ): Any {
         return findDependency(type, qualifier) ?: instantiate(type, qualifier, lifecycle)
     }
@@ -61,10 +61,11 @@ object DependencyInjector {
         lifecycle: KType? = null
     ): Any {
         val provider = lifecycleAwareProviders.value.values.firstNotNullOfOrNull {
-            val providers = it.value[qualifier] ?: return@firstNotNullOfOrNull null
-            val factory = providers.factories[type]
-                ?: return@firstNotNullOfOrNull providers.constructors[type]
-            return factory()
+            it.value.firstNotNullOfOrNull { provider ->
+                val factory = provider.value.factories[type]
+                    ?: return@firstNotNullOfOrNull provider.value.constructors[type]
+                return factory()
+            }
         }
 
         val constructor =

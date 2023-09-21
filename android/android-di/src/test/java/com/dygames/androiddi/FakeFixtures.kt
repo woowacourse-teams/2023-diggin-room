@@ -1,6 +1,6 @@
-package com.dygames.android_di
+package com.dygames.androiddi
 
-import com.dygames.android_di.lifecycle.LifecycleWatcher
+import com.dygames.androiddi.lifecycle.LifecycleWatcher
 import kotlin.reflect.typeOf
 
 class FakeActivity : LifecycleWatcher(typeOf<FakeActivity>()) {

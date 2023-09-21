@@ -34,7 +34,6 @@ class ScrapViewModelTest {
 
         roomRepository = mockk()
         scrapViewModel = ScrapViewModel(
-            rooms = mutableListOf(),
             roomRepository = roomRepository
         )
     }

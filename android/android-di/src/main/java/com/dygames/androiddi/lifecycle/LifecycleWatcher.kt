@@ -1,4 +1,4 @@
-package com.dygames.android_di.lifecycle
+package com.dygames.androiddi.lifecycle
 
 import com.dygames.di.DependencyInjector
 import kotlin.reflect.KType

@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import androidx.annotation.Keep
+import com.digginroom.digginroom.data.di.Token
 import com.digginroom.digginroom.data.entity.CommentRequest
 import com.digginroom.digginroom.data.entity.CommentResponse
 import com.digginroom.digginroom.data.entity.CommentsResponse
@@ -7,7 +9,10 @@ import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.service.CommentService
 import retrofit2.Response
 
-class CommentRemoteDataSource(private val commentService: CommentService) {
+class CommentRemoteDataSource @Keep constructor(
+    @Token private val commentService: CommentService
+) {
+
     suspend fun findComments(roomId: Long): CommentsResponse {
         val response: Response<CommentsResponse> = commentService.findComments(roomId)
 
@@ -15,8 +20,7 @@ class CommentRemoteDataSource(private val commentService: CommentService) {
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
         if (response.code() == 200) {
-            return response.body()
-                ?: throw HttpError.EmptyBody(response)
+            return response.body() ?: throw HttpError.EmptyBody(response)
         }
 
         throw HttpError.Unknown(response)
@@ -30,8 +34,7 @@ class CommentRemoteDataSource(private val commentService: CommentService) {
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
         if (response.code() == 201) {
-            return response.body()
-                ?: throw HttpError.EmptyBody(response)
+            return response.body() ?: throw HttpError.EmptyBody(response)
         }
         throw HttpError.Unknown(response)
     }
@@ -44,15 +47,13 @@ class CommentRemoteDataSource(private val commentService: CommentService) {
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
         if (response.code() == 200) {
-            return response.body()
-                ?: throw HttpError.EmptyBody(response)
+            return response.body() ?: throw HttpError.EmptyBody(response)
         }
         throw HttpError.Unknown(response)
     }
 
     suspend fun deleteComment(roomId: Long, commentId: Long) {
-        val response: Response<Void> =
-            commentService.deleteComment(roomId, commentId)
+        val response: Response<Void> = commentService.deleteComment(roomId, commentId)
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)

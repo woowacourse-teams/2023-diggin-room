@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import androidx.annotation.Keep
 import com.digginroom.digginroom.data.datasource.remote.CommentRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
@@ -7,8 +8,9 @@ import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toDomain
 import com.digginroom.digginroom.repository.CommentRepository
 
-class DefaultCommentRepository(private val commentRemoteDataSource: CommentRemoteDataSource) :
-    CommentRepository {
+class DefaultCommentRepository @Keep constructor(
+    private val commentRemoteDataSource: CommentRemoteDataSource
+) : CommentRepository {
 
     override suspend fun findComments(roomId: Long): LogResult<List<Comment>> {
         return logRunCatching {

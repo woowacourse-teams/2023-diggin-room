@@ -44,9 +44,10 @@ class DependenciesInjectorTest {
         dependencies {
             provider<TestCartRepository>(typeOf<DefaultTestCartRepository>())
             provider<TestProductRepository>(typeOf<DefaultTestProductRepository>())
-            provider {
+            provider<TestProduct> {
                 TestProduct(
-                    TestName(), TestID()
+                    TestName(),
+                    TestID()
                 )
             }
         }
@@ -121,10 +122,12 @@ class DependenciesInjectorTest {
 
         // then
         assertEquals(
-            true, testQualifierViewModel.remoteTestProductDao is RemoteTestProductDao
+            true,
+            testQualifierViewModel.remoteTestProductDao is RemoteTestProductDao
         )
         assertEquals(
-            true, testQualifierViewModel.localTestProductDao is LocalTestProductDao
+            true,
+            testQualifierViewModel.localTestProductDao is LocalTestProductDao
         )
     }
 
@@ -159,16 +162,19 @@ class DependenciesInjectorTest {
 
         // then
         assertEquals(
-            true, testQualifierWithFieldViewModel.remoteTestProductDao is RemoteTestProductDao
+            true,
+            testQualifierWithFieldViewModel.remoteTestProductDao is RemoteTestProductDao
         )
         assertEquals(
-            true, testQualifierWithFieldViewModel.localTestProductDao is LocalTestProductDao
+            true,
+            testQualifierWithFieldViewModel.localTestProductDao is LocalTestProductDao
         )
         assertNotNull(
             testQualifierWithFieldViewModel.testFieldPerson
         )
         assertEquals(
-            true, testQualifierWithFieldViewModel.testFieldLocalProductDao is LocalTestProductDao
+            true,
+            testQualifierWithFieldViewModel.testFieldLocalProductDao is LocalTestProductDao
         )
     }
 }

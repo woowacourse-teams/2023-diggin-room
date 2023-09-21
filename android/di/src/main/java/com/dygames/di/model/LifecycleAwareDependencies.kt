@@ -11,7 +11,8 @@ data class LifecycleAwareDependencies(
 
     fun put(type: KType, lifecycle: KType?, qualifier: Annotation?, dependency: Any) {
         value[lifecycle]?.value?.get(qualifier)?.value?.set(
-            type, dependency
+            type,
+            dependency
         )
     }
 

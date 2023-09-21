@@ -14,7 +14,7 @@ class TestProduct(
 )
 
 class TestPerson(
-    private val testName: TestName,
+    private val testName: TestName
 )
 
 class DefaultTestCartRepository : TestCartRepository
@@ -42,12 +42,12 @@ annotation class TestRemote
 
 class TestQualifierViewModel(
     @TestRemote val remoteTestProductDao: TestProductDao,
-    @TestLocal val localTestProductDao: TestProductDao,
+    @TestLocal val localTestProductDao: TestProductDao
 )
 
 class TestQualifierWithFieldViewModel(
     @TestRemote val remoteTestProductDao: TestProductDao,
-    @TestLocal val localTestProductDao: TestProductDao,
+    @TestLocal val localTestProductDao: TestProductDao
 ) {
     @Injectable
     var testFieldPerson: TestPerson? = null

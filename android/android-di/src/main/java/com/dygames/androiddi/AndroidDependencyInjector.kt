@@ -1,4 +1,4 @@
-package com.dygames.android_di
+package com.dygames.androiddi
 
 import android.content.Context
 import com.dygames.di.DependencyInjector.addDependencies

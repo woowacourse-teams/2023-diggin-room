@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import androidx.annotation.Keep
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.room.Room
@@ -7,7 +8,7 @@ import com.digginroom.digginroom.model.room.Track
 import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.repository.RoomRepository
 
-class SampleRoomRepository : RoomRepository {
+class SampleRoomRepository @Keep constructor() : RoomRepository {
     override suspend fun findNext(): LogResult<Room> {
         return logRunCatching {
             Room(
