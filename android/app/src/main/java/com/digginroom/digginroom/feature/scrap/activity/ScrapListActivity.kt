@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityScrapBinding
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 import com.digginroom.digginroom.feature.scrap.navigator.DefaultScrapNavigator
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class ScrapListActivity : AppCompatActivity() {
 
@@ -19,9 +19,10 @@ class ScrapListActivity : AppCompatActivity() {
     private val scrapViewModel: ScrapViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).scrapViewModelFactory
+            injectViewModel<ScrapViewModel>()
         )[ScrapViewModel::class.java]
     }
+
     override fun onResume() {
         super.onResume()
 

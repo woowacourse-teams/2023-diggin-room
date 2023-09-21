@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.join
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,9 +14,13 @@ import com.digginroom.digginroom.model.user.JoinVerification
 import com.digginroom.digginroom.model.user.Password
 import com.digginroom.digginroom.model.user.PasswordVerification
 import com.digginroom.digginroom.repository.AccountRepository
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class JoinViewModel(private val accountRepository: AccountRepository) : ViewModel() {
+@NotCaching
+class JoinViewModel @Keep constructor(
+    private val accountRepository: AccountRepository
+) : ViewModel() {
 
     private var joinVerification = JoinVerification(
         idVerification = IdVerification(),
@@ -38,18 +43,16 @@ class JoinViewModel(private val accountRepository: AccountRepository) : ViewMode
 
     fun validateIdDuplication(id: String) {
         viewModelScope.launch {
-            accountRepository.fetchIsDuplicatedId(Id(id))
-                .onSuccess {
-                    joinVerification = joinVerification.copy(
-                        idVerification = joinVerification.idVerification.copy(
-                            isCheckedDuplication = true,
-                            isDuplicated = it
-                        )
+            accountRepository.fetchIsDuplicatedId(Id(id)).onSuccess {
+                joinVerification = joinVerification.copy(
+                    idVerification = joinVerification.idVerification.copy(
+                        isCheckedDuplication = true,
+                        isDuplicated = it
                     )
+                )
 
-                    _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
-                }.onFailure {
-                }
+                _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
+            }.onFailure {}
         }
     }
 
