@@ -50,26 +50,23 @@ class TutorialFragment : Fragment() {
 
         val pagerAdapter = ScreenSlidePagerAdapter(requireActivity(), fragments)
         viewPager.adapter = pagerAdapter
-        viewPager.registerOnPageChangeCallback(pageChangeCallback)
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                setCurrentIndicator(position)
+                if (position == fragments.size - 1) {
+                    binding.tutorialTvSkip.text = getString(R.string.tutorial_start)
+                } else {
+                    binding.tutorialTvSkip.text = getString(R.string.tutorial_skip)
+                }
+            }
+        })
 
-        setupOnBoardingIndicators()
+        setupIndicators()
         setCurrentIndicator(0)
     }
 
-    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            setCurrentIndicator(position)
-            if (position == fragments.size - 1) {
-                binding.tutorialTvSkip.text = getString(R.string.tutorial_start)
-            } else {
-                binding.tutorialTvSkip.text = getString(R.string.tutorial_skip)
-            }
-        }
-    }
-
-    private fun setupOnBoardingIndicators() {
+    private fun setupIndicators() {
         val indicators = arrayOfNulls<ImageView>(fragments.size)
 
         val layoutParams = LinearLayout.LayoutParams(
@@ -80,17 +77,17 @@ class TutorialFragment : Fragment() {
         layoutParams.setMargins(8, 0, 8, 0)
 
         for (i in indicators.indices) {
-            indicators[i] = ImageView(requireContext())
-            indicators[i]?.setImageDrawable(
+            val imageView = ImageView(requireContext())
+            imageView.setImageDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     R.drawable.ic_indicator_inactivie
                 )
             )
 
-            indicators[i]?.layoutParams = layoutParams
+            imageView.layoutParams = layoutParams
 
-            binding.tutorialLayoutIndicators.addView(indicators[i])
+            binding.tutorialLayoutIndicators.addView(imageView)
         }
     }
 
@@ -105,11 +102,10 @@ class TutorialFragment : Fragment() {
             R.drawable.ic_indicator_inactivie
         ) ?: throw IllegalArgumentException(DRAWABLE_NOT_EXIST_ERROR)
         indicators.forEachIndexed { index, view ->
+            val imageView = view as ImageView
             if (index == position) {
-                val imageView = view as ImageView
                 imageView.setImageDrawable(activeIndicatorDrawable)
             } else {
-                val imageView = view as ImageView
                 imageView.setImageDrawable(inactiveIndicatorDrawable)
             }
         }
