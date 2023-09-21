@@ -5,19 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivitySplashBinding
 import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
 import com.digginroom.digginroom.feature.login.LoginActivity
 import com.digginroom.digginroom.feature.login.LoginUiState
 import com.digginroom.digginroom.feature.room.RoomActivity
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).splashViewModelFactory
+            injectViewModel<SplashViewModel>()
         )[SplashViewModel::class.java]
     }
     private lateinit var binding: ActivitySplashBinding

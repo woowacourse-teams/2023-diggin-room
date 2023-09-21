@@ -16,3 +16,5 @@ rootProject.name = "DigginRoom"
 include ':app'
 include ':domain'
 include ':RoomPager'
+include ':di'
+include ':android-di'

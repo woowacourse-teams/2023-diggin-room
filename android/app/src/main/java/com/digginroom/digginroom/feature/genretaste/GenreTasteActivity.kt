@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityGenreTasteBinding
 import com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter
 import com.digginroom.digginroom.feature.room.RoomActivity
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class GenreTasteActivity : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class GenreTasteActivity : AppCompatActivity() {
     private val genreTasteViewModel: GenreTasteViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).genreTasteViewModelFactory
+            injectViewModel<GenreTasteViewModel>()
         )[GenreTasteViewModel::class.java]
     }
 

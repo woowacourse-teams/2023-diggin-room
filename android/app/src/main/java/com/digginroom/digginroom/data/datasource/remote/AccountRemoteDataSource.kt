@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import androidx.annotation.Keep
+import com.digginroom.digginroom.data.di.UnAuthorized
 import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
@@ -9,8 +11,8 @@ import com.digginroom.digginroom.data.entity.MemberToken
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
-class AccountRemoteDataSource(
-    private val accountService: AccountService
+class AccountRemoteDataSource @Keep constructor(
+    @UnAuthorized private val accountService: AccountService
 ) {
 
     suspend fun postJoin(id: String, password: String) {

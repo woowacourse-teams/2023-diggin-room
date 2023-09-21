@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
@@ -15,6 +14,7 @@ import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.util.getSerializable
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 import com.dygames.roompager.PagingOrientation
 
 class RoomActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class RoomActivity : AppCompatActivity() {
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).roomViewModelFactory
+            injectViewModel<RoomViewModel>()
         )[RoomViewModel::class.java]
     }
 
