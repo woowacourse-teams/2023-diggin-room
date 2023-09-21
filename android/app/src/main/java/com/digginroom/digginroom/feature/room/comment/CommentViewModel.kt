@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.room.comment
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +10,11 @@ import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
 import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class CommentViewModel(
+@NotCaching
+class CommentViewModel @Keep constructor(
     private val commentRepository: CommentRepository,
     private var comments: List<Comment> = emptyList()
 ) : ViewModel() {

@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
 import com.digginroom.digginroom.feature.login.LoginActivity
 import com.digginroom.digginroom.model.JoinAccountModel
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class JoinActivity : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class JoinActivity : AppCompatActivity() {
     private val joinViewModel: JoinViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).joinViewModelFactory
+            injectViewModel<JoinViewModel>()
         )[JoinViewModel::class.java]
     }
 
@@ -45,7 +45,10 @@ class JoinActivity : AppCompatActivity() {
                     finish()
                     LoginActivity.start(this)
                 }
+
                 is JoinUiState.Failed -> binding.account = it.account
+
+                is JoinUiState.Cancel -> finish()
 
                 else -> {}
             }

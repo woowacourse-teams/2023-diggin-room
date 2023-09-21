@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import androidx.annotation.Keep
 import com.digginroom.digginroom.data.datasource.local.TokenLocalDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
@@ -7,7 +8,7 @@ import com.digginroom.digginroom.repository.TokenRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DefaultTokenRepository(
+class DefaultTokenRepository @Keep constructor(
     private val tokenLocalDataSource: TokenLocalDataSource
 ) : TokenRepository {
 

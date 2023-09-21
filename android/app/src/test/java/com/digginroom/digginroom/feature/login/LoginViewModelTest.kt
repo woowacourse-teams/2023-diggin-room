@@ -111,30 +111,52 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `id 토큰을 이용한 로그인 실패시 로그인 실패 상태가 된다`() {
+    fun `구글 로그인 진행 상태가 된다`() {
+        // when
+        loginViewModel.startGoogleLogin()
+        val actual = loginViewModel.uiState.value
+
+        // then
+        val expected = LoginUiState.InProgress.Google
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `id 토큰을 이용한 구글 로그인 실패시 로그인 실패 상태가 된다`() {
         // given
         coEvery {
-            accountRepository.postLogin(ID_TOKEN)
+            accountRepository.postSocialLogin(ID_TOKEN)
         } returns LogResult.failure()
 
         // when
-        loginViewModel.login(ID_TOKEN)
+        loginViewModel.socialLogin(ID_TOKEN)
 
         // then
         assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
     }
 
     @Test
-    fun `id 토큰을 이용한 로그인 성공시 로그인 성공 상태가 된다`() {
+    fun `id 토큰을 이용한 구글 로그인 성공시 로그인 성공 상태가 된다`() {
         // given
         coEvery {
-            accountRepository.postLogin(ID_TOKEN)
+            accountRepository.postSocialLogin(ID_TOKEN)
         } returns LogResult.success(Member(true))
 
         // when
-        loginViewModel.login(ID_TOKEN)
+        loginViewModel.socialLogin(ID_TOKEN)
 
         // then
         assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.value)
+    }
+
+    @Test
+    fun `카카오 로그인 진행 상태가 된다`() {
+        // when
+        loginViewModel.startKakaoLogin()
+        val actual = loginViewModel.uiState.value
+
+        // then
+        val expected = LoginUiState.InProgress.KaKao
+        assertEquals(expected, actual)
     }
 }

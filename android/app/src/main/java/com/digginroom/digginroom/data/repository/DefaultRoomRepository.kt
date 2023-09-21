@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import androidx.annotation.Keep
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
@@ -7,7 +8,7 @@ import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
 
-class DefaultRoomRepository(
+class DefaultRoomRepository @Keep constructor(
     private val roomRemoteDataSource: RoomRemoteDataSource
 ) : RoomRepository {
 

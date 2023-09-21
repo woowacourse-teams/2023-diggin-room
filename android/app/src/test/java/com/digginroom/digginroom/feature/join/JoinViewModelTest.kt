@@ -330,4 +330,18 @@ class JoinViewModelTest {
         val expected = JoinUiState.Failed()
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun `회원가입 취소시 회원가입 취소 상태가 된다`() {
+        // given
+
+        // when
+        joinViewModel.cancel()
+        val actual = joinViewModel.uiState.value
+
+        // then
+        val expected = JoinUiState.Cancel
+
+        assertEquals(expected, actual)
+    }
 }

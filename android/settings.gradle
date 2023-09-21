@@ -10,9 +10,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
 rootProject.name = "DigginRoom"
 include ':app'
 include ':domain'
 include ':RoomPager'
+include ':di'
+include ':android-di'

@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.room
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,14 +11,16 @@ import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
 import com.digginroom.digginroom.repository.TutorialRepository
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class RoomViewModel(
-    private val rooms: MutableList<Room>,
+@NotCaching
+class RoomViewModel @Keep constructor(
     private val roomRepository: RoomRepository,
     private val tutorialRepository: TutorialRepository
 ) : ViewModel() {
 
+    private val rooms: MutableList<Room> = mutableListOf()
     private val _cachedRoom: MutableLiveData<RoomState> = MutableLiveData(RoomState.Loading)
     val cachedRoom: LiveData<RoomState>
         get() = _cachedRoom

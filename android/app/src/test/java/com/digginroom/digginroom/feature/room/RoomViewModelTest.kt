@@ -36,7 +36,7 @@ class RoomViewModelTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
         roomRepository = mockk()
         tutorialRepository = mockk()
-        roomViewModel = RoomViewModel(mutableListOf(), roomRepository, tutorialRepository)
+        roomViewModel = RoomViewModel(roomRepository, tutorialRepository)
     }
 
     @After

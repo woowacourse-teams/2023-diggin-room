@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.genretaste
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,20 +14,25 @@ import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.genre.GenreTaste
 import com.digginroom.digginroom.model.room.genre.GenresTaste
 import com.digginroom.digginroom.repository.GenreTasteRepository
+import com.dygames.di.annotation.NotCaching
 import com.digginroom.digginroom.repository.TutorialRepository
 import kotlinx.coroutines.launch
 
-class GenreTasteViewModel(
+@NotCaching
+class GenreTasteViewModel @Keep constructor(
     private val genreTasteRepository: GenreTasteRepository,
     private val tutorialRepository: TutorialRepository
 ) : ViewModel() {
 
-    private val genresTaste = GenresTaste(Genre.values().map { GenreTaste(it, false) })
+    private val genresTaste = GenresTaste(
+        Genre.values().map { GenreTaste(it, false) }
+    )
 
     private val _uiState: MutableLiveData<GenreTasteUiState> = MutableLiveData(
         GenreTasteUiState.InProgress(
             genreTasteSelection = GenreTasteSelectionModel(
-                genresTaste = genresTaste.value.map { it.toModel() }, onSelect = ::switchSelection
+                genresTaste = genresTaste.value.map { it.toModel() },
+                onSelect = ::switchSelection
             )
         )
     )
@@ -39,18 +45,20 @@ class GenreTasteViewModel(
 
         _uiState.value = GenreTasteUiState.InProgress(
             genreTasteSelection = GenreTasteSelectionModel(
-                genresTaste = genresTaste.value.map { it.toModel() }, onSelect = ::switchSelection
+                genresTaste = genresTaste.value.map { it.toModel() },
+                onSelect = ::switchSelection
             )
         )
     }
 
     fun endSurvey() {
         viewModelScope.launch {
-            genreTasteRepository.post(genresTaste.selected).onSuccess {
-                _uiState.value = GenreTasteUiState.Succeed
-            }.onFailure {
-                _uiState.value = GenreTasteUiState.Failed
-            }
+            genreTasteRepository.post(genresTaste.selected)
+                .onSuccess {
+                    _uiState.value = GenreTasteUiState.Succeed
+                }.onFailure {
+                    _uiState.value = GenreTasteUiState.Failed
+                }
         }
     }
 

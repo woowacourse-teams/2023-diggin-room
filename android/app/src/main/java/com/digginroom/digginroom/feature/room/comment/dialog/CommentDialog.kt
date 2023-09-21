@@ -1,19 +1,18 @@
 package com.digginroom.digginroom.feature.room.comment.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentPostState
 import com.digginroom.digginroom.model.CommentModel
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CommentDialog : BottomSheetDialogFragment() {
@@ -28,7 +27,7 @@ class CommentDialog : BottomSheetDialogFragment() {
     ): View {
         binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-        binding.commentViewModel = makeViewModel(inflater.context)
+        binding.commentViewModel = makeViewModel()
         binding.postComment = ::processPostComment
         binding.adapter = CommentAdapter(::showCommentMenuDialog)
         isCancelable = true
@@ -41,10 +40,10 @@ class CommentDialog : BottomSheetDialogFragment() {
         binding.roomId = id
     }
 
-    private fun makeViewModel(context: Context): CommentViewModel {
+    private fun makeViewModel(): CommentViewModel {
         return ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(context).commentViewModelFactory
+            injectViewModel<CommentViewModel>()
         )[CommentViewModel::class.java]
     }
 

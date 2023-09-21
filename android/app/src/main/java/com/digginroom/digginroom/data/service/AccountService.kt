@@ -1,10 +1,10 @@
 package com.digginroom.digginroom.data.service
 
-import com.digginroom.digginroom.data.entity.GoogleLoginRequest
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.entity.LoginResponse
+import com.digginroom.digginroom.data.entity.SocialLoginRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,9 +23,9 @@ interface AccountService {
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
 
-    @POST("/login/google")
-    suspend fun postLogin(
-        @Body loginRequest: GoogleLoginRequest
+    @POST("/login/oauth")
+    suspend fun postSocialLogin(
+        @Body loginRequest: SocialLoginRequest
     ): Response<LoginResponse>
 
     @GET("/join/exist")

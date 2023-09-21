@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GoogleLoginRequest(
+data class SocialLoginRequest(
     @SerialName("idToken")
     val idToken: String
 )
