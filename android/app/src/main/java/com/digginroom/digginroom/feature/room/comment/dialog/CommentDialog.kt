@@ -73,6 +73,7 @@ class CommentDialog : BottomSheetDialogFragment() {
             commentId,
             currentComment
         )
+        commentPostState = CommentPostState.Post
     }
 
     private fun showCommentMenuDialog(comment: CommentModel) {
@@ -80,8 +81,8 @@ class CommentDialog : BottomSheetDialogFragment() {
             CommentMenuUiState(update = {
                 updateCommentPostState(comment)
             }, delete = {
-                    deleteComment(comment)
-                })
+                deleteComment(comment)
+            })
         ).show(parentFragmentManager, "CommentMenuDialog")
     }
 
