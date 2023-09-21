@@ -6,8 +6,9 @@ import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.repository.TutorialRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import androidx.annotation.Keep
 
-class DefaultTutorialRepository(
+class DefaultTutorialRepository @Keep constructor(
     private val tutorialLocalDataSource: TutorialLocalDataSource
 ) : TutorialRepository {
 

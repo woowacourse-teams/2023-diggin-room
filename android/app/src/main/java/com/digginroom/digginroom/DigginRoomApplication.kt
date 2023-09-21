@@ -14,6 +14,7 @@ import com.digginroom.digginroom.data.repository.DefaultGenreTasteRepository
 import com.digginroom.digginroom.data.repository.DefaultMemberRepository
 import com.digginroom.digginroom.data.repository.DefaultRoomRepository
 import com.digginroom.digginroom.data.repository.DefaultTokenRepository
+import com.digginroom.digginroom.data.repository.DefaultTutorialRepository
 import com.digginroom.digginroom.data.service.AccountService
 import com.digginroom.digginroom.data.service.CommentService
 import com.digginroom.digginroom.data.service.GenreTasteService
@@ -25,6 +26,7 @@ import com.digginroom.digginroom.repository.GenreTasteRepository
 import com.digginroom.digginroom.repository.MemberRepository
 import com.digginroom.digginroom.repository.RoomRepository
 import com.digginroom.digginroom.repository.TokenRepository
+import com.digginroom.digginroom.repository.TutorialRepository
 import com.dygames.androiddi.lifecycle.LifecycleWatcherApplication
 import com.dygames.di.dependencies
 import com.dygames.di.lifecycle
@@ -109,6 +111,8 @@ class DigginRoomApplication : LifecycleWatcherApplication(typeOf<DigginRoomAppli
                 provider<CommentRepository>(typeOf<DefaultCommentRepository>())
 
                 provider<GenreTasteRepository>(typeOf<DefaultGenreTasteRepository>())
+
+                provider<TutorialRepository>(typeOf<DefaultTutorialRepository>())
             }
         }
 

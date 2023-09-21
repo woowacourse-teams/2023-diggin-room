@@ -2,9 +2,12 @@ package com.digginroom.digginroom.data.datasource.local
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import androidx.annotation.Keep
 import androidx.core.content.edit
 
-class TutorialLocalDataSource(context: Context) {
+class TutorialLocalDataSource @Keep constructor(
+    context: Context
+) {
 
     private val tutorialPreference =
         context.getSharedPreferences(TUTORIAL_PREFERENCE_NAME, MODE_PRIVATE)
