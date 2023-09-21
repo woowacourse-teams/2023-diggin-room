@@ -20,13 +20,15 @@ jobs:
     
     - name: Create config.properties
       run: |
-        cd android && echo "server.url=\"https://ec2-43-200-158-138.ap-northeast-2.compute.amazonaws.com/\"" > config.properties
+        cd android && echo "server.url=\"test\"\nserver.clientId=\"test\"\nserver.clientSecret=\"test\"\nkakao.nativeKey=\"test\"" > config.properties
     
     - name: Init with Gradle
-      run: ./android/gradlew init
+      working-directory: ./android
+      run: ./gradlew init
 
     - name: Run test
-      run: ./android/gradlew test
+      working-directory: ./android
+      run: ./gradlew test
       
     - name: Run ktlint
       working-directory: ./android
