@@ -86,7 +86,7 @@ public class MemberService {
         IdTokenPayload payload = idTokenResolver.resolve(idToken);
 
         Member member = memberRepository.findMemberByUsername(payload.getUsername())
-                .orElseGet(() -> memberRepository.save(new Member(
+                .orElseGet(() -> memberRepository.save(Member.social(
                         payload.getUsername(),
                         payload.getProvider(),
                         payload.getNickname()
