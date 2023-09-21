@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import androidx.annotation.Keep
 import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
 import com.digginroom.digginroom.data.entity.MemberToken
 import com.digginroom.digginroom.logging.LogResult
@@ -10,7 +11,7 @@ import com.digginroom.digginroom.model.user.Member
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
 
-class DefaultAccountRepository(
+class DefaultAccountRepository @Keep constructor(
     private val tokenRepository: TokenRepository,
     private val accountRemoteDataSource: AccountRemoteDataSource
 ) : AccountRepository {

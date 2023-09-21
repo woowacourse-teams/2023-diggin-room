@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.login
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,9 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.AccountModel
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.util.SingleLiveEvent
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class LoginViewModel(
+@NotCaching
+class LoginViewModel @Keep constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
