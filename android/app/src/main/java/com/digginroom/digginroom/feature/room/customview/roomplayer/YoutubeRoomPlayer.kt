@@ -116,9 +116,6 @@ class YoutubeRoomPlayer(
                     
                     const ele = document.getElementsByClassName("player-container")[0]
                     ele.style.position = "absolute"
-                    ele.style.width = "0%"
-                    ele.style.left = "0%"
-                    ele.style.right = "0%"
                     const url = "https://www.youtube.com/oembed?url=http%3A//www.youtube.com/watch?v%3D" + videoId + "&format=json"
                     fetch(url).then(function (response) {
                         return response.json();
@@ -127,7 +124,11 @@ class YoutubeRoomPlayer(
                         ele.style.width = vh(whRatio * 100).toString() + "px"
                         ele.style.left = "50%"
                         ele.style.transform = "translate(-50%, 0%)"
-                    })
+                    }).catch(error => {
+                        ele.style.width = "0%"
+                        ele.style.left = "0%"
+                        ele.style.right = "0%"
+                    });
                     player.loadVideoById(videoId, 0, 'highres')
                 }
 
