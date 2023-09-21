@@ -2,7 +2,6 @@ package com.digginroom.digginroom.data.service
 
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
-import com.digginroom.digginroom.data.entity.KakaoLoginRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.entity.LoginResponse
 import com.digginroom.digginroom.data.entity.SocialLoginRequest
@@ -27,11 +26,6 @@ interface AccountService {
     @POST("/login/oauth")
     suspend fun postSocialLogin(
         @Body loginRequest: SocialLoginRequest
-    ): Response<LoginResponse>
-
-    @POST("/login/kakao")
-    suspend fun postKakaoLogin(
-        @Body loginRequest: KakaoLoginRequest
     ): Response<LoginResponse>
 
     @GET("/join/exist")

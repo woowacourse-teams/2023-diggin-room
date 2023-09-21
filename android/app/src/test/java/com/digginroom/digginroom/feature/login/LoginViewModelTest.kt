@@ -63,7 +63,7 @@ class LoginViewModelTest {
         )
 
         // then
-        assertEquals(LoginUiState.Failed, loginViewModel.uiState.getValue())
+        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -85,7 +85,7 @@ class LoginViewModelTest {
         )
 
         // then
-        assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.getValue())
+        assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -107,14 +107,14 @@ class LoginViewModelTest {
         )
 
         // then
-        assertEquals(LoginUiState.Succeed.NotSurveyed, loginViewModel.uiState.getValue())
+        assertEquals(LoginUiState.Succeed.NotSurveyed, loginViewModel.uiState.value)
     }
 
     @Test
     fun `구글 로그인 진행 상태가 된다`() {
         // when
         loginViewModel.startGoogleLogin()
-        val actual = loginViewModel.uiState.getValue()
+        val actual = loginViewModel.uiState.value
 
         // then
         val expected = LoginUiState.InProgress.Google
@@ -132,7 +132,7 @@ class LoginViewModelTest {
         loginViewModel.socialLogin(ID_TOKEN)
 
         // then
-        assertEquals(LoginUiState.Failed, loginViewModel.uiState.getValue())
+        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
     }
 
     @Test
@@ -146,14 +146,14 @@ class LoginViewModelTest {
         loginViewModel.socialLogin(ID_TOKEN)
 
         // then
-        assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.getValue())
+        assertEquals(LoginUiState.Succeed.Surveyed, loginViewModel.uiState.value)
     }
 
     @Test
     fun `카카오 로그인 진행 상태가 된다`() {
         // when
         loginViewModel.startKakaoLogin()
-        val actual = loginViewModel.uiState.getValue()
+        val actual = loginViewModel.uiState.value
 
         // then
         val expected = LoginUiState.InProgress.KaKao
