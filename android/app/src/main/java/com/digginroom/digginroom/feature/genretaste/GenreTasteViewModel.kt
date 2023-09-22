@@ -1,19 +1,23 @@
 package com.digginroom.digginroom.feature.genretaste
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.GenreTasteModel
+import com.digginroom.digginroom.model.GenreTasteSelectionModel
 import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toDomain
 import com.digginroom.digginroom.model.mapper.GenreTasteMapper.toModel
 import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.genre.GenreTaste
 import com.digginroom.digginroom.model.room.genre.GenresTaste
 import com.digginroom.digginroom.repository.GenreTasteRepository
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class GenreTasteViewModel(
+@NotCaching
+class GenreTasteViewModel @Keep constructor(
     private val genreTasteRepository: GenreTasteRepository
 ) : ViewModel() {
 
@@ -21,32 +25,36 @@ class GenreTasteViewModel(
         Genre.values().map { GenreTaste(it, false) }
     )
 
-    private val _genres: MutableLiveData<List<GenreTasteModel>> = MutableLiveData(
-        genresTaste.value.map { it.toModel() }
+    private val _uiState: MutableLiveData<GenreTasteUiState> = MutableLiveData(
+        GenreTasteUiState.InProgress(
+            genreTasteSelection = GenreTasteSelectionModel(
+                genresTaste = genresTaste.value.map { it.toModel() },
+                onSelect = ::switchSelection
+            )
+        )
     )
-    val genres: LiveData<List<GenreTasteModel>>
-        get() = _genres
-
-    private val _state: MutableLiveData<GenreTasteSurveyState> =
-        MutableLiveData(GenreTasteSurveyState.RUNNING)
-    val state: LiveData<GenreTasteSurveyState>
-        get() = _state
+    val uiState: LiveData<GenreTasteUiState>
+        get() = _uiState
 
     fun switchSelection(genreTasteModel: GenreTasteModel) {
         genresTaste.switchSelection(genreTasteModel.toDomain())
 
-        _genres.value = genresTaste.value.map { it.toModel() }
+        _uiState.value = GenreTasteUiState.InProgress(
+            genreTasteSelection = GenreTasteSelectionModel(
+                genresTaste = genresTaste.value.map { it.toModel() },
+                onSelect = ::switchSelection
+            )
+        )
     }
 
     fun endSurvey() {
         viewModelScope.launch {
-            genreTasteRepository.post(
-                genresTaste.selected
-            ).onSuccess {
-                _state.value = GenreTasteSurveyState.SUCCEED
-            }.onFailure {
-                _state.value = GenreTasteSurveyState.FAILED
-            }
+            genreTasteRepository.post(genresTaste.selected)
+                .onSuccess {
+                    _uiState.value = GenreTasteUiState.Succeed
+                }.onFailure {
+                    _uiState.value = GenreTasteUiState.Failed
+                }
         }
     }
 }

@@ -1,22 +1,23 @@
 package com.digginroom.digginroom.feature.splash
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivitySplashBinding
+import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
+import com.digginroom.digginroom.feature.login.LoginActivity
+import com.digginroom.digginroom.feature.login.LoginUiState
+import com.digginroom.digginroom.feature.room.RoomActivity
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
-@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     private val splashViewModel: SplashViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).splashViewModelFactory
+            injectViewModel<SplashViewModel>()
         )[SplashViewModel::class.java]
     }
     private lateinit var binding: ActivitySplashBinding
@@ -25,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initSplashBinding()
+        initSplashObserver()
         validateToken()
     }
 
@@ -34,19 +36,21 @@ class SplashActivity : AppCompatActivity() {
                 .also {
                     it.lifecycleOwner = this
                     it.viewModel = splashViewModel
-                    it.navigator = DefaultSplashNavigator(this)
                 }
     }
 
-    private fun validateToken() {
-        Handler(mainLooper).postDelayed(
-            { splashViewModel.validateToken() },
-            SHOWING_TIME
-        )
+    private fun initSplashObserver() {
+        splashViewModel.loginUiState.observe(this) {
+            finish()
+            when (it) {
+                is LoginUiState.Succeed.NotSurveyed -> GenreTasteActivity.start(this)
+                is LoginUiState.Succeed.Surveyed -> RoomActivity.start(this)
+                else -> LoginActivity.start(this)
+            }
+        }
     }
 
-    companion object {
-
-        private const val SHOWING_TIME: Long = 1000
+    private fun validateToken() {
+        splashViewModel.validateToken()
     }
 }

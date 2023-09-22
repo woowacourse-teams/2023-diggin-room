@@ -9,9 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityLoginBinding
-import com.digginroom.digginroom.feature.login.navigator.DefaultLoginNavigator
+import com.digginroom.digginroom.feature.genretaste.GenreTasteActivity
+import com.digginroom.digginroom.feature.join.JoinActivity
+import com.digginroom.digginroom.feature.room.RoomActivity
+import com.digginroom.digginroom.model.AccountModel
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -19,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).loginViewModelFactory
+            injectViewModel<LoginViewModel>()
         )[LoginViewModel::class.java]
     }
 
@@ -27,7 +30,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initLoginBinding()
-        initGoogleLoginObserver()
+        initLoginObserver()
+        initJoinClickListener()
     }
 
     private fun initLoginBinding() {
@@ -35,43 +39,70 @@ class LoginActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<ActivityLoginBinding>(this, R.layout.activity_login)
                 .also {
                     it.lifecycleOwner = this
-                    it.resultListener = LoginResultListener(
-                        context = this,
-                        inputTexts = listOf(
-                            it.loginEtInputPassword,
-                            it.loginEtInputPassword
-                        )
-                    )
-                    it.navigator = DefaultLoginNavigator(this)
                     it.viewModel = loginViewModel
+                    it.account = AccountModel()
                 }
     }
 
-    private fun initGoogleLoginObserver() {
-        val googleLoginResultLauncher = getSocialLoginResultLauncher(SocialLogin.Google)
+    private fun initLoginObserver() {
+        val googleLoginResultLauncher = getGoogleLoginResultLauncher(SocialLogin.Google)
 
-        loginViewModel.googleLoginEvent.observe(this) {
-            googleLoginResultLauncher.launch(SocialLogin.Google.getIntent(this))
+        loginViewModel.uiState.observe(this) {
+            when (it) {
+                is LoginUiState.InProgress.Google -> googleLoginResultLauncher.launch(
+                    SocialLogin.Google.getIntent(this)
+                )
+
+                is LoginUiState.InProgress.KaKao -> {
+                    SocialLogin.KaKao.getIdToken(this) { idToken ->
+                        loginViewModel.socialLogin(idToken)
+                    }
+                }
+
+                is LoginUiState.Succeed.NotSurveyed -> {
+                    finish()
+                    GenreTasteActivity.start(this)
+                }
+
+                is LoginUiState.Succeed.Surveyed -> {
+                    finish()
+                    RoomActivity.start(this)
+                }
+
+                is LoginUiState.Failed -> {
+                    binding.account = it.account
+                }
+
+                else -> {}
+            }
         }
     }
 
-    private fun getSocialLoginResultLauncher(socialLogin: SocialLogin): ActivityResultLauncher<Intent> =
+    private fun getGoogleLoginResultLauncher(googleLogin: SocialLogin.Google): ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                socialLogin
+                googleLogin
                     .getIdToken(result)
                     ?.let { idToken ->
-                        loginViewModel.login(idToken)
+                        loginViewModel.socialLogin(idToken)
                     }
             }
         }
+
+    private fun initJoinClickListener() {
+        binding.loginTvJoin.setOnClickListener {
+            JoinActivity.start(this)
+        }
+    }
 
     companion object {
 
         private const val RESULT_OK = -1
 
         fun start(context: Context) {
-            val intent = Intent(context, LoginActivity::class.java)
+            val intent = Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
 
             context.startActivity(intent)
         }

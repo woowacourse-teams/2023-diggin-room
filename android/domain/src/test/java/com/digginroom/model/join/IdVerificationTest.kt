@@ -1,11 +1,11 @@
 package com.digginroom.model.join
 
 import com.digginroom.digginroom.model.user.IdVerification
+import com.digginroom.model.AccountFixture.INVALID_ID
+import com.digginroom.model.AccountFixture.VALID_ID
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
 
 class IdVerificationTest {
 
@@ -44,31 +44,33 @@ class IdVerificationTest {
         assertEquals(expected, actual)
     }
 
-    @ParameterizedTest
-    @ValueSource(booleans = [true, false])
-    fun `id 중복 검사 여부를 설정한다`(isCheckedDuplication: Boolean) {
+    @Test
+    fun `id가 규칙에 맞지 않는 형태라면 검증된 id가 아니다`() {
         // given
+        val id = VALID_ID
 
         // when
-        val actual = idVerification.setIsCheckedDuplication(isCheckedDuplication)
-            .isCheckedDuplication
+        val actual = idVerification.checkIsValid(id).isVerified
 
         // then
-        val expected = isCheckedDuplication
+        val expected = false
 
         assertEquals(expected, actual)
     }
 
-    @ParameterizedTest
-    @ValueSource(booleans = [true, false])
-    fun `id가 중복이 됐는지에 대한 여부를 설정한다`(isDuplicated: Boolean) {
+    @Test
+    fun `id 중복 검사가 이루어진 상태가 아니라면 검증된 id가 아니다`() {
         // given
+        val id = VALID_ID
 
         // when
-        val actual = idVerification.setIsDuplicated(isDuplicated).isDuplicated
+        val actual = IdVerification(
+            isValid = true,
+            isCheckedDuplication = false
+        ).isVerified
 
         // then
-        val expected = isDuplicated
+        val expected = false
 
         assertEquals(expected, actual)
     }
@@ -80,19 +82,13 @@ class IdVerificationTest {
 
         // when
         val actual = idVerification.checkIsValid(id)
-            .setIsCheckedDuplication(true)
-            .setIsDuplicated(false)
+            .copy(isCheckedDuplication = true)
+            .copy(isDuplicated = false)
             .isVerified
 
         // then
         val expected = true
 
         assertEquals(expected, actual)
-    }
-
-    companion object {
-
-        private const val INVALID_ID = "abc"
-        private const val VALID_ID = "jinuk99"
     }
 }

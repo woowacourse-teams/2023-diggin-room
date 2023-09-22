@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="com.digginroom.digginroom.model.CommentModel" />
+
+        <variable
+            name="roomInfoUiState"
+            type="com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState" />
+
+        <variable
+            name="scrapCountFormatter"
+            type="com.digginroom.digginroom.model.mapper.ScrapCountFormatter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/scrap_horizontal_margin"
+        android:paddingEnd="8dp"
+        android:paddingBottom="@dimen/scrap_vertical_margin"
+        tools:background="@color/black">
+
+        <ImageButton
+            android:id="@+id/room_info_ib_scrap"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
+            android:onClick="@{() -> roomInfoUiState.openScrap.invoke()}"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/cube_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/room_info_iv_music"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/scrap_horizontal_margin"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/music_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/room_info_tv_title_artist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/scrap_horizontal_margin"
+            android:layout_marginEnd="8dp"
+            android:includeFontPadding="false"
+            android:onClick="@{() -> roomInfoUiState.openInfo.invoke(roomInfoUiState.roomModel.track)}"
+            android:text="@{@string/title_artist_format(roomInfoUiState.roomModel.track.title, roomInfoUiState.roomModel.track.artist)}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/room_info_ib_info"
+            app:layout_constraintStart_toEndOf="@id/room_info_iv_music" />
+
+        <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
+            android:id="@id/room_info_scrap_toggle"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:cropToPadding="true"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            app:onScrap="@{() -> roomInfoUiState.scrap.invoke(roomInfoUiState.roomModel.roomId)}"
+            app:onUnScrap="@{() -> roomInfoUiState.unScrap.invoke(roomInfoUiState.roomModel.roomId)}"
+            app:scrapped="@{roomInfoUiState.roomModel.isScrapped}"
+            app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/room_info_tv_scrap_count"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{scrapCountFormatter.convert(roomInfoUiState.roomModel.scrapCount)}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/room_info_ib_comment"
+            app:layout_constraintEnd_toEndOf="@id/room_info_scrap_toggle"
+            app:layout_constraintStart_toStartOf="@id/room_info_scrap_toggle" />
+
+        <ImageButton
+            android:id="@+id/room_info_ib_comment"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
+            android:onClick="@{() -> roomInfoUiState.openComment.invoke(roomInfoUiState.roomModel.roomId)}"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/comment_icon"
+            app:layout_constraintBottom_toTopOf="@id/room_info_ib_info"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageButton
+            android:id="@+id/room_info_ib_info"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
+            android:onClick="@{() -> roomInfoUiState.openInfo.invoke(roomInfoUiState.roomModel.track)}"
+            android:padding="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/info_icon"
+            app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

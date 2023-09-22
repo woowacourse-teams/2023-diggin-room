@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
-import com.digginroom.digginroom.feature.join.navigator.DefaultJoinNavigator
+import com.digginroom.digginroom.feature.login.LoginActivity
+import com.digginroom.digginroom.model.JoinAccountModel
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class JoinActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ class JoinActivity : AppCompatActivity() {
     private val joinViewModel: JoinViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).joinViewModelFactory
+            injectViewModel<JoinViewModel>()
         )[JoinViewModel::class.java]
     }
 
@@ -25,23 +26,33 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initJoinBinding()
+        initJoinStateObserver()
     }
 
     private fun initJoinBinding() {
         binding =
             DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
-                it.navigator = DefaultJoinNavigator(this)
-                it.resultListener = JoinResultListener(
-                    context = this,
-                    inputTexts = listOf(
-                        it.joinEtInputId,
-                        it.joinEtInputPassword,
-                        it.joinEtReInputPassword
-                    )
-                )
+                it.account = JoinAccountModel()
                 it.viewModel = joinViewModel
             }
+    }
+
+    private fun initJoinStateObserver() {
+        joinViewModel.uiState.observe(this) {
+            when (it) {
+                is JoinUiState.Succeed -> {
+                    finish()
+                    LoginActivity.start(this)
+                }
+
+                is JoinUiState.Failed -> binding.account = it.account
+
+                is JoinUiState.Cancel -> finish()
+
+                else -> {}
+            }
+        }
     }
 
     companion object {

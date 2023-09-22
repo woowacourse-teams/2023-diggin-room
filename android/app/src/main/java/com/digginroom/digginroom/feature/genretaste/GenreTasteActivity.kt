@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.data.di.ViewModelFactory
 import com.digginroom.digginroom.databinding.ActivityGenreTasteBinding
 import com.digginroom.digginroom.feature.genretaste.adpater.GenreTasteAdapter
+import com.digginroom.digginroom.feature.room.RoomActivity
+import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class GenreTasteActivity : AppCompatActivity() {
 
@@ -17,7 +18,7 @@ class GenreTasteActivity : AppCompatActivity() {
     private val genreTasteViewModel: GenreTasteViewModel by lazy {
         ViewModelProvider(
             this,
-            ViewModelFactory.getInstance(applicationContext).genreTasteViewModelFactory
+            injectViewModel<GenreTasteViewModel>()
         )[GenreTasteViewModel::class.java]
     }
 
@@ -25,6 +26,7 @@ class GenreTasteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initGenreTasteBinding()
+        initGenreTasteObserver()
     }
 
     private fun initGenreTasteBinding() {
@@ -34,9 +36,21 @@ class GenreTasteActivity : AppCompatActivity() {
         ).also {
             it.lifecycleOwner = this
             it.viewModel = genreTasteViewModel
-            it.resultListener = GenreTasteResultListener(this)
-            it.adapter = GenreTasteAdapter { genreTaste ->
-                genreTasteViewModel.switchSelection(genreTaste)
+            it.adapter = GenreTasteAdapter()
+        }
+    }
+
+    private fun initGenreTasteObserver() {
+        genreTasteViewModel.uiState.observe(this) {
+            when (it) {
+                is GenreTasteUiState.InProgress -> binding.adapter?.update(it.genreTasteSelection)
+
+                is GenreTasteUiState.Succeed -> {
+                    finish()
+                    RoomActivity.start(this, false)
+                }
+
+                is GenreTasteUiState.Failed -> {}
             }
         }
     }

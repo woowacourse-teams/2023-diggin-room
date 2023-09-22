@@ -17,22 +17,8 @@ data class IdVerification(
         }
         return IdVerification(
             isValid = isValid,
-            isCheckedDuplication = isCheckedDuplication,
-            isDuplicated = isDuplicated
+            isCheckedDuplication = false,
+            isDuplicated = false
         )
     }
-
-    fun setIsCheckedDuplication(value: Boolean): IdVerification =
-        IdVerification(
-            isValid = isValid,
-            isCheckedDuplication = value,
-            isDuplicated = isDuplicated
-        )
-
-    fun setIsDuplicated(value: Boolean): IdVerification =
-        IdVerification(
-            isValid = isValid,
-            isCheckedDuplication = isCheckedDuplication,
-            isDuplicated = value
-        )
 }

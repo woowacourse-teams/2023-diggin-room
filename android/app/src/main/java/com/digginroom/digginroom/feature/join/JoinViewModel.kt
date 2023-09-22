@@ -1,99 +1,106 @@
 package com.digginroom.digginroom.feature.join
 
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.digginroom.digginroom.livedata.NonNullMutableLiveData
+import com.digginroom.digginroom.model.JoinAccountModel
+import com.digginroom.digginroom.model.mapper.JoinVerificationMapper.toModel
 import com.digginroom.digginroom.model.user.Account
 import com.digginroom.digginroom.model.user.Id
 import com.digginroom.digginroom.model.user.IdVerification
+import com.digginroom.digginroom.model.user.JoinVerification
 import com.digginroom.digginroom.model.user.Password
 import com.digginroom.digginroom.model.user.PasswordVerification
 import com.digginroom.digginroom.repository.AccountRepository
+import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
-class JoinViewModel(private val accountRepository: AccountRepository) : ViewModel() {
+@NotCaching
+class JoinViewModel @Keep constructor(
+    private val accountRepository: AccountRepository
+) : ViewModel() {
 
-    val id: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
-    val password: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
-    val reInputPassword: NonNullMutableLiveData<String> = NonNullMutableLiveData(EMPTY_STRING)
+    private var joinVerification = JoinVerification(
+        idVerification = IdVerification(),
+        passwordVerification = PasswordVerification()
+    )
 
-    private val _idVerification: NonNullMutableLiveData<IdVerification> =
-        NonNullMutableLiveData(IdVerification())
-    val idVerification: LiveData<IdVerification>
-        get() = _idVerification
+    private val _uiState: MutableLiveData<JoinUiState> =
+        MutableLiveData(JoinUiState.InProgress(joinVerification.toModel()))
+    val uiState: LiveData<JoinUiState>
+        get() = _uiState
 
-    private val _passwordVerification: NonNullMutableLiveData<PasswordVerification> =
-        NonNullMutableLiveData(PasswordVerification())
-    val passwordVerification: LiveData<PasswordVerification>
-        get() = _passwordVerification
+    fun validateId(id: String) {
+        with(joinVerification) {
+            joinVerification =
+                joinVerification.copy(idVerification = idVerification.checkIsValid(id))
 
-    private val _isJoinAble: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isJoinAble: LiveData<Boolean>
-        get() = _isJoinAble
-
-    private val _state: MutableLiveData<JoinState> = MutableLiveData(JoinState.Start)
-    val state: LiveData<JoinState>
-        get() = _state
-
-    fun validateId() {
-        with(_idVerification) {
-            value = value.setIsCheckedDuplication(false)
-                .checkIsValid(id.value)
+            _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
         }
-        validateJoinAble()
     }
 
-    fun validateIdDuplication() {
+    fun validateIdDuplication(id: String) {
         viewModelScope.launch {
-            accountRepository.fetchIsDuplicatedId(Id(id.value))
-                .onSuccess {
-                    _idVerification.value = _idVerification.value.setIsDuplicated(it)
-                }.onFailure {
-                }
-            _idVerification.value = _idVerification.value.setIsCheckedDuplication(true)
-            validateJoinAble()
+            accountRepository.fetchIsDuplicatedId(Id(id)).onSuccess {
+                joinVerification = joinVerification.copy(
+                    idVerification = joinVerification.idVerification.copy(
+                        isCheckedDuplication = true,
+                        isDuplicated = it
+                    )
+                )
+
+                _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
+            }.onFailure {}
         }
     }
 
-    fun validatePassword() {
-        with(_passwordVerification) {
-            value = value.checkIsValid(password.value)
+    fun validatePassword(password: String, reInputPassword: String) {
+        runCatching {
+            Password(password)
+        }.onSuccess {
+            joinVerification = joinVerification.copy(
+                passwordVerification = joinVerification.passwordVerification.copy(isValid = true)
+            )
+            _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
+        }.onFailure {
+            joinVerification = joinVerification.copy(
+                passwordVerification = joinVerification.passwordVerification.copy(isValid = false)
+            )
+            _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
         }
-        validatePasswordEquality()
+        validatePasswordEquality(password, reInputPassword)
     }
 
-    fun validatePasswordEquality() {
-        with(_passwordVerification) {
-            value = value.setIsEqualReInput(password.value == reInputPassword.value)
-        }
-        validateJoinAble()
+    fun validatePasswordEquality(password: String, reInputPassword: String) {
+        joinVerification = joinVerification.copy(
+            passwordVerification = joinVerification.passwordVerification.checkIsEqualReInput(
+                password = password,
+                reInputPassword = reInputPassword
+            )
+        )
+
+        _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
     }
 
-    private fun validateJoinAble() {
-        _isJoinAble.value =
-            _idVerification.value.isVerified && _passwordVerification.value.isVerified
-    }
-
-    fun join() {
-        _state.value = JoinState.Loading
-
+    fun join(account: JoinAccountModel) {
         viewModelScope.launch {
+            _uiState.value = JoinUiState.Loading
             accountRepository.postJoin(
                 Account(
-                    id = Id(id.value),
-                    password = Password(password.value)
+                    id = Id(account.id),
+                    password = Password(account.password)
                 )
             ).onSuccess {
-                _state.value = JoinState.Succeed
+                _uiState.value = JoinUiState.Succeed
             }.onFailure {
-                _state.value = JoinState.Failed()
+                _uiState.value = JoinUiState.Failed()
             }
         }
     }
 
-    companion object {
-        private const val EMPTY_STRING = ""
+    fun cancel() {
+        _uiState.value = JoinUiState.Cancel
     }
 }

@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,13 +52,13 @@ class GenreTasteViewModelTest {
 
         // when
         genreTasteViewModel.switchSelection(genreTaste.toModel())
-
-        // then
-        val actual = genreTasteViewModel.genres
-            .value
+        val uiState = genreTasteViewModel.uiState.value as? GenreTasteUiState.InProgress
+        val actual = uiState?.genreTasteSelection
+            ?.genresTaste
             ?.find { it.title == genreTaste.genre.title }
             ?.toDomain()
 
+        // then
         val expected = GenreTaste(
             genre = Genre.SOUNDS_AND_EFFECTS,
             isSelected = true
@@ -76,13 +77,13 @@ class GenreTasteViewModelTest {
 
         // when
         genreTasteViewModel.switchSelection(genreTaste.toModel())
-
-        // then
-        val actual = genreTasteViewModel.genres
-            .value
+        val uiState = genreTasteViewModel.uiState.value as? GenreTasteUiState.InProgress
+        val actual = uiState?.genreTasteSelection
+            ?.genresTaste
             ?.find { it.title == genreTaste.genre.title }
             ?.toDomain()
 
+        // then
         val expected = GenreTaste(
             genre = Genre.SOUNDS_AND_EFFECTS,
             isSelected = false
@@ -104,12 +105,10 @@ class GenreTasteViewModelTest {
 
         // when
         genreTasteViewModel.endSurvey()
+        val actual = genreTasteViewModel.uiState.value
 
         // then
-        val actual = genreTasteViewModel.state.value
-        val expected = GenreTasteSurveyState.SUCCEED
-
-        assertEquals(expected, actual)
+        assertTrue(actual is GenreTasteUiState.Succeed)
     }
 
     @Test
@@ -125,11 +124,9 @@ class GenreTasteViewModelTest {
 
         // when
         genreTasteViewModel.endSurvey()
+        val actual = genreTasteViewModel.uiState.value
 
         // then
-        val actual = genreTasteViewModel.state.value
-        val expected = GenreTasteSurveyState.FAILED
-
-        assertEquals(expected, actual)
+        assertTrue(actual is GenreTasteUiState.Failed)
     }
 }

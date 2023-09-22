@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import androidx.annotation.Keep
+import com.digginroom.digginroom.data.di.Token
 import com.digginroom.digginroom.data.entity.CancelScrapRequest
 import com.digginroom.digginroom.data.entity.DislikeRequest
 import com.digginroom.digginroom.data.entity.HttpError
@@ -9,8 +11,8 @@ import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
 import com.digginroom.digginroom.data.service.RoomService
 import retrofit2.Response
 
-class RoomRemoteDataSource(
-    private val roomService: RoomService
+class RoomRemoteDataSource @Keep constructor(
+    @Token private val roomService: RoomService
 ) {
 
     suspend fun findNext(): RoomResponse {

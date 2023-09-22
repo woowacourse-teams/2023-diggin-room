@@ -6,17 +6,23 @@ import com.digginroom.digginroom.model.room.genre.Genre
 
 object RoomFixture {
 
-    fun Room() = Room(
-        videoId = "Jsm1qk2avyw",
-        isScrapped = true,
-        track = Track(
+    fun Room(
+        videoId: String = "Jsm1qk2avyw",
+        isScrapped: Boolean = true,
+        track: Track = Track(
             title = "예시 제목1",
             artist = "예시 아티스트1",
             superGenre = Genre.SOUNDS_AND_EFFECTS,
             description = ""
         ),
-        roomId = 0,
-        scrapCount = 0
+        roomId: Long = 0,
+        scrapCount: Int = 0
+    ) = com.digginroom.digginroom.model.room.Room(
+        videoId = videoId,
+        isScrapped = isScrapped,
+        track = track,
+        roomId = roomId,
+        scrapCount = scrapCount
     )
 
     fun Rooms(): List<Room> = listOf(

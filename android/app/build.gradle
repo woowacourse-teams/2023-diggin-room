@@ -3,7 +3,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
-    id "com.google.gms.google-services"
+    id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
 }
 
@@ -11,7 +11,7 @@ android {
     namespace 'com.digginroom.digginroom'
     compileSdk 33
     packagingOptions {
-        exclude "META-INF/LICENSE*"
+        exclude 'META-INF/LICENSE*'
     }
     buildFeatures {
         buildConfig true
@@ -21,20 +21,24 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.digginroom.digginroom"
+        applicationId 'com.digginroom.digginroom'
         minSdk 26
         targetSdk 33
         versionCode 2
-        versionName "1.1.0"
+        versionName '1.1.0'
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunnerArgument 'runnerBuilder', 'de.mannodermaus.junit5.AndroidJUnit5Builder'
 
         Properties properties = new Properties()
         properties.load(project.rootProject.file('config.properties').newDataInputStream())
 
-        buildConfigField "String", "SERVER_URL", properties.getProperty("server.url")
-        buildConfigField "String", "CLIENT_ID", properties.getProperty("server.clientId", "")
+        buildConfigField 'String', 'SERVER_URL', properties.getProperty('server.url')
+        buildConfigField 'String', 'CLIENT_ID', properties.getProperty('server.clientId', '')
+        buildConfigField "String", "KAKAO_NATIVE_KEY", properties.getProperty("kakao.nativeKey", "")
+
+        def kakaoNativeKey = properties.getProperty("kakao.nativeKey", "")
+        manifestPlaceholders = [kakaoNativeKey: kakaoNativeKey.substring(1, kakaoNativeKey.length() - 1)]
     }
     buildTypes {
         debug {
@@ -60,6 +64,12 @@ android {
 }
 
 dependencies {
+    implementation project(':domain')
+    implementation project(':RoomPager')
+    implementation project(':di')
+    implementation project(':android-di')
+
+    // android
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
@@ -68,6 +78,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.activity:activity-ktx:1.7.2'
 
+    // network
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
@@ -75,18 +86,26 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
-    testImplementation "io.mockk:mockk:1.13.5"
-    testImplementation "androidx.arch.core:core-testing:2.2.0"
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    implementation platform("com.google.firebase:firebase-bom:32.2.0")
-    implementation "com.google.firebase:firebase-analytics-ktx"
-    implementation "com.google.firebase:firebase-auth-ktx"
-    implementation "com.google.firebase:firebase-firestore-ktx"
-
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-crashlytics'
 
-    implementation project(':domain')
+    // custom view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // kakao
+    implementation "com.kakao.sdk:v2-all:2.16.0"
+
+    // fragment
+    implementation("androidx.fragment:fragment-ktx:1.4.0")
+
+    // test
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
+    testImplementation 'io.mockk:mockk:1.13.5'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

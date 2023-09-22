@@ -1,16 +1,18 @@
 package com.digginroom.digginroom.data.datasource.remote
 
-import com.digginroom.digginroom.data.entity.GoogleLoginRequest
+import androidx.annotation.Keep
+import com.digginroom.digginroom.data.di.UnAuthorized
 import com.digginroom.digginroom.data.entity.HttpError
 import com.digginroom.digginroom.data.entity.IdDuplicationResponse
 import com.digginroom.digginroom.data.entity.JoinRequest
 import com.digginroom.digginroom.data.entity.LoginRequest
 import com.digginroom.digginroom.data.entity.MemberToken
+import com.digginroom.digginroom.data.entity.SocialLoginRequest
 import com.digginroom.digginroom.data.service.AccountService
 import retrofit2.Response
 
-class AccountRemoteDataSource(
-    private val accountService: AccountService
+class AccountRemoteDataSource @Keep constructor(
+    @UnAuthorized private val accountService: AccountService
 ) {
 
     suspend fun postJoin(id: String, password: String) {
@@ -46,8 +48,8 @@ class AccountRemoteDataSource(
         throw HttpError.Unknown(response)
     }
 
-    suspend fun postLogin(idToken: String): MemberToken {
-        val response = accountService.postLogin(GoogleLoginRequest(idToken))
+    suspend fun postSocialLogin(idToken: String): MemberToken {
+        val response = accountService.postSocialLogin(SocialLoginRequest(idToken))
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
 

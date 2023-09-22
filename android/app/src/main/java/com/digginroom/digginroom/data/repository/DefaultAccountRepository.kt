@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.data.repository
 
+import androidx.annotation.Keep
 import com.digginroom.digginroom.data.datasource.remote.AccountRemoteDataSource
 import com.digginroom.digginroom.data.entity.MemberToken
 import com.digginroom.digginroom.logging.LogResult
@@ -10,7 +11,7 @@ import com.digginroom.digginroom.model.user.Member
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.TokenRepository
 
-class DefaultAccountRepository(
+class DefaultAccountRepository @Keep constructor(
     private val tokenRepository: TokenRepository,
     private val accountRemoteDataSource: AccountRemoteDataSource
 ) : AccountRepository {
@@ -34,9 +35,9 @@ class DefaultAccountRepository(
             Member(memberToken.hasSurveyed)
         }
 
-    override suspend fun postLogin(idToken: String): LogResult<Member> =
+    override suspend fun postSocialLogin(idToken: String): LogResult<Member> =
         logRunCatching {
-            val memberToken: MemberToken = accountRemoteDataSource.postLogin(idToken)
+            val memberToken: MemberToken = accountRemoteDataSource.postSocialLogin(idToken)
 
             tokenRepository.save(memberToken.token)
             Member(memberToken.hasSurveyed)
