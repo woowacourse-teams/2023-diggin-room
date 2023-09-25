@@ -112,16 +112,20 @@
 <table>
     <thead>
         <tr>
-            <th>팀원</th>
+            <th width="130">팀원</th>
             <th>역할</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td align="center"><a href="https://github.com/DYGames">코건 (김도엽)</a></td>
-            <td rowspan=2><p style="white-space: pre">서비스 초기 기획, 음악 데이터 규격 정의
-4방향 뷰 재사용 스크롤뷰 <a href="">RoomPager</a> 개발
-Android WebView 에서 Youtube IFrame API를 이용한 영상 재생</p></td>
+            <td rowspan=2><p>초기 기획
+
+4방향 뷰 재사용 스크롤뷰 <a href="https://github.com/DYGames/RoomPager">RoomPager</a> 개발
+
+Android WebView 에서 Youtube IFrame API를 이용한 영상 재생
+
+RoomPager와 YoutubePlayer를 이용한 부드러운 숏폼 경험 제공</p></td>
         </tr>
         <tr>
             <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/14182640"></img></td>
