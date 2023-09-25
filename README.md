@@ -11,20 +11,17 @@
 
 # 기능
 **음악 탐색**
-
-새로운 음악을 찾기 위해 아래로 스와이프 해보세요!
+- 새로운 음악을 찾기 위해 아래로 스와이프 해보세요!
+- 끊김없는 부드러운 스크롤과 동영상 재생으로 자연스럽게 탐색할 수 있어요.
 
 **추천 알고리즘**
-
-세상의 모든 장르에서 추천되는 음악을 즐겨보세요!
+- 세상의 모든 장르에서 추천되는 음악을 즐겨보세요!
 
 **스크랩**
-
-탐색하다 발견한 좋은 음악은 스크랩해서 나중에 또 들어보세요!
+- 탐색하다 발견한 좋은 음악은 스크랩해서 나중에 또 들어보세요!
 
 **댓글**
-
-다른 친구들과 음악에 대한 생각을 나눠보세요!
+- 다른 친구들과 음악에 대한 생각을 나눠보세요!
 
 # 구현
 
@@ -107,10 +104,106 @@
 - 팀 컨벤션
 
 **Slack**
-- 잡담방아님?ㅋㅋ
+- 서버 장애 알림
+- 팀 내 공지
 
 ## 팀원 & 역할
-![](https://avatars.githubusercontent.com/u/39221443)|![](https://avatars.githubusercontent.com/u/39221443)|![](https://avatars.githubusercontent.com/u/39221443)|![](https://avatars.githubusercontent.com/u/39221443)|![](https://avatars.githubusercontent.com/u/74398096)|![](https://avatars.githubusercontent.com/u/39221443)|![](https://avatars.githubusercontent.com/u/39221443)
-|-- | -- | -- | -- | -- | -- | --|
-우기 | 코건 | 베리 | 파워 | 블랙캣 | 땡칠 | 콩하나
+
+<table>
+    <thead>
+        <tr>
+            <th>팀원</th>
+            <th>역할</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center"><a href="https://github.com/DYGames">코건 (김도엽)</a></td>
+            <td rowspan=2><p style="white-space: pre">서비스 초기 기획, 음악 데이터 규격 정의
+4방향 뷰 재사용 스크롤뷰 <a href="">RoomPager</a> 개발
+Android WebView 에서 Youtube IFrame API를 이용한 영상 재생</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/14182640"></img></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://github.com/boogi-woogi">우기 (김진욱)</a></td>
+            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/88770426"></img></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://github.com/whk06061">베리 (우혜경)</a></td>
+            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/63198157"></img></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://github.com/0chil">땡칠 (박성철)</a></td>
+            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/39221443"></img></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://github.com/kong-hana01">콩하나 (최한빈)</a></td>
+            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/79015120"></img></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://github.com/thdwoqor">파워 (송재백)</a></td>
+            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/83541246"></img></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://github.com/Songusika">블랙캣 (송우석)</a></td>
+            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+in reprehenderit in voluptate velit esse cillum dolore eu 
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
+non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+        </tr>
+        <tr>
+            <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/74398096"></img></td>
+        </tr>
+    </tbody>
+</table>
 
