@@ -13,12 +13,14 @@
 **음악 탐색**
 - 새로운 음악을 찾기 위해 아래로 스와이프 해보세요!
 - 끊김없는 부드러운 스크롤과 동영상 재생으로 자연스럽게 탐색할 수 있어요.
+<video src="https://github.com/woowacourse-teams/2023-diggin-room/assets/14182640/c977893c-4907-4c26-adf6-d43a423436ac"></video>
 
 **추천 알고리즘**
 - 세상의 모든 장르에서 추천되는 음악을 즐겨보세요!
 
 **스크랩**
 - 탐색하다 발견한 좋은 음악은 스크랩해서 나중에 또 들어보세요!
+<video src="https://github.com/woowacourse-teams/2023-diggin-room/assets/14182640/61bf00dc-c997-4861-a10c-85a93ac5bd41"></video>
 
 **댓글**
 - 다른 친구들과 음악에 대한 생각을 나눠보세요!
