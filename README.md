@@ -27,7 +27,20 @@
 다른 친구들과 음악에 대한 생각을 나눠보세요!
 
 # 구현
+
 ## 서버
+
+**기술 스택**
+- Spring Boot
+- Spring MVC
+- ORM(Spring Data JPA)
+- MySQL
+- 단위 테스트 및 인수 테스트(JUnit 5, RestAssured, Mockito 사용)
+- 로깅 프레임워크 적용, 모니터링 시스템 구축 (자체 Filter 및 Logback 사용)
+- DDL 형상 관리 도구 적용(Flyway)
+- 배포 자동화 (Github Actions, 프로파일 별 설정 분리)
+- 소셜 사용자 인증(OAuth 2.0 OpenID Connect 및 자체 구조 사용)
+- Salting이 적용된 DPE(DigginRoom Password Encryption)
 
 ## 안드로이드
 
