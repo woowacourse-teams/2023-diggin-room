@@ -35,6 +35,14 @@ class DefaultAccountRepository @Keep constructor(
             Member(memberToken.hasSurveyed)
         }
 
+    override suspend fun postGuestLogin(): LogResult<Member> =
+        logRunCatching {
+            val memberToken: MemberToken = accountRemoteDataSource.postGuestLogin()
+
+            tokenRepository.save(memberToken.token)
+            Member(memberToken.hasSurveyed)
+        }
+
     override suspend fun postSocialLogin(idToken: String): LogResult<Member> =
         logRunCatching {
             val memberToken: MemberToken = accountRemoteDataSource.postSocialLogin(idToken)
