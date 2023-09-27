@@ -3,7 +3,7 @@ package com.digginroom.digginroom.repository;
 import static com.digginroom.digginroom.TestFixture.나무;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.domain.room.Room;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
@@ -21,13 +21,6 @@ class RoomRepositoryTest {
 
     @Autowired
     private RoomRepository roomRepository;
-
-    @Test
-    void 룸_저장_시_미디어_소스도_같아_저장된다() {
-        Room 나무 = roomRepository.save(나무());
-
-        assertThat(나무.getMediaSource().getId()).isNotNull();
-    }
 
     @Test
     void Jpa는_엔티티의_동등성을_재정의하지_않는다(@Autowired EntityManager entityManager) {

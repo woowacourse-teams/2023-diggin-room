@@ -7,14 +7,16 @@ import static com.digginroom.digginroom.domain.Genre.DANCE;
 import static com.digginroom.digginroom.domain.Genre.EXPERIMENTAL;
 import static com.digginroom.digginroom.domain.Genre.NEW_AGE;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
-import static com.digginroom.digginroom.domain.WeightFactor.DISLIKE;
-import static com.digginroom.digginroom.domain.WeightStatus.DEFAULT;
+import static com.digginroom.digginroom.domain.member.WeightFactor.DISLIKE;
+import static com.digginroom.digginroom.domain.member.WeightStatus.DEFAULT;
 import static java.util.List.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.MemberException.DuplicatedFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
@@ -115,6 +117,20 @@ class MemberTest {
 
         assertThatThrownBy(() -> member.markFavorite(List.of()))
                 .isInstanceOf(EmptyFavoriteException.class);
+    }
+
+    @Test
+    void Username이_guest로_시작하는_게스트를_생성한다() {
+        Member member = Member.guest();
+
+        assertThat(member.getUsername()).startsWith("guest-");
+    }
+
+    @Test
+    void 게스트의_비밀번호는_없다() {
+        Member member = Member.guest();
+
+        assertThat(member.getPassword().isEmpty()).isTrue();
     }
 
     private int getWeight(final Member member, final Genre targetGenre) {
