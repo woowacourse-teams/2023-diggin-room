@@ -33,6 +33,18 @@ class LoginViewModel @Keep constructor(
         }
     }
 
+    fun guestLogin() {
+        _uiState.value = LoginUiState.Loading
+        viewModelScope.launch {
+            accountRepository.postGuestLogin()
+                .onSuccess { loginResult ->
+                    _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
+                }.onFailure {
+                    _uiState.value = LoginUiState.Failed
+                }
+        }
+    }
+
     fun startGoogleLogin() {
         _uiState.value = LoginUiState.InProgress.Google
     }

@@ -23,6 +23,9 @@ interface AccountService {
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
 
+    @POST("/login/guest")
+    suspend fun postGuestLogin(): Response<LoginResponse>
+
     @POST("/login/oauth")
     suspend fun postSocialLogin(
         @Body loginRequest: SocialLoginRequest

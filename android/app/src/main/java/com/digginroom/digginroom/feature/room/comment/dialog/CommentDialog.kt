@@ -21,7 +21,9 @@ class CommentDialog : BottomSheetDialogFragment() {
     private var commentPostState: CommentPostState = CommentPostState.Post
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
@@ -40,7 +42,8 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     private fun makeViewModel(): CommentViewModel {
         return ViewModelProvider(
-            this, injectViewModel<CommentViewModel>()
+            this,
+            injectViewModel<CommentViewModel>()
         )[CommentViewModel::class.java]
     }
 
@@ -49,7 +52,9 @@ class CommentDialog : BottomSheetDialogFragment() {
             CommentPostState.Post -> postComment(roomId, currentComment)
 
             is CommentPostState.Update -> updateComment(
-                roomId, commentPostState.commentId, currentComment
+                roomId,
+                commentPostState.commentId,
+                currentComment
             )
         }
         binding.currentComment = ""
@@ -57,13 +62,16 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     private fun postComment(roomId: Long, currentComment: String) {
         binding.commentViewModel?.postComment(
-            roomId, currentComment
+            roomId,
+            currentComment
         )
     }
 
     private fun updateComment(roomId: Long, commentId: Long, currentComment: String) {
         binding.commentViewModel?.updateComment(
-            roomId, commentId, currentComment
+            roomId,
+            commentId,
+            currentComment
         )
         commentPostState = CommentPostState.Post
     }
@@ -73,8 +81,8 @@ class CommentDialog : BottomSheetDialogFragment() {
             CommentMenuUiState(update = {
                 updateCommentPostState(comment)
             }, delete = {
-                deleteComment(comment)
-            })
+                    deleteComment(comment)
+                })
         ).show(parentFragmentManager, "CommentMenuDialog")
     }
 
@@ -86,7 +94,8 @@ class CommentDialog : BottomSheetDialogFragment() {
     private fun deleteComment(comment: CommentModel) {
         binding.roomId?.let {
             binding.commentViewModel?.deleteComment(
-                it, comment.id
+                it,
+                comment.id
             )
         }
         binding.currentComment = ""
