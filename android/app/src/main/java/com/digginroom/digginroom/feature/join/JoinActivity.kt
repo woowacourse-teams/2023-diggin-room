@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.join
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -43,10 +44,14 @@ class JoinActivity : AppCompatActivity() {
             when (it) {
                 is JoinUiState.Succeed -> {
                     finish()
+                    Toast.makeText(this, R.string.join_succeed_message, Toast.LENGTH_SHORT).show()
                     LoginActivity.start(this)
                 }
 
-                is JoinUiState.Failed -> binding.account = it.account
+                is JoinUiState.Failed -> {
+                    binding.account = it.account
+                    Toast.makeText(this, R.string.join_failed_message, Toast.LENGTH_SHORT).show()
+                }
 
                 is JoinUiState.Cancel -> finish()
 

@@ -24,7 +24,8 @@ class RoomActivity : AppCompatActivity() {
 
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
-            this, injectViewModel<RoomViewModel>()
+            this,
+            injectViewModel<RoomViewModel>()
         )[RoomViewModel::class.java]
     }
 
@@ -35,16 +36,16 @@ class RoomActivity : AppCompatActivity() {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
         }, openComment = { id ->
-            commentDialog.show(supportFragmentManager, id)
-        }, openInfo = { track ->
-            roomInfoDialog.show(supportFragmentManager, track)
-        }, openScrap = {
-            ScrapListActivity.start(this)
-        }, scrap = { id ->
-            roomViewModel.postScrap(id)
-        }, unScrap = { id ->
-            roomViewModel.removeScrap(id)
-        })
+                commentDialog.show(supportFragmentManager, id)
+            }, openInfo = { track ->
+                roomInfoDialog.show(supportFragmentManager, track)
+            }, openScrap = {
+                ScrapListActivity.start(this)
+            }, scrap = { id ->
+                roomViewModel.postScrap(id)
+            }, unScrap = { id ->
+                roomViewModel.removeScrap(id)
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,9 +75,12 @@ class RoomActivity : AppCompatActivity() {
         )
         binding.roomRoomPager.setRoomLoadable(roomPagerAdapter.rooms.isEmpty())
         binding.roomRoomPager.setOrientation(
-            PagingOrientation.values()[intent.getIntExtra(
-                KEY_PAGING_ORIENTATION, 2
-            )]
+            PagingOrientation.values()[
+                intent.getIntExtra(
+                    KEY_PAGING_ORIENTATION,
+                    2
+                )
+            ]
         )
         binding.roomRoomPager.setRoomPosition(intent.getIntExtra(KEY_INITIAL_POSITION, 0))
         if (binding.roomRoomPager.isNextRoomLoadable) {
@@ -121,7 +125,10 @@ class RoomActivity : AppCompatActivity() {
         }
 
         fun start(
-            context: Context, rooms: RoomsModel, position: Int, pagingOrientation: PagingOrientation
+            context: Context,
+            rooms: RoomsModel,
+            position: Int,
+            pagingOrientation: PagingOrientation
         ) {
             val intent = Intent(context, RoomActivity::class.java).apply {
                 putExtra(KEY_ROOMS, rooms)
@@ -132,7 +139,8 @@ class RoomActivity : AppCompatActivity() {
         }
 
         fun start(
-            context: Context, tutorialCompleted: Boolean
+            context: Context,
+            tutorialCompleted: Boolean
         ) {
             val intent = Intent(context, RoomActivity::class.java).apply {
                 putExtra(KEY_TUTORIAL_COMPLETED, tutorialCompleted)
