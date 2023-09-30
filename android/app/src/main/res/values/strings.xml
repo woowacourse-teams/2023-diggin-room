@@ -50,5 +50,6 @@
     <string name="tutorial_find_room_ment">위 아래로 스크롤 하여\n룸을 탐색하세요!</string>
     <string name="tutorial_previous_room">이전 룸</string>
     <string name="tutorial_next_room">다음 룸</string>
+    <string name="dialog_comment_comment">댓글</string>
 
 </resources>
