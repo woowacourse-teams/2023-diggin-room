@@ -32,24 +32,56 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/dialog_banner_view"
+            android:layout_width="30dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/gray_400"
+            app:layout_constraintBottom_toTopOf="@+id/text_banner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:gravity="center"
+            android:text="@string/dialog_comment_comment"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/banner_layout_separator"
+            app:layout_constraintTop_toBottomOf="@id/dialog_banner_view" />
+
+        <View
+            android:id="@+id/banner_layout_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9B9B9"
+            app:layout_constraintBottom_toTopOf="@id/recyclerView_comment"
+            app:layout_constraintTop_toBottomOf="@id/text_banner" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"
             android:adapter="@{adapter}"
             android:orientation="vertical"
             android:paddingTop="8dp"
             android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
             app:comments="@{commentViewModel.commentState.state}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/editText_comment"
-            app:layout_constraintDimensionRatio="W, 10:9"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toTopOf="@id/comment_layout_separator"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/banner_layout_separator" />
 
         <TextView
             android:layout_width="0dp"
@@ -58,10 +90,11 @@
             android:gravity="center"
             android:text="@string/dialog_comment_empty_comment"
             android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/editText_comment"
-            app:layout_constraintDimensionRatio="W, 10:9"
+            app:layout_constraintBottom_toTopOf="@id/comment_layout_separator"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <View
             android:id="@+id/comment_layout_separator"
@@ -103,6 +136,5 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
