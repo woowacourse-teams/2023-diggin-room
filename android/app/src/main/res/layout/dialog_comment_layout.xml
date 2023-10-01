@@ -78,7 +78,7 @@
             app:comments="@{commentViewModel.commentState.state}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constrainedHeight="true"
-            app:layout_constraintBottom_toTopOf="@id/comment_layout_separator"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/banner_layout_separator" />
@@ -90,51 +90,10 @@
             android:gravity="center"
             android:text="@string/dialog_comment_empty_comment"
             android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@id/comment_layout_separator"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <View
-            android:id="@+id/comment_layout_separator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="16dp"
-            android:background="#B9B9B9"
-            app:layout_constraintBottom_toTopOf="@id/editText_comment" />
-
-        <EditText
-            android:id="@+id/editText_comment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginBottom="16dp"
-            android:autofillHints="no"
-            android:background="@drawable/bg_stroke_gray_radius_1dp"
-            android:hint="@string/dialog_comment_input_comment"
-            android:inputType="text"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
-            android:text="@={currentComment}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_send"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageButton
-            android:id="@+id/button_send"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="10dp"
-            android:background="?attr/selectableItemBackground"
-            android:cropToPadding="true"
-            android:enabled="@{!TextUtils.isEmpty(currentComment)}"
-            android:onClick="@{() -> postComment.invoke(roomId, currentComment)}"
-            android:padding="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/send_button_selector"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
