@@ -1,13 +1,19 @@
 package com.digginroom.digginroom.feature.room.comment.dialog
 
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.FrameLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
+import com.digginroom.digginroom.databinding.DialogCommentEditTextBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
@@ -15,6 +21,7 @@ import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentPostState
 import com.digginroom.digginroom.model.CommentModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CommentDialog : BottomSheetDialogFragment() {
@@ -39,6 +46,39 @@ class CommentDialog : BottomSheetDialogFragment() {
         binding.adapter = CommentAdapter(::showCommentMenuDialog)
         isCancelable = true
         return binding.root
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        bottomSheetDialog.setOnShowListener {
+            val containerLayout =
+                dialog?.findViewById<FrameLayout>(com.google.android.material.R.id.container)
+
+            val editTextBinding = DialogCommentEditTextBinding.inflate(LayoutInflater.from(context))
+            val layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.BOTTOM
+            )
+            editTextBinding.currentComment = binding.currentComment
+            editTextBinding.postComment = binding.postComment
+            editTextBinding.roomId = binding.roomId
+            containerLayout?.addView(editTextBinding.root, layoutParams)
+            editTextBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object :
+                    ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        editTextBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                        val height = editTextBinding.root.measuredHeight
+                        binding.root.setPadding(0, 0, 0, height)
+                    }
+                })
+
+            editTextBinding.root.setOnClickListener {
+                Log.i("here22", "blah blah!!!!")
+            }
+        }
+        return bottomSheetDialog
     }
 
     fun show(fragmentManager: FragmentManager, id: Long) {
