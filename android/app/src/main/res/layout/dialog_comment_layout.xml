@@ -15,14 +15,6 @@
             type="java.lang.Long" />
 
         <variable
-            name="currentComment"
-            type="java.lang.String" />
-
-        <variable
-            name="postComment"
-            type="kotlin.jvm.functions.Function2" />
-
-        <variable
             name="commentViewModel"
             type="com.digginroom.digginroom.feature.room.comment.CommentViewModel" />
 
@@ -56,16 +48,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/banner_layout_separator"
-            app:layout_constraintTop_toBottomOf="@id/dialog_banner_view" />
-
-        <View
-            android:id="@+id/banner_layout_separator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#B9B9B9"
             app:layout_constraintBottom_toTopOf="@id/recyclerView_comment"
-            app:layout_constraintTop_toBottomOf="@id/text_banner" />
+            app:layout_constraintTop_toBottomOf="@id/dialog_banner_view" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
@@ -81,7 +65,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/banner_layout_separator" />
+            app:layout_constraintTop_toBottomOf="@id/text_banner" />
 
         <TextView
             android:layout_width="0dp"

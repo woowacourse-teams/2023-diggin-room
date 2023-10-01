@@ -2,7 +2,6 @@ package com.digginroom.digginroom.feature.room.comment.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class CommentDialog : BottomSheetDialogFragment() {
 
     lateinit var binding: DialogCommentLayoutBinding
+    lateinit var editTextBinding: DialogCommentEditTextBinding
     private var commentPostState: CommentPostState = CommentPostState.Post
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +42,11 @@ class CommentDialog : BottomSheetDialogFragment() {
         binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.commentViewModel = makeViewModel()
-        binding.postComment = ::processPostComment
         binding.adapter = CommentAdapter(::showCommentMenuDialog)
+        binding.recyclerViewComment.setHasFixedSize(true)
         isCancelable = true
+        editTextBinding = DialogCommentEditTextBinding.inflate(LayoutInflater.from(context))
+        editTextBinding.postComment = ::processPostComment
         return binding.root
     }
 
@@ -54,29 +56,22 @@ class CommentDialog : BottomSheetDialogFragment() {
             val containerLayout =
                 dialog?.findViewById<FrameLayout>(com.google.android.material.R.id.container)
 
-            val editTextBinding = DialogCommentEditTextBinding.inflate(LayoutInflater.from(context))
             val layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 Gravity.BOTTOM
             )
-            editTextBinding.currentComment = binding.currentComment
-            editTextBinding.postComment = binding.postComment
-            editTextBinding.roomId = binding.roomId
+
             containerLayout?.addView(editTextBinding.root, layoutParams)
+            // EditText 레이아웃의 높이 만큼 dialog 레이아웃에 padding 줌
             editTextBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object :
                     ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         editTextBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
-
                         val height = editTextBinding.root.measuredHeight
-                        binding.root.setPadding(0, 0, 0, height ?: 0)
+                        binding.root.setPadding(0, 0, 0, height)
                     }
                 })
-
-            editTextBinding.root.setOnClickListener {
-                Log.i("here22", "blah blah!!!!")
-            }
         }
         return bottomSheetDialog
     }
@@ -85,6 +80,7 @@ class CommentDialog : BottomSheetDialogFragment() {
         showNow(fragmentManager, "CommentDialog")
         binding.commentViewModel?.findComments(id)
         binding.roomId = id
+        editTextBinding.roomId = id
     }
 
     private fun makeViewModel(): CommentViewModel {
@@ -104,7 +100,7 @@ class CommentDialog : BottomSheetDialogFragment() {
                 currentComment
             )
         }
-        binding.currentComment = ""
+        editTextBinding.currentComment = ""
     }
 
     private fun postComment(roomId: Long, currentComment: String) {
@@ -135,7 +131,7 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     private fun updateCommentPostState(comment: CommentModel) {
         commentPostState = CommentPostState.Update(comment.id)
-        binding.currentComment = comment.comment
+        editTextBinding.currentComment = comment.comment
     }
 
     private fun deleteComment(comment: CommentModel) {
@@ -145,6 +141,6 @@ class CommentDialog : BottomSheetDialogFragment() {
                 comment.id
             )
         }
-        binding.currentComment = ""
+        editTextBinding.currentComment = ""
     }
 }
