@@ -12,8 +12,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.databinding.DialogCommentEditTextBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
+import com.digginroom.digginroom.databinding.DialogCommentStickyItemLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
@@ -26,7 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class CommentDialog : BottomSheetDialogFragment() {
 
     lateinit var binding: DialogCommentLayoutBinding
-    lateinit var editTextBinding: DialogCommentEditTextBinding
+    lateinit var stickyItemLayoutBinding: DialogCommentStickyItemLayoutBinding
     private var commentPostState: CommentPostState = CommentPostState.Post
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +39,9 @@ class CommentDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
-        binding.commentViewModel = makeViewModel()
-        binding.adapter = CommentAdapter(::showCommentMenuDialog)
-        binding.recyclerViewComment.setHasFixedSize(true)
+        initDialogBinding()
+        initEditTextBinding()
         isCancelable = true
-        editTextBinding = DialogCommentEditTextBinding.inflate(LayoutInflater.from(context))
-        editTextBinding.postComment = ::processPostComment
         return binding.root
     }
 
@@ -55,32 +50,53 @@ class CommentDialog : BottomSheetDialogFragment() {
         bottomSheetDialog.setOnShowListener {
             val containerLayout =
                 dialog?.findViewById<FrameLayout>(com.google.android.material.R.id.container)
+            containerLayout?.addStickyView(stickyItemLayoutBinding.root)
 
-            val layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                Gravity.BOTTOM
-            )
-
-            containerLayout?.addView(editTextBinding.root, layoutParams)
-            // EditText 레이아웃의 높이 만큼 dialog 레이아웃에 padding 줌
-            editTextBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object :
-                    ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        editTextBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        val height = editTextBinding.root.measuredHeight
-                        binding.root.setPadding(0, 0, 0, height)
-                    }
-                })
+            binding.root.addPaddingAsStickyViewHeight(stickyItemLayoutBinding.root)
         }
         return bottomSheetDialog
+    }
+
+    private fun initDialogBinding() {
+        binding = DialogCommentLayoutBinding.inflate(LayoutInflater.from(context))
+        binding.lifecycleOwner = this
+        binding.commentViewModel = makeViewModel()
+        binding.adapter = CommentAdapter(::showCommentMenuDialog)
+    }
+
+    private fun initEditTextBinding() {
+        stickyItemLayoutBinding =
+            DialogCommentStickyItemLayoutBinding.inflate(LayoutInflater.from(context))
+        stickyItemLayoutBinding.postComment = ::processPostComment
+    }
+
+    private fun ViewGroup.addStickyView(view: View) {
+        val layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.BOTTOM
+        )
+
+        this.addView(view, layoutParams)
+    }
+
+    private fun View.addPaddingAsStickyViewHeight(view: View) {
+        // view 레이아웃의 높이 만큼 dialog 레이아웃에 padding 줌
+        view.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val height = view.measuredHeight
+                    this@addPaddingAsStickyViewHeight.setPadding(0, 0, 0, height)
+                }
+            })
     }
 
     fun show(fragmentManager: FragmentManager, id: Long) {
         showNow(fragmentManager, "CommentDialog")
         binding.commentViewModel?.findComments(id)
         binding.roomId = id
-        editTextBinding.roomId = id
+        stickyItemLayoutBinding.roomId = id
     }
 
     private fun makeViewModel(): CommentViewModel {
@@ -100,7 +116,7 @@ class CommentDialog : BottomSheetDialogFragment() {
                 currentComment
             )
         }
-        editTextBinding.currentComment = ""
+        stickyItemLayoutBinding.currentComment = ""
     }
 
     private fun postComment(roomId: Long, currentComment: String) {
@@ -131,7 +147,7 @@ class CommentDialog : BottomSheetDialogFragment() {
 
     private fun updateCommentPostState(comment: CommentModel) {
         commentPostState = CommentPostState.Update(comment.id)
-        editTextBinding.currentComment = comment.comment
+        stickyItemLayoutBinding.currentComment = comment.comment
     }
 
     private fun deleteComment(comment: CommentModel) {
@@ -141,6 +157,6 @@ class CommentDialog : BottomSheetDialogFragment() {
                 comment.id
             )
         }
-        editTextBinding.currentComment = ""
+        stickyItemLayoutBinding.currentComment = ""
     }
 }
