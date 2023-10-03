@@ -22,14 +22,14 @@
         android:background="@color/white">
 
         <View
-            android:id="@+id/comment_layout_separator"
+            android:id="@+id/dialog_comment_sticky_item_view_separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#B9B9B9"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editText_comment"
+            android:id="@+id/dialog_comment_sticky_et_comment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -43,12 +43,12 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_send"
+            app:layout_constraintEnd_toStartOf="@+id/dialog_comment_sticky_btn_send"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comment_layout_separator" />
+            app:layout_constraintTop_toBottomOf="@id/dialog_comment_sticky_item_view_separator" />
 
         <ImageButton
-            android:id="@+id/button_send"
+            android:id="@+id/dialog_comment_sticky_btn_send"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginEnd="10dp"
@@ -60,7 +60,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/send_button_selector"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/editText_comment"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_comment_sticky_et_comment"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
