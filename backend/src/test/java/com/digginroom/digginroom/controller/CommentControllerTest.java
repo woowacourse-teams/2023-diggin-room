@@ -180,7 +180,7 @@ class CommentControllerTest extends ControllerTest {
     void 유저는_자신의_댓글을_수정할_수_있다() {
         Comment comment = commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
         String cookie = login(MEMBER_LOGIN_REQUEST);
-
+        System.out.println("쿠키" + cookie);
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)

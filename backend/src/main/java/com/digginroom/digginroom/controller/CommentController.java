@@ -3,10 +3,10 @@ package com.digginroom.digginroom.controller;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
+import com.digginroom.digginroom.service.CommentService;
 import com.digginroom.digginroom.service.dto.CommentRequest;
 import com.digginroom.digginroom.service.dto.CommentResponse;
 import com.digginroom.digginroom.service.dto.CommentsResponse;
-import com.digginroom.digginroom.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rooms")
 public class CommentController {
 
-    private final RoomService roomService;
+    private final CommentService commentService;
 
     @GetMapping("/{roomId}/comments")
     public ResponseEntity<CommentsResponse> findRoomComments(
             @Auth final Long loginMemberId,
             @PathVariable final Long roomId
     ) {
-        CommentsResponse roomComments = roomService.findRoomComments(roomId, loginMemberId);
+        CommentsResponse roomComments = commentService.getRoomComments(roomId, loginMemberId);
         return ResponseEntity.status(OK).body(roomComments);
     }
 
@@ -41,7 +41,7 @@ public class CommentController {
             @PathVariable final Long roomId,
             @Valid @RequestBody final CommentRequest request
     ) {
-        CommentResponse response = roomService.comment(roomId, loginMemberId, request);
+        CommentResponse response = commentService.comment(roomId, loginMemberId, request);
         return ResponseEntity.status(CREATED).body(response);
     }
 
@@ -52,7 +52,7 @@ public class CommentController {
             @PathVariable final Long commentId,
             @Valid @RequestBody final CommentRequest request
     ) {
-        CommentResponse response = roomService.updateComment(roomId, loginMemberId, commentId, request);
+        CommentResponse response = commentService.update(roomId, loginMemberId, commentId, request);
         return ResponseEntity.status(OK).body(response);
     }
 
@@ -62,7 +62,7 @@ public class CommentController {
             @PathVariable final Long roomId,
             @PathVariable final Long commentId
     ) {
-        roomService.deleteComment(roomId, loginMemberId, commentId);
+        commentService.delete(roomId, loginMemberId, commentId);
         return ResponseEntity.ok().build();
     }
 }
