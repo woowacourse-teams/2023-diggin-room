@@ -52,7 +52,7 @@ public class CommentController {
             @PathVariable final Long commentId,
             @Valid @RequestBody final CommentRequest request
     ) {
-        CommentResponse response = commentService.update(roomId, loginMemberId, commentId, request);
+        CommentResponse response = commentService.update(loginMemberId, commentId, request);
         return ResponseEntity.status(OK).body(response);
     }
 
@@ -62,7 +62,7 @@ public class CommentController {
             @PathVariable final Long roomId,
             @PathVariable final Long commentId
     ) {
-        commentService.delete(roomId, loginMemberId, commentId);
+        commentService.delete(loginMemberId, commentId);
         return ResponseEntity.ok().build();
     }
 }

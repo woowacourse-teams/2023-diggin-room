@@ -10,16 +10,16 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.TestFixture;
-import com.digginroom.digginroom.service.dto.CommentRequest;
-import com.digginroom.digginroom.service.dto.CommentResponse;
-import com.digginroom.digginroom.service.dto.CommentsResponse;
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.CommentResponse;
+import com.digginroom.digginroom.service.dto.CommentsResponse;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -180,7 +180,7 @@ class CommentControllerTest extends ControllerTest {
     void 유저는_자신의_댓글을_수정할_수_있다() {
         Comment comment = commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
         String cookie = login(MEMBER_LOGIN_REQUEST);
-        System.out.println("쿠키" + cookie);
+
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
@@ -192,19 +192,5 @@ class CommentControllerTest extends ControllerTest {
 
         Comment updatedComment = commentRepository.getCommentById(comment.getId());
         assertThat(updatedComment.getComment()).isEqualTo(COMMENT_UPDATE_REQUEST.comment());
-    }
-
-    @Test
-    void 유저가_수정요청한_룸의_댓글이_해당_댓글의_룸과_다르면_안된다() {
-        Comment comment = commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
-        String cookie = login(MEMBER_LOGIN_REQUEST);
-
-        RestAssured.given().log().all()
-                .cookie(cookie)
-                .contentType(ContentType.JSON)
-                .body(COMMENT_UPDATE_REQUEST)
-                .when().patch("/rooms/" + 차이.getId() + "/comments/" + comment.getId())
-                .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 }

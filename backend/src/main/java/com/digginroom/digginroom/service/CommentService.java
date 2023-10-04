@@ -4,7 +4,6 @@ import static com.digginroom.digginroom.exception.CommentException.NotOwnerExcep
 
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.exception.CommentException.NotSameRoomException;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
@@ -50,30 +49,12 @@ public class CommentService {
         }
     }
 
-    public void delete(final Long roomId, final Long memberId, final Long commentId) {
+    public void delete(final Long memberId, final Long commentId) {
         Member member = memberRepository.getMemberById(memberId);
         Comment comment = commentRepository.getCommentById(commentId);
 
-        validateWriteable(comment, member, roomId);
-        commentRepository.delete(comment);
-    }
-
-    public CommentResponse update(
-            final Long roomId,
-            final Long memberId,
-            final Long commentId,
-            final CommentRequest request
-    ) {
-        Member member = memberRepository.getMemberById(memberId);
-        Comment comment = commentRepository.getCommentById(commentId);
-        validateWriteable(comment, member, roomId);
-        comment.updateComment(request.comment());
-        return CommentResponse.of(comment, comment.isOwner(member));
-    }
-
-    private void validateWriteable(final Comment comment, final Member member, final Long roomId) {
-        validateSameRoom(roomId, comment);
         validateSameOwner(member, comment);
+        commentRepository.delete(comment);
     }
 
     private void validateSameOwner(final Member member, final Comment comment) {
@@ -82,9 +63,14 @@ public class CommentService {
         }
     }
 
-    private void validateSameRoom(final Long roomId, final Comment comment) {
-        if (!comment.isSameRoom(roomId)) {
-            throw new NotSameRoomException();
-        }
+    public CommentResponse update(
+            final Long memberId,
+            final Long commentId,
+            final CommentRequest request
+    ) {
+        Member member = memberRepository.getMemberById(memberId);
+        Comment comment = commentRepository.getCommentById(commentId);
+        comment.updateComment(request.comment(), member);
+        return CommentResponse.of(comment, comment.isOwner(member));
     }
 }
