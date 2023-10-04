@@ -56,11 +56,6 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findMember(final Long id) {
-        return memberRepository.getMemberById(id);
-    }
-
-    @Transactional(readOnly = true)
     public MemberDetailsResponse getMemberDetails(final Long id) {
         return MemberDetailsResponse.of(memberRepository.getMemberById(id));
     }

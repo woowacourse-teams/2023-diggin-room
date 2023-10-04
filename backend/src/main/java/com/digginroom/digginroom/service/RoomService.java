@@ -5,6 +5,7 @@ import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
+import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.CommentRequest;
 import com.digginroom.digginroom.service.dto.CommentResponse;
@@ -24,12 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final CommentService commentService;
 
     @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
 
         try {
             Genre recommendedGenre = new GenreRecommender().recommend(member.getMemberGenres());
@@ -56,7 +57,7 @@ public class RoomService {
 
     @Transactional(readOnly = true)
     public RoomsResponse findScrappedRooms(final Long memberId) {
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
         return new RoomsResponse(member.getScrapRooms().stream()
                 .map(room -> new RoomResponse(
                         room.getId(),
@@ -68,16 +69,15 @@ public class RoomService {
                 .toList());
     }
 
-    //TODO: 이후 스크랩 수 증감에 동시성 문제 발생 가능성 존재
     public void scrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
         member.scrap(room);
     }
 
     public void unscrap(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
         member.unscrap(room);
     }
 
@@ -88,21 +88,21 @@ public class RoomService {
 
     public void dislike(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
 
         member.dislike(room);
     }
 
     public void undislike(final Long memberId, final Long roomId) {
         Room room = findRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
 
         member.undislike(room);
     }
 
     public CommentsResponse findRoomComments(final Long roomId, final Long loginMemberId) {
         validateExistRoom(roomId);
-        Member member = memberService.findMember(loginMemberId);
+        Member member = memberRepository.getMemberById(loginMemberId);
         return commentService.getRoomComments(roomId, member);
     }
 
@@ -114,13 +114,13 @@ public class RoomService {
 
     public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {
         validateExistRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
         return commentService.comment(roomId, member, request);
     }
 
     public void deleteComment(final Long roomId, final Long memberId, final Long commentId) {
         validateExistRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
         commentService.delete(roomId, member, commentId);
     }
 
@@ -131,7 +131,7 @@ public class RoomService {
             final CommentRequest request
     ) {
         validateExistRoom(roomId);
-        Member member = memberService.findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
         Comment updateComment = commentService.update(member, roomId, commentId, request);
         return CommentResponse.of(updateComment, updateComment.isOwner(member));
     }

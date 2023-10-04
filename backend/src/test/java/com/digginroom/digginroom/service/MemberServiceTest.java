@@ -70,23 +70,6 @@ class MemberServiceTest {
     }
 
     @Test
-    void 회원_정보가_있는_경우_멤버를_반환한다() {
-        Member power = Member.self("power", "power123!");
-        when(memberRepository.getMemberById(1L)).thenReturn(power);
-
-        assertThat(memberService.findMember(1L)).isEqualTo(power);
-    }
-
-    @Test
-    void 회원_정보가_없는_경우_에러가_발생한다() {
-        when(memberRepository.getMemberById(1L))
-                .thenThrow(MemberException.NotFoundException.class);
-
-        assertThatThrownBy(() -> memberService.findMember(1L))
-                .isInstanceOf(MemberException.NotFoundException.class);
-    }
-
-    @Test
     void 회원_정보가_있다면_로그인_할_수_있다() {
         Member power = Member.self("power", "power123!");
         when(memberRepository.getMemberByUsername("power")).thenReturn(power);
