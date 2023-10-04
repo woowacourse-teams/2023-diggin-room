@@ -1,18 +1,22 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.*;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.CommentResponse;
+import com.digginroom.digginroom.service.dto.CommentsResponse;
+import com.digginroom.digginroom.service.dto.RoomResponse;
+import com.digginroom.digginroom.service.dto.RoomsResponse;
+import com.digginroom.digginroom.service.dto.TrackResponse;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @Transactional

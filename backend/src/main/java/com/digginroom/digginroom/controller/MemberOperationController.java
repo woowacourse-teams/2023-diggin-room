@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
 import com.digginroom.digginroom.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

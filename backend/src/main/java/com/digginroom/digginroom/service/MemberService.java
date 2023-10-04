@@ -1,11 +1,11 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
-import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
-import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
+import com.digginroom.digginroom.service.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginResponse;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.Provider;

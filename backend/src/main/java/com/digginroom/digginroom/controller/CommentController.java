@@ -3,9 +3,9 @@ package com.digginroom.digginroom.controller;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-import com.digginroom.digginroom.controller.dto.CommentRequest;
-import com.digginroom.digginroom.controller.dto.CommentResponse;
-import com.digginroom.digginroom.controller.dto.CommentsResponse;
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.CommentResponse;
+import com.digginroom.digginroom.service.dto.CommentsResponse;
 import com.digginroom.digginroom.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

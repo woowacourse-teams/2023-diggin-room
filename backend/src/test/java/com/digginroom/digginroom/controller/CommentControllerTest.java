@@ -10,10 +10,10 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.TestFixture;
-import com.digginroom.digginroom.controller.dto.CommentRequest;
-import com.digginroom.digginroom.controller.dto.CommentResponse;
-import com.digginroom.digginroom.controller.dto.CommentsResponse;
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.CommentResponse;
+import com.digginroom.digginroom.service.dto.CommentsResponse;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;

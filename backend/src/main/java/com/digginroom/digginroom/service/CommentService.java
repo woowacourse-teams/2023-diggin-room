@@ -2,9 +2,9 @@ package com.digginroom.digginroom.service;
 
 import static com.digginroom.digginroom.exception.CommentException.NotOwnerException;
 
-import com.digginroom.digginroom.controller.dto.CommentRequest;
-import com.digginroom.digginroom.controller.dto.CommentResponse;
-import com.digginroom.digginroom.controller.dto.CommentsResponse;
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.CommentResponse;
+import com.digginroom.digginroom.service.dto.CommentsResponse;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.CommentException.NotSameRoomException;
