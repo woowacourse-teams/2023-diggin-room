@@ -3,7 +3,6 @@ package com.digginroom.digginroom.service;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
@@ -65,31 +64,26 @@ public class RoomService {
     }
 
     public void scrap(final Long memberId, final Long roomId) {
-        Room room = findRoom(roomId);
+        Room room = roomRepository.getRoomById(roomId);
         Member member = memberRepository.getMemberById(memberId);
         member.scrap(room);
     }
 
     public void unscrap(final Long memberId, final Long roomId) {
-        Room room = findRoom(roomId);
+        Room room = roomRepository.getRoomById(roomId);
         Member member = memberRepository.getMemberById(memberId);
         member.unscrap(room);
     }
 
-    private Room findRoom(final Long roomId) {
-        return roomRepository.findById(roomId)
-                .orElseThrow(() -> new NotFoundException(roomId));
-    }
-
     public void dislike(final Long memberId, final Long roomId) {
-        Room room = findRoom(roomId);
+        Room room = roomRepository.getRoomById(roomId);
         Member member = memberRepository.getMemberById(memberId);
 
         member.dislike(room);
     }
 
     public void undislike(final Long memberId, final Long roomId) {
-        Room room = findRoom(roomId);
+        Room room = roomRepository.getRoomById(roomId);
         Member member = memberRepository.getMemberById(memberId);
 
         member.undislike(room);
