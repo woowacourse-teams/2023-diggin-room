@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
+import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
@@ -66,6 +67,19 @@ class RoomViewModel @Keep constructor(
                     }
                 }
             }.onFailure {}
+        }
+    }
+
+    fun updateScrappedRooms(
+        renewalScrappedRooms: List<RoomModel>
+    ) {
+        rooms.filter { it.isScrapped }.forEach { scrappedRoom ->
+            if (renewalScrappedRooms.none { it.roomId == scrappedRoom.roomId }) {
+                val index = rooms.indexOfFirst { it.roomId == scrappedRoom.roomId }
+                rooms[index] =
+                    scrappedRoom.copy(isScrapped = false, scrapCount = scrappedRoom.scrapCount - 1)
+                _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
+            }
         }
     }
 }

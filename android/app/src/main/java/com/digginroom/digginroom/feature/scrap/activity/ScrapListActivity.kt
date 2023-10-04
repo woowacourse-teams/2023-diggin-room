@@ -3,14 +3,17 @@ package com.digginroom.digginroom.feature.scrap.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.ActivityScrapBinding
+import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 import com.digginroom.digginroom.feature.scrap.navigator.DefaultScrapNavigator
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
+import com.digginroom.digginroom.model.RoomsModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class ScrapListActivity : AppCompatActivity() {
@@ -22,6 +25,7 @@ class ScrapListActivity : AppCompatActivity() {
             injectViewModel<ScrapViewModel>()
         )[ScrapViewModel::class.java]
     }
+    private lateinit var scrappedRooms: RoomsModel
 
     override fun onResume() {
         super.onResume()
@@ -31,8 +35,9 @@ class ScrapListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initScrapBinding()
+        initScrappedRoomsObserver()
+        initBackPressedCallback()
     }
 
     private fun initScrapBinding() {
@@ -45,6 +50,27 @@ class ScrapListActivity : AppCompatActivity() {
                     it.navigateToScrapRoomView = DefaultScrapNavigator(this)::navigate
                     it.scrapIvBack.setOnClickListener { finish() }
                 }
+    }
+
+    private fun initScrappedRoomsObserver() {
+        scrapViewModel.scrappedRooms.observe(this) {
+            scrappedRooms = RoomsModel(it)
+        }
+    }
+
+    private fun initBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    setResult(
+                        RESULT_OK,
+                        RoomActivity.getIntentForResultWithScrappedRooms(this@ScrapListActivity, scrappedRooms)
+                    )
+                    if (!isFinishing) finish()
+                }
+            }
+        )
     }
 
     companion object {
