@@ -71,9 +71,9 @@ object DependencyInjector {
 
         val constructor =
             type.jvmErasure.primaryConstructor ?: (
-                    provider?.jvmErasure?.primaryConstructor
-                        ?: throw InjectError.ConstructorNoneAvailable(type)
-                    )
+                provider?.jvmErasure?.primaryConstructor
+                    ?: throw InjectError.ConstructorNoneAvailable(type)
+                )
 
         val parameters = constructor.parameters
         val arguments = gatherArguments(parameters, lifecycle)
