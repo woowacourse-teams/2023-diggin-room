@@ -19,7 +19,7 @@ jobs:
 
     - name: Create config.properties
       run: |
-        cd android && echo "server.url=\"test\"\nserver.clientId=\"test\"\nserver.clientSecret=\"test\"\nkakao.nativeKey=\"test\"" > config.properties
+        cd android && echo "server.url=\"secret\"\nserver.clientId=\"secret\"\nserver.clientSecret=\"secret\"\nkakao.nativeKey=\"00000000000000000000000000000000\"" > config.properties
 
     - name: Run test
       working-directory: ./android
