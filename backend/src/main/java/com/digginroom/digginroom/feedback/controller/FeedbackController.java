@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feedback.controller;
 
+import com.digginroom.digginroom.controller.Auth;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.feedback.FeedbackService;
 import com.digginroom.digginroom.feedback.dto.FeedbackRequest;
@@ -20,7 +21,7 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
 
     @PostMapping("/feedbacks")
-    public ResponseEntity<Void> takeFeedbackFrom(Member member, final @RequestBody FeedbackRequest feedback) {
+    public ResponseEntity<Void> takeFeedbackFrom(@Auth Member member, final @RequestBody FeedbackRequest feedback) {
         feedbackService.accept(feedback);
         return ResponseEntity.ok().build();
     }
