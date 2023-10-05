@@ -22,7 +22,7 @@ public class FeedbackController {
 
     @PostMapping("/feedbacks")
     public ResponseEntity<Void> takeFeedbackFrom(final @Auth Long memberId, final @RequestBody FeedbackRequest feedback) {
-        feedbackService.accept(feedback);
+        feedbackService.accept(memberId, feedback);
         return ResponseEntity.ok().build();
     }
 
