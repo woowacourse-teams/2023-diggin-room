@@ -18,8 +18,19 @@ jobs:
         cache: gradle
 
     - name: Create config.properties
+      working-directory: ./android
       run: |
-        cd android && echo "server.url=\"secret\"\nserver.clientId=\"secret\"\nserver.clientSecret=\"secret\"\nkakao.nativeKey=\"00000000000000000000000000000000\"" > config.properties
+        touch config.properties
+        echo "server.url=\"secret\"" >> config.properties
+        echo "server.clientId=\"secret\"" >> config.properties
+        echo "server.clientSecret=\"secret\"" >> config.properties
+        echo "kakao.nativeKey=\"secret\"" >> config.properties
+
+    - name: Create google-services.json
+      working-directory: ./android/app
+      run: |
+        touch google-services.json
+        echo "${{ secrets.ANDROID_GOOGLE_SERVICES }}" >> google-services.json
 
     - name: Run test
       working-directory: ./android
