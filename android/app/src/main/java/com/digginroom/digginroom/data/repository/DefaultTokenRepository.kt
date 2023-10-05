@@ -19,6 +19,13 @@ class DefaultTokenRepository @Keep constructor(
             }
         }
 
+    override suspend fun delete(): LogResult<Unit> =
+        withContext(Dispatchers.IO) {
+            logRunCatching {
+                tokenLocalDataSource.delete()
+            }
+        }
+
     override suspend fun fetch(): LogResult<String> =
         withContext(Dispatchers.IO) {
             logRunCatching {

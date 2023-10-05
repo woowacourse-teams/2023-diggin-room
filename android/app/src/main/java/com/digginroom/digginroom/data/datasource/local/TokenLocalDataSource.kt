@@ -18,6 +18,12 @@ class TokenLocalDataSource @Keep constructor(
         }
     }
 
+    fun delete() {
+        tokenPreference.edit {
+            remove(KEY_TOKEN)
+        }
+    }
+
     fun fetch(): String =
         tokenPreference.getString(KEY_TOKEN, "") ?: ""
 

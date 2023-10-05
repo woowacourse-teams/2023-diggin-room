@@ -7,5 +7,6 @@ data class SettingCategoryDetailModel(
     @StringRes
     val description: Int,
     @DrawableRes
-    val descriptionImg: Int
+    val descriptionImg: Int,
+    var invoke: (() -> Unit)? = null
 )

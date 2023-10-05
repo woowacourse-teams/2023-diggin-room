@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.digginroom.digginroom.feature.setting.SettingViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +20,7 @@
             android:id="@+id/setting_iv_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:onClick="@{() -> viewModel.cancel()}"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/common_back_button_description"

@@ -11,8 +11,10 @@ class SettingViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(category: SettingCategoryModel) {
-        binding.description = category.description
-        binding.settingRvCategoryDetails.adapter = SettingCategoryDetailsAdapter(category.details)
+        with(binding) {
+            description = category.description
+            settingRvCategoryDetails.adapter = SettingCategoryDetailsAdapter(category.details)
+        }
     }
 
     companion object {
