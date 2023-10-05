@@ -21,7 +21,7 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
 
     @PostMapping("/feedbacks")
-    public ResponseEntity<Void> takeFeedbackFrom(@Auth Member member, final @RequestBody FeedbackRequest feedback) {
+    public ResponseEntity<Void> takeFeedbackFrom(@Auth Long memberId, final @RequestBody FeedbackRequest feedback) {
         feedbackService.accept(feedback);
         return ResponseEntity.ok().build();
     }
