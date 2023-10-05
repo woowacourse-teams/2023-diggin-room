@@ -4,7 +4,7 @@ import com.digginroom.digginroom.feedback.domain.Feedback;
 
 public record FeedbackResponse(String content) {
 
-    public static FeedbackResponse of(Feedback feedback) {
+    public static FeedbackResponse of(final Feedback feedback) {
         return new FeedbackResponse(feedback.getContent());
     }
 }

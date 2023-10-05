@@ -13,7 +13,7 @@ public class Feedback extends BaseEntity {
 
     private String content;
 
-    public Feedback(String content) {
+    public Feedback(final String content) {
         this.content = content;
     }
 }
