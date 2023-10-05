@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,7 +26,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <View
             android:id="@+id/dialog_comment_view_banner"
@@ -33,7 +34,6 @@
             android:layout_height="5dp"
             android:layout_marginTop="20dp"
             android:background="@color/gray_400"
-            app:layout_constraintBottom_toTopOf="@+id/dialog_comment_tv_banner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,39 +42,46 @@
             android:id="@+id/dialog_comment_tv_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/dialog_comment_comment"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/dialog_comment_recyclerView_comment"
             app:layout_constraintTop_toBottomOf="@id/dialog_comment_view_banner" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/dialog_comment_recyclerView_comment"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:adapter="@{adapter}"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
-            app:comments="@{commentViewModel.commentState.state}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constrainedHeight="true"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner" />
+            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dialog_comment_recyclerView_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adapter="@{adapter}"
+                android:orientation="vertical"
+                android:paddingTop="18dp"
+                android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
+                app:comments="@{commentViewModel.commentState.state}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="200" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingTop="30dp"
             android:text="@string/dialog_comment_empty_comment"
             android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner" />

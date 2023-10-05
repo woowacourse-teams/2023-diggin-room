@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,8 @@ import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentPostState
 import com.digginroom.digginroom.model.CommentModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -48,13 +51,38 @@ class CommentDialog : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         bottomSheetDialog.setOnShowListener {
+            val bottomSheetDialogParent =
+                bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+            bottomSheetDialogParent.makeBottomSheetDialogParentFullSize()
             val containerLayout =
-                dialog?.findViewById<FrameLayout>(com.google.android.material.R.id.container)
-            containerLayout?.addStickyView(stickyItemLayoutBinding.root)
+                bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.container)
 
+            initBottomSheetBehavior(bottomSheetDialogParent, containerLayout as ViewGroup)
+
+            containerLayout.addStickyView(stickyItemLayoutBinding.root)
             binding.root.addPaddingAsStickyViewHeight(stickyItemLayoutBinding.root)
         }
         return bottomSheetDialog
+    }
+
+    private fun ViewGroup.makeBottomSheetDialogParentFullSize() {
+        this.layoutParams.height = CoordinatorLayout.LayoutParams.MATCH_PARENT
+    }
+
+    private fun initBottomSheetBehavior(view: View, viewGroup: ViewGroup) {
+        val bottomSheetBehavior = BottomSheetBehavior.from(view)
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                bottomSheetBehavior.removeBottomSheetCallback(this)
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> viewGroup.removeAllViews()
+                    else -> {}
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+        })
     }
 
     private fun initDialogBinding() {
@@ -80,14 +108,12 @@ class CommentDialog : BottomSheetDialogFragment() {
         this.addView(view, layoutParams)
     }
 
-    private fun View.addPaddingAsStickyViewHeight(view: View) {
-        // view 레이아웃의 높이 만큼 dialog 레이아웃에 padding 줌
-        view.viewTreeObserver.addOnGlobalLayoutListener(object :
+    private fun View.addPaddingAsStickyViewHeight(stickyView: View) {
+        stickyView.viewTreeObserver.addOnGlobalLayoutListener(object :
                 ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    val height = view.measuredHeight
-                    this@addPaddingAsStickyViewHeight.setPadding(0, 0, 0, height)
+                    stickyView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    this@addPaddingAsStickyViewHeight.setPadding(0, 0, 0, stickyView.measuredHeight)
                 }
             })
     }
