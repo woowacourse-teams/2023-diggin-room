@@ -33,7 +33,7 @@ class FeedbackServiceTest {
         feedbackService.accept(new FeedbackRequest(content));
 
         assertThat(feedbackRepository.findAll())
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+                .usingRecursiveFieldByFieldElementComparatorOnFields("content")
                 .containsExactly(new Feedback(content));
     }
 
