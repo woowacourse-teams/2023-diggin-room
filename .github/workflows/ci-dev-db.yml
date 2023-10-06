@@ -50,8 +50,8 @@ jobs:
         sudo docker exec $MYSQL_CONTAINER_NAME sh -c ' \
           mysqldump \
           -u ${{ secrets.DEV_DATASOURCE_USERNAME }} -p${{ secrets.DEV_DATASOURCE_PASSWORD }} \
-          -h $SOURCE_DB_HOSTNAME -P $SOURCE_DB_PORT \
-          -B $SOURCE_DB_SCHEMA \
+          -h ${{ env.SOURCE_DB_HOSTNAME }} -P ${{ env.SOURCE_DB_PORT }} \
+          -B ${{ env.SOURCE_DB_SCHEMA }} \
           --single-transaction --no-tablespaces \
         ' > dump.sql
         
