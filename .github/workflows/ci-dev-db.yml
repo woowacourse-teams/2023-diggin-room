@@ -63,12 +63,11 @@ jobs:
 
     - name: flyway.conf 생성
       run: |
-        DOCKER_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" $MYSQL_CONTAINER_NAME`;
         DOCKER_PORT=`sudo docker inspect --format="{{(index (index .NetworkSettings.Ports \"3306/tcp\") 0).HostPort}}" $MYSQL_CONTAINER_NAME`;
-        echo "Docker IP Address: $DOCKER_IP, Port: $DOCKER_PORT";
+        echo "MySQL Container Port: $DOCKER_PORT";
 
         touch flyway.conf
-        echo "flyway.url=jdbc:mysql://$DOCKER_IP:$DOCKER_PORT/$SOURCE_DB_SCHEMA" >> flyway.conf
+        echo "flyway.url=jdbc:mysql://127.0.0.1:$DOCKER_PORT/$SOURCE_DB_SCHEMA" >> flyway.conf
         echo "flyway.user=root" >> flyway.conf
         echo "flyway.password=root" >> flyway.conf
         echo "flyway.encoding=UTF-8" >> flyway.conf
