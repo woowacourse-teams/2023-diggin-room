@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,40 +47,13 @@ public class MemberLoginController {
                 .body(member);
     }
 
-    @PostMapping("/oauth")
+    @PostMapping("/{providerName}")
     public ResponseEntity<MemberLoginResponse> login(
             @RequestBody @Valid final IdTokenRequest idTokenRequest,
+            @PathVariable("providerName") String providerName,
             final HttpSession httpSession
     ) {
-        MemberLoginResponse member = memberService.loginMember(idTokenRequest.idToken());
-
-        httpSession.setAttribute("memberId", member.memberId());
-        httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(member);
-    }
-
-    @Deprecated(forRemoval = true)
-    @PostMapping("/google")
-    public ResponseEntity<MemberLoginResponse> loginGoogle(
-            @RequestBody @Valid final IdTokenRequest idTokenRequest,
-            final HttpSession httpSession
-    ) {
-        MemberLoginResponse member = memberService.loginMember(idTokenRequest.idToken());
-
-        httpSession.setAttribute("memberId", member.memberId());
-        httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(member);
-    }
-
-    @Deprecated(forRemoval = true)
-    @PostMapping("/kakao")
-    public ResponseEntity<MemberLoginResponse> loginKakao(
-            @RequestBody @Valid final IdTokenRequest idTokenRequest,
-            final HttpSession httpSession
-    ) {
-        MemberLoginResponse member = memberService.loginMember(idTokenRequest.idToken());
+        MemberLoginResponse member = memberService.loginMember(idTokenRequest.idToken(), providerName);
 
         httpSession.setAttribute("memberId", member.memberId());
         httpSession.setMaxInactiveInterval(PERSISTENT_TIME);

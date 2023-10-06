@@ -24,7 +24,7 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class ThirdPartyJwkProviders {
+public class IdTokenResolver {
 
     private final static Map<Provider, Function<Map<String, Claim>, IdTokenPayload>> PAYLOAD_CONSTRUCTORS = Map.of(
             Provider.KAKAO, KakaoIdTokenPayload::new,
@@ -33,11 +33,9 @@ public class ThirdPartyJwkProviders {
 
     private final List<ThirdPartyJwkProvider> thirdPartyJwkProviders;
 
-    public void verify(final String rawIdToken) {
+    public void verify(final String rawIdToken, Provider provider) {
         try {
             DecodedJWT decoded = JWT.decode(rawIdToken);
-            Provider provider = Provider.of(decoded.getIssuer())
-                    .orElseThrow(() -> new UnsupportedIdTokenException(decoded.getIssuer()));
 
             Jwk jwk = getJwkProviderFor(provider).getJwkBy(decoded.getKeyId());
             Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
@@ -60,10 +58,8 @@ public class ThirdPartyJwkProviders {
                 .orElseThrow(() -> new UnsupportedProviderException(provider.name()));
     }
 
-    public IdTokenPayload resolve(final String rawIdToken) {
+    public IdTokenPayload resolve(final String rawIdToken, Provider provider) {
         DecodedJWT decoded = JWT.decode(rawIdToken);
-        Provider provider = Provider.of(decoded.getIssuer())
-                .orElseThrow(() -> new UnsupportedIdTokenException(decoded.getIssuer()));
         return getConstructorFor(provider).apply(
                 decoded.getClaims()
         );

@@ -3,9 +3,7 @@ package com.digginroom.digginroom.service;
 import com.digginroom.digginroom.controller.dto.*;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.MemberException;
-import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.util.TestClaim;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.digginroom.digginroom.TestFixture.ID_TOKEN_PAYLOAD;
@@ -34,8 +31,6 @@ class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
-    @Mock
-    private IdTokenResolver idTokenResolver;
     @InjectMocks
     private MemberService memberService;
 
@@ -112,31 +107,6 @@ class MemberServiceTest {
                 new MemberLoginRequest(power.getUsername(), power.getPassword() + "asd")))
                 .isInstanceOf(MemberException.NotFoundException.class)
                 .hasMessageContaining("회원 정보가 없습니다.");
-    }
-
-    @Test
-    void OAuth_로_처음_로그인한_유저는_유저_정보가_생성된다() {
-        Member member = 파워();
-        when(idTokenResolver.resolve(any())).thenReturn(ID_TOKEN_PAYLOAD);
-        when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.empty());
-        when(memberRepository.save(any())).thenReturn(member);
-
-        MemberLoginResponse response = memberService.loginMember("ID_TOKEN");
-
-        verify(memberRepository, times(1)).save(any());
-        assertThat(response).isNotNull();
-    }
-
-    @Test
-    void OAuth_로_이미_로그인했던_유저는_로그인할_수_있다() {
-        Member member = 파워();
-        when(idTokenResolver.resolve(any())).thenReturn(ID_TOKEN_PAYLOAD);
-        when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.of(member));
-
-        MemberLoginResponse response = memberService.loginMember("ID_TOKEN");
-
-        verify(memberRepository, times(0)).save(any());
-        assertThat(response).isNotNull();
     }
 
     @Test

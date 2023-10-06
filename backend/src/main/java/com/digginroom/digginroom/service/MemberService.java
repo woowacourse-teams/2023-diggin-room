@@ -1,20 +1,24 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.*;
+import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
+import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
+import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.exception.MemberException.WrongProviderException;
-import com.digginroom.digginroom.oauth.IdTokenResolver;
+import com.digginroom.digginroom.oauth.jwk.IdTokenResolver;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
 import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -82,9 +86,10 @@ public class MemberService {
         return MemberLoginResponse.of(member);
     }
 
-    public MemberLoginResponse loginMember(final String idToken) {
-        IdTokenPayload payload = idTokenResolver.resolve(idToken);
-
+    public MemberLoginResponse loginMember(final String idToken, final String providerName) {
+        Provider provider = Provider.valueOf(providerName);
+        idTokenResolver.verify(idToken, provider);
+        IdTokenPayload payload = idTokenResolver.resolve(idToken, provider);
         Member member = memberRepository.findMemberByUsername(payload.getUsername())
                 .orElseGet(() -> memberRepository.save(Member.social(
                         payload.getUsername(),
