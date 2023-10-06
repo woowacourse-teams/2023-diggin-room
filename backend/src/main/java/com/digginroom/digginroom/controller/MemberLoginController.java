@@ -58,4 +58,32 @@ public class MemberLoginController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(member);
     }
+
+    @Deprecated(forRemoval = true)
+    @PostMapping("/google")
+    public ResponseEntity<MemberLoginResponse> loginGoogle(
+            @RequestBody @Valid final IdTokenRequest idTokenRequest,
+            final HttpSession httpSession
+    ) {
+        MemberLoginResponse member = memberService.loginMember(idTokenRequest.idToken());
+
+        httpSession.setAttribute("memberId", member.memberId());
+        httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
+    }
+
+    @Deprecated(forRemoval = true)
+    @PostMapping("/kakao")
+    public ResponseEntity<MemberLoginResponse> loginKakao(
+            @RequestBody @Valid final IdTokenRequest idTokenRequest,
+            final HttpSession httpSession
+    ) {
+        MemberLoginResponse member = memberService.loginMember(idTokenRequest.idToken());
+
+        httpSession.setAttribute("memberId", member.memberId());
+        httpSession.setMaxInactiveInterval(PERSISTENT_TIME);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(member);
+    }
 }
