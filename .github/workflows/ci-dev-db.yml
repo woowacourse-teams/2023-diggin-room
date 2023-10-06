@@ -68,7 +68,7 @@ jobs:
         echo "Docker IP Address: $DOCKER_IP, Port: $DOCKER_PORT";
 
         touch flyway.conf
-        echo "flyway.url=jdbc:mysql://$DOCKER_IP:$DOCKER_PORT" >> flyway.conf
+        echo "flyway.url=jdbc:mysql://$DOCKER_IP:$DOCKER_PORT/$SOURCE_DB_SCHEMA" >> flyway.conf
         echo "flyway.user=root" >> flyway.conf
         echo "flyway.password=root" >> flyway.conf
         echo "flyway.encoding=UTF-8" >> flyway.conf
