@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class MemberLoginController {
 
-    private static final int PERSISTENT_TIME = 0;
+    private static final int PERSISTENT_TIME = 1800;
 
     private final MemberService memberService;
 

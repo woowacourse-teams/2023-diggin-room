@@ -1,4 +1,6 @@
 spring:
+  session:
+    store-type: jdbc
   profiles:
     active: local
   mvc:
