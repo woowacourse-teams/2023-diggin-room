@@ -27,7 +27,7 @@ class CommentViewModel @Keep constructor(
         _commentState.value = _commentState.value?.copy(state = CommentState.Loading)
         viewModelScope.launch {
             commentRepository.findComments(roomId).onSuccess { newComments ->
-                comments = newComments
+                comments = newComments.sortedByDescending { it.createdAt }
                 _commentState.value =
                     _commentState.value?.copy(state = CommentState.Succeed(comments.map { it.toModel() }))
             }.onFailure {
@@ -42,7 +42,7 @@ class CommentViewModel @Keep constructor(
         _commentState.value = _commentState.value?.copy(state = CommentState.Loading)
         viewModelScope.launch {
             commentRepository.postComment(roomId, comment).onSuccess { comment ->
-                comments = comments + comment
+                comments = comments.toMutableList().apply { add(0, comment) }
                 _commentState.value =
                     _commentState.value?.copy(state = CommentState.Succeed(comments.map { it.toModel() }))
             }.onFailure {
