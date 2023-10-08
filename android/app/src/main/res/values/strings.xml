@@ -10,10 +10,7 @@
     <string name="common_diggin_room_logo">Diggin\' Room Logo</string>
 
     <string name="login_guest_login">게스트 로그인</string>
-    <string name="login_forgot_account">로그인 정보를 잊으셨나요?</string>
-    <string name="login_separator">|</string>
     <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
-    <string name="login_google_login_img_description">image_of_google_social_login</string>
 
     <string name="join_request_input_id">아이디를 입력하세요</string>
     <string name="join_request_input_password">비밀번호를 입력하세요</string>
@@ -23,6 +20,8 @@
     <string name="join_id_duplicated">중복된 아이디입니다.</string>
     <string name="join_password_rule_description">비밀번호는 영문, 숫자, 특수문자 조합의 8자 이상 16자 이하입니다.</string>
     <string name="join_password_not_equal_description">비밀번호가 일치하지 않습니다.</string>
+    <string name="login_forgot_account">로그인 정보를 잊으셨나요?</string>
+    <string name="login_separator">|</string>
     <string name="join_duplication_check">중복 확인</string>
     <string name="join_tv_available_id">사용가능한 아이디입니다.</string>
     <string name="join_succeed_message">회원가입에 성공했습니다.</string>
@@ -30,14 +29,18 @@
 
     <string name="scrap_scrap_description">스크랩</string>
     <string name="scrap_thumbnail_description">thumbnail of scrapped room</string>
-
+    <string name="title_artist_format">%s - %s</string>
+    <string name="track_genre">장르: %s</string>
+    <string name="login_google_login_img_description">image_of_google_social_login</string>
     <string name="genre_taste_start">시작하기</string>
     <string name="genre_taste_ask_genre_taste">어떤 음악을 좋아하세요?</string>
-
     <string name="dialog_comment_input_comment">댓글 작성</string>
     <string name="dialog_comment_empty_comment">대화를 시작해 보세요.</string>
     <string name="dialog_comment_send">등록</string>
-
+    <string name="edit_comment">수정</string>
+    <string name="delete_comment">삭제</string>
+    <string name="updated_comment">(편집됨)</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tutorial_skip">SKIP</string>
     <string name="tutorial_start">START</string>
     <string name="tutorial_next">다음</string>
@@ -53,10 +56,4 @@
     <string name="tutorial_previous_room">이전 룸</string>
     <string name="tutorial_next_room">다음 룸</string>
 
-    <string name="title_artist_format">%s - %s</string>
-    <string name="track_genre">장르: %s</string>
-    <string name="edit_comment">수정</string>
-    <string name="delete_comment">삭제</string>
-    <string name="updated_comment">(편집됨)</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

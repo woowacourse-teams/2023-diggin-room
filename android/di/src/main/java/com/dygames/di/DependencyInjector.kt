@@ -62,6 +62,7 @@ object DependencyInjector {
     ): Any {
         val provider = lifecycleAwareProviders.value.values.firstNotNullOfOrNull {
             it.value.firstNotNullOfOrNull { provider ->
+                if (qualifier != null && provider.key != qualifier) return@firstNotNullOfOrNull null
                 val factory = provider.value.factories[type]
                     ?: return@firstNotNullOfOrNull provider.value.constructors[type]
                 return factory()
