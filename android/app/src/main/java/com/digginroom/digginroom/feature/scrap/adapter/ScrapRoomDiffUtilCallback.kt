@@ -1,15 +1,15 @@
 package com.digginroom.digginroom.feature.scrap.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.ScrappedRoomModel
 
-class ScrapRoomDiffUtilCallback : DiffUtil.ItemCallback<RoomModel>() {
+class ScrapRoomDiffUtilCallback : DiffUtil.ItemCallback<ScrappedRoomModel>() {
 
-    override fun areItemsTheSame(oldItem: RoomModel, newItem: RoomModel): Boolean {
-        return oldItem == newItem
+    override fun areItemsTheSame(oldItem: ScrappedRoomModel, newItem: ScrappedRoomModel): Boolean {
+        return oldItem.room == newItem.room && oldItem.isSelected == newItem.isSelected
     }
 
-    override fun areContentsTheSame(oldItem: RoomModel, newItem: RoomModel): Boolean {
-        return oldItem == newItem
+    override fun areContentsTheSame(oldItem: ScrappedRoomModel, newItem: ScrappedRoomModel): Boolean {
+        return oldItem.room == newItem.room && oldItem.isSelected == newItem.isSelected
     }
 }
