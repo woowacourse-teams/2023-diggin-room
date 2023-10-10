@@ -1,8 +1,8 @@
 package com.digginroom.digginroom;
 
-import com.digginroom.digginroom.controller.dto.CommentRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.Provider;

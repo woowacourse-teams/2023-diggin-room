@@ -6,8 +6,8 @@ import static com.digginroom.digginroom.domain.Genre.RNB;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
 
 import com.digginroom.digginroom.TestFixture;
-import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.controller.dto.MemberDetailsResponse;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

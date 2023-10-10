@@ -1,6 +1,11 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.*;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
+import com.digginroom.digginroom.service.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginResponse;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.Provider;
@@ -10,11 +15,10 @@ import com.digginroom.digginroom.exception.MemberException.WrongProviderExceptio
 import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
 import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -43,7 +47,7 @@ public class MemberService {
     }
 
     public void markFavorite(final Long memberId, final FavoriteGenresRequest genres) {
-        Member member = findMember(memberId);
+        Member member = memberRepository.getMemberById(memberId);
 
         List<Genre> favoriteGenres = genres.favoriteGenres().stream()
                 .map(Genre::of)
@@ -52,14 +56,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findMember(final Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-    }
-
-    @Transactional(readOnly = true)
     public MemberDetailsResponse getMemberDetails(final Long id) {
-        return MemberDetailsResponse.of(findMember(id));
+        return MemberDetailsResponse.of(memberRepository.getMemberById(id));
     }
 
     public MemberLoginResponse loginGuest() {
@@ -69,8 +67,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberLoginResponse loginMember(final MemberLoginRequest request) {
-        Member member = memberRepository.findMemberByUsername(request.username())
-                .orElseThrow(NotFoundException::new);
+        Member member = memberRepository.getMemberByUsername(request.username());
 
         if (member.getProvider() != Provider.SELF) {
             throw new WrongProviderException();

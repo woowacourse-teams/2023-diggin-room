@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.controller.dto;
+package com.digginroom.digginroom.service.dto;
 
 import com.digginroom.digginroom.domain.track.Track;
 

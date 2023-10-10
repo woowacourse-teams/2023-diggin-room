@@ -2,6 +2,7 @@ package com.digginroom.digginroom.controller.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

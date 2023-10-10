@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.repository.MemberRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
