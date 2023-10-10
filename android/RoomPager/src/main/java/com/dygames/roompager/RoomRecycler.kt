@@ -42,6 +42,7 @@ class RoomRecycler(
         addView(first, calculateCenter())
         addView(second, end)
         adapter.onRecycle(
+            scrollPager.pagingOrientation,
             currentRoomPosition,
             listOf(third, first, second).map { it as Adapter.ViewHolder }
         )
@@ -60,6 +61,7 @@ class RoomRecycler(
         addView(third, calculateCenter())
         addView(first, end)
         adapter.onRecycle(
+            scrollPager.pagingOrientation,
             currentRoomPosition,
             listOf(second, third, first).map { it as Adapter.ViewHolder }
         )
@@ -72,6 +74,7 @@ class RoomRecycler(
         val second = getChildAt(calculateCenter())
         val third = getChildAt(end)
         adapter.onRecycle(
+            PagingOrientation.BOTH,
             currentRoomPosition,
             listOf(first, second, third).map { it as Adapter.ViewHolder }
         )
@@ -122,7 +125,7 @@ class RoomRecycler(
             )
             addView(view)
         }
-        adapter.onRecycle(0, viewHolders)
+        adapter.onRecycle(PagingOrientation.BOTH, 0, viewHolders)
     }
 
     private fun calculateCenter() = (gridSize * gridSize) / 2
