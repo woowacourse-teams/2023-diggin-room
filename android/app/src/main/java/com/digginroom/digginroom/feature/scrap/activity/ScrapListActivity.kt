@@ -50,7 +50,7 @@ class ScrapListActivity : AppCompatActivity() {
                         itemClickListener = ScrapRoomClickListener { position ->
                             scrapViewModel.uiState
                                 .getValue()
-                                ?.onClick
+                                ?.onSelect
                                 ?.invoke(position)
                         }
                     }
