@@ -70,7 +70,15 @@ class RoomViewModel @Keep constructor(
         }
     }
 
-    fun updateScrappedRooms(
+    fun findScrappedRooms() {
+        viewModelScope.launch {
+            roomRepository.findScrapped().onSuccess { rooms ->
+                updateScrappedRooms(rooms.map { it.toModel() })
+            }.onFailure { }
+        }
+    }
+
+    private fun updateScrappedRooms(
         renewalScrappedRooms: List<RoomModel>
     ) {
         rooms.filter { it.isScrapped }.forEach { scrappedRoom ->

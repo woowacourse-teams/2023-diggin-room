@@ -1,11 +1,8 @@
 package com.digginroom.digginroom.feature.room
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
@@ -17,7 +14,6 @@ import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
-import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
@@ -25,15 +21,6 @@ import com.dygames.roompager.PagingOrientation
 
 class RoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRoomBinding
-    private val activityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val scrappedRooms: List<RoomModel> =
-                    result.data?.getSerializable<RoomsModel>(KEY_SCRAPPED_ROOMS)?.value
-                        ?: emptyList()
-                roomViewModel.updateScrappedRooms(scrappedRooms)
-            }
-        }
 
     private val roomViewModel: RoomViewModel by lazy {
         ViewModelProvider(
@@ -53,7 +40,7 @@ class RoomActivity : AppCompatActivity() {
             }, openInfo = { track ->
                 roomInfoDialog.show(supportFragmentManager, track)
             }, openScrap = {
-                activityResultLauncher.launch(Intent(this, ScrapListActivity::class.java))
+                ScrapListActivity.start(this)
             }, scrap = { id ->
                 roomViewModel.postScrap(id)
             }, unScrap = { id ->
@@ -111,6 +98,7 @@ class RoomActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         roomPagerAdapter.play()
+        roomViewModel.findScrappedRooms()
     }
 
     private fun navigateToTutorial(tutorialCompleted: Boolean) {
@@ -132,7 +120,6 @@ class RoomActivity : AppCompatActivity() {
         private const val KEY_INITIAL_POSITION = "initial_position"
         private const val KEY_PAGING_ORIENTATION = "paging_orientation"
         private const val KEY_TUTORIAL_COMPLETED = "tutorial_completed"
-        private const val KEY_SCRAPPED_ROOMS = "scrapped_rooms"
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
             context.startActivity(intent)
@@ -160,13 +147,6 @@ class RoomActivity : AppCompatActivity() {
                 putExtra(KEY_TUTORIAL_COMPLETED, tutorialCompleted)
             }
             context.startActivity(intent)
-        }
-
-        fun getIntentForResultWithScrappedRooms(
-            context: Context,
-            scrappedRooms: RoomsModel
-        ): Intent = Intent(context, RoomActivity::class.java).apply {
-            putExtra(KEY_SCRAPPED_ROOMS, scrappedRooms)
         }
     }
 }
