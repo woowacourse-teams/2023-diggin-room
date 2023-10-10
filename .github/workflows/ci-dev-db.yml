@@ -11,28 +11,78 @@ permissions:
 jobs:
   validate:
     runs-on: development
+    defaults:
+      run:
+        working-directory: ./backend
+    env:
+      MYSQL_CONTAINER_NAME: temp-mysql
+      SOURCE_DB_HOSTNAME: ip-192-168-2-43.ap-northeast-2.compute.internal
+      SOURCE_DB_PORT: 3306
+      SOURCE_DB_SCHEMA: digginroom_dev
     steps:
     - uses: actions/checkout@v3
+
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'corretto'
-
-    - name: Create flyway.conf
+        
+    - name: MYSQL 컨테이너 실행
+      env:
+        DOCKER_HEALTHCHECK_OPTIONS: --health-cmd='mysql -uroot -proot -e "show databases;"' --health-interval=5s --health-timeout=5s --health-retries=3
+        # 도커 컨테이너 실행 후 MySQL 서버가 실행되어 접속 가능한지까지를 확인한다.
+        # 접속까지 가능해야 healthy 상태이다.
+      timeout-minutes: 5
+      # 5분 안에 접속 가능하지 않으면 이 단계를 타임아웃 처리한다.
       run: |
+        sudo docker run --rm --name $MYSQL_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=root -P \
+        ${{ env.DOCKER_HEALTHCHECK_OPTIONS }} \
+        -d mysql:8.0
+        
+        while [ "`sudo docker inspect -f {{.State.Health.Status}} $MYSQL_CONTAINER_NAME`" != "healthy" ]
+        do
+            echo "status: " `sudo docker inspect -f {{.State.Health.Status}} $MYSQL_CONTAINER_NAME`
+            sleep 5
+        done
+
+    - name: 개발 DB 덤프
+      env:
+        DUMP_OPTIONS: --single-transaction --no-tablespaces
+        # 테이블 락킹 권한과 테이블 스페이스 열람 권한 (PROCESS 권한) 없이 덤프할 수 있다.
+      run: |
+        sudo docker exec $MYSQL_CONTAINER_NAME sh -c ' \
+          mysqldump \
+          -u ${{ secrets.DEV_DATASOURCE_USERNAME }} -p${{ secrets.DEV_DATASOURCE_PASSWORD }} \
+          -h ${{ env.SOURCE_DB_HOSTNAME }} -P ${{ env.SOURCE_DB_PORT }} \
+          -B ${{ env.SOURCE_DB_SCHEMA }} \
+          ${{ env.DUMP_OPTIONS }} \
+        ' > dump.sql
+        
+    - name: 덤프를 MySQL 컨테이너로 임포트
+      run: |
+        sudo docker exec -i $MYSQL_CONTAINER_NAME sh -c ' \
+          exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
+        ' < dump.sql
+
+    - name: flyway.conf 생성
+      run: |
+        DOCKER_PORT=`sudo docker inspect --format="{{(index (index .NetworkSettings.Ports \"3306/tcp\") 0).HostPort}}" $MYSQL_CONTAINER_NAME`;
+        echo "MySQL Container Port: $DOCKER_PORT";
+
         touch flyway.conf
-        echo "flyway.url=${{ secrets.DEV_DATASOURCE_URL }}" >> flyway.conf
-        echo "flyway.user=${{ secrets.DEV_DATASOURCE_USERNAME }}" >> flyway.conf
-        echo "flyway.password=${{ secrets.DEV_DATASOURCE_PASSWORD }}" >> flyway.conf
+        echo "flyway.url=jdbc:mysql://127.0.0.1:$DOCKER_PORT/$SOURCE_DB_SCHEMA" >> flyway.conf
+        echo "flyway.user=root" >> flyway.conf
+        echo "flyway.password=root" >> flyway.conf
         echo "flyway.encoding=UTF-8" >> flyway.conf
         echo "flyway.outOfOrder=true" >> flyway.conf
         echo "flyway.locations=filesystem:src/main/resources/db/migration" >> flyway.conf
-        echo "flyway.validateOnMigrate=true" >> flyway.conf
-        echo "flyway.baselineVersion=0" >> flyway.conf
-        echo "flyway.ignoreMigrationPatterns=*:pending" >> flyway.conf
-      working-directory: ./backend
 
-    - name: flywayValidate
-      run: ./gradlew -Dflyway.configFiles=flyway.conf flywayValidate --stacktrace
-      working-directory: ./backend
+    - name: flywayMigrate 실행
+      run: ./gradlew -Dflyway.configFiles=flyway.conf flywayMigrate --stacktrace >> $GITHUB_STEP_SUMMARY
+
+    - name: MYSQL 컨테이너 제거
+      if: always()
+      shell: bash {0}
+      run: | 
+        sudo docker rm -f $MYSQL_CONTAINER_NAME
