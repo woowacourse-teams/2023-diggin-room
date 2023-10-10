@@ -31,7 +31,7 @@ class FeedbackServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.feedbackService = new FeedbackService(feedbackRepository, memberRepository);
+        this.feedbackService = new FeedbackService(feedbackRepository);
         this.writer = memberRepository.save(블랙캣());
     }
 
@@ -43,12 +43,12 @@ class FeedbackServiceTest {
 
         assertThat(feedbackRepository.findAll())
                 .usingRecursiveFieldByFieldElementComparatorOnFields("content")
-                .containsExactly(new Feedback(writer, content));
+                .containsExactly(new Feedback(writer.getId(), content));
     }
 
     @Test
     void 피드백을_전체조회한다() {
-        Feedback feedback = new Feedback(writer, "피드백 창구를 빨랑 만들어주세요");
+        Feedback feedback = new Feedback(writer.getId(), "피드백 창구를 빨랑 만들어주세요");
         feedbackRepository.save(feedback);
 
         assertThat(feedbackService.getAll()).containsExactly(FeedbackResponse.of(feedback));

@@ -67,8 +67,8 @@ class FeedbackControllerTest extends ControllerTest {
                 .statusCode(HttpStatus.OK.value());
 
         assertThat(feedbackRepository.findAll())
-                .usingRecursiveFieldByFieldElementComparatorOnFields("content", "writer.username")
-                .containsExactly(new Feedback(파워(), content));
+                .usingRecursiveFieldByFieldElementComparatorOnFields("content")
+                .containsExactly(new Feedback(파워().getId(), content));
     }
 
     @Test
@@ -92,7 +92,7 @@ class FeedbackControllerTest extends ControllerTest {
 
         FeedbackResponse[] actual = new ObjectMapper().readerForArrayOf(FeedbackResponse.class).readValue(body);
         assertThat(actual)
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("writer.memberId")
-                .containsExactly(FeedbackResponse.of(new Feedback(파워(), content)));
+                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("writerId")
+                .containsExactly(FeedbackResponse.of(new Feedback(파워().getId(), content)));
     }
 }
