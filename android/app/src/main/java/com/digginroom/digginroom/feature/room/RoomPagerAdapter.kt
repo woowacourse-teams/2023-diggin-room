@@ -38,8 +38,9 @@ class RoomPagerAdapter(
         lastCurrentRoomPosition = currentRoomPosition
         navigateRooms(currentRoomPosition)
         play()
-        if (pagingOrientation == PagingOrientation.HORIZONTAL)
+        if (pagingOrientation == PagingOrientation.HORIZONTAL) {
             dislikeRoom(rooms[currentRoomPosition].roomId)
+        }
     }
 
     override fun onLoadNextRoom() {
