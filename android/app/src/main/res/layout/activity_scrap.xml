@@ -7,9 +7,7 @@
 
         <import type="kotlin.jvm.functions.Function2" />
 
-        <variable
-            name="navigateToScrapRoomView"
-            type="Function2" />
+        <import type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState" />
 
         <variable
             name="viewModel"
@@ -48,19 +46,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/scrap_tv_extract_playlist"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="1dp"
+            android:src="@drawable/ic_extract_playlist"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:onSingleClick="@{() -> viewModel.startPlaylistExtraction()}" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scrap_rv_scrapped_rooms"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="22dp"
             android:adapter="@{adapter}"
-            app:items="@{viewModel.scrappedRooms}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/scrap_tv_scrap"
-            app:onScrapRoomClick="@{(position) -> navigateToScrapRoomView.invoke(viewModel.scrappedRooms, position)}"
             app:spanCount="3"
             tools:listitem="@layout/item_scrapped_room" />
     </androidx.constraintlayout.widget.ConstraintLayout>

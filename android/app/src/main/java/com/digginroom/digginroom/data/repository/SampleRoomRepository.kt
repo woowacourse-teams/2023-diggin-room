@@ -6,6 +6,7 @@ import com.digginroom.digginroom.logging.logRunCatching
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.model.room.Track
 import com.digginroom.digginroom.model.room.genre.Genre
+import com.digginroom.digginroom.model.room.scrap.ScrappedRoom
 import com.digginroom.digginroom.repository.RoomRepository
 
 class SampleRoomRepository @Keep constructor() : RoomRepository {
@@ -28,7 +29,7 @@ class SampleRoomRepository @Keep constructor() : RoomRepository {
         }
     }
 
-    override suspend fun findScrapped(): LogResult<List<Room>> {
+    override suspend fun findScrapped(): LogResult<List<ScrappedRoom>> {
         TODO("Not yet implemented")
     }
 
