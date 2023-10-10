@@ -35,7 +35,9 @@ class RoomActivity : AppCompatActivity() {
     private val roomPagerAdapter: RoomPagerAdapter by lazy {
         RoomPagerAdapter(loadNextRoom = {
             roomViewModel.findNext()
-        }, openComment = { id ->
+        }, dislikeRoom = { id ->
+                roomViewModel.postDislike(id)
+            }, openComment = { id ->
                 commentDialog.show(supportFragmentManager, id)
             }, openInfo = { track ->
                 roomInfoDialog.show(supportFragmentManager, track)
