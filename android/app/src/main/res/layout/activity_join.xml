@@ -148,17 +148,18 @@
             android:id="@+id/join_tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="6dp"
             android:text="@string/common_password"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/join_et_input_password"
-            app:layout_constraintStart_toStartOf="@id/join_et_input_password" />
+            app:layout_constraintStart_toStartOf="@id/join_et_input_password"
+            app:layout_constraintTop_toBottomOf="@id/join_tv_id_form_error" />
 
         <EditText
             android:id="@+id/join_et_input_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="40dp"
             android:afterTextChanged="@{() -> viewModel.validatePassword(account.password, account.reInputPassword)}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
@@ -172,20 +173,21 @@
             android:textColor="@color/white"
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
-            app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
+            app:layout_constraintTop_toBottomOf="@id/join_tv_password" />
 
         <TextView
             android:id="@+id/join_tv_password_form_error"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
+            android:maxLines="2"
             android:text="@string/join_password_rule_description"
             android:textColor="#AF1B1B"
             android:textSize="13sp"
             android:visibility="@{TextUtils.isEmpty(account.password) | viewModel.uiState.joinVerification.isValidPassword ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="@id/join_et_input_password"
             app:layout_constraintStart_toStartOf="@id/join_et_input_password"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
 
@@ -193,17 +195,18 @@
             android:id="@+id/join_tv_reinput_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="6dp"
             android:text="@string/join_reinput_password"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/join_et_re_input_password"
-            app:layout_constraintStart_toStartOf="@id/join_et_re_input_password" />
+            app:layout_constraintStart_toStartOf="@id/join_et_re_input_password"
+            app:layout_constraintTop_toBottomOf="@id/join_tv_password_form_error" />
 
         <EditText
             android:id="@+id/join_et_re_input_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="40dp"
             android:afterTextChanged="@{() -> viewModel.validatePasswordEquality(account.password, account.reInputPassword)}"
             android:background="@drawable/bg_stroke_gray_radius_1dp"
@@ -220,7 +223,7 @@
             android:textColorHint="#9E9EAE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
-            app:layout_constraintTop_toBottomOf="@id/join_et_input_password" />
+            app:layout_constraintTop_toBottomOf="@id/join_tv_reinput_password" />
 
         <TextView
             android:id="@+id/join_tv_password_not_equal"

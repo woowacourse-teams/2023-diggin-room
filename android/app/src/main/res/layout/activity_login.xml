@@ -31,10 +31,8 @@
             android:visibility="@{viewModel.uiState instanceof LoginUiState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/tutorial_start_iv_diggin_room_logo"
@@ -165,8 +163,8 @@
 
         <ImageView
             android:id="@+id/login_iv_google_login"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginTop="55dp"
             android:layout_marginBottom="90dp"
             android:contentDescription="@string/login_google_login_img_description"
@@ -179,8 +177,8 @@
 
         <ImageView
             android:id="@+id/login_iv_kakao_login"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_marginTop="55dp"
             android:layout_marginBottom="90dp"
             android:contentDescription="@string/login_google_login_img_description"
