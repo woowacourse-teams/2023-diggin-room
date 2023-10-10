@@ -147,13 +147,11 @@ non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </tr>
         <tr>
             <td align="center"><a href="https://github.com/whk06061">베리 (우혜경)</a></td>
-            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-in reprehenderit in voluptate velit esse cillum dolore eu 
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+           <td rowspan=2><p> ViewPager2 를 이용한 앱 사용 가이드 제공 
+
+추천 음악에 대한 정보 표시
+
+원하는 음악을 스크랩하고 댓글 달 수 있는 기능 구현</p></td>
         </tr>
         <tr>
             <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/63198157"></img></td>
