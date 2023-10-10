@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
-import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.repository.RoomRepository
@@ -35,6 +34,12 @@ class RoomViewModel @Keep constructor(
         }
     }
 
+    fun setRooms(rooms: List<Room>) {
+        this.rooms.clear()
+        this.rooms.addAll(rooms)
+        _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
+    }
+
     fun postDislike(roomId: Long) {
         viewModelScope.launch {
             roomRepository.postDislike(roomId).onSuccess {}.onFailure {}
@@ -47,12 +52,11 @@ class RoomViewModel @Keep constructor(
                 rooms.forEachIndexed { index, room ->
                     if (room.roomId == roomId) {
                         rooms[index] =
-                            Room(room.videoId, true, room.track, roomId, room.scrapCount + 1)
+                            room.copy(isScrapped = true, scrapCount = room.scrapCount + 1)
                         _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
                     }
                 }
-            }.onFailure {
-            }
+            }.onFailure {}
         }
     }
 
@@ -62,7 +66,7 @@ class RoomViewModel @Keep constructor(
                 rooms.forEachIndexed { index, room ->
                     if (room.roomId == roomId) {
                         rooms[index] =
-                            Room(room.videoId, false, room.track, roomId, room.scrapCount - 1)
+                            room.copy(isScrapped = false, scrapCount = room.scrapCount - 1)
                         _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
                     }
                 }
@@ -72,21 +76,20 @@ class RoomViewModel @Keep constructor(
 
     fun findScrappedRooms() {
         viewModelScope.launch {
-            roomRepository.findScrapped().onSuccess { rooms ->
-                updateScrappedRooms(rooms.map { it.toModel() })
+            roomRepository.findScrapped().onSuccess { scrappedRooms ->
+                updateScrappedRooms(scrappedRooms)
+                _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
             }.onFailure { }
         }
     }
 
     private fun updateScrappedRooms(
-        renewalScrappedRooms: List<RoomModel>
+        scrappedRooms: List<Room>
     ) {
-        rooms.filter { it.isScrapped }.forEach { scrappedRoom ->
-            if (renewalScrappedRooms.none { it.roomId == scrappedRoom.roomId }) {
-                val index = rooms.indexOfFirst { it.roomId == scrappedRoom.roomId }
+        rooms.forEachIndexed { index, room ->
+            if (room.isScrapped && scrappedRooms.find { room.roomId == it.roomId } == null) {
                 rooms[index] =
-                    scrappedRoom.copy(isScrapped = false, scrapCount = scrappedRoom.scrapCount - 1)
-                _cachedRoom.value = RoomState.Success(rooms.map { it.toModel() })
+                    room.copy(isScrapped = false, scrapCount = room.scrapCount - 1)
             }
         }
     }

@@ -15,6 +15,7 @@ import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
 import com.digginroom.digginroom.model.RoomsModel
+import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 import com.dygames.roompager.PagingOrientation
@@ -67,11 +68,14 @@ class RoomActivity : AppCompatActivity() {
             when (it) {
                 is RoomState.Error -> Unit
                 RoomState.Loading -> Unit
-                is RoomState.Success -> roomPagerAdapter.setData(it.rooms)
+                is RoomState.Success -> {
+                    roomPagerAdapter.setData(it.rooms)
+                }
             }
         }
+        val rooms = intent.getSerializable<RoomsModel>(KEY_ROOMS)?.value ?: emptyList()
         roomPagerAdapter.setData(
-            intent.getSerializable<RoomsModel>(KEY_ROOMS)?.value ?: emptyList()
+            rooms
         )
         binding.roomRoomPager.setRoomLoadable(roomPagerAdapter.rooms.isEmpty())
         binding.roomRoomPager.setOrientation(
@@ -87,6 +91,8 @@ class RoomActivity : AppCompatActivity() {
             repeat(3) {
                 roomViewModel.findNext()
             }
+        } else {
+            roomViewModel.setRooms(rooms.map { it.toDomain() })
         }
     }
 
