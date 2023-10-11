@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.digginroom.digginroom.BottomFixedItemBottomSheetDialog
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentStickyItemLayoutBinding
