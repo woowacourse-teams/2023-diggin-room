@@ -35,17 +35,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/join_iv_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/common_back_button_description"
+            android:cropToPadding="true"
             android:onClick="@{() -> viewModel.cancel()}"
             android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@+id/join_tv_join"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/join_tv_join" />
 
         <TextView
             android:id="@+id/join_tv_id_form_error"
