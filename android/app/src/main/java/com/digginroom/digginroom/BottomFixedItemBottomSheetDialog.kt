@@ -6,15 +6,13 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.FrameLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class StickyBottomSheetDialog : BottomSheetDialogFragment() {
+abstract class BottomFixedItemBottomSheetDialog : BottomSheetDialogFragment() {
     abstract val dialogView: View
-    abstract val stickyView: View
+    abstract val bottomFixedItemView: View
 
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var bottomSheetDialogParent: FrameLayout
@@ -29,22 +27,25 @@ abstract class StickyBottomSheetDialog : BottomSheetDialogFragment() {
     private fun BottomSheetDialog.initShowListener() {
         setOnShowListener {
             bottomSheetDialogParent =
-                bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+                findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+                    ?: return@setOnShowListener
             bottomSheetDialogParentContainer =
-                bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.container) as FrameLayout
+                findViewById<FrameLayout>(com.google.android.material.R.id.container)
+                    ?: return@setOnShowListener
             bottomSheetDialogParent.makeFullSize()
-            bottomSheetDialogParentContainer.addStickyView(stickyView)
-            dialogView.addPaddingAsStickyViewHeight(stickyView)
+            bottomSheetDialogParentContainer.addStickyView(bottomFixedItemView)
+            dialogView.addPaddingAsStickyViewHeight(bottomFixedItemView)
         }
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        (bottomSheetDialogParentContainer as ViewGroup).removeView(stickyView)
         super.onCancel(dialog)
+        (bottomSheetDialogParentContainer as ViewGroup).removeView(bottomFixedItemView)
     }
 
-    private fun ViewGroup.makeFullSize() {
-        this.layoutParams.height = CoordinatorLayout.LayoutParams.MATCH_PARENT
+    private fun View.makeFullSize() {
+        this.layoutParams.height = FrameLayout.LayoutParams.MATCH_PARENT
+        requestLayout()
     }
 
     private fun ViewGroup.addStickyView(view: View) {
@@ -57,12 +58,8 @@ abstract class StickyBottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun View.addPaddingAsStickyViewHeight(stickyView: View) {
-        stickyView.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    stickyView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    this@addPaddingAsStickyViewHeight.setPadding(0, 0, 0, stickyView.measuredHeight)
-                }
-            })
+        stickyView.post {
+            this@addPaddingAsStickyViewHeight.setPadding(0, 0, 0, stickyView.measuredHeight)
+        }
     }
 }
