@@ -3,11 +3,13 @@ package com.digginroom.digginroom.feature.feedback
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.ActivityFeedbackBinding
+import com.digginroom.digginroom.model.FeedbackModel
 import com.dygames.androiddi.ViewModelDependencyInjector
 
 class FeedbackActivity : AppCompatActivity() {
@@ -23,7 +25,12 @@ class FeedbackActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initLayout()
         initFeedbackBinding()
+    }
+
+    private fun initLayout() {
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     private fun initFeedbackBinding() {
@@ -33,6 +40,7 @@ class FeedbackActivity : AppCompatActivity() {
         ).also {
             it.lifecycleOwner = this
             it.feedbackViewModel = feedbackViewModel
+            it.feedback = FeedbackModel()
         }
     }
 

@@ -10,17 +10,20 @@ import com.digginroom.digginroom.data.di.Token
 import com.digginroom.digginroom.data.di.UnAuthorized
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
 import com.digginroom.digginroom.data.repository.DefaultCommentRepository
+import com.digginroom.digginroom.data.repository.DefaultFeedbackRepository
 import com.digginroom.digginroom.data.repository.DefaultGenreTasteRepository
 import com.digginroom.digginroom.data.repository.DefaultMemberRepository
 import com.digginroom.digginroom.data.repository.DefaultRoomRepository
 import com.digginroom.digginroom.data.repository.DefaultTokenRepository
 import com.digginroom.digginroom.data.service.AccountService
 import com.digginroom.digginroom.data.service.CommentService
+import com.digginroom.digginroom.data.service.FeedbackService
 import com.digginroom.digginroom.data.service.GenreTasteService
 import com.digginroom.digginroom.data.service.MemberService
 import com.digginroom.digginroom.data.service.RoomService
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.CommentRepository
+import com.digginroom.digginroom.repository.FeedbackRepository
 import com.digginroom.digginroom.repository.GenreTasteRepository
 import com.digginroom.digginroom.repository.MemberRepository
 import com.digginroom.digginroom.repository.RoomRepository
@@ -76,9 +79,13 @@ class DigginRoomApplication : LifecycleWatcherApplication(typeOf<DigginRoomAppli
                     provider<GenreTasteService> {
                         inject<Retrofit>().create(GenreTasteService::class.java)
                     }
+                    provider<FeedbackService> {
+                        inject<Retrofit>().create(FeedbackService::class.java)
+                    }
                     provider<RoomRemoteDataSource>(typeOf<RoomRemoteDataSource>())
                     provider<CommentRemoteDataSource>(typeOf<CommentRemoteDataSource>())
                     provider<GenreTasteRemoteDataSource>(typeOf<GenreTasteRemoteDataSource>())
+                    provider<FeedbackRepository>(typeOf<DefaultFeedbackRepository>())
                 }
 
                 qualifier(UnAuthorized()) {
