@@ -36,6 +36,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    //auth
+    implementation 'com.auth0:java-jwt:3.19.0'
+    implementation 'com.auth0:jwks-rsa:0.21.1'
+
     // flyway
     implementation 'org.flywaydb:flyway-core:9.16.3'
     implementation 'org.flywaydb:flyway-mysql:9.16.3'
@@ -43,7 +47,6 @@ dependencies {
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-    implementation 'com.google.api-client:google-api-client-servlet:2.0.0'
     implementation 'org.springdoc:springdoc-openapi-starter-common:2.2.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 

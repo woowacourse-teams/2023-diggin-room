@@ -5,8 +5,8 @@ import static com.digginroom.digginroom.exception.CommentException.NotOwnerExcep
 import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
 import com.digginroom.digginroom.controller.dto.CommentsResponse;
-import com.digginroom.digginroom.domain.Comment;
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.domain.comment.Comment;
+import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.CommentException.NotSameRoomException;
 import com.digginroom.digginroom.repository.CommentRepository;
 import java.util.List;

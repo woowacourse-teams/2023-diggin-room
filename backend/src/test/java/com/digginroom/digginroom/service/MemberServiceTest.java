@@ -1,25 +1,11 @@
 package com.digginroom.digginroom.service;
 
-import static com.digginroom.digginroom.TestFixture.파워;
-import static com.digginroom.digginroom.domain.Genre.DANCE;
-import static com.digginroom.digginroom.domain.Genre.ROCK;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import com.digginroom.digginroom.controller.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.controller.dto.GoogleOAuthRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
-import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
-import com.digginroom.digginroom.domain.Member;
+import com.digginroom.digginroom.controller.dto.*;
+import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.MemberException;
+import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
-import java.util.List;
-import java.util.Optional;
+import com.digginroom.digginroom.util.TestClaim;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -27,6 +13,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.digginroom.digginroom.TestFixture.ID_TOKEN_PAYLOAD;
+import static com.digginroom.digginroom.TestFixture.파워;
+import static com.digginroom.digginroom.domain.Genre.DANCE;
+import static com.digginroom.digginroom.domain.Genre.ROCK;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -36,7 +35,7 @@ class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
     @Mock
-    private GoogleUsernameResolver googleUsernameResolver;
+    private IdTokenResolver idTokenResolver;
     @InjectMocks
     private MemberService memberService;
 
@@ -70,7 +69,7 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_있는_경우_멤버를_반환한다() {
-        Member power = new Member("power", "power123!");
+        Member power = Member.self("power", "power123!");
         when(memberRepository.findById(1L)).thenReturn(Optional.of(power));
 
         assertThat(memberService.findMember(1L)).isEqualTo(power);
@@ -88,7 +87,7 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_있다면_로그인_할_수_있다() {
-        Member power = new Member("power", "power123!");
+        Member power = Member.self("power", "power123!");
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
         assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
@@ -106,7 +105,7 @@ class MemberServiceTest {
 
     @Test
     void 비밀번호가_틀리면_로그인_할_수_없다() {
-        Member power = new Member("power", "power123!");
+        Member power = Member.self("power", "power123!");
         when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
 
         assertThatThrownBy(() -> memberService.loginMember(
@@ -118,11 +117,11 @@ class MemberServiceTest {
     @Test
     void OAuth_로_처음_로그인한_유저는_유저_정보가_생성된다() {
         Member member = 파워();
-        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(idTokenResolver.resolve(any())).thenReturn(ID_TOKEN_PAYLOAD);
         when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.empty());
         when(memberRepository.save(any())).thenReturn(member);
 
-        MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));
+        MemberLoginResponse response = memberService.loginMember("ID_TOKEN");
 
         verify(memberRepository, times(1)).save(any());
         assertThat(response).isNotNull();
@@ -131,10 +130,10 @@ class MemberServiceTest {
     @Test
     void OAuth_로_이미_로그인했던_유저는_로그인할_수_있다() {
         Member member = 파워();
-        when(googleUsernameResolver.resolve(any())).thenReturn(member.getUsername());
+        when(idTokenResolver.resolve(any())).thenReturn(ID_TOKEN_PAYLOAD);
         when(memberRepository.findMemberByUsername(member.getUsername())).thenReturn(Optional.of(member));
 
-        MemberLoginResponse response = memberService.loginMember(new GoogleOAuthRequest("ID_TOKEN"));
+        MemberLoginResponse response = memberService.loginMember("ID_TOKEN");
 
         verify(memberRepository, times(0)).save(any());
         assertThat(response).isNotNull();
@@ -158,5 +157,13 @@ class MemberServiceTest {
         assertThat(memberService.getMemberDetails(member.getId()))
                 .extracting("memberId", "username", "hasFavorite")
                 .containsExactly(member.getId(), member.getUsername(), member.hasFavorite());
+    }
+
+    @Test
+    void 게스트로_로그인한다() {
+        when(memberRepository.save(any(Member.class))).thenReturn(Member.guest());
+
+        memberService.loginGuest();
+        verify(memberRepository).save(any(Member.class));
     }
 }

@@ -7,6 +7,6 @@ interface Adapter<out T : Adapter.ViewHolder> {
 
     fun createViewHolder(context: Context): T
     fun getItemCount(): Int
-    fun onRecycle(currentRoomPosition: Int, recycledViewHolders: List<ViewHolder>)
+    fun onRecycle(pagingOrientation: PagingOrientation, currentRoomPosition: Int, recycledViewHolders: List<ViewHolder>)
     fun onLoadNextRoom()
 }

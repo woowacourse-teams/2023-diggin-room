@@ -145,8 +145,9 @@
         <TextView
             android:id="@+id/login_tv_forgot_account"
             android:layout_width="wrap_content"
+            android:onClick="@{() -> viewModel.guestLogin()}"
             android:layout_height="wrap_content"
-            android:text="@string/login_forgot_account"
+            android:text="@string/login_guest_login"
             android:textColor="#90909F"
             app:layout_constraintBaseline_toBaselineOf="@+id/login_separator"
             app:layout_constraintEnd_toStartOf="@+id/login_separator"

@@ -3,9 +3,21 @@
 
     <string name="common_login">로그인</string>
     <string name="common_join">회원가입</string>
+    <string name="common_logout">로그아웃</string>
+    <string name="common_withdrawal">회원 탈퇴</string>
+    <string name="common_feedback">피드백</string>
     <string name="common_id">아이디</string>
     <string name="common_password">비밀번호</string>
     <string name="common_thumbnail">https://img.youtube.com/vi/%s/0.jpg</string>
+    <string name="common_back_button_description">image_of_back_button</string>
+    <string name="common_diggin_room_logo">Diggin\' Room Logo</string>
+    <string name="common_account">계정</string>
+    <string name="common_etc">기타 기능</string>
+    <string name="common_yes">네</string>
+    <string name="common_no">아니오</string>
+
+    <string name="login_guest_login">게스트 로그인</string>
+    <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
 
     <string name="join_request_input_id">아이디를 입력하세요</string>
     <string name="join_request_input_password">비밀번호를 입력하세요</string>
@@ -19,21 +31,18 @@
     <string name="login_separator">|</string>
     <string name="join_duplication_check">중복 확인</string>
     <string name="join_tv_available_id">사용가능한 아이디입니다.</string>
-    <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
-    <string name="common_back_button_description">image_of_back_button</string>
-    <string name="common_diggin_room_logo">Diggin\' Room Logo</string>
+    <string name="join_succeed_message">회원가입에 성공했습니다.</string>
+    <string name="join_failed_message">회원가입에 실패했습니다.</string>
+
     <string name="scrap_scrap_description">스크랩</string>
     <string name="scrap_thumbnail_description">thumbnail of scrapped room</string>
-    <string name="title_artist_format">%s - %s</string>
-    <string name="track_genre">장르: %s</string>
     <string name="login_google_login_img_description">image_of_google_social_login</string>
     <string name="genre_taste_start">시작하기</string>
     <string name="genre_taste_ask_genre_taste">어떤 음악을 좋아하세요?</string>
     <string name="dialog_comment_input_comment">댓글 작성</string>
     <string name="dialog_comment_empty_comment">대화를 시작해 보세요.</string>
     <string name="dialog_comment_send">등록</string>
-    <string name="edit_comment">수정</string>
-    <string name="delete_comment">삭제</string>
+    <string name="dialog_comment_comment">댓글</string>
     <string name="updated_comment">(편집됨)</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tutorial_skip">SKIP</string>
@@ -50,6 +59,11 @@
     <string name="tutorial_find_room_ment">위 아래로 스크롤 하여\n룸을 탐색하세요!</string>
     <string name="tutorial_previous_room">이전 룸</string>
     <string name="tutorial_next_room">다음 룸</string>
-    <string name="dialog_comment_comment">댓글</string>
 
+    <string name="title_artist_format">%s - %s</string>
+    <string name="track_genre">장르: %s</string>
+    <string name="edit_comment">수정</string>
+    <string name="delete_comment">삭제</string>
+    <string name="setting_setting_private">설정 및 개인정보</string>
+    <string name="dialog_confirm_confirm_logout">로그아웃 하시겠습니까?</string>
 </resources>

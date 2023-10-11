@@ -14,9 +14,9 @@ import com.digginroom.digginroom.controller.dto.CommentRequest;
 import com.digginroom.digginroom.controller.dto.CommentResponse;
 import com.digginroom.digginroom.controller.dto.CommentsResponse;
 import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.domain.Comment;
-import com.digginroom.digginroom.domain.Member;
-import com.digginroom.digginroom.domain.Room;
+import com.digginroom.digginroom.domain.comment.Comment;
+import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
@@ -65,7 +65,7 @@ class CommentControllerTest extends ControllerTest {
                 .when().post("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value())
-                .body("writer", Matchers.equalTo(TestFixture.MEMBER_USERNAME))
+                .body("writer", Matchers.startsWith("user-"))
                 .body("comment", Matchers.equalTo(TestFixture.COMMENT_REQUEST.comment()))
                 .body("createdAt", Matchers.notNullValue())
                 .body("updatedAt", Matchers.notNullValue())
