@@ -44,7 +44,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         savedInstanceState: Bundle?
     ): View {
         initDialogBinding()
-        initEditTextBinding()
+        initBottomPlacedItemBinding()
         isCancelable = true
         return dialogBinding.root
     }
@@ -56,7 +56,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         dialogBinding.adapter = CommentAdapter(::showCommentMenuDialog)
     }
 
-    private fun initEditTextBinding() {
+    private fun initBottomPlacedItemBinding() {
         bottomPlacedItemBinding =
             DialogCommentStickyItemLayoutBinding.inflate(LayoutInflater.from(context))
         bottomPlacedItemBinding.postComment = ::processPostComment
