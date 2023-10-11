@@ -65,7 +65,7 @@ class ScrapListActivity : AppCompatActivity() {
     private fun initScrapObserver() {
         scrapViewModel.uiState.observe(this) {
             when (it) {
-                is ScrapUiState.Navigation -> navigateToRoomView(it.targetIndex)
+                is ScrapUiState.Navigation -> navigateToRoomView(it.position)
 
                 else -> binding.adapter?.submitList(it.rooms)
             }

@@ -26,20 +26,20 @@
         android:layout_margin="4dp">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:elevation="1dp"
-            android:visibility="@{room.isSelected == true ? View.VISIBLE : View.GONE}"
-            android:src="@drawable/ic_checked"
-
-            app:layout_constraintEnd_toEndOf="@id/scrap_iv_scrapped_thumbnail"
-            app:layout_constraintTop_toTopOf="@id/scrap_iv_scrapped_thumbnail" />
+            android:src="@{room.isSelected == true ? @drawable/ic_checked_box : @drawable/ic_unchecked_box}"
+            android:visibility="@{room.selectable == true ? View.VISIBLE : View.GONE}"
+            tools:src="@drawable/ic_checked_box"
+            app:layout_constraintEnd_toEndOf="@id/scrap_button_scrapped_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/scrap_button_scrapped_thumbnail" />
 
         <ImageView
             app:hasDarkness="@{room.isSelected}"
-            android:id="@+id/scrap_iv_scrapped_thumbnail"
+            android:id="@+id/scrap_button_scrapped_thumbnail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/scrap_thumbnail_description"

@@ -37,10 +37,11 @@ object RoomMapper {
         )
     }
 
-    fun ScrappedRoom.toModel(): ScrappedRoomModel {
+    fun ScrappedRoom.toModel(selectable: Boolean = false): ScrappedRoomModel {
         return ScrappedRoomModel(
             room = room.toModel(),
-            isSelected = isSelected
+            isSelected = isSelected,
+            selectable = selectable
         )
     }
 

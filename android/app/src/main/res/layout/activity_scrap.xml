@@ -46,11 +46,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/scrap_tv_extract_playlist"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginEnd="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:layout_marginBottom="20dp"
             android:elevation="1dp"
             android:src="@drawable/ic_extract_playlist"

@@ -14,7 +14,7 @@ sealed interface ScrapUiState {
 
     data class Navigation(
         override val rooms: List<ScrappedRoomModel>,
-        val targetIndex: Int,
+        val position: Int,
         override val onSelect: (position: Int) -> Unit
     ) : ScrapUiState
 

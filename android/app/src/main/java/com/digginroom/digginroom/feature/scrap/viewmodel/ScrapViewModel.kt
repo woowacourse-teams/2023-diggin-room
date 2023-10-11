@@ -36,11 +36,11 @@ class ScrapViewModel @Keep constructor(
         }
     }
 
-    private fun startNavigation(index: Int) {
+    private fun startNavigation(position: Int) {
         _uiState.setValue(
             ScrapUiState.Navigation(
                 rooms = rooms.value.map { it.toModel() },
-                targetIndex = index,
+                position = position,
                 onSelect = ::startNavigation
             )
         )
@@ -49,7 +49,7 @@ class ScrapViewModel @Keep constructor(
     fun startPlaylistExtraction() {
         _uiState.setValue(
             ScrapUiState.Extraction(
-                rooms = rooms.value.map { it.toModel() },
+                rooms = rooms.value.map { it.toModel(selectable = true) },
                 onSelect = ::switchSelection
             )
         )
@@ -57,13 +57,11 @@ class ScrapViewModel @Keep constructor(
 
     private fun switchSelection(index: Int) {
         rooms.switchSelection(index)
-
         _uiState.setValue(
             ScrapUiState.Extraction(
-                rooms = rooms.value.map { it.toModel() },
+                rooms = rooms.value.map { it.toModel(selectable = true) },
                 onSelect = ::switchSelection
             )
         )
-//        _scrappedRooms.value = rooms.value
     }
 }
