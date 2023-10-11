@@ -45,49 +45,46 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun initSettingView() {
-        binding.settingRvSetttingCategory.adapter = SettingCategoryAdapter(
-            categories = listOf(
-                SettingCategoryModel.Account(
-                    listOf(
-                        SettingCategoryDetailModel(
-                            description = R.string.common_logout,
-                            descriptionImg = R.drawable.ic_logout,
-                            onClick = settingViewModel::startLogout
+        binding.settingRvSetttingCategory.adapter =
+            SettingCategoryAdapter(
+                categories = listOf(
+                    SettingCategoryModel.Account(
+                        listOf(
+                            SettingCategoryDetailModel(
+                                description = R.string.common_logout,
+                                descriptionImg = R.drawable.ic_logout,
+                                onClick = settingViewModel::startLogout
+                            )
                         )
-                    )
-                ),
-                SettingCategoryModel.Etc(
-                    listOf(
-                        SettingCategoryDetailModel(
-                            description = R.string.common_feedback,
-                            descriptionImg = R.drawable.ic_logout,
-                            onClick = { FeedbackActivity.start(this) }
+                    ),
+                    SettingCategoryModel.Etc(
+                        listOf(
+                            SettingCategoryDetailModel(
+                                description = R.string.common_feedback,
+                                descriptionImg = R.drawable.ic_feedback,
+                                onClick = { FeedbackActivity.start(this) }
+                            )
                         )
                     )
                 )
             )
-        )
     }
 
     private fun initLogoutDialog() {
-        logoutConfirmDialog = AlertDialog.Builder(this)
-            .apply {
-                setMessage(getString(R.string.logout_confirm))
-                    .setPositiveButton(getString(R.string.common_yes)) { _, _ ->
-                        settingViewModel.logout()
-                    }.setNegativeButton(getString(R.string.common_no)) { _, _ ->
-                    }
-            }.create()
+        logoutConfirmDialog = AlertDialog.Builder(this).apply {
+            setMessage(getString(R.string.logout_confirm)).setPositiveButton(getString(R.string.common_yes)) { _, _ ->
+                settingViewModel.logout()
+            }.setNegativeButton(getString(R.string.common_no)) { _, _ ->
+            }
+        }.create()
     }
 
     private fun initSettingObserver() {
         settingViewModel.state.observe(this) {
-            when (settingViewModel.state.value) {
+            when (settingViewModel.state.value as SettingState) {
                 SettingState.Logout.InProgress -> logoutConfirmDialog.show()
-
                 SettingState.Logout.Done -> LoginActivity.start(this)
-
-                else -> {}
+                SettingState.Cancel -> finish()
             }
         }
     }

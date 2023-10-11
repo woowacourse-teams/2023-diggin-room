@@ -71,5 +71,7 @@
     <string name="feedback_title">피드백</string>
     <string name="feedback_hint">피드백을 입력해주세요!</string>
     <string name="feedback_submit">등록</string>
+    <string name="feedback_failure">피드백 등록에 실패하였습니다.</string>
+    <string name="feedback_success">피드백 등록에 성공하였습니다.</string>
 
 </resources>

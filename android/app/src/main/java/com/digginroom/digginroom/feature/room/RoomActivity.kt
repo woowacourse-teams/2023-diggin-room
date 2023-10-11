@@ -12,7 +12,9 @@ import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoEvent
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
+import com.digginroom.digginroom.feature.setting.SettingActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
 import com.digginroom.digginroom.model.RoomsModel
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
@@ -34,21 +36,27 @@ class RoomActivity : AppCompatActivity() {
     private val commentDialog: CommentDialog = CommentDialog()
 
     private val roomPagerAdapter: RoomPagerAdapter by lazy {
-        RoomPagerAdapter(loadNextRoom = {
-            roomViewModel.findNext()
-        }, dislikeRoom = { id ->
+        RoomPagerAdapter(
+            loadNextRoom = {
+                roomViewModel.findNext()
+            },
+            dislikeRoom = { id ->
                 roomViewModel.postDislike(id)
+            },
+            roomInfoEvent = RoomInfoEvent(openSetting = {
+                SettingActivity.start(this)
             }, openComment = { id ->
-                commentDialog.show(supportFragmentManager, id)
-            }, openInfo = { track ->
-                roomInfoDialog.show(supportFragmentManager, track)
-            }, openScrap = {
-                ScrapListActivity.start(this)
-            }, scrap = { id ->
-                roomViewModel.postScrap(id)
-            }, unScrap = { id ->
-                roomViewModel.removeScrap(id)
-            })
+                    commentDialog.show(supportFragmentManager, id)
+                }, openInfo = { track ->
+                    roomInfoDialog.show(supportFragmentManager, track)
+                }, openScrap = {
+                    ScrapListActivity.start(this)
+                }, scrap = { id ->
+                    roomViewModel.postScrap(id)
+                }, unScrap = { id ->
+                    roomViewModel.removeScrap(id)
+                })
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

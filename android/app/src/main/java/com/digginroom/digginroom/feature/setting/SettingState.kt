@@ -10,7 +10,4 @@ sealed interface SettingState {
     }
 
     object Cancel : SettingState
-
-    // todo: 피드백 기능에 대한 상태
-    object Feedback : SettingState
 }
