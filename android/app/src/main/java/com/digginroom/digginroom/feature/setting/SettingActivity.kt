@@ -1,5 +1,7 @@
 package com.digginroom.digginroom.feature.setting
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.ActivitySettingBinding
+import com.digginroom.digginroom.feature.feedback.FeedbackActivity
 import com.digginroom.digginroom.feature.login.LoginActivity
 import com.digginroom.digginroom.model.SettingCategoryDetailModel
 import com.digginroom.digginroom.model.SettingCategoryModel
@@ -37,7 +40,7 @@ class SettingActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<ActivitySettingBinding>(this, R.layout.activity_setting)
                 .also {
                     it.lifecycleOwner = this
-                    it.viewModel = settingViewModel
+                    it.settingViewModel = settingViewModel
                 }
     }
 
@@ -49,7 +52,7 @@ class SettingActivity : AppCompatActivity() {
                         SettingCategoryDetailModel(
                             description = R.string.common_logout,
                             descriptionImg = R.drawable.ic_logout,
-                            invoke = settingViewModel::startLogout
+                            onClick = settingViewModel::startLogout
                         )
                     )
                 ),
@@ -57,7 +60,8 @@ class SettingActivity : AppCompatActivity() {
                     listOf(
                         SettingCategoryDetailModel(
                             description = R.string.common_feedback,
-                            descriptionImg = R.drawable.ic_logout
+                            descriptionImg = R.drawable.ic_logout,
+                            onClick = { FeedbackActivity.start(this) }
                         )
                     )
                 )
@@ -68,7 +72,7 @@ class SettingActivity : AppCompatActivity() {
     private fun initLogoutDialog() {
         logoutConfirmDialog = AlertDialog.Builder(this)
             .apply {
-                setMessage(LOGOUT_CONFIRM_MESSAGE)
+                setMessage(getString(R.string.logout_confirm))
                     .setPositiveButton(getString(R.string.common_yes)) { _, _ ->
                         settingViewModel.logout()
                     }.setNegativeButton(getString(R.string.common_no)) { _, _ ->
@@ -89,6 +93,9 @@ class SettingActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val LOGOUT_CONFIRM_MESSAGE = "정말 로그아웃하시겠습니까?"
+        fun start(context: Context) {
+            val intent = Intent(context, SettingActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }
