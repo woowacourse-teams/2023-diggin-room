@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
-import com.digginroom.digginroom.StickyBottomSheetDialog
+import com.digginroom.digginroom.BottomFixedItemBottomSheetDialog
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentStickyItemLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
@@ -18,13 +18,19 @@ import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentPostS
 import com.digginroom.digginroom.model.CommentModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
-class CommentDialog : StickyBottomSheetDialog() {
+class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
-    lateinit var binding: DialogCommentLayoutBinding
-    lateinit var stickyItemLayoutBinding: DialogCommentStickyItemLayoutBinding
+    private lateinit var dialogBinding: DialogCommentLayoutBinding
+    private lateinit var bottomPlacedItemBinding: DialogCommentStickyItemLayoutBinding
     private var commentPostState: CommentPostState = CommentPostState.Post
-    override val dialogView: View by lazy { binding.root }
-    override val stickyView: View by lazy { stickyItemLayoutBinding.root }
+    private val commentViewModel: CommentViewModel by lazy {
+        ViewModelProvider(
+            this, injectViewModel<CommentViewModel>()
+        )[CommentViewModel::class.java]
+    }
+
+    override val dialogView: View by lazy { dialogBinding.root }
+    override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,41 +38,33 @@ class CommentDialog : StickyBottomSheetDialog() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         initDialogBinding()
         initEditTextBinding()
         isCancelable = true
-        return binding.root
+        return dialogBinding.root
     }
 
     private fun initDialogBinding() {
-        binding = DialogCommentLayoutBinding.inflate(LayoutInflater.from(context))
-        binding.lifecycleOwner = this
-        binding.commentViewModel = makeViewModel()
-        binding.adapter = CommentAdapter(::showCommentMenuDialog)
+        dialogBinding = DialogCommentLayoutBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.lifecycleOwner = this
+        dialogBinding.commentViewModel = commentViewModel
+        dialogBinding.adapter = CommentAdapter(::showCommentMenuDialog)
     }
 
     private fun initEditTextBinding() {
-        stickyItemLayoutBinding =
+        bottomPlacedItemBinding =
             DialogCommentStickyItemLayoutBinding.inflate(LayoutInflater.from(context))
-        stickyItemLayoutBinding.postComment = ::processPostComment
+        bottomPlacedItemBinding.postComment = ::processPostComment
     }
 
     fun show(fragmentManager: FragmentManager, id: Long) {
+        if (isAdded) return
         showNow(fragmentManager, "CommentDialog")
-        binding.commentViewModel?.findComments(id)
-        binding.roomId = id
-        stickyItemLayoutBinding.roomId = id
-    }
-
-    private fun makeViewModel(): CommentViewModel {
-        return ViewModelProvider(
-            this,
-            injectViewModel<CommentViewModel>()
-        )[CommentViewModel::class.java]
+        dialogBinding.commentViewModel?.findComments(id)
+        dialogBinding.roomId = id
+        bottomPlacedItemBinding.roomId = id
     }
 
     private fun processPostComment(roomId: Long, currentComment: String) {
@@ -74,26 +72,21 @@ class CommentDialog : StickyBottomSheetDialog() {
             CommentPostState.Post -> postComment(roomId, currentComment)
 
             is CommentPostState.Update -> updateComment(
-                roomId,
-                commentPostState.commentId,
-                currentComment
+                roomId, commentPostState.commentId, currentComment
             )
         }
-        stickyItemLayoutBinding.currentComment = ""
+        bottomPlacedItemBinding.currentComment = ""
     }
 
     private fun postComment(roomId: Long, currentComment: String) {
-        binding.commentViewModel?.postComment(
-            roomId,
-            currentComment
+        dialogBinding.commentViewModel?.postComment(
+            roomId, currentComment
         )
     }
 
     private fun updateComment(roomId: Long, commentId: Long, currentComment: String) {
-        binding.commentViewModel?.updateComment(
-            roomId,
-            commentId,
-            currentComment
+        dialogBinding.commentViewModel?.updateComment(
+            roomId, commentId, currentComment
         )
         commentPostState = CommentPostState.Post
     }
@@ -103,23 +96,21 @@ class CommentDialog : StickyBottomSheetDialog() {
             CommentMenuUiState(update = {
                 updateCommentPostState(comment)
             }, delete = {
-                    deleteComment(comment)
-                })
+                deleteComment(comment)
+            })
         ).show(parentFragmentManager, "CommentMenuDialog")
     }
 
     private fun updateCommentPostState(comment: CommentModel) {
         commentPostState = CommentPostState.Update(comment.id)
-        stickyItemLayoutBinding.currentComment = comment.comment
+        bottomPlacedItemBinding.currentComment = comment.comment
     }
 
     private fun deleteComment(comment: CommentModel) {
-        binding.roomId?.let {
-            binding.commentViewModel?.deleteComment(
-                it,
-                comment.id
-            )
-        }
-        stickyItemLayoutBinding.currentComment = ""
+        val roomId = dialogBinding.roomId ?: return
+        dialogBinding.commentViewModel?.deleteComment(
+            roomId, comment.id
+        )
+        bottomPlacedItemBinding.currentComment = ""
     }
 }
