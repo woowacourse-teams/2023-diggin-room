@@ -1,10 +1,12 @@
 package com.digginroom.digginroom.data.datasource.remote
 
+import android.util.Log
 import androidx.annotation.Keep
 import com.digginroom.digginroom.data.di.Token
 import com.digginroom.digginroom.data.entity.CancelScrapRequest
 import com.digginroom.digginroom.data.entity.DislikeRequest
 import com.digginroom.digginroom.data.entity.HttpError
+import com.digginroom.digginroom.data.entity.PlaylistRequest
 import com.digginroom.digginroom.data.entity.RoomResponse
 import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
@@ -65,5 +67,14 @@ class RoomRemoteDataSource @Keep constructor(
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
         if (response.code() != 201) throw HttpError.Unknown(response)
+    }
+
+    suspend fun postPlaylist(playlistRequest: PlaylistRequest) {
+        Log.d("woogi", "postPlaylist: ${playlistRequest.authCode}")
+//        val response: Response<Void> = roomService.postPlaylist(playlistRequest)
+//
+//        if (response.code() == 400) throw HttpError.BadRequest(response)
+//
+//        if (response.code() != 201) throw HttpError.Unknown(response)
     }
 }

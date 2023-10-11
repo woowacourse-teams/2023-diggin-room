@@ -7,6 +7,7 @@ import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.model.room.Track
 import com.digginroom.digginroom.model.room.genre.Genre
 import com.digginroom.digginroom.model.room.scrap.ScrappedRoom
+import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
 import com.digginroom.digginroom.repository.RoomRepository
 
 class SampleRoomRepository @Keep constructor() : RoomRepository {
@@ -42,6 +43,10 @@ class SampleRoomRepository @Keep constructor() : RoomRepository {
     }
 
     override suspend fun postDislike(roomId: Long): LogResult<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun postPlaylist(authCode: String, playlist: Playlist): LogResult<Unit> {
         TODO("Not yet implemented")
     }
 }

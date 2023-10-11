@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="kotlin.jvm.functions.Function2" />
+        <import type="android.view.View" />
 
         <import type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState" />
 
@@ -24,15 +24,17 @@
         android:background="#110B2E"
         tools:context=".feature.scrap.activity.ScrapListActivity">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/scrap_iv_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@+id/scrap_tv_scrap"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/scrap_tv_scrap" />
 
         <TextView
             android:id="@+id/scrap_tv_scrap"
@@ -46,19 +48,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/scrap_ib_etc"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
+            android:gravity="center"
+            android:text="@string/scrap_selection"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/scrap_tv_scrap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/scrap_tv_scrap"
+            app:onSingleClick="@{() -> viewModel.startRoomSelection()}" />
+
         <ImageButton
             android:id="@+id/scrap_tv_extract_playlist"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:layout_marginBottom="20dp"
             android:elevation="1dp"
             android:src="@drawable/ic_extract_playlist"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:onSingleClick="@{() -> viewModel.startPlaylistExtraction()}" />
+            android:onClick="@{() -> viewModel.startPlaylistExtraction()}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scrap_rv_scrapped_rooms"

@@ -4,9 +4,11 @@ import androidx.annotation.Keep
 import com.digginroom.digginroom.data.datasource.remote.RoomRemoteDataSource
 import com.digginroom.digginroom.logging.LogResult
 import com.digginroom.digginroom.logging.logRunCatching
+import com.digginroom.digginroom.model.mapper.PlaylistMapper.toEntity
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.model.room.Room
 import com.digginroom.digginroom.model.room.scrap.ScrappedRoom
+import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
 import com.digginroom.digginroom.repository.RoomRepository
 
 class DefaultRoomRepository @Keep constructor(
@@ -42,6 +44,12 @@ class DefaultRoomRepository @Keep constructor(
     override suspend fun postDislike(roomId: Long): LogResult<Unit> {
         return logRunCatching {
             roomRemoteDataSource.postDislike(roomId)
+        }
+    }
+
+    override suspend fun postPlaylist(authCode: String, playlist: Playlist): LogResult<Unit> {
+        return logRunCatching {
+            roomRemoteDataSource.postPlaylist(playlist.toEntity(authCode))
         }
     }
 }
