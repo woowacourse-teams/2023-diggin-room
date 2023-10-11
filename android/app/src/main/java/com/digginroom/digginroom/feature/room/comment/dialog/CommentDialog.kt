@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.digginroom.digginroom.R
 import com.digginroom.digginroom.BottomFixedItemBottomSheetDialog
+import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentStickyItemLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
@@ -25,7 +25,8 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     private var commentPostState: CommentPostState = CommentPostState.Post
     private val commentViewModel: CommentViewModel by lazy {
         ViewModelProvider(
-            this, injectViewModel<CommentViewModel>()
+            this,
+            injectViewModel<CommentViewModel>()
         )[CommentViewModel::class.java]
     }
 
@@ -38,7 +39,9 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         initDialogBinding()
         initEditTextBinding()
@@ -72,7 +75,9 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             CommentPostState.Post -> postComment(roomId, currentComment)
 
             is CommentPostState.Update -> updateComment(
-                roomId, commentPostState.commentId, currentComment
+                roomId,
+                commentPostState.commentId,
+                currentComment
             )
         }
         bottomPlacedItemBinding.currentComment = ""
@@ -80,13 +85,16 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun postComment(roomId: Long, currentComment: String) {
         dialogBinding.commentViewModel?.postComment(
-            roomId, currentComment
+            roomId,
+            currentComment
         )
     }
 
     private fun updateComment(roomId: Long, commentId: Long, currentComment: String) {
         dialogBinding.commentViewModel?.updateComment(
-            roomId, commentId, currentComment
+            roomId,
+            commentId,
+            currentComment
         )
         commentPostState = CommentPostState.Post
     }
@@ -96,8 +104,8 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             CommentMenuUiState(update = {
                 updateCommentPostState(comment)
             }, delete = {
-                deleteComment(comment)
-            })
+                    deleteComment(comment)
+                })
         ).show(parentFragmentManager, "CommentMenuDialog")
     }
 
@@ -109,7 +117,8 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     private fun deleteComment(comment: CommentModel) {
         val roomId = dialogBinding.roomId ?: return
         dialogBinding.commentViewModel?.deleteComment(
-            roomId, comment.id
+            roomId,
+            comment.id
         )
         bottomPlacedItemBinding.currentComment = ""
     }
