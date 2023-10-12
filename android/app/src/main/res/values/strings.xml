@@ -65,4 +65,5 @@
     <string name="delete_comment">삭제</string>
     <string name="setting_setting_private">설정 및 개인정보</string>
     <string name="dialog_confirm_confirm_logout">로그아웃 하시겠습니까?</string>
+    <string name="scrap_selection">선택</string>
 </resources>

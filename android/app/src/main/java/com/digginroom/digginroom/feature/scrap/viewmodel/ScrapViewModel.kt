@@ -1,13 +1,14 @@
 package com.digginroom.digginroom.feature.scrap.viewmodel
 
 import androidx.annotation.Keep
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.scrap.ScrappedRooms
+import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.util.MutableSingleLiveData
-import com.digginroom.digginroom.util.SingleLiveData
+import com.digginroom.digginroom.util.SingleLiveEvent
 import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
@@ -17,8 +18,8 @@ class ScrapViewModel @Keep constructor(
 ) : ViewModel() {
 
     var rooms = ScrappedRooms(listOf())
-    private val _uiState: MutableSingleLiveData<ScrapUiState> = MutableSingleLiveData()
-    val uiState: SingleLiveData<ScrapUiState>
+    private val _uiState: SingleLiveEvent<ScrapUiState> = SingleLiveEvent()
+    val uiState: LiveData<ScrapUiState>
         get() = _uiState
 
     fun findScrappedRooms() {
@@ -37,31 +38,47 @@ class ScrapViewModel @Keep constructor(
     }
 
     private fun startNavigation(position: Int) {
-        _uiState.setValue(
-            ScrapUiState.Navigation(
-                rooms = rooms.value.map { it.toModel() },
-                position = position,
-                onSelect = ::startNavigation
-            )
+        _uiState.value = ScrapUiState.Navigation(
+            onSelect = ::startNavigation,
+            rooms = rooms.value.map { it.toModel(selectable = true) },
+            position = position
         )
     }
 
-    fun startPlaylistExtraction() {
-        _uiState.setValue(
-            ScrapUiState.Extraction(
-                rooms = rooms.value.map { it.toModel(selectable = true) },
-                onSelect = ::switchSelection
-            )
+    fun startRoomSelection() {
+        _uiState.value = ScrapUiState.Selection(
+            onSelect = ::switchSelection,
+            rooms = rooms.value.map { it.toModel(selectable = true) }
         )
     }
 
     private fun switchSelection(index: Int) {
         rooms.switchSelection(index)
-        _uiState.setValue(
-            ScrapUiState.Extraction(
-                rooms = rooms.value.map { it.toModel(selectable = true) },
-                onSelect = ::switchSelection
-            )
+        _uiState.value = ScrapUiState.Selection(
+            onSelect = ::switchSelection,
+            rooms = rooms.value.map { it.toModel(selectable = true) }
         )
+    }
+
+    fun startPlaylistExtraction() {
+        _uiState.value = ScrapUiState.PlaylistExtraction(
+            onSelect = ::switchSelection,
+            rooms = rooms.value.map { it.toModel(selectable = true) }
+        )
+    }
+
+    fun extractPlaylist(authCode: String) {
+        viewModelScope.launch {
+            roomRepository.postPlaylist(
+                authCode = authCode,
+                playlist = Playlist(rooms.selectedId)
+            ).onSuccess {
+                rooms = rooms.clear()
+                _uiState.value = ScrapUiState.Default(
+                    rooms = rooms.value.map { it.toModel() },
+                    onSelect = ::startNavigation
+                )
+            }.onFailure { }
+        }
     }
 }

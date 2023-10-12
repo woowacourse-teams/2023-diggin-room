@@ -8,8 +8,12 @@ class ScrappedRooms(
     val value: List<ScrappedRoom>
         get() = _value
 
-    val selected: List<ScrappedRoom>
-        get() = _value.filter { it.isSelected }
+    val selectedId: List<String>
+        get() = _value.filter {
+            it.isSelected
+        }.map {
+            it.room.videoId
+        }
 
     fun switchSelection(index: Int) {
         val room = _value[index]
@@ -17,4 +21,8 @@ class ScrappedRooms(
         _value.removeAt(index)
         _value.add(index, room.switchSelection())
     }
+
+    fun clear(): ScrappedRooms = ScrappedRooms(
+        _value.map { it.copy(isSelected = false) }
+    )
 }

@@ -5,12 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaylistRequest(
-    @SerialName("authCode")
-    val authCode: String,
     @SerialName("title")
     val title: String,
-    @SerialName("description")
-    val description: String,
     @SerialName("videoIds")
-    val videosId: List<String>
+    val videosId: List<String>,
+    @SerialName("code")
+    val authCode: String
 )

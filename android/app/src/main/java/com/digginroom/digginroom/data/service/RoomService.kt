@@ -3,6 +3,7 @@ package com.digginroom.digginroom.data.service
 import com.digginroom.digginroom.data.entity.CancelScrapRequest
 import com.digginroom.digginroom.data.entity.DislikeRequest
 import com.digginroom.digginroom.data.entity.PlaylistRequest
+import com.digginroom.digginroom.data.entity.PlaylistResponse
 import com.digginroom.digginroom.data.entity.RoomResponse
 import com.digginroom.digginroom.data.entity.ScrapRequest
 import com.digginroom.digginroom.data.entity.ScrappedRoomsResponse
@@ -38,5 +39,5 @@ interface RoomService {
     @POST("/playlist")
     suspend fun postPlaylist(
         @Body playlistRequest: PlaylistRequest
-    ): Response<Void>
+    ): Response<PlaylistResponse>
 }

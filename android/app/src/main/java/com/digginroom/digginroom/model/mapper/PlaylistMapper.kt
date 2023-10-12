@@ -2,20 +2,14 @@ package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.data.entity.PlaylistRequest
 import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
-import com.digginroom.digginroom.model.room.scrap.playlist.Title
 
 object PlaylistMapper {
 
+    private const val DEFAULT_TITLE_OF_PLAYLIST = "디깅룸 플레이리스트"
+
     fun Playlist.toEntity(authCode: String): PlaylistRequest = PlaylistRequest(
         authCode = authCode,
-        title = title.value,
-        description = description,
-        videosId = videosId
-    )
-
-    fun PlaylistRequest.toDomain(): Playlist = Playlist(
-        title = Title(title),
-        description = description,
+        title = DEFAULT_TITLE_OF_PLAYLIST,
         videosId = videosId
     )
 }

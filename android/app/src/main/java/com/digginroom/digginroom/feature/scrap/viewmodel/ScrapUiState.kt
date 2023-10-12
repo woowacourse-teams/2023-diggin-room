@@ -4,22 +4,27 @@ import com.digginroom.digginroom.model.ScrappedRoomModel
 
 sealed interface ScrapUiState {
 
-    val rooms: List<ScrappedRoomModel>
     val onSelect: (position: Int) -> Unit
+    val rooms: List<ScrappedRoomModel>
 
     data class Default(
-        override val rooms: List<ScrappedRoomModel>,
-        override val onSelect: (position: Int) -> Unit
+        override val onSelect: (position: Int) -> Unit,
+        override val rooms: List<ScrappedRoomModel>
     ) : ScrapUiState
 
     data class Navigation(
+        override val onSelect: (position: Int) -> Unit,
         override val rooms: List<ScrappedRoomModel>,
-        val position: Int,
-        override val onSelect: (position: Int) -> Unit
+        val position: Int
     ) : ScrapUiState
 
-    data class Extraction(
-        override val rooms: List<ScrappedRoomModel>,
-        override val onSelect: (position: Int) -> Unit
+    data class Selection(
+        override val onSelect: (position: Int) -> Unit,
+        override val rooms: List<ScrappedRoomModel>
+    ) : ScrapUiState
+
+    data class PlaylistExtraction(
+        override val onSelect: (position: Int) -> Unit = {},
+        override val rooms: List<ScrappedRoomModel>
     ) : ScrapUiState
 }

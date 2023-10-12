@@ -3,16 +3,20 @@ package com.digginroom.digginroom.feature.scrap.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.ActivityScrapBinding
+import com.digginroom.digginroom.feature.login.SocialLogin
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapRoomClickListener
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
+import com.digginroom.digginroom.model.RoomModel
 import com.digginroom.digginroom.model.RoomsModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 import com.dygames.roompager.PagingOrientation
@@ -49,7 +53,7 @@ class ScrapListActivity : AppCompatActivity() {
                     it.adapter = ScrapAdapter().apply {
                         itemClickListener = ScrapRoomClickListener { position ->
                             scrapViewModel.uiState
-                                .getValue()
+                                .value
                                 ?.onSelect
                                 ?.invoke(position)
                         }
@@ -63,25 +67,49 @@ class ScrapListActivity : AppCompatActivity() {
     }
 
     private fun initScrapObserver() {
+        val googleLoginResultLauncher = getGoogleAuthCodeResultLauncher()
+
         scrapViewModel.uiState.observe(this) {
             when (it) {
-                is ScrapUiState.Navigation -> navigateToRoomView(it.position)
+                is ScrapUiState.Navigation -> navigateToRoomView(
+                    it.position,
+                    it.rooms.map { scrapped -> scrapped.room }
+                )
 
-                else -> binding.adapter?.submitList(it.rooms)
+                is ScrapUiState.PlaylistExtraction -> googleLoginResultLauncher.launch(
+                    SocialLogin.Google.getIntent(this)
+                )
+
+                else -> binding.adapter?.submitList(
+                    scrapViewModel.uiState.value?.rooms
+                )
             }
         }
     }
 
-    private fun navigateToRoomView(index: Int) {
+    private fun getGoogleAuthCodeResultLauncher(): ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                SocialLogin.Google
+                    .getAuthCode(result)
+                    ?.let { authCode ->
+                        scrapViewModel.extractPlaylist(authCode)
+                    }
+            }
+        }
+
+    private fun navigateToRoomView(index: Int, rooms: List<RoomModel>) {
         RoomActivity.start(
             context = this,
-            rooms = RoomsModel(scrapViewModel.uiState.getValue()!!.rooms.map { it.room }),
+            rooms = RoomsModel(rooms),
             position = index,
             pagingOrientation = PagingOrientation.VERTICAL
         )
     }
 
     companion object {
+
+        private const val RESULT_OK = -1
 
         fun start(context: Context) {
             val intent = Intent(context, ScrapListActivity::class.java)

@@ -69,14 +69,15 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginEnd="20dp"
+            android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
             android:layout_marginBottom="20dp"
             android:background="?attr/selectableItemBackground"
-            android:cropToPadding="true"
             android:elevation="1dp"
-            android:src="@drawable/ic_extract_playlist"
+            android:onClick="@{() -> viewModel.startPlaylistExtraction()}"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_extracting_playlist"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="@{() -> viewModel.startPlaylistExtraction()}" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scrap_rv_scrapped_rooms"
