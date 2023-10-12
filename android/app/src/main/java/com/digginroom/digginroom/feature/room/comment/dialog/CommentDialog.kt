@@ -81,7 +81,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
         ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
     }
-    companion object{
+    companion object {
         private const val COMMENT_DIALOG_TAG = "CommentDialog"
         private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"
     }
