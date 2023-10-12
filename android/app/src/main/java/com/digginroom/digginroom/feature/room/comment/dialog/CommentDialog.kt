@@ -8,8 +8,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
+import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
-import com.digginroom.digginroom.databinding.DialogCommentStickyItemLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
@@ -20,7 +20,7 @@ import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private lateinit var dialogBinding: DialogCommentLayoutBinding
-    private lateinit var bottomPlacedItemBinding: DialogCommentStickyItemLayoutBinding
+    private lateinit var bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding
     private var commentPostState: CommentPostState = CommentPostState.Post
     private val commentViewModel: CommentViewModel by lazy {
         ViewModelProvider(
@@ -57,7 +57,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun initBottomPlacedItemBinding() {
         bottomPlacedItemBinding =
-            DialogCommentStickyItemLayoutBinding.inflate(LayoutInflater.from(context))
+            DialogCommentBottomPlacedItemLayoutBinding.inflate(LayoutInflater.from(context))
         bottomPlacedItemBinding.postComment = ::processPostComment
     }
 

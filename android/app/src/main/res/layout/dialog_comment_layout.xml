@@ -31,7 +31,7 @@
         <View
             android:id="@+id/dialog_comment_view_banner"
             android:layout_width="30dp"
-            android:layout_height="5dp"
+            android:layout_height="6dp"
             android:layout_marginTop="20dp"
             android:background="@color/gray_400"
             app:layout_constraintEnd_toEndOf="parent"
