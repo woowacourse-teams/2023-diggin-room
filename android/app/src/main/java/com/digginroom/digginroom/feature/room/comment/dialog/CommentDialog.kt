@@ -64,7 +64,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     fun show(fragmentManager: FragmentManager, id: Long) {
         if (isAdded) return
-        showNow(fragmentManager, "CommentDialog")
+        showNow(fragmentManager, COMMENT_DIALOG_TAG)
         dialogBinding.commentViewModel?.findComments(id)
         dialogBinding.roomId = id
         bottomPlacedItemBinding.roomId = id
@@ -79,6 +79,10 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
                 bottomPlacedItemBinding.updateTargetComment = comment
             },
             commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
-        ).show(parentFragmentManager, "CommentMenuDialog")
+        ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
+    }
+    companion object{
+        private const val COMMENT_DIALOG_TAG = "CommentDialog"
+        private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"
     }
 }

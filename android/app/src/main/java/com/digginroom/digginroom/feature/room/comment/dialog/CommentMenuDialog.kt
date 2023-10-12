@@ -42,6 +42,9 @@ class CommentMenuDialog(
     private fun showCommentDeleteAlertDialog() {
         CommentDeleteAlertDialog(roomId, commentId, commentSubmitUiState) {
             dismiss()
-        }.show(parentFragmentManager, "DeleteCommentAlertDialog")
+        }.show(parentFragmentManager, DELETE_COMMENT_ALERT_DIALOG_TAG)
+    }
+    companion object{
+        private const val DELETE_COMMENT_ALERT_DIALOG_TAG = "DeleteCommentAlertDialog"
     }
 }
