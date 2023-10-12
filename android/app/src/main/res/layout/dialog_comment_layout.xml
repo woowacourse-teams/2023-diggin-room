@@ -9,7 +9,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState" />
+        <import type="com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState" />
 
         <variable
             name="roomId"
@@ -65,12 +65,12 @@
                 android:adapter="@{adapter}"
                 android:orientation="vertical"
                 android:paddingTop="18dp"
-                android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.VISIBLE : View.GONE}"
-                app:comments="@{commentViewModel.commentState.state}"
+                app:comments="@{commentViewModel.commentResponseUiState}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:visible="@{commentViewModel.commentResponseUiState}"
                 tools:itemCount="200" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,10 +81,10 @@
             android:gravity="center"
             android:paddingTop="30dp"
             android:text="@string/dialog_comment_empty_comment"
-            android:visibility="@{((commentViewModel.commentState.state instanceof CommentState.Succeed) &amp;&amp; (((CommentState.Succeed)commentViewModel.commentState.state).comments.size() > 0)) ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner" />
+            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner"
+            app:visible="@{commentViewModel.commentResponseUiState}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

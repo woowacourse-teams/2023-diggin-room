@@ -1,7 +1,6 @@
 package com.digginroom.digginroom.feature.room.comment
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
 import com.digginroom.digginroom.fixture.CommentFixture.Comment
 import com.digginroom.digginroom.fixture.CommentFixture.Comments
 import com.digginroom.digginroom.fixture.LogResult
@@ -55,7 +54,7 @@ class CommentViewModelTest {
         commentViewModel.findComments(roomId)
 
         // then
-        val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
+        val actual = (commentViewModel.commentSubmitUiState.value?.state as CommentUiState.Succeed).comments
         val expected = comments.map { it.toModel() }
         assertEquals(expected, actual)
     }
@@ -71,10 +70,10 @@ class CommentViewModelTest {
         } returns LogResult.success(comment)
 
         // when
-        commentViewModel.postComment(roomId, comment.comment)
+        commentViewModel.submitComment(roomId, comment.comment)
 
         // then
-        val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
+        val actual = (commentViewModel.commentSubmitUiState.value?.state as CommentUiState.Succeed).comments
         val expected = listOf(comment.toModel())
         assertEquals(expected, actual)
     }
@@ -90,11 +89,11 @@ class CommentViewModelTest {
         } returns LogResult.failure()
 
         // when
-        commentViewModel.postComment(roomId, comment.comment)
+        commentViewModel.submitComment(roomId, comment.comment)
 
         // then
-        val actual = commentViewModel.commentState.value?.state
-        assertTrue(actual is CommentState.Failed)
+        val actual = commentViewModel.commentSubmitUiState.value?.state
+        assertTrue(actual is CommentUiState.Failed)
     }
 
     @Test
@@ -113,11 +112,11 @@ class CommentViewModelTest {
         } returns LogResult.success(Unit)
 
         // when
-        commentViewModel.postComment(roomId, "test")
+        commentViewModel.submitComment(roomId, "test")
         commentViewModel.deleteComment(roomId, commentId)
 
         // then
-        val actual = (commentViewModel.commentState.value?.state as CommentState.Succeed).comments
+        val actual = (commentViewModel.commentSubmitUiState.value?.state as CommentUiState.Succeed).comments
         val expected = 0
         assertEquals(expected, actual.size)
     }
