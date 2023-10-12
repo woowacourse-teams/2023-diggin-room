@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/join_iv_back"
+            android:id="@+id/join_ib_back"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="20dp"
