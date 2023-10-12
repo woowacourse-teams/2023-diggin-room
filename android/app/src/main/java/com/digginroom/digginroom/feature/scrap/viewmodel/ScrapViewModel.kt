@@ -2,13 +2,13 @@ package com.digginroom.digginroom.feature.scrap.viewmodel
 
 import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.scrap.ScrappedRooms
 import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
 import com.digginroom.digginroom.repository.RoomRepository
-import com.digginroom.digginroom.util.SingleLiveEvent
 import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
@@ -18,7 +18,7 @@ class ScrapViewModel @Keep constructor(
 ) : ViewModel() {
 
     var rooms = ScrappedRooms(listOf())
-    private val _uiState: SingleLiveEvent<ScrapUiState> = SingleLiveEvent()
+    private val _uiState: MutableLiveData<ScrapUiState> = MutableLiveData()
     val uiState: LiveData<ScrapUiState>
         get() = _uiState
 
