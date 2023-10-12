@@ -4,7 +4,7 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="settingViewModel"
             type="com.digginroom.digginroom.feature.setting.SettingViewModel" />
     </data>
 
@@ -13,17 +13,18 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#110B2E"
+        android:background="@color/activity_background"
         tools:context=".feature.setting.SettingActivity">
 
         <ImageView
             android:id="@+id/setting_iv_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:onClick="@{() -> viewModel.cancel()}"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
+            android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/common_back_button_description"
+            android:onClick="@{() -> settingViewModel.cancel()}"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +45,7 @@
             android:id="@+id/setting_rv_settting_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="32dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

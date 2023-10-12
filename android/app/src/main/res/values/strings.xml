@@ -65,5 +65,14 @@
     <string name="delete_comment">삭제</string>
     <string name="setting_setting_private">설정 및 개인정보</string>
     <string name="dialog_confirm_confirm_logout">로그아웃 하시겠습니까?</string>
+
+    <string name="logout_confirm">정말 로그아웃하시겠습니까?</string>
+
+    <string name="feedback_title">피드백</string>
+    <string name="feedback_hint">피드백을 입력해주세요!</string>
+    <string name="feedback_submit">등록</string>
+    <string name="feedback_failure">피드백 등록에 실패하였습니다.</string>
+    <string name="feedback_success">피드백 등록에 성공하였습니다.</string>
+
     <string name="scrap_selection">선택</string>
 </resources>

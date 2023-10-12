@@ -23,7 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#110B2E"
+        android:background="@color/activity_background"
         tools:context=".views.activity.JoinActivity">
 
         <ProgressBar

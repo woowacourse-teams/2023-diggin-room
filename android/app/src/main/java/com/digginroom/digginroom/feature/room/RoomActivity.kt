@@ -12,9 +12,12 @@ import com.digginroom.digginroom.databinding.ActivityRoomBinding
 import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoEvent
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
+import com.digginroom.digginroom.feature.setting.SettingActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
 import com.digginroom.digginroom.model.RoomsModel
+import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 import com.dygames.roompager.PagingOrientation
@@ -33,19 +36,27 @@ class RoomActivity : AppCompatActivity() {
     private val commentDialog: CommentDialog = CommentDialog()
 
     private val roomPagerAdapter: RoomPagerAdapter by lazy {
-        RoomPagerAdapter(loadNextRoom = {
-            roomViewModel.findNext()
-        }, openComment = { id ->
-                commentDialog.show(supportFragmentManager, id)
-            }, openInfo = { track ->
-                roomInfoDialog.show(supportFragmentManager, track)
-            }, openScrap = {
-                ScrapListActivity.start(this)
-            }, scrap = { id ->
-                roomViewModel.postScrap(id)
-            }, unScrap = { id ->
-                roomViewModel.removeScrap(id)
-            })
+        RoomPagerAdapter(
+            loadNextRoom = {
+                roomViewModel.findNext()
+            },
+            dislikeRoom = { id ->
+                roomViewModel.postDislike(id)
+            },
+            roomInfoEvent = RoomInfoEvent(openSetting = {
+                SettingActivity.start(this)
+            }, openComment = { id ->
+                    commentDialog.show(supportFragmentManager, id)
+                }, openInfo = { track ->
+                    roomInfoDialog.show(supportFragmentManager, track)
+                }, openScrap = {
+                    ScrapListActivity.start(this)
+                }, scrap = { id ->
+                    roomViewModel.postScrap(id)
+                }, unScrap = { id ->
+                    roomViewModel.removeScrap(id)
+                })
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,11 +78,14 @@ class RoomActivity : AppCompatActivity() {
             when (it) {
                 is RoomState.Error -> Unit
                 RoomState.Loading -> Unit
-                is RoomState.Success -> roomPagerAdapter.setData(it.rooms)
+                is RoomState.Success -> {
+                    roomPagerAdapter.setData(it.rooms)
+                }
             }
         }
+        val rooms = intent.getSerializable<RoomsModel>(KEY_ROOMS)?.value ?: emptyList()
         roomPagerAdapter.setData(
-            intent.getSerializable<RoomsModel>(KEY_ROOMS)?.value ?: emptyList()
+            rooms
         )
         binding.roomRoomPager.setRoomLoadable(roomPagerAdapter.rooms.isEmpty())
         binding.roomRoomPager.setOrientation(
@@ -87,6 +101,8 @@ class RoomActivity : AppCompatActivity() {
             repeat(3) {
                 roomViewModel.findNext()
             }
+        } else {
+            roomViewModel.setRooms(rooms.map { it.toDomain() })
         }
     }
 
@@ -98,6 +114,7 @@ class RoomActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         roomPagerAdapter.play()
+        roomViewModel.findScrappedRooms()
     }
 
     private fun navigateToTutorial(tutorialCompleted: Boolean) {

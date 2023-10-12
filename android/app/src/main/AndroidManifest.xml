@@ -16,6 +16,9 @@
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
         <activity
+            android:name=".feature.feedback.FeedbackActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.setting.SettingActivity"
             android:exported="true" />
         <activity
