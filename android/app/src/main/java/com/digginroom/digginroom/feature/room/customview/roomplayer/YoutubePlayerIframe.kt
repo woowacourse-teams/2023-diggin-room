@@ -46,9 +46,14 @@ fun youtubePlayerIframe(height: Int) = """
                 }).catch(error => {
                     ele.style.transform = "scale(1)"
                 });
-                player.loadVideoById(videoId, 0, 'highres')
+                const rnd = random(20, 60)
+                player.loadVideoById(videoId, rnd, 'highres')
             }
         
+            function random(min, max) {
+              return Math.floor(Math.random() * (max - min) ) + min;
+            }
+            
             function onYouTubeIframeAPIReady() {
                 player = new YT.Player('player', {
                     events: {
@@ -58,7 +63,6 @@ fun youtubePlayerIframe(height: Int) = """
                     videoId: '',
                     playerVars: {
                         ecver: 2,
-                        
                         autoplay: 1,
                         controls: 0,
                         disablekb: 1,
