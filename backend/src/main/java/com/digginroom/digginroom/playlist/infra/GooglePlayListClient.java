@@ -26,7 +26,7 @@ public class GooglePlayListClient {
                 .block();
     }
 
-    public Integer insertPlayListItems(String authorization, YoutubePlayListItemRequest request) {
+    public Integer insertPlayListItems(final String authorization, final YoutubePlayListItemRequest request) {
         return webClient.post()
                 .uri("/playlistItems?part=contentDetails,id,snippet,status")
                 .headers(headers -> headers.setBearerAuth(authorization))
