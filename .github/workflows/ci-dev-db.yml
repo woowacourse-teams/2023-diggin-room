@@ -86,3 +86,4 @@ jobs:
       shell: bash {0}
       run: | 
         sudo docker rm -f $MYSQL_CONTAINER_NAME
+        sudo docker volume prune --force
