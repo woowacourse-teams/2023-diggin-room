@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.playlist.infra;
 
+import com.digginroom.digginroom.exception.PlayListException.PlaylistCreateException;
 import com.digginroom.digginroom.playlist.infra.dto.YouTubePlayListRequest;
 import com.digginroom.digginroom.playlist.infra.dto.YouTubePlayListResponse;
 import com.digginroom.digginroom.playlist.infra.dto.YoutubePlayListItemRequest;
@@ -21,9 +22,15 @@ public class GooglePlayListClient {
                 .uri("/playlists?part=id,snippet")
                 .headers(headers -> headers.setBearerAuth(authorization))
                 .bodyValue(request)
-                .retrieve()
-                .bodyToMono(YouTubePlayListResponse.class)
+                .exchangeToMono(this::generateYoutubePlayListResponse)
                 .block();
+    }
+
+    public Mono<YouTubePlayListResponse> generateYoutubePlayListResponse(final ClientResponse response) {
+        if (response.statusCode().equals(HttpStatus.OK)) {
+            return response.bodyToMono(YouTubePlayListResponse.class);
+        }
+        throw new PlaylistCreateException();
     }
 
     public Integer insertPlayListItems(final String authorization, final YoutubePlayListItemRequest request) {
