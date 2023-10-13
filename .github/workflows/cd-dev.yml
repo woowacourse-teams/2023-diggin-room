@@ -44,4 +44,7 @@ jobs:
           -DDEV_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }} \
           -DDEV_DATASOURCE_USERNAME=${{ secrets.DEV_DATASOURCE_USERNAME }} \
           -DDEV_DATASOURCE_PASSWORD=${{ secrets.DEV_DATASOURCE_PASSWORD }} \
+          -DCLIENT_ID=${{ secrets.CLIENT_ID }} \
+          -DCLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
+          -DREDIRECT_URI=${{ secrets.REDIRECT_URI }} \
           DigginRoom-0.0.1-SNAPSHOT.jar &
