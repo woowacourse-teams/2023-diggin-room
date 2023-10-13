@@ -49,6 +49,7 @@
             android:inputType="text"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
+            app:cursorIndex="@{currentComment}"
             android:text="@={currentComment}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dialog_comment_sticky_btn_send"

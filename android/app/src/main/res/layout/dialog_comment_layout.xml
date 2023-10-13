@@ -65,11 +65,11 @@
                 android:adapter="@{adapter}"
                 android:orientation="vertical"
                 android:paddingTop="18dp"
-                app:comments="@{commentViewModel.commentResponseUiState}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:responseState="@{commentViewModel.commentResponseUiState}"
                 app:visible="@{commentViewModel.commentResponseUiState}"
                 tools:itemCount="200" />
         </androidx.constraintlayout.widget.ConstraintLayout>
