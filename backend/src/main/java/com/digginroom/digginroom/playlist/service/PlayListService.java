@@ -7,7 +7,6 @@ import com.digginroom.digginroom.playlist.infra.dto.GoogleAccessTokenRequest;
 import com.digginroom.digginroom.playlist.infra.dto.YouTubePlayListRequest;
 import com.digginroom.digginroom.playlist.infra.dto.YouTubePlayListRequest.Snippet;
 import com.digginroom.digginroom.playlist.infra.dto.YoutubePlayListItemRequest;
-import com.digginroom.digginroom.playlist.infra.dto.YoutubePlayListItemRequest.Snippet.ResourceId;
 import com.digginroom.digginroom.playlist.service.dto.PlayListRequest;
 import com.digginroom.digginroom.playlist.service.dto.PlayListResponse;
 import java.util.List;
@@ -55,16 +54,11 @@ public class PlayListService {
     ) {
         List<String> videoIds = request.videoIds();
         return videoIds.stream()
-                .map(videoId -> playListClient.insertPlayListItems(authorization, toRequest(playListId, videoId)))
-                .reduce(0, Integer::sum);
-    }
-
-    private YoutubePlayListItemRequest toRequest(final String playListId, final String videoId) {
-        return new YoutubePlayListItemRequest(
-                new YoutubePlayListItemRequest.Snippet(playListId,
-                        new ResourceId("youtube#video", videoId)
+                .map(videoId -> playListClient.insertPlayListItems(
+                        authorization,
+                        YoutubePlayListItemRequest.of(playListId, videoId))
                 )
-        );
+                .reduce(0, Integer::sum);
     }
 
     private int calculateRequestCount(final PlayListRequest request) {
