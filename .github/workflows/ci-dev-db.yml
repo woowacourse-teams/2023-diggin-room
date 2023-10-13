@@ -57,6 +57,7 @@ jobs:
           -h ${{ env.SOURCE_DB_HOSTNAME }} -P ${{ env.SOURCE_DB_PORT }} \
           -B ${{ env.SOURCE_DB_SCHEMA }} \
           ${{ env.DUMP_OPTIONS }} \
+          --where="1 limit 100" \
         ' > dump.sql
         
     - name: 덤프를 MySQL 컨테이너로 임포트
