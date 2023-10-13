@@ -16,9 +16,7 @@ public class PlayListController {
     private final PlayListService playListService;
 
     @PostMapping("/playList")
-    public ResponseEntity<PlayListResponse> makePlayList(
-            @RequestBody PlayListRequest playListRequest
-    ) {
+    public ResponseEntity<PlayListResponse> makePlayList(@RequestBody PlayListRequest playListRequest) {
         return ResponseEntity.ok().body(playListService.makePlayList(playListRequest));
     }
 }
