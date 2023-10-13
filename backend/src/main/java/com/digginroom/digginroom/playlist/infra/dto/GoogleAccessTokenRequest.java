@@ -1,18 +1,16 @@
 package com.digginroom.digginroom.playlist.infra.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record GoogleAccessTokenRequest(
-        @JsonProperty("client_id")
         String clientId,
-        @JsonProperty("client_secret")
         String clientSecret,
         String code,
-        @JsonProperty("redirect_uri")
         String redirectUri,
-        @JsonProperty("grant_type")
         String grantType
 ) {
 }
