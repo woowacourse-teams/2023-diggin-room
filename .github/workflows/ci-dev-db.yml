@@ -86,4 +86,4 @@ jobs:
       if: always()
       shell: bash {0}
       run: | 
-        sudo docker rm --volumes -f $MYSQL_CONTAINER_NAME
+        sudo docker rm -v -f $MYSQL_CONTAINER_NAME
