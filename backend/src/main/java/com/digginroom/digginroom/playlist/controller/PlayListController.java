@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.playlist.controller;
 
-import com.digginroom.digginroom.playlist.service.GoogleAuthService;
+import com.digginroom.digginroom.playlist.service.PlayListService;
 import com.digginroom.digginroom.playlist.service.dto.PlayListRequest;
 import com.digginroom.digginroom.playlist.service.dto.PlayListResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class PlayListController {
 
-    private final GoogleAuthService googleAuthService;
+    private final PlayListService playListService;
 
     @PostMapping("/playList")
     public ResponseEntity<PlayListResponse> makePlayList(
             @RequestBody PlayListRequest playListRequest
     ) {
-        return ResponseEntity.ok().body(googleAuthService.makePlayList(playListRequest));
+        return ResponseEntity.ok().body(playListService.makePlayList(playListRequest));
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleAuthService {
+public class PlayListService {
 
     private final GoogleOAuthConfig googleOAuthConfig;
     private final GoogleAccessTokenClient googleAccessTokenClient;
@@ -31,10 +31,10 @@ public class GoogleAuthService {
 
     private String getAccessToken(final String code) {
         GoogleAccessTokenRequest request = GoogleAccessTokenRequest.builder()
-                .redirectUri(googleOAuthConfig.getRedirectUri())
-                .clientId(googleOAuthConfig.getClientId())
-                .clientSecret(googleOAuthConfig.getClientSecret())
-                .grantType(googleOAuthConfig.getGrantType())
+                .redirectUri(googleOAuthConfig.redirectUri())
+                .clientId(googleOAuthConfig.clientId())
+                .clientSecret(googleOAuthConfig.clientSecret())
+                .grantType(googleOAuthConfig.grantType())
                 .code(code)
                 .build();
 
@@ -68,9 +68,6 @@ public class GoogleAuthService {
     }
 
     private int calculateRequestCount(final PlayListRequest request) {
-        long count = request.videoIds()
-                .stream()
-                .count();
-        return (int) count;
+        return request.videoIds().size();
     }
 }
