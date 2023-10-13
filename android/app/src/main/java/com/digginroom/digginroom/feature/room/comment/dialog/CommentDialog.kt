@@ -4,100 +4,85 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import com.digginroom.digginroom.R
+import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
-import com.digginroom.digginroom.feature.room.comment.uistate.CommentMenuUiState
-import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentPostState
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState
 import com.digginroom.digginroom.model.CommentModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class CommentDialog : BottomSheetDialogFragment() {
+class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
-    lateinit var binding: DialogCommentLayoutBinding
-    private var commentPostState: CommentPostState = CommentPostState.Post
+    private lateinit var dialogBinding: DialogCommentLayoutBinding
+    private lateinit var bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding
+    private val commentViewModel: CommentViewModel by lazy {
+        ViewModelProvider(
+            this,
+            injectViewModel<CommentViewModel>()
+        )[CommentViewModel::class.java]
+    }
+
+    override val dialogView: View by lazy { dialogBinding.root }
+    override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialogStyle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DialogCommentLayoutBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
-        binding.commentViewModel = makeViewModel()
-        binding.postComment = ::processPostComment
-        binding.adapter = CommentAdapter(::showCommentMenuDialog)
+        initDialogBinding()
+        initBottomPlacedItemBinding()
         isCancelable = true
-        return binding.root
+        return dialogBinding.root
+    }
+
+    private fun initDialogBinding() {
+        dialogBinding = DialogCommentLayoutBinding.inflate(LayoutInflater.from(context))
+        dialogBinding.lifecycleOwner = this
+        dialogBinding.commentViewModel = commentViewModel
+        dialogBinding.adapter = CommentAdapter(::showCommentMenuDialog)
+    }
+
+    private fun initBottomPlacedItemBinding() {
+        bottomPlacedItemBinding =
+            DialogCommentBottomPlacedItemLayoutBinding.inflate(LayoutInflater.from(context))
+        bottomPlacedItemBinding.commentViewModel = commentViewModel
+        commentViewModel.commentResponseUiState.observe(this) {
+            if (it is CommentResponseUiState.Succeed) bottomPlacedItemBinding.currentComment = ""
+        }
     }
 
     fun show(fragmentManager: FragmentManager, id: Long) {
-        showNow(fragmentManager, "CommentDialog")
-        binding.commentViewModel?.findComments(id)
-        binding.roomId = id
-    }
-
-    private fun makeViewModel(): CommentViewModel {
-        return ViewModelProvider(
-            this,
-            injectViewModel<CommentViewModel>()
-        )[CommentViewModel::class.java]
-    }
-
-    private fun processPostComment(roomId: Long, currentComment: String) {
-        when (val commentPostState = commentPostState) {
-            CommentPostState.Post -> postComment(roomId, currentComment)
-
-            is CommentPostState.Update -> updateComment(
-                roomId,
-                commentPostState.commentId,
-                currentComment
-            )
-        }
-        binding.currentComment = ""
-    }
-
-    private fun postComment(roomId: Long, currentComment: String) {
-        binding.commentViewModel?.postComment(
-            roomId,
-            currentComment
-        )
-    }
-
-    private fun updateComment(roomId: Long, commentId: Long, currentComment: String) {
-        binding.commentViewModel?.updateComment(
-            roomId,
-            commentId,
-            currentComment
-        )
-        commentPostState = CommentPostState.Post
+        if (isAdded) return
+        showNow(fragmentManager, COMMENT_DIALOG_TAG)
+        dialogBinding.commentViewModel?.findComments(id)
+        dialogBinding.roomId = id
+        bottomPlacedItemBinding.roomId = id
     }
 
     private fun showCommentMenuDialog(comment: CommentModel) {
         CommentMenuDialog(
-            CommentMenuUiState(update = {
-                updateCommentPostState(comment)
-            }, delete = {
-                    deleteComment(comment)
-                })
-        ).show(parentFragmentManager, "CommentMenuDialog")
+            roomId = dialogBinding.roomId ?: return,
+            commentId = comment.id,
+            updateComment = {
+                bottomPlacedItemBinding.currentComment = comment.comment
+                bottomPlacedItemBinding.updateTargetComment = comment
+            },
+            commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
+        ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
     }
-
-    private fun updateCommentPostState(comment: CommentModel) {
-        commentPostState = CommentPostState.Update(comment.id)
-        binding.currentComment = comment.comment
-    }
-
-    private fun deleteComment(comment: CommentModel) {
-        binding.roomId?.let {
-            binding.commentViewModel?.deleteComment(
-                it,
-                comment.id
-            )
-        }
-        binding.currentComment = ""
+    companion object {
+        private const val COMMENT_DIALOG_TAG = "CommentDialog"
+        private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"
     }
 }
