@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.feature.scrap
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiEvent
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
 import com.digginroom.digginroom.fixture.LogResult
@@ -8,6 +9,7 @@ import com.digginroom.digginroom.fixture.RoomFixture.SELECTED_ROOM_POSITION
 import com.digginroom.digginroom.fixture.RoomFixture.ScrappedRooms
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
+import com.digginroom.digginroom.repository.ExtractionStateRepository
 import com.digginroom.digginroom.repository.RoomRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -28,6 +30,7 @@ class ScrapViewModelTest {
 
     private lateinit var scrapViewModel: ScrapViewModel
     private lateinit var roomRepository: RoomRepository
+    private lateinit var extractionStateRepository: ExtractionStateRepository
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -37,8 +40,10 @@ class ScrapViewModelTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         roomRepository = mockk()
+        extractionStateRepository = mockk()
         scrapViewModel = ScrapViewModel(
-            roomRepository = roomRepository
+            roomRepository = roomRepository,
+            extractionStateRepository = extractionStateRepository
         )
     }
 
@@ -124,8 +129,11 @@ class ScrapViewModelTest {
     }
 
     @Test
-    fun `룸들을 선택하기 위한 상태로 변경한다`() {
+    fun `플레이리스트 추출이 가능하다면 룸들을 선택하기 위한 상태로 변경한다`() {
         // given
+        coEvery {
+            extractionStateRepository.fetch()
+        } returns LogResult.success(true)
 
         // when
         scrapViewModel.startRoomSelection()
@@ -139,11 +147,48 @@ class ScrapViewModelTest {
     }
 
     @Test
+    fun `플레이리스트 추출이 불가능하다면 플레이리스트 생성을 불허하는 이벤트가 발생한다`() {
+        // given
+        coEvery {
+            extractionStateRepository.fetch()
+        } returns LogResult.success(false)
+
+        // when
+        scrapViewModel.startRoomSelection()
+
+        val actual = scrapViewModel.event.getValue()
+
+        // then
+        val expected = actual is ScrapUiEvent.DisAllowedExtraction
+
+        assertTrue(expected)
+    }
+
+    @Test
+    fun `플레이리스트 추출시 플레이리스트 생성 로딩이벤트가 발생한다`() {
+        // given
+
+        // when
+        scrapViewModel.extractPlaylist("authCode")
+
+        val actual = scrapViewModel.event.getValue()
+
+        // then
+        val expected = actual is ScrapUiEvent.LoadingExtraction
+
+        assertTrue(expected)
+    }
+
+    @Test
     fun `룸들을 선택하기 위한 상태에서의 선택 이벤트는 추출하기 위한 상태를 동일하게 유지한다`() {
         // given
         coEvery {
             roomRepository.findScrapped()
         } returns LogResult.success(ScrappedRooms())
+
+        coEvery {
+            extractionStateRepository.fetch()
+        } returns LogResult.success(true)
 
         scrapViewModel.findScrappedRooms()
         scrapViewModel.startRoomSelection()
