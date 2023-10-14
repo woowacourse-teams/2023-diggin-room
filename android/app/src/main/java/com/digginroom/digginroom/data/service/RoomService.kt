@@ -36,7 +36,7 @@ interface RoomService {
         @Body dislikeRequest: DislikeRequest
     ): Response<Void>
 
-    @POST("/playlist")
+    @POST("/playList")
     suspend fun postPlaylist(
         @Body playlistRequest: PlaylistRequest
     ): Response<PlaylistResponse>

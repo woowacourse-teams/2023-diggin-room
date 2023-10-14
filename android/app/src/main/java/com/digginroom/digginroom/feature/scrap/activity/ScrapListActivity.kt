@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.scrap.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.digginroom.digginroom.feature.login.SocialLogin
 import com.digginroom.digginroom.feature.room.RoomActivity
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapAdapter
 import com.digginroom.digginroom.feature.scrap.adapter.ScrapRoomClickListener
+import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiEvent
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState
 import com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel
 import com.digginroom.digginroom.model.RoomModel
@@ -40,7 +42,8 @@ class ScrapListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initScrapBinding()
-        initScrapObserver()
+        initScrapStateObserver()
+        initScrapEventObserver()
     }
 
     private fun initScrapBinding() {
@@ -65,7 +68,7 @@ class ScrapListActivity : AppCompatActivity() {
                 }
     }
 
-    private fun initScrapObserver() {
+    private fun initScrapStateObserver() {
         val googleLoginResultLauncher = getGoogleAuthCodeResultLauncher()
 
         scrapViewModel.uiState.observe(this) {
@@ -82,6 +85,26 @@ class ScrapListActivity : AppCompatActivity() {
                 else -> binding.adapter?.submitList(
                     scrapViewModel.uiState.value?.rooms
                 )
+            }
+        }
+    }
+
+    private fun initScrapEventObserver() {
+        scrapViewModel.event.observe(this) {
+            when (it) {
+                is ScrapUiEvent.LoadingExtraction -> Toast.makeText(
+                    this,
+                    getString(R.string.scrap_extracting_playlist).format(it.expectedTime),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                is ScrapUiEvent.DisAllowedExtraction -> Toast.makeText(
+                    this,
+                    getString(R.string.scrap_disallowed_extracting_playlist),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                else -> {}
             }
         }
     }

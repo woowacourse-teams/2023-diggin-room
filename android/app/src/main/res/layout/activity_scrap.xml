@@ -9,6 +9,8 @@
 
         <import type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState" />
 
+        <import type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiEvent" />
+
         <variable
             name="viewModel"
             type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapViewModel" />
@@ -59,6 +61,7 @@
             android:text="@string/scrap_selection"
             android:textColor="@color/white"
             android:textSize="20sp"
+            android:visibility="@{viewModel.event.value instanceof ScrapUiEvent.LoadingExtraction ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/scrap_tv_scrap"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/scrap_tv_scrap"
@@ -69,13 +72,13 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginEnd="20dp"
-            android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
             android:layout_marginBottom="20dp"
             android:background="?attr/selectableItemBackground"
             android:elevation="1dp"
             android:onClick="@{() -> viewModel.startPlaylistExtraction()}"
             android:scaleType="centerInside"
             android:src="@drawable/ic_extracting_playlist"
+            android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

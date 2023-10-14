@@ -8,19 +8,28 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.scrap.ScrappedRooms
 import com.digginroom.digginroom.model.room.scrap.playlist.Playlist
+import com.digginroom.digginroom.repository.ExtractionStateRepository
 import com.digginroom.digginroom.repository.RoomRepository
+import com.digginroom.digginroom.util.MutableSingleLiveData
+import com.digginroom.digginroom.util.SingleLiveData
 import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
 
 @NotCaching
 class ScrapViewModel @Keep constructor(
-    private val roomRepository: RoomRepository
+    private val roomRepository: RoomRepository,
+    private val extractionStateRepository: ExtractionStateRepository
 ) : ViewModel() {
 
     var rooms = ScrappedRooms(listOf())
     private val _uiState: MutableLiveData<ScrapUiState> = MutableLiveData()
     val uiState: LiveData<ScrapUiState>
         get() = _uiState
+
+    private val _event: MutableSingleLiveData<ScrapUiEvent> =
+        MutableSingleLiveData(ScrapUiEvent.Idle)
+    val event: SingleLiveData<ScrapUiEvent>
+        get() = _event
 
     fun findScrappedRooms() {
         viewModelScope.launch {
@@ -46,10 +55,19 @@ class ScrapViewModel @Keep constructor(
     }
 
     fun startRoomSelection() {
-        _uiState.value = ScrapUiState.Selection(
-            onSelect = ::switchSelection,
-            rooms = rooms.value.map { it.toModel(selectable = true) }
-        )
+        viewModelScope.launch {
+            extractionStateRepository.fetch()
+                .onSuccess { isAvailable ->
+                    if (isAvailable) {
+                        _uiState.value = ScrapUiState.Selection(
+                            onSelect = ::switchSelection,
+                            rooms = rooms.value.map { it.toModel(selectable = true) }
+                        )
+                    } else {
+                        _event.setValue(ScrapUiEvent.DisAllowedExtraction)
+                    }
+                }.onFailure {}
+        }
     }
 
     private fun switchSelection(index: Int) {
@@ -68,6 +86,8 @@ class ScrapViewModel @Keep constructor(
     }
 
     fun extractPlaylist(authCode: String) {
+        _event.setValue(ScrapUiEvent.LoadingExtraction(rooms.selectedId.size))
+
         viewModelScope.launch {
             roomRepository.postPlaylist(
                 authCode = authCode,
@@ -78,7 +98,7 @@ class ScrapViewModel @Keep constructor(
                     rooms = rooms.value.map { it.toModel() },
                     onSelect = ::startNavigation
                 )
-            }.onFailure { }
+            }.onFailure {}
         }
     }
 }
