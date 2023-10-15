@@ -53,6 +53,7 @@
     <string name="tutorial_room_info">음악 정보</string>
     <string name="tutorial_comment">댓글</string>
     <string name="tutorial_scrap">스크랩</string>
+    <string name="tutorial_setting">설정</string>
     <string name="tutorial_navigate_to_scrap">스크랩 페이지 이동</string>
     <string name="tutorial_dislike_ment">취향에 맞지 않는다면\n양 옆으로 스크롤하세요!</string>
     <string name="tutorial_find_room_ment">위 아래로 스크롤 하여\n룸을 탐색하세요!</string>
