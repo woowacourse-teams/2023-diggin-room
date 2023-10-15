@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#77000000"
-        tools:context=".feature.tutorial.TutorialFragment2">
+        tools:context=".feature.tutorial.TutorialScrollHorizontalFragment">
 
         <TextView
             android:layout_width="wrap_content"

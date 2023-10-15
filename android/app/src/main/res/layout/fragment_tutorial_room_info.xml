@@ -14,7 +14,7 @@
         android:paddingTop="@dimen/scrap_horizontal_margin"
         android:paddingEnd="8dp"
         android:paddingBottom="@dimen/scrap_vertical_margin"
-        tools:context=".feature.tutorial.TutorialFragment3">
+        tools:context=".feature.tutorial.TutorialRoomInfoFragment">
 
         <ImageButton
             android:id="@+id/room_info_ib_scrap"
