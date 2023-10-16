@@ -36,7 +36,7 @@ jobs:
       timeout-minutes: 5
       # 5분 안에 접속 가능하지 않으면 이 단계를 타임아웃 처리한다.
       run: |
-        sudo docker run --rm --name $MYSQL_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=root -P \
+        sudo docker run --name $MYSQL_CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=root -P \
         ${{ env.DOCKER_HEALTHCHECK_OPTIONS }} \
         -d mysql:8.0
         
@@ -57,6 +57,7 @@ jobs:
           -h ${{ env.SOURCE_DB_HOSTNAME }} -P ${{ env.SOURCE_DB_PORT }} \
           -B ${{ env.SOURCE_DB_SCHEMA }} \
           ${{ env.DUMP_OPTIONS }} \
+          --where="1 limit 100" \
         ' > dump.sql
         
     - name: 덤프를 MySQL 컨테이너로 임포트
@@ -85,4 +86,4 @@ jobs:
       if: always()
       shell: bash {0}
       run: | 
-        sudo docker rm -f $MYSQL_CONTAINER_NAME
+        sudo docker rm -v -f $MYSQL_CONTAINER_NAME
