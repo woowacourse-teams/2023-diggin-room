@@ -68,11 +68,13 @@ jobs:
           done
 
       - name: NGINX의 리버스 프록시 설정을 변경한다.
+        working-directory: /etc
         shell: bash {0}
         env:
           EMPTY_PORT: ${{ steps.port.outputs.empty }}
         run: |
-          sudo ls -l /etc
+          sudo ls -l /nginx
+          sudo ls -l /nginx/conf.d
           sudo ls -l /etc/nginx
           sudo ls -l /etc/nginx/conf.d
 
