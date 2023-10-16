@@ -73,10 +73,9 @@ jobs:
         env:
           EMPTY_PORT: ${{ steps.port.outputs.empty }}
         run: |
-          sudo ls -l /nginx
-          sudo ls -l /nginx/conf.d
-          sudo ls -l /etc/nginx
-          sudo ls -l /etc/nginx/conf.d
+          sudo ls -l
+          sudo cd ./nginx
+          sudo ls -l
 
           echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee /etc/nginx/conf.d/port.inc;
 
