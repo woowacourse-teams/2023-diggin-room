@@ -68,11 +68,12 @@ jobs:
           done
 
       - name: NGINX의 리버스 프록시 설정을 변경한다.
+        working-directory: /etc/nginx/conf.d
         shell: bash {0}
         env:
           EMPTY_PORT: ${{ steps.port.outputs.empty }}
         run: |
-          echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee /etc/nginx/conf.d/port.inc;
+          echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee port.inc;
 
       - name: NGINX reload 를 진행한다.
         shell: bash {0}
