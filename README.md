@@ -134,13 +134,12 @@ RoomPager와 YoutubePlayer를 이용한 부드러운 숏폼 경험 제공</p></t
         </tr>
         <tr>
             <td align="center"><a href="https://github.com/boogi-woogi">우기 (김진욱)</a></td>
-            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-in reprehenderit in voluptate velit esse cillum dolore eu 
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+
+로그인, 회원가입 기능
+
+추천 알고리즘을 위한 사용자의 초기 장르 취향 선호도 입력
+
+스크랩 기능 및 스크랩된 목록에 대한 유튜브 재생목록 추출
         </tr>
         <tr>
             <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/88770426"></img></td>
