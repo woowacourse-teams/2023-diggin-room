@@ -3,22 +3,20 @@ package com.digginroom.digginroom.feature.join
 import com.digginroom.digginroom.model.JoinAccountModel
 import com.digginroom.digginroom.model.JoinVerificationModel
 
-sealed class JoinUiState(
-    open val joinVerification: JoinVerificationModel = JoinVerificationModel()
-) {
+sealed interface JoinUiState {
 
     data class InProgress(
-        override val joinVerification: JoinVerificationModel
-    ) : JoinUiState(joinVerification)
+        val joinVerification: JoinVerificationModel
+    ) : JoinUiState
 
-    object Loading : JoinUiState()
+    object Loading : JoinUiState
 
-    object Cancel : JoinUiState()
+    object Cancel : JoinUiState
 
     data class Failed(
         val account: JoinAccountModel = JoinAccountModel(),
-        override val joinVerification: JoinVerificationModel = JoinVerificationModel()
-    ) : JoinUiState(joinVerification)
+        val joinVerification: JoinVerificationModel = JoinVerificationModel()
+    ) : JoinUiState
 
-    object Succeed : JoinUiState()
+    object Succeed : JoinUiState
 }
