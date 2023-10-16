@@ -22,31 +22,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="@dimen/scrap_horizontal_margin"
-        android:paddingEnd="8dp"
-        android:paddingBottom="@dimen/scrap_vertical_margin"
-        tools:background="@color/black">
+        tools:background="@color/gray_400">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/room_info_gradient"
+            android:layout_marginTop="-20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/room_info_scrap_toggle" />
 
         <ImageButton
             android:id="@+id/room_info_ib_scrap"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.openScrap.invoke()}"
-            android:padding="12dp"
             android:scaleType="centerInside"
-            android:src="@drawable/cube_icon"
+            android:src="@drawable/ic_cube"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/room_info_iv_music"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="@dimen/scrap_horizontal_margin"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="18dp"
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerInside"
-            android:src="@drawable/music_icon"
+            android:src="@drawable/ic_music"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -54,78 +61,88 @@
             android:id="@+id/room_info_tv_title_artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/scrap_horizontal_margin"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:includeFontPadding="false"
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.copyInfo.invoke(roomInfoUiState.roomModel.track)}"
+            android:shadowColor="#8C000000"
+            android:shadowRadius="5"
             android:text="@{@string/title_artist_format(roomInfoUiState.roomModel.track.title, roomInfoUiState.roomModel.track.artist)}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/room_info_ib_info"
-            app:layout_constraintStart_toEndOf="@id/room_info_iv_music" />
+            app:layout_constraintStart_toEndOf="@id/room_info_iv_music"
+            tools:text="블라블라블" />
 
         <com.digginroom.digginroom.feature.room.customview.scraptoggle.ScrapToggle
             android:id="@id/room_info_scrap_toggle"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
             android:cropToPadding="true"
-            android:padding="12dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
             app:layout_constraintEnd_toEndOf="parent"
             app:onScrap="@{() -> roomInfoUiState.roomInfoEvent.scrap.invoke(roomInfoUiState.roomModel.roomId)}"
             app:onUnScrap="@{() -> roomInfoUiState.roomInfoEvent.unScrap.invoke(roomInfoUiState.roomModel.roomId)}"
-            app:scrapped="@{roomInfoUiState.roomModel.isScrapped}" />
+            app:scrapped="@{roomInfoUiState.roomModel.isScrapped}"
+            tools:src="@drawable/unscrap_icon" />
 
         <TextView
             android:id="@+id/room_info_tv_scrap_count"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="20dp"
+            android:shadowColor="#8C000000"
+            android:shadowRadius="5"
             android:text="@{scrapCountFormatter.convert(roomInfoUiState.roomModel.scrapCount)}"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_comment"
             app:layout_constraintEnd_toEndOf="@id/room_info_scrap_toggle"
-            app:layout_constraintStart_toStartOf="@id/room_info_scrap_toggle" />
+            app:layout_constraintStart_toStartOf="@id/room_info_scrap_toggle"
+            tools:text="23" />
 
         <ImageButton
             android:id="@+id/room_info_ib_comment"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="20dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.openComment.invoke(roomInfoUiState.roomModel.roomId)}"
-            android:padding="12dp"
             android:scaleType="centerInside"
-            android:src="@drawable/comment_icon"
+            android:src="@drawable/ic_comment"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_info"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageButton
             android:id="@+id/room_info_ib_info"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="20dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.openInfo.invoke(roomInfoUiState.roomModel.track)}"
-            android:padding="12dp"
             android:scaleType="centerInside"
-            android:src="@drawable/info_icon"
+            android:src="@drawable/ic_info"
             app:layout_constraintBottom_toTopOf="@id/room_info_ib_setting"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageButton
             android:id="@+id/room_info_ib_setting"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="12dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
+            android:elevation="20dp"
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.openSetting.invoke()}"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
