@@ -72,7 +72,7 @@ jobs:
         env:
           EMPTY_PORT: ${{ steps.port.outputs.empty }}
         run: |
-          echo "proxy_pass http://localhost:$EMPTY_PORT;" > /etc/nginx/conf.d/digginroom-proxy.inc;
+          echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee /etc/nginx/conf.d/digginroom-proxy.inc      
 
       - name: NGINX reload 를 진행한다.
         shell: bash {0}
