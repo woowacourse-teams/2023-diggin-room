@@ -76,5 +76,5 @@
 
     <string name="scrap_selection">선택</string>
     <string name="scrap_extracting_playlist">플레이리스트 생성 중입니다!\n예상 시간은 %d초입니다.</string>
-    <string name="scrap_disallowed_extracting_playlist">플레이리스트 생성 작업 중입니다. 잠시 후 다시 시도해주세요!</string>
+    <string name="scrap_disallowed_extracting_playlist">플레이리스트 생성 작업 중입니다.\n잠시 후 다시 시도해주세요!</string>
 </resources>
