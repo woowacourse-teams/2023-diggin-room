@@ -1,26 +1,39 @@
 package com.dygames.roompager.util
 
 import android.content.res.Resources
-import kotlin.math.roundToInt
+import android.os.Build
+import android.view.WindowManager
 
-fun getNotchHeight(): Int {
-    val statusBarHeight = getStatusBarHeight()
+fun getScreenHeight(windowManager: WindowManager): Int {
+    val realHeight = getRealHeight(windowManager)
 
-    if (statusBarHeight > convertDpToPixel(24)) return statusBarHeight
-    return 0
+    return realHeight - getNavHeight()
 }
 
-private fun getStatusBarHeight(): Int {
-    var result = 0
-    val resourceId = Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android")
-    if (resourceId > 0) {
-        result = Resources.getSystem().getDimensionPixelSize(resourceId)
+private fun getRealHeight(windowManager: WindowManager): Int {
+    return if (Build.VERSION.SDK_INT <= 30) {
+        val displayMetrics = Resources
+            .getSystem()
+            .displayMetrics
+            .apply {
+                windowManager.defaultDisplay.getRealMetrics(this)
+            }
+
+        displayMetrics.heightPixels
+    } else {
+        windowManager
+            .currentWindowMetrics
+            .bounds
+            .height()
     }
-    return result
 }
 
-private fun convertDpToPixel(dp: Int): Int {
-    val metrics = Resources.getSystem().displayMetrics
-    val px = dp * (metrics.densityDpi / 160f)
-    return px.roundToInt()
+private fun getNavHeight(): Int {
+    val navHeight = Resources.getSystem().getIdentifier("navigation_bar_height", "dimen", "android")
+
+    return if (navHeight > 0) {
+        Resources.getSystem().getDimensionPixelSize(navHeight)
+    } else {
+        0
+    }
 }

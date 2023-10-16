@@ -1,16 +1,18 @@
 package com.dygames.roompager.scrollpager
 
+import android.app.Activity
 import android.content.Context
 import android.view.MotionEvent
 import android.widget.ScrollView
 import com.dygames.roompager.PagingOrientation
 import com.dygames.roompager.PagingState
-import com.dygames.roompager.util.getNotchHeight
+import com.dygames.roompager.util.getScreenHeight
 
 class VerticalScrollPager(context: Context) : ScrollPager, ScrollView(context) {
+
     override var pagingState = PagingState.CURRENT
     override var scrollPosition = 0
-    override val screenSize = resources.displayMetrics.heightPixels + getNotchHeight()
+    override val screenSize = getScreenHeight((context as Activity).windowManager)
     override val pagingOrientation: PagingOrientation = PagingOrientation.VERTICAL
     override var isScrollable: Boolean = true
 
