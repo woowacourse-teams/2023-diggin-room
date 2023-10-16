@@ -2,10 +2,11 @@ package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.model.comment.ElapsedTimeConverter
 import com.digginroom.digginroom.model.comment.TimeUnit
+import com.digginroom.digginroom.model.comment.TimeUnitValue
 
 object ElapsedTimeFormatter {
     fun convert(durationSeconds: Long): String {
-        val timeUnitValue = ElapsedTimeConverter.convert(durationSeconds)
+        val timeUnitValue: TimeUnitValue = ElapsedTimeConverter.convert(durationSeconds)
         val unitFormatter = when (timeUnitValue.unit) {
             TimeUnit.SEC -> "%d초 전"
             TimeUnit.MIN -> "%d분 전"
@@ -15,6 +16,6 @@ object ElapsedTimeFormatter {
             TimeUnit.MONTH -> "%d개월 전"
             TimeUnit.YEAR -> "%d년 전"
         }
-        return unitFormatter.format(timeUnitValue.value)
+        return unitFormatter.format(if (timeUnitValue.value < 0) 0 else timeUnitValue.value)
     }
 }

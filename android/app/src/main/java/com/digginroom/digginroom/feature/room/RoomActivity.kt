@@ -1,8 +1,12 @@
 package com.digginroom.digginroom.feature.room
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.commit
@@ -17,6 +21,7 @@ import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.feature.setting.SettingActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
 import com.digginroom.digginroom.model.RoomsModel
+import com.digginroom.digginroom.model.TrackModel
 import com.digginroom.digginroom.model.mapper.RoomMapper.toDomain
 import com.digginroom.digginroom.util.getSerializable
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
@@ -55,7 +60,7 @@ class RoomActivity : AppCompatActivity() {
                     roomViewModel.postScrap(id)
                 }, unScrap = { id ->
                     roomViewModel.removeScrap(id)
-                })
+                }, copyInfo = ::copyRoomInfo)
         )
     }
 
@@ -107,8 +112,11 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun initTutorial() {
-        val tutorialCompleted = intent.getBooleanExtra(KEY_TUTORIAL_COMPLETED, true)
-        navigateToTutorial(tutorialCompleted)
+        if (intent.getBooleanExtra(KEY_TUTORIAL_COMPLETED, true)) return
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.room_fragment_container, TutorialFragment())
+        }
     }
 
     override fun onResume() {
@@ -117,17 +125,26 @@ class RoomActivity : AppCompatActivity() {
         roomViewModel.findScrappedRooms()
     }
 
-    private fun navigateToTutorial(tutorialCompleted: Boolean) {
-        if (tutorialCompleted) return
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(R.id.room_fragment_container, TutorialFragment())
-        }
-    }
-
     override fun onPause() {
         super.onPause()
         roomPagerAdapter.pause()
+    }
+
+    private fun copyRoomInfo(trackModel: TrackModel) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(
+            ClipData.newPlainText(
+                "",
+                "${trackModel.artist} - ${trackModel.title}"
+            )
+        )
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            Toast.makeText(
+                this,
+                getString(R.string.room_clipboard),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     companion object {

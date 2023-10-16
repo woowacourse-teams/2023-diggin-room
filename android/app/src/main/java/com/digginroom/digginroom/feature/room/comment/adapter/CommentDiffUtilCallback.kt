@@ -5,7 +5,7 @@ import com.digginroom.digginroom.model.CommentModel
 
 class CommentDiffUtilCallback : DiffUtil.ItemCallback<CommentModel>() {
     override fun areItemsTheSame(oldItem: CommentModel, newItem: CommentModel): Boolean =
-        oldItem == newItem
+        oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: CommentModel, newItem: CommentModel): Boolean =
         oldItem.comment == newItem.comment

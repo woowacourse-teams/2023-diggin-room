@@ -58,6 +58,7 @@
     <string name="tutorial_find_room_ment">위 아래로 스크롤 하여\n룸을 탐색하세요!</string>
     <string name="tutorial_previous_room">이전 룸</string>
     <string name="tutorial_next_room">다음 룸</string>
+    <string name="dialog_comment_comment">댓글</string>
 
     <string name="title_artist_format">%s - %s</string>
     <string name="track_genre">장르: %s</string>
@@ -73,6 +74,7 @@
     <string name="feedback_submit">등록</string>
     <string name="feedback_failure">피드백 등록에 실패하였습니다.</string>
     <string name="feedback_success">피드백 등록에 성공하였습니다.</string>
+    <string name="room_clipboard">클립보드에 곡 정보가 복사되었습니다.</string>
 
     <string name="scrap_selection">선택</string>
     <string name="scrap_extracting_playlist">플레이리스트 생성 중입니다!\n예상 시간은 %d초입니다.</string>
