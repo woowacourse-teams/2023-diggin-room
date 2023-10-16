@@ -10,7 +10,7 @@ permissions:
   contents: read
 jobs:
   deploy:
-    runs-on: production
+    runs-on: development
     steps:
       - uses: actions/checkout@v3
       - name: 빌드
@@ -68,9 +68,9 @@ jobs:
           done
 
       - name: NGINX의 리버스 프록시 설정을 변경한다.
-        working-directory: /
         env:
           EMPTY_PORT: ${{ steps.port.outputs.empty }}
+        shell: bash {0}
         run: |
           echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee /etc/nginx/conf.d/port.inc;
 
