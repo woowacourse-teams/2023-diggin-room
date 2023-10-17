@@ -32,6 +32,6 @@ class ExtractionStateDataSource @Keep constructor(
 
         private const val SHARED_PREFERENCE_NAME = "EXTRACTION_PREFERENCE"
         private const val KEY_AVAILABLE = "AVAILABLE"
-        private const val UNIT = 1000
+        private const val UNIT = 1300
     }
 }
