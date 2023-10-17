@@ -10,6 +10,7 @@ import com.digginroom.digginroom.data.di.Token
 import com.digginroom.digginroom.data.di.UnAuthorized
 import com.digginroom.digginroom.data.repository.DefaultAccountRepository
 import com.digginroom.digginroom.data.repository.DefaultCommentRepository
+import com.digginroom.digginroom.data.repository.DefaultExtractionStateRepository
 import com.digginroom.digginroom.data.repository.DefaultFeedbackRepository
 import com.digginroom.digginroom.data.repository.DefaultGenreTasteRepository
 import com.digginroom.digginroom.data.repository.DefaultMemberRepository
@@ -23,6 +24,7 @@ import com.digginroom.digginroom.data.service.MemberService
 import com.digginroom.digginroom.data.service.RoomService
 import com.digginroom.digginroom.repository.AccountRepository
 import com.digginroom.digginroom.repository.CommentRepository
+import com.digginroom.digginroom.repository.ExtractionStateRepository
 import com.digginroom.digginroom.repository.FeedbackRepository
 import com.digginroom.digginroom.repository.GenreTasteRepository
 import com.digginroom.digginroom.repository.MemberRepository
@@ -106,6 +108,8 @@ class DigginRoomApplication : LifecycleWatcherApplication(typeOf<DigginRoomAppli
                 }
 
                 provider<TokenRepository>(typeOf<DefaultTokenRepository>())
+
+                provider<ExtractionStateRepository>(typeOf<DefaultExtractionStateRepository>())
 
                 provider<AccountRepository>(typeOf<DefaultAccountRepository>())
 

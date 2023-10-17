@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.model.mapper.RoomMapper.toModel
 import com.digginroom.digginroom.model.room.Room
+import com.digginroom.digginroom.model.room.scrap.ScrappedRoom
 import com.digginroom.digginroom.repository.RoomRepository
 import com.dygames.di.annotation.NotCaching
 import kotlinx.coroutines.launch
@@ -84,10 +85,10 @@ class RoomViewModel @Keep constructor(
     }
 
     private fun updateScrappedRooms(
-        scrappedRooms: List<Room>
+        scrappedRooms: List<ScrappedRoom>
     ) {
         rooms.forEachIndexed { index, room ->
-            if (room.isScrapped && scrappedRooms.find { room.roomId == it.roomId } == null) {
+            if (room.isScrapped && scrappedRooms.find { scrappedRoom -> room.roomId == scrappedRoom.room.roomId } == null) {
                 rooms[index] =
                     room.copy(isScrapped = false, scrapCount = room.scrapCount - 1)
             }

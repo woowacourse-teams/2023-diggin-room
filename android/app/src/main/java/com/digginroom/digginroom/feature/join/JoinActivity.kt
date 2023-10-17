@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.ActivityJoinBinding
 import com.digginroom.digginroom.feature.login.LoginActivity
-import com.digginroom.digginroom.model.JoinAccountModel
 import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
 
 class JoinActivity : AppCompatActivity() {
@@ -34,7 +33,7 @@ class JoinActivity : AppCompatActivity() {
         binding =
             DataBindingUtil.setContentView<ActivityJoinBinding>(this, R.layout.activity_join).also {
                 it.lifecycleOwner = this
-                it.account = JoinAccountModel()
+                it.account = joinViewModel.accountModel
                 it.viewModel = joinViewModel
             }
     }
@@ -42,8 +41,9 @@ class JoinActivity : AppCompatActivity() {
     private fun initJoinStateObserver() {
         joinViewModel.uiState.observe(this) {
             when (it) {
+                is JoinUiState.InProgress -> binding.joinVerification = it.joinVerification
+
                 is JoinUiState.Succeed -> {
-                    finish()
                     Toast.makeText(this, R.string.join_succeed_message, Toast.LENGTH_SHORT).show()
                     LoginActivity.start(this)
                 }

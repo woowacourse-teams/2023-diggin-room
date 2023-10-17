@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="kotlin.jvm.functions.Function2" />
+        <import type="android.view.View" />
 
-        <variable
-            name="navigateToScrapRoomView"
-            type="Function2" />
+        <import type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiState" />
+
+        <import type="com.digginroom.digginroom.feature.scrap.viewmodel.ScrapUiEvent" />
 
         <variable
             name="viewModel"
@@ -26,15 +26,17 @@
         android:background="@color/activity_background"
         tools:context=".feature.scrap.activity.ScrapListActivity">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/scrap_iv_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
             android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@+id/scrap_tv_scrap"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/scrap_tv_scrap" />
 
         <TextView
             android:id="@+id/scrap_tv_scrap"
@@ -48,19 +50,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/scrap_tv_etc"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
+            android:gravity="center"
+            android:text="@string/scrap_selection"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="@{viewModel.event.value instanceof ScrapUiEvent.LoadingExtraction ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/scrap_tv_scrap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/scrap_tv_scrap"
+            app:onSingleClick="@{() -> viewModel.startRoomSelection()}" />
+
+        <ImageButton
+            android:id="@+id/scrap_ib_extract_playlist"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:elevation="1dp"
+            android:onClick="@{() -> viewModel.startPlaylistExtraction()}"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_extracting_playlist"
+            android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scrap_rv_scrapped_rooms"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="22dp"
             android:adapter="@{adapter}"
-            app:items="@{viewModel.scrappedRooms}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/scrap_tv_scrap"
-            app:onScrapRoomClick="@{(position) -> navigateToScrapRoomView.invoke(viewModel.scrappedRooms, position)}"
             app:spanCount="3"
             tools:listitem="@layout/item_scrapped_room" />
     </androidx.constraintlayout.widget.ConstraintLayout>
