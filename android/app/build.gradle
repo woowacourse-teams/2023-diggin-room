@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId 'com.digginroom.digginroom'
-        minSdk 26
+        minSdk 28
         targetSdk 33
         versionCode 3
         versionName '1.1.1'

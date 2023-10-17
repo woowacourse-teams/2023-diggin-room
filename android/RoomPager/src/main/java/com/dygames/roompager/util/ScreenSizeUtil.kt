@@ -8,14 +8,16 @@ import androidx.core.view.WindowInsetsCompat
 fun getScreenHeight(windowManager: WindowManager): Int {
     val realHeight = getRealHeight(windowManager)
 
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        realHeight - windowManager
-            .currentWindowMetrics
-            .windowInsets
-            .getInsets(WindowInsetsCompat.Type.navigationBars())
-            .bottom
-    } else {
-        realHeight - getNavHeight()
+    return when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
+            realHeight - windowManager
+                .currentWindowMetrics
+                .windowInsets
+                .getInsets(WindowInsetsCompat.Type.navigationBars())
+                .bottom
+        }
+
+        else -> realHeight - getNavHeight()
     }
 }
 
@@ -45,22 +47,10 @@ private fun getNavHeight(): Int {
             "android"
         )
 
-        return if (isShowingNavigationBar() && navHeight > 0) {
+        return if (navHeight > 0) {
             getDimensionPixelSize(navHeight)
         } else {
             0
         }
-    }
-}
-
-private fun isShowingNavigationBar(): Boolean {
-    with(Resources.getSystem()) {
-        val isShowing: Int = getIdentifier(
-            "config_showNavigationBar",
-            "bool",
-            "android"
-        )
-
-        return isShowing > 0 && getBoolean(isShowing)
     }
 }
