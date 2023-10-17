@@ -46,9 +46,9 @@ jobs:
           -Dspring.profiles.active=develop \
           -Dserver.port=$GREEN \
           -Dserver.shutdown=graceful \
-          -DPROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
-          -DPROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
-          -DPROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
+          -DPROD_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }} \
+          -DPROD_DATASOURCE_USERNAME=${{ secrets.DEV_DATASOURCE_USERNAME }} \
+          -DPROD_DATASOURCE_PASSWORD=${{ secrets.DEV_DATASOURCE_PASSWORD }} \
           -DCLIENT_ID=${{ secrets.CLIENT_ID }} \
           -DCLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
           -DREDIRECT_URI=${{ secrets.REDIRECT_URI }} \
