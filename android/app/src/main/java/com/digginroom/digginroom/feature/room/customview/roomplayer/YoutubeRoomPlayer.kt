@@ -1,21 +1,17 @@
 package com.digginroom.digginroom.feature.room.customview.roomplayer
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
-import com.digginroom.digginroom.databinding.ItemRoomInfoBinding
+import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
-import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 
 class YoutubeRoomPlayer(
     context: Context,
     private val onYoutubePlay: () -> Unit
 ) : FrameLayout(context), RoomPlayer {
-
-    private val roomInfoBinding: ItemRoomInfoBinding =
-        ItemRoomInfoBinding.inflate(LayoutInflater.from(context))
+    private val roomInfoView = RoomInfoView(context)
     private val webView: WebView = WebView(context)
 
     private var videoId = ""
@@ -35,8 +31,7 @@ class YoutubeRoomPlayer(
     }
 
     override fun navigate(roomInfoUiState: RoomInfoUiState) {
-        roomInfoBinding.roomInfoUiState = roomInfoUiState
-
+        roomInfoView.updateRoomInfoUiState(roomInfoUiState)
         if (videoId == roomInfoUiState.roomModel.videoId) {
             return
         }
@@ -49,8 +44,7 @@ class YoutubeRoomPlayer(
 
     private fun initLayout() {
         addView(webView)
-        roomInfoBinding.scrapCountFormatter = ScrapCountFormatter
-        addView(roomInfoBinding.root)
+        addView(roomInfoView)
         preventTouchEvent()
     }
 

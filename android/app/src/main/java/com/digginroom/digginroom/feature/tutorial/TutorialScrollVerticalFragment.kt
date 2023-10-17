@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.digginroom.digginroom.R
 
-class TutorialFragment3 : Fragment() {
+class TutorialScrollVerticalFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment_tutorial3, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.fragment_tutorial_scroll_vertical, container, false)
     }
 }
