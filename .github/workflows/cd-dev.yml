@@ -22,11 +22,11 @@ jobs:
         shell: bash {0}
         run: |
           if [ -z "$(lsof -i:8081)" ]; then
-              echo "empty=8081">>$GITHUB_OUTPUT
-              echo "running=8080">>$GITHUB_OUTPUT
+              echo "green=8081">>$GITHUB_OUTPUT
+              echo "blue=8080">>$GITHUB_OUTPUT
           else
-              echo "empty=8080">>$GITHUB_OUTPUT
-              echo "running=8081">>$GITHUB_OUTPUT
+              echo "green=8080">>$GITHUB_OUTPUT
+              echo "blue=8081">>$GITHUB_OUTPUT
           fi
 
       - name: JAR 파일 복사
@@ -40,7 +40,7 @@ jobs:
         working-directory: /home/ubuntu/backend
         env:
           RUNNER_TRACKING_ID: ""
-          EMPTY_PORT: ${{ steps.port.outputs.empty }}
+          EMPTY_PORT: ${{ steps.port.outputs.green }}
         run: |
           nohup java -jar \
           -Dspring.profiles.active=develop \
@@ -57,7 +57,7 @@ jobs:
       - name: 어플리이션이 접속 가능한 상태가 되도록 기다린다
         shell: bash {0}
         env:
-          EMPTY_PORT: ${{ steps.port.outputs.empty }}
+          EMPTY_PORT: ${{ steps.port.outputs.green }}
         run: |
           while [ "$(curl -o /dev/null -s -w %{http_code} localhost:$EMPTY_PORT/join/exist?username=admin1234)" != 200 ]
           do
@@ -67,7 +67,7 @@ jobs:
 
       - name: NGINX의 리버스 프록시 설정을 변경한다.
         env:
-          EMPTY_PORT: ${{ steps.port.outputs.empty }}
+          EMPTY_PORT: ${{ steps.port.outputs.green }}
         shell: bash {0}
         run: |
           echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee /etc/nginx/conf.d/port.inc;
@@ -80,7 +80,7 @@ jobs:
       - name: 기존 어플리케이션을 종료한다
         shell: bash {0}
         env:
-          RUNNING_PORT: ${{ steps.port.outputs.running }}
+          RUNNING_PORT: ${{ steps.port.outputs.blue }}
         run: |
           sleep 5;
           PROCESS_ID="$(lsof -i:$RUNNING_PORT -t)"
