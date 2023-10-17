@@ -101,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
 
         fun start(context: Context) {
             val intent = Intent(context, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 
             context.startActivity(intent)
