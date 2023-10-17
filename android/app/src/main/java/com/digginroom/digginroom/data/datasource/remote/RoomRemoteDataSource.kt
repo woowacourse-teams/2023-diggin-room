@@ -46,6 +46,7 @@ class RoomRemoteDataSource @Keep constructor(
     suspend fun postScrapById(roomId: Long) {
         val response: Response<Void> = roomService.postScrapById(ScrapRequest(roomId))
 
+        if (response.code() == 200) return
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
@@ -55,6 +56,7 @@ class RoomRemoteDataSource @Keep constructor(
     suspend fun removeScrapById(roomId: Long) {
         val response: Response<Void> = roomService.removeScrapById(CancelScrapRequest(roomId))
 
+        if (response.code() == 200) return
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)
 
@@ -64,6 +66,7 @@ class RoomRemoteDataSource @Keep constructor(
     suspend fun postDislike(roomId: Long) {
         val response: Response<Void> = roomService.postDislike(DislikeRequest(roomId))
 
+        if (response.code() == 200) return
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
         if (response.code() != 201) throw HttpError.Unknown(response)
@@ -72,6 +75,7 @@ class RoomRemoteDataSource @Keep constructor(
     suspend fun postPlaylist(playlistRequest: PlaylistRequest) {
         val response: Response<PlaylistResponse> = roomService.postPlaylist(playlistRequest)
 
+        if (response.code() == 200) return
         if (response.code() == 400) throw HttpError.BadRequest(response)
 
         if (response.code() != 201) throw HttpError.Unknown(response)
