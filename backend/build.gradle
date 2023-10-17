@@ -37,6 +37,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // session
     implementation 'org.springframework.session:spring-session-jdbc'
 
@@ -64,4 +67,14 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+springBoot{
+    buildInfo {
+        properties {
+            additional = [
+                    'version': "${project.version}"
+            ]
+        }
+    }
 }
