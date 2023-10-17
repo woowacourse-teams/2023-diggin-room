@@ -4,26 +4,25 @@ import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.MemberGenre;
 import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GenreRecommender {
+@Component
+public class RoomRecommender {
 
-    public GenreRecommender(final RoomRepository roomRepository, final Member member) {
+    public RoomRecommender(final RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-        this.member = member;
     }
 
     private final RoomRepository roomRepository;
-    private final Member member;
 
     private static final Random RANDOM = ThreadLocalRandom.current();
 
-    public Room recommend() {
+    public Room recommend(Member member) {
         List<MemberGenre> memberGenres = member.getMemberGenres();
         Genre recommenedGenre = recommendGenre(memberGenres);
         return recommendRoom(recommenedGenre);
@@ -38,6 +37,13 @@ public class GenreRecommender {
         return pickByWeight(memberGenres, randomizedFactor);
     }
 
+    private Room recommendRoom(final Genre recommendedGenre) {
+        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
+        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
+
+        return rooms.get(pickedIndex);
+    }
+
     private Genre pickByWeight(final List<MemberGenre> memberGenres, final int randomizedFactor) {
         int cursor = 0;
         for (MemberGenre weightedGenre : memberGenres) {
@@ -47,12 +53,5 @@ public class GenreRecommender {
             }
         }
         return memberGenres.get(memberGenres.size() - 1).getGenre();
-    }
-
-    private Room recommendRoom(final Genre recommendedGenre) {
-        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
-        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
-
-        return rooms.get(pickedIndex);
     }
 }
