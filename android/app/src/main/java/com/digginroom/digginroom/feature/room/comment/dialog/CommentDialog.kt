@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
@@ -21,19 +19,17 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private lateinit var dialogBinding: DialogCommentLayoutBinding
     private lateinit var bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding
-    private val commentViewModel: CommentViewModel by lazy {
-        ViewModelProvider(
-            this,
-            injectViewModel<CommentViewModel>()
-        )[CommentViewModel::class.java]
-    }
+    private lateinit var commentViewModel: CommentViewModel
 
     override val dialogView: View by lazy { dialogBinding.root }
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialogStyle)
+        commentViewModel = ViewModelProvider(
+            this,
+            injectViewModel<CommentViewModel>()
+        )[CommentViewModel::class.java]
     }
 
     override fun onCreateView(

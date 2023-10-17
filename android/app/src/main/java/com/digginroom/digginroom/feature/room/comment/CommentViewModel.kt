@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.feature.room.comment
 
+import android.util.Log
 import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,11 +35,13 @@ class CommentViewModel @Keep constructor(
     )
     private var lastCommentId: Long = 0
     var isLastRoom: Boolean = false
+    private val TAG = "hkhk"
 
     val commentResponseUiState: LiveData<CommentResponseUiState> get() = _commentResponseUiState
     val commentSubmitUiState: LiveData<CommentSubmitUiState> get() = _commentSubmitUiState
 
     fun findComments(roomId: Long) {
+        Log.d(TAG, "findComments: ")
         if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
 
@@ -50,9 +53,9 @@ class CommentViewModel @Keep constructor(
             }.onSuccess { newComments ->
                 if (newComments.isEmpty()) isLastRoom = true
                 comments = newComments.sortedByDescending { it.createdAt }
+                if (newComments.isNotEmpty()) lastCommentId = comments.last().id
                 _commentResponseUiState.value =
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
-                lastCommentId = comments.last().id
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
             }
