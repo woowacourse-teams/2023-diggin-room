@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -24,6 +25,7 @@ sealed interface SocialLogin {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(BuildConfig.CLIENT_ID)
                 .requestServerAuthCode(BuildConfig.CLIENT_ID)
+                .requestScopes(Scope("https://www.googleapis.com/auth/youtube"))
                 .build()
 
             return GoogleSignIn.getClient(context, gso).signInIntent
@@ -41,14 +43,28 @@ sealed interface SocialLogin {
 
             return idToken.value
         }
+
+        fun getAuthCode(result: ActivityResult): String? {
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(result.data)
+
+            val authCode: DefaultLogResult<String> = logRunCatching {
+                task.getResult(ApiException::class.java).serverAuthCode
+                    ?: throw NoSuchElementException(AUTH_CODE_ERROR)
+            }.onFailure {
+            }
+
+            return authCode.value
+        }
     }
 
     object KaKao : SocialLogin {
 
         fun getIdToken(context: Context, login: (idToken: String) -> Unit) {
-            when (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                true -> loginWithKakaoApplication(context) { login(it) }
-                false -> loginWithKakaoAccount(context) { login(it) }
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                loginWithKakaoApplication(context) { login(it) }
+            } else {
+                loginWithKakaoAccount(context) { login(it) }
             }
         }
 
@@ -76,5 +92,6 @@ sealed interface SocialLogin {
 
     companion object {
         private const val ID_TOKEN_ERROR = "ID TOKEN을 받아올 수 없습니다."
+        private const val AUTH_CODE_ERROR = "AUTH CODE를 받아올 수 없습니다."
     }
 }

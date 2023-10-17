@@ -1,26 +1,66 @@
 package com.dygames.roompager.util
 
 import android.content.res.Resources
-import kotlin.math.roundToInt
+import android.os.Build
+import android.view.WindowManager
+import androidx.core.view.WindowInsetsCompat
 
-fun getNotchHeight(): Int {
-    val statusBarHeight = getStatusBarHeight()
+fun getScreenHeight(windowManager: WindowManager): Int {
+    val realHeight = getRealHeight(windowManager)
 
-    if (statusBarHeight > convertDpToPixel(24)) return statusBarHeight
-    return 0
-}
-
-private fun getStatusBarHeight(): Int {
-    var result = 0
-    val resourceId = Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android")
-    if (resourceId > 0) {
-        result = Resources.getSystem().getDimensionPixelSize(resourceId)
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        realHeight - windowManager
+            .currentWindowMetrics
+            .windowInsets
+            .getInsets(WindowInsetsCompat.Type.navigationBars())
+            .bottom
+    } else {
+        realHeight - getNavHeight()
     }
-    return result
 }
 
-private fun convertDpToPixel(dp: Int): Int {
-    val metrics = Resources.getSystem().displayMetrics
-    val px = dp * (metrics.densityDpi / 160f)
-    return px.roundToInt()
+private fun getRealHeight(windowManager: WindowManager): Int {
+    return if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+        val displayMetrics = Resources
+            .getSystem()
+            .displayMetrics
+            .apply {
+                windowManager.defaultDisplay.getRealMetrics(this)
+            }
+
+        displayMetrics.heightPixels
+    } else {
+        windowManager
+            .currentWindowMetrics
+            .bounds
+            .height()
+    }
+}
+
+private fun getNavHeight(): Int {
+    with(Resources.getSystem()) {
+        val navHeight = getIdentifier(
+            "navigation_bar_height",
+            "dimen",
+            "android"
+        )
+
+        return if (isShowingNavigationBar() && navHeight > 0) {
+            getDimensionPixelSize(navHeight)
+        } else {
+            0
+        }
+    }
+}
+
+private fun isShowingNavigationBar(): Boolean {
+    with(Resources.getSystem()) {
+        val isShowing: Int = getIdentifier(
+            "config_showNavigationBar",
+            "bool",
+            "android"
+        )
+
+        return isShowing > 0 && getBoolean(isShowing)
+    }
 }

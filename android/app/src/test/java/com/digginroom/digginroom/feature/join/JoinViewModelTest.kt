@@ -54,11 +54,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validateId(id)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isValidId
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isValidId
 
         // then
         val expected = true
@@ -73,11 +72,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validateId(id)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isValidId
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isValidId
 
         // then
         val expected = false
@@ -91,11 +89,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validateId(id)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isJoinAble
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isJoinAble
 
         // then
         val expected = false
@@ -113,11 +110,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validateIdDuplication(id.value)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isCheckedIdDuplication
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isCheckedIdDuplication
 
         // then
         val expected = true
@@ -136,11 +132,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validateIdDuplication(id.value)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isDuplicatedId
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isDuplicatedId
 
         // then
         val expected = true
@@ -159,11 +154,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validateIdDuplication(id.value)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isJoinAble
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isJoinAble
 
         // then
         val expected = false
@@ -178,11 +172,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validatePassword(password, "")
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isValidPassword
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isValidPassword
 
         // then
         val expected = false
@@ -198,11 +191,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validatePassword(password, "")
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isValidPassword
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isValidPassword
 
         // then
         val expected = true
@@ -217,11 +209,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validatePassword(password, "")
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isJoinAble
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isValidPassword
 
         // then
         val expected = false
@@ -237,11 +228,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validatePasswordEquality(password, reInputPassword)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isEqualReInputPassword
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isEqualReInputPassword
 
         // then
         val expected = false
@@ -257,11 +247,10 @@ class JoinViewModelTest {
 
         // when
         joinViewModel.validatePasswordEquality(password, reInputPassword)
-        val actual = joinViewModel
+        val uiState = joinViewModel
             .uiState
-            .value
-            ?.joinVerification
-            ?.isJoinAble
+            .value as? JoinUiState.InProgress
+        val actual = uiState?.joinVerification?.isJoinAble
 
         // then
         val expected = false

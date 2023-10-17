@@ -1,13 +1,14 @@
 package com.dygames.roompager
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import com.dygames.roompager.scrollpager.ScrollPager
-import com.dygames.roompager.util.getNotchHeight
+import com.dygames.roompager.util.getScreenHeight
 
 @SuppressLint("ViewConstructor")
 class RoomRecycler(
@@ -121,7 +122,7 @@ class RoomRecycler(
                 }
             view.layoutParams = LinearLayout.LayoutParams(
                 resources.displayMetrics.widthPixels,
-                resources.displayMetrics.heightPixels + getNotchHeight()
+                getScreenHeight((context as Activity).windowManager)
             )
             addView(view)
         }

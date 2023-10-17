@@ -2,10 +2,20 @@ package com.digginroom.digginroom.feature.scrap.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.ScrappedRoomModel
 
-class ScrapAdapter : ListAdapter<RoomModel, ScrapRoomViewHolder>(ScrapRoomDiffUtilCallback()) {
+class ScrapAdapter :
+    ListAdapter<ScrappedRoomModel, ScrapRoomViewHolder>(ScrapRoomDiffUtilCallback()) {
+
     var itemClickListener: ScrapRoomClickListener = ScrapRoomClickListener { }
+
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position).room.roomId
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScrapRoomViewHolder {
         return ScrapRoomViewHolder.of(parent) { position ->
@@ -17,7 +27,7 @@ class ScrapAdapter : ListAdapter<RoomModel, ScrapRoomViewHolder>(ScrapRoomDiffUt
         holder.bind(getItem(position))
     }
 
-    override fun submitList(list: MutableList<RoomModel>?) {
+    override fun submitList(list: List<ScrappedRoomModel>?) {
         super.submitList(list)
     }
 }
