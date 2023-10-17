@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#77000000"
+        android:background="#80000000"
         tools:context=".feature.tutorial.TutorialRoomInfoFragment">
 
         <include layout="@layout/item_room_info" />

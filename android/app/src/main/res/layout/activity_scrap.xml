@@ -69,15 +69,15 @@
 
         <ImageButton
             android:id="@+id/scrap_ib_extract_playlist"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:background="?attr/selectableItemBackground"
             android:elevation="1dp"
             android:onClick="@{() -> viewModel.startPlaylistExtraction()}"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_extracting_playlist"
+            android:src="@drawable/ic_playlist"
             android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

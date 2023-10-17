@@ -21,7 +21,8 @@ class TutorialFragment : Fragment() {
         listOf(
             TutorialScrollVerticalFragment(),
             TutorialScrollHorizontalFragment(),
-            TutorialRoomInfoFragment()
+            TutorialRoomInfoFragment(),
+            TutorialEndFragment()
         )
     }
 
@@ -36,11 +37,6 @@ class TutorialFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         initViewPager()
-        binding.tutorialTvSkip.setOnClickListener {
-            val fragmentManager = requireActivity().supportFragmentManager
-            fragmentManager.beginTransaction().remove(this).commit()
-            fragmentManager.popBackStack()
-        }
         return binding.root
     }
 
@@ -54,7 +50,7 @@ class TutorialFragment : Fragment() {
                 super.onPageSelected(position)
                 setCurrentIndicator(position)
                 if (position == fragments.size - 1) {
-                    binding.tutorialTvSkip.text = getString(R.string.tutorial_start)
+                    finishFragment()
                 } else {
                     binding.tutorialTvSkip.text = getString(R.string.tutorial_skip)
                 }
@@ -65,8 +61,14 @@ class TutorialFragment : Fragment() {
         setCurrentIndicator(0)
     }
 
+    private fun finishFragment() {
+        val fragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.beginTransaction().remove(this@TutorialFragment).commit()
+        fragmentManager.popBackStack()
+    }
+
     private fun setupIndicators() {
-        val indicators = arrayOfNulls<ImageView>(fragments.size)
+        val indicators = arrayOfNulls<ImageView>(fragments.size - 1)
 
         val layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
