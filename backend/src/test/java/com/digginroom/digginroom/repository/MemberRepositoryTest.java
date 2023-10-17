@@ -2,9 +2,11 @@ package com.digginroom.digginroom.repository;
 
 import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.exception.MemberException;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -40,5 +42,11 @@ class MemberRepositoryTest {
         Member found = memberRepository.findById(saved파워.getId()).get();
 
         assertThat(found.getMemberGenres()).hasSize(Genre.values().length);
+    }
+
+    @Test
+    void 회원_정보가_없는_경우_에러가_발생한다() {
+        assertThatThrownBy(() -> memberRepository.getMemberById(Long.MAX_VALUE))
+                .isInstanceOf(MemberException.NotFoundException.class);
     }
 }

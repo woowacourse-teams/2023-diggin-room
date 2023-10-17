@@ -7,9 +7,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.digginroom.digginroom.controller.dto.RoomResponse;
-import com.digginroom.digginroom.controller.dto.RoomsResponse;
-import com.digginroom.digginroom.controller.dto.TrackResponse;
+import com.digginroom.digginroom.service.dto.RoomResponse;
+import com.digginroom.digginroom.service.dto.RoomsResponse;
+import com.digginroom.digginroom.service.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;

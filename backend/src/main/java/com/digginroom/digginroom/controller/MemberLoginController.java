@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.controller.dto.IdTokenRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginRequest;
-import com.digginroom.digginroom.controller.dto.MemberLoginResponse;
+import com.digginroom.digginroom.service.dto.IdTokenRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginResponse;
 import com.digginroom.digginroom.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class MemberLoginController {
 
-    private static final int PERSISTENT_TIME = 0;
+    private static final int PERSISTENT_TIME = 1800;
 
     private final MemberService memberService;
 

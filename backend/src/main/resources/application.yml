@@ -1,4 +1,6 @@
 spring:
+  session:
+    store-type: jdbc
   profiles:
     active: local
   mvc:
@@ -19,3 +21,9 @@ springdoc:
     path: /docs
   cache:
     disabled: true
+oauth:
+  google:
+    clientId: ${CLIENT_ID}
+    clientSecret: ${CLIENT_SECRET}
+    redirectUri: ${REDIRECT_URI}
+    grantType: authorization_code

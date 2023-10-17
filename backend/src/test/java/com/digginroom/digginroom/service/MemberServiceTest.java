@@ -1,23 +1,5 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.controller.dto.*;
-import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.exception.MemberException;
-import com.digginroom.digginroom.oauth.IdTokenResolver;
-import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.util.TestClaim;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import static com.digginroom.digginroom.TestFixture.ID_TOKEN_PAYLOAD;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static com.digginroom.digginroom.domain.Genre.DANCE;
@@ -25,7 +7,27 @@ import static com.digginroom.digginroom.domain.Genre.ROCK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginResponse;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
+import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.exception.MemberException;
+import com.digginroom.digginroom.oauth.IdTokenResolver;
+import com.digginroom.digginroom.repository.MemberRepository;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("NonAsciiCharacters")
@@ -68,27 +70,9 @@ class MemberServiceTest {
     }
 
     @Test
-    void 회원_정보가_있는_경우_멤버를_반환한다() {
-        Member power = Member.self("power", "power123!");
-        when(memberRepository.findById(1L)).thenReturn(Optional.of(power));
-
-        assertThat(memberService.findMember(1L)).isEqualTo(power);
-    }
-
-    @Test
-    void 회원_정보가_없는_경우_에러가_발생한다() {
-        when(memberRepository.findById(1L))
-                .thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> memberService.findMember(1L))
-                .isInstanceOf(MemberException.NotFoundException.class)
-                .hasMessageContaining("회원 정보가 없습니다.");
-    }
-
-    @Test
     void 회원_정보가_있다면_로그인_할_수_있다() {
         Member power = Member.self("power", "power123!");
-        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
+        when(memberRepository.getMemberByUsername("power")).thenReturn(power);
 
         assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
                 .isEqualTo(MemberLoginResponse.of(power));
@@ -96,22 +80,20 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_없다면_로그인_할_수_없다() {
-        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.empty());
+        when(memberRepository.getMemberByUsername("power")).thenThrow(MemberException.NotFoundException.class);
 
         assertThatThrownBy(() -> memberService.loginMember(new MemberLoginRequest("power", "power123!")))
-                .isInstanceOf(MemberException.NotFoundException.class)
-                .hasMessageContaining("회원 정보가 없습니다.");
+                .isInstanceOf(MemberException.NotFoundException.class);
     }
 
     @Test
     void 비밀번호가_틀리면_로그인_할_수_없다() {
         Member power = Member.self("power", "power123!");
-        when(memberRepository.findMemberByUsername("power")).thenReturn(Optional.of(power));
+        when(memberRepository.getMemberByUsername("power")).thenReturn(power);
 
         assertThatThrownBy(() -> memberService.loginMember(
                 new MemberLoginRequest(power.getUsername(), power.getPassword() + "asd")))
-                .isInstanceOf(MemberException.NotFoundException.class)
-                .hasMessageContaining("회원 정보가 없습니다.");
+                .isInstanceOf(MemberException.NotFoundException.class);
     }
 
     @Test
@@ -142,7 +124,7 @@ class MemberServiceTest {
     @Test
     void 취향_정보를_입력한다() {
         Member member = 파워();
-        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(memberRepository.getMemberById(member.getId())).thenReturn(member);
 
         memberService.markFavorite(member.getId(), new FavoriteGenresRequest(List.of(DANCE.getName(), ROCK.getName())));
 
@@ -152,7 +134,7 @@ class MemberServiceTest {
     @Test
     void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_반환한다() {
         Member member = 파워();
-        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(memberRepository.getMemberById(member.getId())).thenReturn(member);
 
         assertThat(memberService.getMemberDetails(member.getId()))
                 .extracting("memberId", "username", "hasFavorite")
