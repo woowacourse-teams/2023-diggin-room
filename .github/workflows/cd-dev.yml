@@ -43,7 +43,7 @@ jobs:
           EMPTY_PORT: ${{ steps.port.outputs.empty }}
         run: |
           nohup java -jar \
-          -Dspring.profiles.active=production \
+          -Dspring.profiles.active=develop \
           -Dserver.port=$EMPTY_PORT \
           -Dserver.shutdown=graceful \
           -DPROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
