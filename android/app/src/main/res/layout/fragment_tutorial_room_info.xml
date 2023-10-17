@@ -15,7 +15,7 @@
             android:id="@+id/tutorial_iv_arrow_iv_music"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="15dp"
             android:rotation="-90"
             android:src="@drawable/ic_tutorial_curve_arrow"
             app:layout_constraintBottom_toTopOf="@id/room_info_iv_music"
@@ -60,6 +60,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/room_info_scrap_toggle"
             app:layout_constraintEnd_toStartOf="@id/room_info_scrap_toggle"
             app:layout_constraintTop_toTopOf="@+id/room_info_scrap_toggle" />
 
@@ -80,6 +81,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/room_info_ib_comment"
             app:layout_constraintEnd_toStartOf="@id/room_info_scrap_toggle"
             app:layout_constraintTop_toTopOf="@id/room_info_ib_comment" />
 
@@ -100,6 +102,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/room_info_ib_info"
             app:layout_constraintEnd_toStartOf="@id/room_info_ib_info"
             app:layout_constraintTop_toTopOf="@id/room_info_ib_info" />
 
@@ -120,6 +123,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_tutorial_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/room_info_ib_setting"
             app:layout_constraintEnd_toStartOf="@id/room_info_ib_setting"
             app:layout_constraintTop_toTopOf="@id/room_info_ib_setting" />
 
