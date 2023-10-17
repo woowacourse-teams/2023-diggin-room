@@ -9,7 +9,11 @@ fun getScreenHeight(windowManager: WindowManager): Int {
     val realHeight = getRealHeight(windowManager)
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        realHeight - windowManager.currentWindowMetrics.windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+        realHeight - windowManager
+            .currentWindowMetrics
+            .windowInsets
+            .getInsets(WindowInsetsCompat.Type.navigationBars())
+            .bottom
     } else {
         realHeight - getNavHeight()
     }
@@ -35,7 +39,11 @@ private fun getRealHeight(windowManager: WindowManager): Int {
 
 private fun getNavHeight(): Int {
     with(Resources.getSystem()) {
-        val navHeight = getIdentifier("navigation_bar_height", "dimen", "android")
+        val navHeight = getIdentifier(
+            "navigation_bar_height",
+            "dimen",
+            "android"
+        )
 
         return if (isShowingNavigationBar() && navHeight > 0) {
             getDimensionPixelSize(navHeight)
@@ -47,8 +55,12 @@ private fun getNavHeight(): Int {
 
 private fun isShowingNavigationBar(): Boolean {
     with(Resources.getSystem()) {
-        val showingNavigationBar: Int = getIdentifier("config_showNavigationBar", "bool", "android")
+        val isShowing: Int = getIdentifier(
+            "config_showNavigationBar",
+            "bool",
+            "android"
+        )
 
-        return showingNavigationBar > 0 && getBoolean(showingNavigationBar)
+        return isShowing > 0 && getBoolean(isShowing)
     }
 }
