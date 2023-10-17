@@ -156,13 +156,14 @@ RoomPager와 YoutubePlayer를 이용한 부드러운 숏폼 경험 제공</p></t
         </tr>
         <tr>
             <td align="center"><a href="https://github.com/0chil">땡칠 (박성철)</a></td>
-            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-in reprehenderit in voluptate velit esse cillum dolore eu 
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+            <td rowspan=2><p style="white-space: pre">
+안전한 비밀번호 저장을 위해 암호화 알고리즘 구현
+
+안전한 DDL 관리를 위해 DDL 검증 자동화 구현
+
+협업용 데이터 수집 크롬 확장 개발
+
+진입장벽 감소를 위해 게스트 로그인 및 소셜 로그인 구현
         </tr>
         <tr>
             <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/39221443"></img></td>
