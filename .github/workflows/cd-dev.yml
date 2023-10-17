@@ -82,6 +82,7 @@ jobs:
         env:
           RUNNING_PORT: ${{ steps.port.outputs.running }}
         run: |
+          sleep 5;
           PROCESS_ID="$(lsof -i:$RUNNING_PORT -t)"
           if [ -n "$PROCESS_ID" ]; then
               sudo kill -15 $PROCESS_ID
