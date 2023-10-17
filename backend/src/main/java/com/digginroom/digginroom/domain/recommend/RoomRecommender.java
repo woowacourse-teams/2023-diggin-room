@@ -5,6 +5,7 @@ import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.MemberGenre;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.repository.RoomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,15 +13,12 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
+@RequiredArgsConstructor
 public class RoomRecommender {
 
-    public RoomRecommender(final RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
-    }
+    private static final Random RANDOM = ThreadLocalRandom.current();
 
     private final RoomRepository roomRepository;
-
-    private static final Random RANDOM = ThreadLocalRandom.current();
 
     public Room recommend(Member member) {
         List<MemberGenre> memberGenres = member.getMemberGenres();
