@@ -10,12 +10,21 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface CommentService {
 
     @GET("/rooms/{id}/comments")
-    suspend fun findComments(
-        @Path(value = "id") roomId: Long
+    suspend fun findFirstComments(
+        @Path(value = "id") roomId: Long,
+        @Query(value = "size") size: Int
+    ): Response<CommentsResponse>
+
+    @GET("/rooms/{id}/comments")
+    suspend fun findNextComments(
+        @Path(value = "id") roomId: Long,
+        @Query(value = "lastCommentId") lastCommentId: Long?,
+        @Query(value = "size") size: Int?
     ): Response<CommentsResponse>
 
     @POST("/rooms/{id}/comments")

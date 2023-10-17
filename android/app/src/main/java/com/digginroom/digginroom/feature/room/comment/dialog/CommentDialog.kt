@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
@@ -68,6 +69,16 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         dialogBinding.commentViewModel?.findComments(id)
         dialogBinding.roomId = id
         bottomPlacedItemBinding.roomId = id
+        dialogBinding.dialogCommentRecyclerViewComment.apply {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (canScrollVertically(1) && !commentViewModel.isLastRoom) {
+                        commentViewModel.findComments(id)
+                    }
+                }
+            })
+        }
     }
 
     private fun showCommentMenuDialog(comment: CommentModel) {
@@ -81,6 +92,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
         ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
     }
+
     companion object {
         private const val COMMENT_DIALOG_TAG = "CommentDialog"
         private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"

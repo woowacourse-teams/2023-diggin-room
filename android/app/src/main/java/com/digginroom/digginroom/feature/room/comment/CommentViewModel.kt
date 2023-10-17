@@ -32,6 +32,8 @@ class CommentViewModel @Keep constructor(
             state = SubmitState.POST
         )
     )
+    private var lastCommentId: Long = 0
+    var isLastRoom: Boolean = false
 
     val commentResponseUiState: LiveData<CommentResponseUiState> get() = _commentResponseUiState
     val commentSubmitUiState: LiveData<CommentSubmitUiState> get() = _commentSubmitUiState
@@ -41,10 +43,16 @@ class CommentViewModel @Keep constructor(
         _commentResponseUiState.value = CommentResponseUiState.Loading
 
         viewModelScope.launch {
-            commentRepository.findComments(roomId).onSuccess { newComments ->
+            if (comments.isEmpty()) {
+                commentRepository.findComments(roomId = roomId, size = COMMENT_LIMIT_COUNT)
+            } else {
+                commentRepository.findComments(roomId, lastCommentId, COMMENT_LIMIT_COUNT)
+            }.onSuccess { newComments ->
+                if (newComments.isEmpty()) isLastRoom = true
                 comments = newComments.sortedByDescending { it.createdAt }
                 _commentResponseUiState.value =
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                lastCommentId = comments.last().id
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
             }
@@ -57,7 +65,13 @@ class CommentViewModel @Keep constructor(
 
         when (_commentSubmitUiState.value?.state ?: return) {
             SubmitState.POST -> postComment(roomId, comment)
-            SubmitState.UPDATE -> updateTargetCommentModel?.let { updateComment(roomId, comment, it.id) }
+            SubmitState.UPDATE -> updateTargetCommentModel?.let {
+                updateComment(
+                    roomId,
+                    comment,
+                    it.id
+                )
+            }
         }
     }
 
@@ -122,5 +136,7 @@ class CommentViewModel @Keep constructor(
         const val POST_COMMENT_FAILED = "댓글 작성에 실패하였습니다."
         const val UPDATE_COMMENT_FAILED = "댓글 수정에 실패하였습니다."
         const val DELETE_COMMENT_FAILED = "댓글 삭제에 실패하였습니다."
+
+        const val COMMENT_LIMIT_COUNT = 10
     }
 }
