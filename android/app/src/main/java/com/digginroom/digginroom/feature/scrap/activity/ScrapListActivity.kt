@@ -91,20 +91,24 @@ class ScrapListActivity : AppCompatActivity() {
 
     private fun initScrapEventObserver() {
         scrapViewModel.event.observe(this) {
-            when (it) {
-                is ScrapUiEvent.LoadingExtraction -> Toast.makeText(
-                    this,
-                    getString(R.string.scrap_extracting_playlist).format(it.expectedTime),
+            val message: String? = when (it) {
+                is ScrapUiEvent.LoadingExtraction -> getString(R.string.scrap_extracting_playlist).format(
+                    it.expectedTime
+                )
+                is ScrapUiEvent.DisAllowedExtraction -> getString(R.string.scrap_disallowed_extracting_playlist)
+                is ScrapUiEvent.FailedSelection -> getString(R.string.scrap_maximum_selection).format(
+                    it.maximum
+                )
+
+                else -> null
+            }
+
+            message?.let {
+                Toast.makeText(
+                    this@ScrapListActivity,
+                    message,
                     Toast.LENGTH_SHORT
                 ).show()
-
-                is ScrapUiEvent.DisAllowedExtraction -> Toast.makeText(
-                    this,
-                    getString(R.string.scrap_disallowed_extracting_playlist),
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                else -> {}
             }
         }
     }

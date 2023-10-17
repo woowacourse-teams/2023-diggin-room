@@ -1,7 +1,8 @@
 package com.digginroom.digginroom.model.room.scrap
 
 class ScrappedRooms(
-    value: List<ScrappedRoom>
+    value: List<ScrappedRoom>,
+    val maxSelectingCount: Int = 10
 ) {
 
     private val _value: MutableList<ScrappedRoom> = value.toMutableList()
@@ -15,11 +16,17 @@ class ScrappedRooms(
             it.room.videoId
         }
 
-    fun switchSelection(index: Int) {
+    private val selectingCount: Int
+        get() = _value.filter { it.isSelected }.size
+
+    fun switchSelection(index: Int): Boolean {
+        if (!value[index].isSelected && selectingCount >= maxSelectingCount) return false
+
         val room = _value[index]
 
         _value.removeAt(index)
         _value.add(index, room.switchSelection())
+        return true
     }
 
     fun clear(): ScrappedRooms = ScrappedRooms(

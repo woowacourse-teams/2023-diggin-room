@@ -71,7 +71,9 @@ class ScrapViewModel @Keep constructor(
     }
 
     private fun switchSelection(index: Int) {
-        rooms.switchSelection(index)
+        if (!rooms.switchSelection(index)) {
+            _event.setValue(ScrapUiEvent.FailedSelection(rooms.maxSelectingCount))
+        }
         _uiState.value = ScrapUiState.Selection(
             onSelect = ::switchSelection,
             rooms = rooms.value.map { it.toModel(selectable = true) }

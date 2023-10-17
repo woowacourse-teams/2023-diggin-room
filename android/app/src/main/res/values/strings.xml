@@ -76,7 +76,9 @@
     <string name="feedback_success">피드백 등록에 성공하였습니다.</string>
     <string name="room_clipboard">클립보드에 곡 정보가 복사되었습니다.</string>
 
+    <string name="scrap_maximum_selection">최대 %d개의 룸을 선택할 수 있습니다.</string>
     <string name="scrap_selection">선택</string>
     <string name="scrap_extracting_playlist">플레이리스트 생성 중입니다!\n예상 시간은 %d초입니다.</string>
     <string name="scrap_disallowed_extracting_playlist">플레이리스트 생성 작업 중입니다.\n잠시 후 다시 시도해주세요!</string>
+
 </resources>
