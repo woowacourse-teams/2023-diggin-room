@@ -11,40 +11,80 @@ jobs:
     runs-on: development
     steps:
       - uses: actions/checkout@v3
-      - name: gradle bootjar
+      - name: 빌드
         working-directory: ./backend
         run: |
           chmod +x ./gradlew
           ./gradlew bootjar
 
-      - name: kill previous process
+      - name: 빈 포트 찾기
+        id: port
         shell: bash {0}
         run: |
-          JAR_NAME="DigginRoom-0.0.1-SNAPSHOT.jar"
-          PROCESS_ID=$(pgrep -f "$JAR_NAME")
-          if [ -n "$PROCESS_ID" ]; then
-            sudo kill -9 $PROCESS_ID
-            echo "구동중인 애플리케이션을 종료했습니다. (pid : $PROCESS_ID)\n"
+          if [ -z "$(lsof -i:8081)" ]; then
+              echo "empty=8081">>$GITHUB_OUTPUT
+              echo "running=8080">>$GITHUB_OUTPUT
+          else
+              echo "empty=8080">>$GITHUB_OUTPUT
+              echo "running=8081">>$GITHUB_OUTPUT
           fi
 
-      - name: copy jar
+      - name: JAR 파일 복사
         working-directory: ./backend
         shell: bash {0}
         run: |
           mkdir -p /home/ubuntu/backend
           cp -f build/libs/DigginRoom-0.0.1-SNAPSHOT.jar /home/ubuntu/backend/
 
-      - name: deploy
-        working-directory: /home/ubuntu/backend/
+      - name: 빈 포트에 새 어플리케이션 실행
+        working-directory: /home/ubuntu/backend
         env:
           RUNNER_TRACKING_ID: ""
+          EMPTY_PORT: ${{ steps.port.outputs.empty }}
         run: |
           nohup java -jar \
-          -Dspring.profiles.active=develop \
-          -DDEV_DATASOURCE_URL=${{ secrets.DEV_DATASOURCE_URL }} \
-          -DDEV_DATASOURCE_USERNAME=${{ secrets.DEV_DATASOURCE_USERNAME }} \
-          -DDEV_DATASOURCE_PASSWORD=${{ secrets.DEV_DATASOURCE_PASSWORD }} \
+          -Dspring.profiles.active=production \
+          -Dserver.port=$EMPTY_PORT \
+          -Dserver.shutdown=graceful \
+          -DPROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
+          -DPROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
+          -DPROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
           -DCLIENT_ID=${{ secrets.CLIENT_ID }} \
           -DCLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
           -DREDIRECT_URI=${{ secrets.REDIRECT_URI }} \
           DigginRoom-0.0.1-SNAPSHOT.jar &
+
+      - name: 어플리이션이 접속 가능한 상태가 되도록 기다린다
+        shell: bash {0}
+        env:
+          EMPTY_PORT: ${{ steps.port.outputs.empty }}
+        run: |
+          while [ "$(curl -o /dev/null -s -w %{http_code} localhost:$EMPTY_PORT/join/exist?username=admin1234)" != 200 ]
+          do
+              echo "새로운 어플리케이션을 띄우는 중입니다.";
+              sleep 5;
+          done
+
+      - name: NGINX의 리버스 프록시 설정을 변경한다.
+        env:
+          EMPTY_PORT: ${{ steps.port.outputs.empty }}
+        shell: bash {0}
+        run: |
+          echo "proxy_pass http://localhost:$EMPTY_PORT;" | sudo tee /etc/nginx/conf.d/port.inc;
+
+      - name: NGINX reload 를 진행한다.
+        shell: bash {0}
+        run: |
+          sudo nginx -s reload;
+
+      - name: 기존 어플리케이션을 종료한다
+        shell: bash {0}
+        env:
+          RUNNING_PORT: ${{ steps.port.outputs.running }}
+        run: |
+          PROCESS_ID="$(lsof -i:$RUNNING_PORT -t)"
+          if [ -n "$PROCESS_ID" ]; then
+              sudo kill -15 $PROCESS_ID
+              echo "구동중인 애플리케이션을 종료했습니다. (pid : $PROCESS_ID)\n"
+          fi
+
