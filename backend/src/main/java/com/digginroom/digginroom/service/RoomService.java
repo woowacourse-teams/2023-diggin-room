@@ -2,14 +2,17 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.recommend.GenreRecommender;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
 import com.digginroom.digginroom.service.dto.RoomsResponse;
 import com.digginroom.digginroom.service.dto.TrackResponse;
+
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +30,7 @@ public class RoomService {
         Member member = memberRepository.getMemberById(memberId);
 
         try {
-            Genre recommendedGenre = new GenreRecommender().recommend(member.getMemberGenres());
-            Room recommendedRoom = recommendRoom(recommendedGenre);
+            Room recommendedRoom = new GenreRecommender(roomRepository, member).recommend();
 
             return new RoomResponse(
                     recommendedRoom.getId(),
@@ -40,13 +42,6 @@ public class RoomService {
         } catch (IllegalArgumentException e) {
             return this.recommend(memberId);
         }
-    }
-
-    private Room recommendRoom(final Genre recommendedGenre) {
-        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
-        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
-
-        return rooms.get(pickedIndex);
     }
 
     @Transactional(readOnly = true)
