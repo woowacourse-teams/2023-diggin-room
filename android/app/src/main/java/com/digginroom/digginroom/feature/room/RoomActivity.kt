@@ -112,7 +112,7 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun setUpTutorial() {
-//        if (intent.getBooleanExtra(KEY_TUTORIAL_COMPLETED, true)) return
+        if (intent.getBooleanExtra(KEY_TUTORIAL_COMPLETED, true)) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.room_fragment_container, TutorialFragment())
