@@ -180,13 +180,12 @@ non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </tr>
         <tr>
             <td align="center"><a href="https://github.com/thdwoqor">파워 (송재백)</a></td>
-            <td rowspan=2><p style="white-space: pre">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-in reprehenderit in voluptate velit esse cillum dolore eu 
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat 
-non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></td>
+            <td rowspan=2><p style="white-space: pre">
+OIDC를 활용한 소셜로그인
+비밀번호 암호화
+유튜브 플레이리스트 추출 기능
+Flyway 도입 및 CI
+</p></td>
         </tr>
         <tr>
             <td align="center"><img width="100" height="100" src="https://avatars.githubusercontent.com/u/83541246"></img></td>
