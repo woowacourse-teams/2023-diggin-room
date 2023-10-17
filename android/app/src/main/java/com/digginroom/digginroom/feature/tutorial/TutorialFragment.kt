@@ -37,6 +37,9 @@ class TutorialFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         initViewPager()
+        binding.tutorialTvSkip.setOnClickListener {
+            finishFragment()
+        }
         return binding.root
     }
 
