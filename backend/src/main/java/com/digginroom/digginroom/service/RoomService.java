@@ -3,13 +3,12 @@ package com.digginroom.digginroom.service;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.exception.RecommendException.UnderBoundWeightException;
+import com.digginroom.digginroom.exception.RecommendException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
 import com.digginroom.digginroom.service.dto.RoomsResponse;
 import com.digginroom.digginroom.service.dto.TrackResponse;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +36,7 @@ public class RoomService {
                     recommendedRoom.getScrapCount(),
                     TrackResponse.of(recommendedRoom.getTrack())
             );
-        } catch (UnderBoundWeightException e) {
+        } catch (RecommendException e) {
             return this.recommend(memberId);
         }
     }

@@ -14,4 +14,11 @@ public abstract class RecommendException extends DigginRoomException{
             super("가중치 합이 0 이하입니다. 현재 가중치 합:" + weight, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public static class NoRecommendableRoomException extends RecommendException {
+
+        public NoRecommendableRoomException(final String genre) {
+            super("해당 장르의 룸이 없습니다. 현재 장르: " + genre, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -4,6 +4,7 @@ import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.MemberGenre;
 import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.exception.RecommendException.NoRecommendableRoomException;
 import com.digginroom.digginroom.exception.RecommendException.UnderBoundWeightException;
 import com.digginroom.digginroom.repository.RoomRepository;
 import java.util.List;
@@ -45,8 +46,10 @@ public class RoomRecommender {
 
     private Room recommendRoom(final Genre recommendedGenre) {
         List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
+        if (rooms.isEmpty()) {
+            throw new NoRecommendableRoomException(recommendedGenre.getName());
+        }
         int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
-
         return rooms.get(pickedIndex);
     }
 }
