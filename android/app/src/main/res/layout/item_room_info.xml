@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="28dp"
             android:includeFontPadding="false"
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.copyInfo.invoke(roomInfoUiState.roomModel.track)}"
             android:shadowColor="#8C000000"
