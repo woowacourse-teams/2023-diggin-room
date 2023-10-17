@@ -3,15 +3,20 @@ package com.dygames.roompager.util
 import android.content.res.Resources
 import android.os.Build
 import android.view.WindowManager
+import androidx.core.view.WindowInsetsCompat
 
 fun getScreenHeight(windowManager: WindowManager): Int {
     val realHeight = getRealHeight(windowManager)
 
-    return realHeight - getNavHeight()
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        realHeight - windowManager.currentWindowMetrics.windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+    } else {
+        realHeight - getNavHeight()
+    }
 }
 
 private fun getRealHeight(windowManager: WindowManager): Int {
-    return if (Build.VERSION.SDK_INT <= 30) {
+    return if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
         val displayMetrics = Resources
             .getSystem()
             .displayMetrics
@@ -29,11 +34,21 @@ private fun getRealHeight(windowManager: WindowManager): Int {
 }
 
 private fun getNavHeight(): Int {
-    val navHeight = Resources.getSystem().getIdentifier("navigation_bar_height", "dimen", "android")
+    with(Resources.getSystem()) {
+        val navHeight = getIdentifier("navigation_bar_height", "dimen", "android")
 
-    return if (navHeight > 0) {
-        Resources.getSystem().getDimensionPixelSize(navHeight)
-    } else {
-        0
+        return if (isShowingNavigationBar() && navHeight > 0) {
+            getDimensionPixelSize(navHeight)
+        } else {
+            0
+        }
+    }
+}
+
+private fun isShowingNavigationBar(): Boolean {
+    with(Resources.getSystem()) {
+        val showingNavigationBar: Int = getIdentifier("config_showNavigationBar", "bool", "android")
+
+        return showingNavigationBar > 0 && getBoolean(showingNavigationBar)
     }
 }
