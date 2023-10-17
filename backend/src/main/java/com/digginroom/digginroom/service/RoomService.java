@@ -3,6 +3,7 @@ package com.digginroom.digginroom.service;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.exception.RecommendException.UnderBoundWeightException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
@@ -36,7 +37,7 @@ public class RoomService {
                     recommendedRoom.getScrapCount(),
                     TrackResponse.of(recommendedRoom.getTrack())
             );
-        } catch (IllegalArgumentException e) {
+        } catch (UnderBoundWeightException e) {
             return this.recommend(memberId);
         }
     }

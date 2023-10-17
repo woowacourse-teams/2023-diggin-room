@@ -4,23 +4,20 @@ import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.MemberGenre;
 import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.exception.RecommendException.UnderBoundWeightException;
 import com.digginroom.digginroom.repository.RoomRepository;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 @RequiredArgsConstructor
 public class RoomRecommender {
 
-    private static final Random RANDOM = ThreadLocalRandom.current();
-
     private final RoomRepository roomRepository;
 
-    public Room recommend(Member member) {
+    public Room recommend(final Member member) {
         List<MemberGenre> memberGenres = member.getMemberGenres();
         Genre recommenedGenre = recommendGenre(memberGenres);
         return recommendRoom(recommenedGenre);
@@ -29,20 +26,13 @@ public class RoomRecommender {
     private Genre recommendGenre(final List<MemberGenre> memberGenres) {
         int weightSum = memberGenres.stream().mapToInt(MemberGenre::getWeight).sum();
         if (weightSum <= 0) {
-            throw new IllegalArgumentException("가중치 합이 0입니다");
+            throw new UnderBoundWeightException(weightSum);
         }
-        int randomizedFactor = RANDOM.nextInt(weightSum);
-        return pickByWeight(memberGenres, randomizedFactor);
+        return pickByWeight(memberGenres, weightSum);
     }
 
-    private Room recommendRoom(final Genre recommendedGenre) {
-        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
-        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
-
-        return rooms.get(pickedIndex);
-    }
-
-    private Genre pickByWeight(final List<MemberGenre> memberGenres, final int randomizedFactor) {
+    private Genre pickByWeight(final List<MemberGenre> memberGenres, final int weightSum) {
+        int randomizedFactor = ThreadLocalRandom.current().nextInt(weightSum);
         int cursor = 0;
         for (MemberGenre weightedGenre : memberGenres) {
             cursor += weightedGenre.getWeight();
@@ -51,5 +41,12 @@ public class RoomRecommender {
             }
         }
         return memberGenres.get(memberGenres.size() - 1).getGenre();
+    }
+
+    private Room recommendRoom(final Genre recommendedGenre) {
+        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
+        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
+
+        return rooms.get(pickedIndex);
     }
 }
