@@ -33,7 +33,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArgument(
-            "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+            "runnerBuilder",
+            "de.mannodermaus.junit5.AndroidJUnit5Builder"
         )
 
         val properties = Properties().apply {
@@ -44,7 +45,9 @@ android {
         buildConfigField("String", "SERVER_URL", properties["server.url"] as String)
         buildConfigField("String", "CLIENT_ID", properties["server.clientId"] as String)
         buildConfigField(
-            "String", "KAKAO_NATIVE_KEY", properties["kakao.nativeKey"] as String
+            "String",
+            "KAKAO_NATIVE_KEY",
+            properties["kakao.nativeKey"] as String
         )
 
         val kakaoNativeKey = properties["kakao.nativeKey"] as String
@@ -54,7 +57,8 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -77,7 +81,7 @@ dependencies {
     implementation(project(":android-di"))
 
     // RoomPager
-    implementation("com.github.DYGames:roompager:1.0.2@aar")
+    implementation("com.github.DYGames:roompager:1.0.3@aar")
 
     // android
     implementation("androidx.core:core-ktx:1.8.0")
