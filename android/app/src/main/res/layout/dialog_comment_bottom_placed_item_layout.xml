@@ -27,7 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="?android:attr/colorBackground">
 
         <View
             android:id="@+id/dialog_comment_sticky_item_view_separator"
@@ -49,8 +49,8 @@
             android:inputType="text"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
-            app:cursorIndex="@{currentComment}"
             android:text="@={currentComment}"
+            app:cursorIndex="@{currentComment}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dialog_comment_sticky_btn_send"
             app:layout_constraintStart_toStartOf="parent"

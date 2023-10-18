@@ -38,6 +38,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         dialogBinding.lifecycleOwner = this
         dialogBinding.commentViewModel = commentViewModel
         dialogBinding.adapter = CommentAdapter(::showCommentMenuDialog)
+        dialogBinding.dialogCommentRecyclerViewComment.setHasFixedSize(true)
     }
 
     private fun initBottomPlacedItemBinding() {

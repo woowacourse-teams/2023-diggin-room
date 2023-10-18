@@ -20,11 +20,19 @@
 
     <merge>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/room_info_gradient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/room_info_scrap_toggle" />
+
         <ImageButton
             android:id="@+id/room_info_ib_scrap"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="26dp"
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
@@ -70,7 +78,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="2dp"
             android:cropToPadding="true"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
@@ -84,7 +92,7 @@
             android:id="@+id/room_info_tv_scrap_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="20dp"
             android:shadowColor="#8C000000"
             android:shadowRadius="5"
             android:text="@{scrapCountFormatter.convert(roomInfoUiState.roomModel.scrapCount)}"
@@ -137,4 +145,5 @@
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
     </merge>
+
 </layout>
