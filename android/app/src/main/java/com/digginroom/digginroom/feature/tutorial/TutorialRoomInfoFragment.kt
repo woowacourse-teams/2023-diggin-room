@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.digginroom.digginroom.R
 
-class TutorialFragment1 : Fragment() {
+class TutorialRoomInfoFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_tutorial1, container, false)
+    ): View {
+        return inflater.inflate(R.layout.fragment_tutorial_room_info, container, false)
     }
 }

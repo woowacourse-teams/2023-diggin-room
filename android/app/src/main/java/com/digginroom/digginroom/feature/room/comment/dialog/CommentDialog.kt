@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
@@ -13,24 +12,16 @@ import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState
 import com.digginroom.digginroom.model.CommentModel
-import com.dygames.androiddi.ViewModelDependencyInjector.injectViewModel
+import com.dygames.di.DependencyInjector.inject
 
 class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private lateinit var dialogBinding: DialogCommentLayoutBinding
     private lateinit var bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding
-    private lateinit var commentViewModel: CommentViewModel
+    private val commentViewModel: CommentViewModel = inject()
 
     override val dialogView: View by lazy { dialogBinding.root }
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        commentViewModel = ViewModelProvider(
-            this,
-            injectViewModel<CommentViewModel>()
-        )[CommentViewModel::class.java]
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +39,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         dialogBinding.lifecycleOwner = this
         dialogBinding.commentViewModel = commentViewModel
         dialogBinding.adapter = CommentAdapter(::showCommentMenuDialog)
+        dialogBinding.dialogCommentRecyclerViewComment.setHasFixedSize(true)
     }
 
     private fun initBottomPlacedItemBinding() {

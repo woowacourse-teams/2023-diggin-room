@@ -22,10 +22,10 @@ android {
 
     defaultConfig {
         applicationId 'com.digginroom.digginroom'
-        minSdk 26
+        minSdk 28
         targetSdk 33
-        versionCode 3
-        versionName '1.1.1'
+        versionCode 5
+        versionName '1.2.1'
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         testInstrumentationRunnerArgument 'runnerBuilder', 'de.mannodermaus.junit5.AndroidJUnit5Builder'

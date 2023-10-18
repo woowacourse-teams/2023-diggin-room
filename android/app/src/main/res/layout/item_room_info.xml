@@ -18,11 +18,7 @@
             type="com.digginroom.digginroom.model.mapper.ScrapCountFormatter" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/scrap_horizontal_margin"
-        tools:background="@color/gray_400">
+    <merge>
 
         <View
             android:layout_width="match_parent"
@@ -36,6 +32,7 @@
             android:id="@+id/room_info_ib_scrap"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginTop="26dp"
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
@@ -81,7 +78,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="2dp"
             android:cropToPadding="true"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
@@ -95,7 +92,7 @@
             android:id="@+id/room_info_tv_scrap_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="20dp"
             android:shadowColor="#8C000000"
             android:shadowRadius="5"
             android:text="@{scrapCountFormatter.convert(roomInfoUiState.roomModel.scrapCount)}"
@@ -147,6 +144,6 @@
             android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </merge>
 
 </layout>

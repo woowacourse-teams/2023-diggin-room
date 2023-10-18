@@ -45,7 +45,7 @@ abstract class BottomFixedItemBottomSheetDialog : BottomSheetDialogFragment() {
 
     private fun View.makeFullSize() {
         this.layoutParams.height = FrameLayout.LayoutParams.MATCH_PARENT
-        requestLayout()
+        invalidate()
     }
 
     private fun ViewGroup.addStickyView(view: View) {

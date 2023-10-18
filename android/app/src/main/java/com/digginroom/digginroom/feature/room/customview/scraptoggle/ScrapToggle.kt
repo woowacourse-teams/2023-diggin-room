@@ -16,6 +16,7 @@ class ScrapToggle(
 
     init {
         isClickable = true
+        setImageResource(R.drawable.scrap_icon)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
