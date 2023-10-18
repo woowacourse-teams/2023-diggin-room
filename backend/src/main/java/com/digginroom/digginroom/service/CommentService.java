@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.exception.CommentException.InvalidCommentSizeException;
 import static com.digginroom.digginroom.exception.CommentException.NotOwnerException;
 
 import com.digginroom.digginroom.domain.comment.Comment;
@@ -11,8 +12,10 @@ import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.CommentRequest;
 import com.digginroom.digginroom.service.dto.CommentResponse;
 import com.digginroom.digginroom.service.dto.CommentsResponse;
-import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +24,42 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
 
+    private static final int DEFAULT_PAGE_SIZE = 0;
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
 
-    public CommentsResponse getRoomComments(final Long roomId, final Long memberId) {
+    public CommentsResponse getRoomComments(
+            final Long roomId,
+            final Long memberId,
+            final Long lastCommentId,
+            final int size
+    ) {
+        validateCommentSize(size);
+
         Member member = memberRepository.getMemberById(memberId);
-        List<Comment> comments = commentRepository.findCommentsByRoomId(roomId);
-        return new CommentsResponse(comments.stream()
+        Page<Comment> comments = commentRepository.getCommentsByCursor(
+                roomId,
+                getLastCommentId(lastCommentId),
+                PageRequest.of(DEFAULT_PAGE_SIZE, size)
+        );
+
+        return new CommentsResponse(comments.getContent().stream()
                 .map(comment -> CommentResponse.of(comment, comment.isOwner(member)))
                 .toList());
+    }
+
+    private void validateCommentSize(final int size) {
+        if (size <= 0) {
+            throw new InvalidCommentSizeException();
+        }
+    }
+
+    private Long getLastCommentId(final Long lastCommentId) {
+        if (Objects.isNull(lastCommentId)) {
+            return Long.MAX_VALUE;
+        }
+        return lastCommentId;
     }
 
     public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {
