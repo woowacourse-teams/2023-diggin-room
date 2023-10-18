@@ -61,7 +61,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (canScrollVertically(1) && !commentViewModel.isLastRoom) {
+                    if (canScrollVertically(1)) {
                         commentViewModel.findComments(id)
                     }
                 }
