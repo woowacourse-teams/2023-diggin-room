@@ -13,7 +13,7 @@ import com.digginroom.digginroom.model.mapper.ScrapCountFormatter
 class RoomInfoView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    private val roomInfoType: RoomInfoType,
+    private val roomInfoType: RoomInfoType
 ) : ConstraintLayout(context, attrs) {
 
     private val binding: ItemRoomInfoBinding =
