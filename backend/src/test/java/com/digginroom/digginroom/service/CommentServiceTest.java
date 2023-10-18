@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.exception.CommentException.InvalidCommentSizeException;
+import com.digginroom.digginroom.exception.CommentException.InvalidLastCommentIdException;
 import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.service.dto.CommentResponse;
@@ -75,4 +76,11 @@ class CommentServiceTest {
         assertThatThrownBy(() -> commentService.getRoomComments(1L, 1L, 1L, 0))
                 .isInstanceOf(InvalidCommentSizeException.class);
     }
+
+    @Test
+    void 마지막으로_본_댓글의_식별자가_1보다_작은_경우_예외가_발생한다() {
+        assertThatThrownBy(() -> commentService.getRoomComments(1L, 1L, 0L, 10))
+                .isInstanceOf(InvalidLastCommentIdException.class);
+    }
+
 }

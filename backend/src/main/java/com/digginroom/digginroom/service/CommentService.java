@@ -5,6 +5,7 @@ import static com.digginroom.digginroom.exception.CommentException.NotOwnerExcep
 
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.exception.CommentException.InvalidLastCommentIdException;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
@@ -36,18 +37,26 @@ public class CommentService {
             final Long lastCommentId,
             final int size
     ) {
+        Long resolvedLastCommentId = getLastCommentId(lastCommentId);
+        validateLastCommentId(resolvedLastCommentId);
         validateCommentSize(size);
 
         Member member = memberRepository.getMemberById(memberId);
         Page<Comment> comments = commentRepository.getCommentsByCursor(
                 roomId,
-                getLastCommentId(lastCommentId),
+                resolvedLastCommentId,
                 PageRequest.of(DEFAULT_PAGE_SIZE, size)
         );
 
         return new CommentsResponse(comments.getContent().stream()
                 .map(comment -> CommentResponse.of(comment, comment.isOwner(member)))
                 .toList());
+    }
+
+    private void validateLastCommentId(final Long lastCommentId) {
+        if (lastCommentId <= 0) {
+            throw new InvalidLastCommentIdException();
+        }
     }
 
     private void validateCommentSize(final int size) {
