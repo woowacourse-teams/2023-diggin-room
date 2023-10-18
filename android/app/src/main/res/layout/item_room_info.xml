@@ -26,9 +26,7 @@
             type="com.digginroom.digginroom.model.mapper.ScrapCountFormatter" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <merge>
 
         <TextView
             android:id="@+id/room_info_tv_scrap"
@@ -40,7 +38,7 @@
             android:text="@string/common_scrap_description"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:visibility="@{roomInfoType == RoomInfoType.GENERAL ? View.GONE : View.VISIBLE}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +54,7 @@
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.cancel.invoke()}"
             android:scaleType="centerInside"
             android:src="@drawable/ic_back_shadow"
-            android:visibility="@{roomInfoType == RoomInfoType.GENERAL ? View.GONE : View.VISIBLE}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_scrap"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/room_info_tv_scrap" />
@@ -80,7 +78,6 @@
             android:onClick="@{() -> roomInfoUiState.roomInfoEvent.openScrap.invoke()}"
             android:scaleType="centerInside"
             android:src="@drawable/ic_cube"
-            android:visibility="@{roomInfoType == RoomInfoType.GENERAL ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -186,5 +183,5 @@
             android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </merge>
 </layout>
