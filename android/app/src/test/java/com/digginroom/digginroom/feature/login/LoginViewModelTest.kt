@@ -63,7 +63,7 @@ class LoginViewModelTest {
         )
 
         // then
-        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
+        assertEquals(LoginUiState.Failed.Login(), loginViewModel.uiState.value)
     }
 
     @Test
@@ -132,7 +132,7 @@ class LoginViewModelTest {
         loginViewModel.socialLogin(ID_TOKEN)
 
         // then
-        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
+        assertEquals(LoginUiState.Failed.SocialLogin, loginViewModel.uiState.value)
     }
 
     @Test
