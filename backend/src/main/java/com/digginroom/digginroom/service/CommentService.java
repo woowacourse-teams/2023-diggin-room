@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private static final int DEFAULT_PAGE_SIZE = 0;
+
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final RoomRepository roomRepository;
