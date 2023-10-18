@@ -3,6 +3,7 @@ package com.digginroom.digginroom.feature.room
 import android.content.Context
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoEvent
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoType
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.model.RoomModel
 import com.dygames.roompager.Adapter
@@ -12,14 +13,18 @@ class RoomPagerAdapter(
     var rooms: List<RoomModel> = emptyList(),
     private val loadNextRoom: () -> Unit,
     private val dislikeRoom: (Long) -> Unit,
-    private val roomInfoEvent: RoomInfoEvent
+    private val roomInfoEvent: RoomInfoEvent,
+    private val roomInfoType: RoomInfoType
 ) : Adapter<YoutubeRoomPlayer> {
 
     private var viewHolders: List<YoutubeRoomPlayer> = emptyList()
     private var lastCurrentRoomPosition = 0
 
     override fun createViewHolder(context: Context): YoutubeRoomPlayer =
-        YoutubeRoomPlayer(context) {
+        YoutubeRoomPlayer(
+            context = context,
+            roomInfoType = roomInfoType
+        ) {
             play()
         }
 

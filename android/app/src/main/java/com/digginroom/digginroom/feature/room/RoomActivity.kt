@@ -17,6 +17,7 @@ import com.digginroom.digginroom.feature.room.comment.dialog.CommentDialog
 import com.digginroom.digginroom.feature.room.customview.roomplayer.RoomState
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoDialog
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoEvent
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoType
 import com.digginroom.digginroom.feature.scrap.activity.ScrapListActivity
 import com.digginroom.digginroom.feature.setting.SettingActivity
 import com.digginroom.digginroom.feature.tutorial.TutorialFragment
@@ -48,19 +49,29 @@ class RoomActivity : AppCompatActivity() {
             dislikeRoom = { id ->
                 roomViewModel.postDislike(id)
             },
-            roomInfoEvent = RoomInfoEvent(openSetting = {
-                SettingActivity.start(this)
-            }, openComment = { id ->
+            roomInfoEvent = RoomInfoEvent(
+                openSetting = {
+                    SettingActivity.start(this)
+                },
+                openComment = { id ->
                     commentDialog.show(supportFragmentManager, id)
-                }, openInfo = { track ->
+                },
+                openInfo = { track ->
                     roomInfoDialog.show(supportFragmentManager, track)
-                }, openScrap = {
+                },
+                openScrap = {
                     ScrapListActivity.start(this)
-                }, scrap = { id ->
+                },
+                scrap = { id ->
                     roomViewModel.postScrap(id)
-                }, unScrap = { id ->
+                },
+                unScrap = { id ->
                     roomViewModel.removeScrap(id)
-                }, copyInfo = ::copyRoomInfo)
+                },
+                copyInfo = ::copyRoomInfo,
+                cancel = ::finish
+            ),
+            roomInfoType = intent.getSerializable(KEY_ROOM_INFO_TYPE) ?: RoomInfoType.GENERAL
         )
     }
 
@@ -153,6 +164,8 @@ class RoomActivity : AppCompatActivity() {
         private const val KEY_INITIAL_POSITION = "initial_position"
         private const val KEY_PAGING_ORIENTATION = "paging_orientation"
         private const val KEY_TUTORIAL_COMPLETED = "tutorial_completed"
+        private const val KEY_ROOM_INFO_TYPE = "room_info_type"
+
         fun start(context: Context) {
             val intent = Intent(context, RoomActivity::class.java)
             context.startActivity(intent)
@@ -168,6 +181,7 @@ class RoomActivity : AppCompatActivity() {
                 putExtra(KEY_ROOMS, rooms)
                 putExtra(KEY_INITIAL_POSITION, position)
                 putExtra(KEY_PAGING_ORIENTATION, pagingOrientation.ordinal)
+                putExtra(KEY_ROOM_INFO_TYPE, RoomInfoType.SCRAPPED)
             }
             context.startActivity(intent)
         }

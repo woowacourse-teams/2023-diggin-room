@@ -48,7 +48,8 @@
             android:contentDescription="@string/common_back_button_description"
             android:cropToPadding="true"
             android:onClick="@{() -> viewModel.cancel()}"
-            android:src="@drawable/ic_arrow_left"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="@+id/join_tv_join"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/join_tv_join" />
@@ -73,7 +74,7 @@
             android:layout_marginTop="5dp"
             android:text="@string/join_id_inavailable_duplicated_check"
             android:textColor="#AF1B1B"
-            android:visibility="@{viewModel.uiState instanceof JoinUiState.InAvailable ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{viewModel.uiState instanceof JoinUiState.InAvailable ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
 

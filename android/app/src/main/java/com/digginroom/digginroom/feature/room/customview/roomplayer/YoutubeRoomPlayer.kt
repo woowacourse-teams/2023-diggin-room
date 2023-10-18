@@ -5,15 +5,20 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.FrameLayout
 import com.digginroom.digginroom.feature.room.customview.roominfoview.RoomInfoView
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoType
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
 
 class YoutubeRoomPlayer(
     context: Context,
+    override val roomInfoType: RoomInfoType,
     private val onYoutubePlay: () -> Unit
 ) : FrameLayout(context), RoomPlayer {
-    private val roomInfoView = RoomInfoView(context)
-    private val webView: WebView = WebView(context)
 
+    private val roomInfoView = RoomInfoView(
+        context = context,
+        roomInfoType = roomInfoType
+    )
+    private val webView: WebView = WebView(context)
     private var videoId = ""
     private var isPlayerLoaded = false
 
