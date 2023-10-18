@@ -183,8 +183,11 @@ RoomPager와 YoutubePlayer를 이용한 부드러운 숏폼 경험 제공</p></t
             <td align="center"><a href="https://github.com/thdwoqor">파워 (송재백)</a></td>
             <td rowspan=2><p style="white-space: pre">
 OIDC를 활용한 소셜로그인
+
 비밀번호 암호화
+
 유튜브 플레이리스트 추출 기능
+
 Flyway 도입 및 CI
 </p></td>
         </tr>
