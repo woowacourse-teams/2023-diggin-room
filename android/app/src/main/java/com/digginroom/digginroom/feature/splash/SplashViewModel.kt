@@ -26,7 +26,7 @@ class SplashViewModel @Keep constructor(
             tokenRepository.fetch().onSuccess {
                 fetchMember(it)
             }.onFailure {
-                _loginUiState.value = LoginUiState.Failed
+                _loginUiState.value = LoginUiState.Failed.AutoLogin
             }
         }
     }
@@ -36,7 +36,7 @@ class SplashViewModel @Keep constructor(
             memberRepository.fetch(token).onSuccess { member ->
                 _loginUiState.value = LoginUiState.Succeed.from(member.hasSurveyed)
             }.onFailure {
-                _loginUiState.value = LoginUiState.Failed
+                _loginUiState.value = LoginUiState.Failed.AutoLogin
             }
         }
     }

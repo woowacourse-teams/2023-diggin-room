@@ -69,8 +69,17 @@ class LoginActivity : AppCompatActivity() {
                     RoomActivity.start(this)
                 }
 
-                is LoginUiState.Failed -> {
+                is LoginUiState.Failed.Login -> {
                     binding.account = it.account
+                    binding.loginTvLoginFailed.text = getString(R.string.login_check_account)
+                }
+
+                is LoginUiState.Failed.SocialLogin -> {
+                    binding.loginTvLoginFailed.text = getString(R.string.login_check_social_account)
+                }
+
+                is LoginUiState.Failed.GuestLogin -> {
+                    binding.loginTvLoginFailed.text = getString(R.string.login_failed_guest_login)
                 }
 
                 else -> {}

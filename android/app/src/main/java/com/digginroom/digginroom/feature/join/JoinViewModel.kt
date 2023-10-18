@@ -52,7 +52,9 @@ class JoinViewModel @Keep constructor(
                 )
 
                 _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
-            }.onFailure {}
+            }.onFailure {
+                _uiState.value = JoinUiState.InAvailable
+            }
         }
     }
 
