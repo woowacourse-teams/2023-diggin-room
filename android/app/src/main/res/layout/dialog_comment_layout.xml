@@ -45,34 +45,26 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/dialog_comment_comment"
-            android:textColor="@color/black"
+            android:textColor="@color/room_info_text_color"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/dialog_comment_view_banner" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dialog_comment_recyclerView_comment"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:adapter="@{adapter}"
+            android:orientation="vertical"
+            android:paddingTop="18dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dialog_comment_recyclerView_comment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:adapter="@{adapter}"
-                android:orientation="vertical"
-                android:paddingTop="18dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:responseState="@{commentViewModel.commentResponseUiState}"
-                app:visible="@{commentViewModel.commentResponseUiState}"
-                tools:itemCount="200" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner"
+            app:responseState="@{commentViewModel.commentResponseUiState}"
+            app:visible="@{commentViewModel.commentResponseUiState}"
+            tools:itemCount="200" />
 
         <TextView
             android:id="@+id/textView"
