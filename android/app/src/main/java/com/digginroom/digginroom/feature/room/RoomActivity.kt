@@ -79,7 +79,7 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBinding()
         initRoomPager()
-        setUpTutorial()
+        initTutorial()
     }
 
     private fun initBinding() {
@@ -122,7 +122,7 @@ class RoomActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpTutorial() {
+    private fun initTutorial() {
         if (intent.getBooleanExtra(KEY_TUTORIAL_COMPLETED, true)) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)

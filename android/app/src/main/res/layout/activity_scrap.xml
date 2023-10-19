@@ -61,7 +61,7 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:gravity="center"
-            android:text="@string/scrap_selection"
+            android:text="@{viewModel.uiState instanceof ScrapUiState.Selection ? @string/scrap_unselection : @string/scrap_selection}"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:visibility="@{viewModel.event.value instanceof ScrapUiEvent.LoadingExtraction ? View.GONE : View.VISIBLE}"

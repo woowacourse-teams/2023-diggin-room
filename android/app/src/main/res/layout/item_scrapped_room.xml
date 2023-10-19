@@ -31,8 +31,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:elevation="1dp"
-            android:src="@{room.isSelected == true ? @drawable/ic_checked_box : @drawable/ic_unchecked_box}"
-            android:visibility="@{room.selectable == true ? View.VISIBLE : View.GONE}"
+            android:src="@{room.isSelected ? @drawable/ic_checked_box : @drawable/ic_unchecked_box}"
+            android:visibility="@{room.selectable ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="@id/scrap_button_scrapped_thumbnail"
             app:layout_constraintTop_toTopOf="@id/scrap_button_scrapped_thumbnail"
             tools:src="@drawable/ic_checked_box" />
