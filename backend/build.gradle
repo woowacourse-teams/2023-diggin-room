@@ -66,13 +66,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-springBoot{
-    buildInfo {
-        properties {
-            additional = [
-                    'version': "${project.version}"
-            ]
-        }
-    }
-}
