@@ -62,7 +62,6 @@ jobs:
           while [ "$(curl -o /dev/null -s -w %{http_code} localhost:$GREEN/join/exist?username=admin1234)" != 200 ]
           do
               echo "새로운 어플리케이션을 띄우는 중입니다.";
-              sleep 5;
           done
 
       - name: NGINX의 리버스 프록시 설정을 변경한다.
