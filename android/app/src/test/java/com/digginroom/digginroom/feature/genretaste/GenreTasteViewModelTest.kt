@@ -46,21 +46,20 @@ class GenreTasteViewModelTest {
     fun `선택되지 않은 음악장르를 선택하면 해당 음악장르는 선택된 상태가 된다`() {
         // given
         val genreTaste = GenreTaste(
-            genre = Genre.SOUNDS_AND_EFFECTS,
+            genre = Genre.AMBIENT,
             isSelected = false
         )
 
         // when
         genreTasteViewModel.switchSelection(genreTaste.toModel())
         val uiState = genreTasteViewModel.uiState.value as? GenreTasteUiState.InProgress
-        val actual = uiState?.genreTasteSelection
-            ?.genresTaste
-            ?.find { it.title == genreTaste.genre.title }
-            ?.toDomain()
+        val actual =
+            uiState?.genreTasteSelection?.genresTaste?.find { it.title == genreTaste.genre.title }
+                ?.toDomain()
 
         // then
         val expected = GenreTaste(
-            genre = Genre.SOUNDS_AND_EFFECTS,
+            genre = Genre.AMBIENT,
             isSelected = true
         )
 
@@ -71,21 +70,20 @@ class GenreTasteViewModelTest {
     fun `선택된 음악장르를 다시 선택하면 해당 음악장르는 선택되지 않은 상태가 된다`() {
         // given
         val genreTaste = GenreTaste(
-            genre = Genre.SOUNDS_AND_EFFECTS,
+            genre = Genre.AMBIENT,
             isSelected = true
         )
 
         // when
         genreTasteViewModel.switchSelection(genreTaste.toModel())
         val uiState = genreTasteViewModel.uiState.value as? GenreTasteUiState.InProgress
-        val actual = uiState?.genreTasteSelection
-            ?.genresTaste
-            ?.find { it.title == genreTaste.genre.title }
-            ?.toDomain()
+        val actual =
+            uiState?.genreTasteSelection?.genresTaste?.find { it.title == genreTaste.genre.title }
+                ?.toDomain()
 
         // then
         val expected = GenreTaste(
-            genre = Genre.SOUNDS_AND_EFFECTS,
+            genre = Genre.AMBIENT,
             isSelected = false
         )
 
@@ -95,12 +93,12 @@ class GenreTasteViewModelTest {
     @Test
     fun `음악 장르에 대한 취향 조사가 끝나고 성공적인 응답을 받은 경우 성공 상태가 된다`() {
         // given
-        val genreTaste = GenreTaste(Genre.SOUNDS_AND_EFFECTS, false).toModel()
+        val genreTaste = GenreTaste(Genre.AMBIENT, false).toModel()
 
         genreTasteViewModel.switchSelection(genreTaste)
 
         coEvery {
-            genreTasteRepository.post(listOf(Genre.SOUNDS_AND_EFFECTS))
+            genreTasteRepository.post(listOf(Genre.AMBIENT))
         } returns LogResult.success(Unit)
 
         // when
@@ -114,12 +112,12 @@ class GenreTasteViewModelTest {
     @Test
     fun `음악 장르에 대한 취향 조사가 끝나고 성공적인 응답을 받지 못한 경우 실패 상태가 된다`() {
         // given
-        val genreTaste = GenreTaste(Genre.SOUNDS_AND_EFFECTS, false).toModel()
+        val genreTaste = GenreTaste(Genre.AMBIENT, false).toModel()
 
         genreTasteViewModel.switchSelection(genreTaste)
 
         coEvery {
-            genreTasteRepository.post(listOf(Genre.SOUNDS_AND_EFFECTS))
+            genreTasteRepository.post(listOf(Genre.AMBIENT))
         } returns LogResult.failure()
 
         // when

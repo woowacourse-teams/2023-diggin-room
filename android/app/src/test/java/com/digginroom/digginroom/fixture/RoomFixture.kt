@@ -13,7 +13,7 @@ object RoomFixture {
         track: Track = Track(
             title = "예시 제목1",
             artist = "예시 아티스트1",
-            superGenre = Genre.SOUNDS_AND_EFFECTS,
+            superGenre = Genre.AMBIENT,
             description = ""
         ),
         roomId: Long = 0,
@@ -33,7 +33,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목2",
                 artist = "예시 아티스트2",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,
@@ -45,7 +45,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목3",
                 artist = "예시 아티스트3",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,
@@ -57,7 +57,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목4",
                 artist = "예시 아티스트4",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,
@@ -69,7 +69,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목5",
                 artist = "예시 아티스트5",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,
@@ -81,7 +81,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목6",
                 artist = "예시 아티스트6",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,
@@ -93,7 +93,7 @@ object RoomFixture {
             track = Track(
                 title = "예시 제목7",
                 artist = "예시 아티스트7",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,
@@ -109,7 +109,7 @@ object RoomFixture {
                 track = Track(
                     title = "예시 제목2",
                     artist = "예시 아티스트2",
-                    superGenre = Genre.SOUNDS_AND_EFFECTS,
+                    superGenre = Genre.AMBIENT,
                     description = ""
                 ),
                 roomId = 0,
@@ -124,7 +124,7 @@ object RoomFixture {
                 track = Track(
                     title = "예시 제목3",
                     artist = "예시 아티스트3",
-                    superGenre = Genre.SOUNDS_AND_EFFECTS,
+                    superGenre = Genre.AMBIENT,
                     description = ""
                 ),
                 roomId = 0,
@@ -139,7 +139,7 @@ object RoomFixture {
                 track = Track(
                     title = "예시 제목4",
                     artist = "예시 아티스트4",
-                    superGenre = Genre.SOUNDS_AND_EFFECTS,
+                    superGenre = Genre.AMBIENT,
                     description = ""
                 ),
                 roomId = 0,
@@ -154,7 +154,7 @@ object RoomFixture {
                 track = Track(
                     title = "예시 제목5",
                     artist = "예시 아티스트5",
-                    superGenre = Genre.SOUNDS_AND_EFFECTS,
+                    superGenre = Genre.AMBIENT,
                     description = ""
                 ),
                 roomId = 0,
@@ -169,7 +169,7 @@ object RoomFixture {
                 track = Track(
                     title = "예시 제목6",
                     artist = "예시 아티스트6",
-                    superGenre = Genre.SOUNDS_AND_EFFECTS,
+                    superGenre = Genre.AMBIENT,
                     description = ""
                 ),
                 roomId = 0,
@@ -184,7 +184,7 @@ object RoomFixture {
                 track = Track(
                     title = "예시 제목7",
                     artist = "예시 아티스트7",
-                    superGenre = Genre.SOUNDS_AND_EFFECTS,
+                    superGenre = Genre.AMBIENT,
                     description = ""
                 ),
                 roomId = 0,
