@@ -15,7 +15,7 @@ class RoomTest {
             track = Track(
                 title = "",
                 artist = "",
-                superGenre = Genre.SOUNDS_AND_EFFECTS,
+                superGenre = Genre.AMBIENT,
                 description = ""
             ),
             roomId = 0,

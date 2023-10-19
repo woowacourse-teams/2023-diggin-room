@@ -41,32 +41,38 @@ class ScrapViewModel @Keep constructor(
                         onSelect = ::startNavigation
                     )
                 )
-            }.onFailure {
-            }
+            }.onFailure {}
         }
     }
 
     private fun startNavigation(position: Int) {
         _uiState.value = ScrapUiState.Navigation(
             onSelect = ::startNavigation,
-            rooms = rooms.value.map { it.toModel(selectable = true) },
+            rooms = rooms.value.map { it.toModel(selectable = false) },
             position = position
         )
     }
 
     fun startRoomSelection() {
         viewModelScope.launch {
-            extractionStateRepository.fetch()
-                .onSuccess { isAvailable ->
-                    if (isAvailable) {
+            extractionStateRepository.fetch().onSuccess { isAvailable ->
+                if (isAvailable) {
+                    rooms = rooms.clear()
+                    if (_uiState.value is ScrapUiState.Selection) {
+                        _uiState.value = ScrapUiState.Default(
+                            onSelect = ::startNavigation,
+                            rooms = rooms.value.map { it.toModel(selectable = false) }
+                        )
+                    } else {
                         _uiState.value = ScrapUiState.Selection(
                             onSelect = ::switchSelection,
                             rooms = rooms.value.map { it.toModel(selectable = true) }
                         )
-                    } else {
-                        _event.setValue(ScrapUiEvent.DisAllowedExtraction)
                     }
-                }.onFailure {}
+                } else {
+                    _event.setValue(ScrapUiEvent.DisAllowedExtraction)
+                }
+            }.onFailure {}
         }
     }
 

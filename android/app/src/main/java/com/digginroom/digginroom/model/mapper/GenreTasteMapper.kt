@@ -20,12 +20,6 @@ object GenreTasteMapper {
             isSelected
         )
 
-        Genre.COMEDY -> GenreTasteModel(
-            genre.title,
-            R.drawable.ic_genre_comedy,
-            isSelected
-        )
-
         Genre.COUNTRY -> GenreTasteModel(
             genre.title,
             R.drawable.ic_genre_country,
@@ -59,12 +53,6 @@ object GenreTasteMapper {
         Genre.FOLK -> GenreTasteModel(
             genre.title,
             R.drawable.ic_genre_folk,
-            isSelected
-        )
-
-        Genre.FIELD_RECORDINGS -> GenreTasteModel(
-            genre.title,
-            R.drawable.ic_genre_field_recording,
             isSelected
         )
 
@@ -134,33 +122,9 @@ object GenreTasteMapper {
             isSelected
         )
 
-        Genre.REGIONAL_MUSIC -> GenreTasteModel(
-            genre.title,
-            R.drawable.ic_genre_regional_music,
-            isSelected
-        )
-
-        Genre.SKA -> GenreTasteModel(
-            genre.title,
-            R.drawable.ic_genre_ska,
-            isSelected
-        )
-
         Genre.SINGER_SONGWRITER -> GenreTasteModel(
             genre.title,
             R.drawable.ic_genre_singer_songwriter,
-            isSelected
-        )
-
-        Genre.SOUNDS_AND_EFFECTS -> GenreTasteModel(
-            genre.title,
-            R.drawable.ic_genre_sounds_and_effect,
-            isSelected
-        )
-
-        Genre.SPOKEN_WORD -> GenreTasteModel(
-            genre.title,
-            R.drawable.ic_genre_spoken_word,
             isSelected
         )
     }
