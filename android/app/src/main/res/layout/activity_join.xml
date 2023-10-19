@@ -30,11 +30,33 @@
         android:background="@color/activity_background"
         tools:context=".views.activity.JoinActivity">
 
-        <ProgressBar
-            android:id="@+id/join_pb"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="@{viewModel.uiState instanceof JoinUiState.Loading ? View.VISIBLE : View.INVISIBLE}"
+        <include
+            android:id="@+id/include"
+            layout="@layout/view_header" />
+
+        <ImageButton
+            android:id="@+id/join_ib_back"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/common_back_button_description"
+            android:cropToPadding="true"
+            android:onClick="@{() -> viewModel.cancel()}"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="@+id/join_tv_join"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/join_tv_join" />
+
+        <TextView
+            android:id="@+id/join_tv_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/common_join"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -87,35 +109,6 @@
             app:layout_constraintStart_toStartOf="@id/join_et_input_id"
             app:layout_constraintTop_toBottomOf="@id/join_et_input_id" />
 
-        <include layout="@layout/view_header" />
-
-        <ImageButton
-            android:id="@+id/join_ib_back"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="20dp"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="@string/common_back_button_description"
-            android:cropToPadding="true"
-            android:onClick="@{() -> viewModel.cancel()}"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="@+id/join_tv_join"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/join_tv_join" />
-
-        <TextView
-            android:id="@+id/join_tv_join"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/common_join"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/join_tv_id"
             android:layout_width="wrap_content"
@@ -151,7 +144,7 @@
             android:id="@+id/join_button_redundancy_check"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="35dp"
             android:background="@drawable/button_selector"
             android:enabled="@{joinVerification.isValidId}"
@@ -168,7 +161,7 @@
             android:id="@+id/join_tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="6dp"
             android:text="@string/common_password"
             android:textColor="@color/white"
@@ -215,7 +208,7 @@
             android:id="@+id/join_tv_reinput_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="6dp"
             android:text="@string/join_reinput_password"
             android:textColor="@color/white"
@@ -261,17 +254,28 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/join_button_join"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="48dp"
             android:background="@drawable/button_selector"
             android:enabled="@{joinVerification.isJoinAble}"
             android:onClick="@{() -> viewModel.join(account)}"
-            android:paddingVertical="16sp"
+            android:padding="-16dp"
             android:text="@string/common_join"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/join_et_re_input_password"
             app:layout_constraintStart_toStartOf="@+id/join_et_re_input_password"
             app:layout_constraintTop_toBottomOf="@id/join_et_re_input_password" />
+
+        <ProgressBar
+            android:id="@+id/join_pb"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:visibility="@{viewModel.uiState instanceof JoinUiState.Loading ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
