@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DigginRoomException.class)
     public ResponseEntity<ErrorResponse> handleDigginRoomException(final DigginRoomException e) {
         if (e.getHttpStatus() == INTERNAL_SERVER_ERROR) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
 
         return ResponseEntity
