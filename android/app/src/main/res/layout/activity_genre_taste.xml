@@ -25,7 +25,33 @@
         android:background="@color/activity_background"
         tools:context=".feature.genretaste.GenreTasteActivity">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/genre_taste_rv_genres"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adapter="@{adapter}"
+            android:clipToPadding="false"
+            android:paddingVertical="96dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="3"
+            tools:listitem="@layout/item_genre" />
+
         <include layout="@layout/view_header" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:rotation="180"
+            android:src="@drawable/bg_vertical_gradient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </ImageView>
 
         <TextView
             android:id="@+id/genre_taste_title"
@@ -39,28 +65,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/genre_taste_rv_genres"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/genre_taste_button_start"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/genre_taste_title"
-            app:spanCount="4"
-            tools:listitem="@layout/item_genre" />
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/genre_taste_button_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="45dp"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/bg_gradient_blue_radius"
             android:text="@string/genre_taste_start"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
