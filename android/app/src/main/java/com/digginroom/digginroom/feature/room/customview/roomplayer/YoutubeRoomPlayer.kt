@@ -10,7 +10,7 @@ import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
 
 class YoutubeRoomPlayer(
     context: Context,
-    override val roomInfoType: RoomInfoType,
+    roomInfoType: RoomInfoType,
     private val onYoutubePlay: () -> Unit
 ) : FrameLayout(context), RoomPlayer {
 
