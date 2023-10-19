@@ -82,7 +82,6 @@ jobs:
         env:
           BLUE: ${{ steps.port.outputs.blue }}
         run: |
-          sleep 5;
           PROCESS_ID="$(lsof -i:$BLUE -t)"
           if [ -n "$PROCESS_ID" ]; then
               sudo kill -15 $PROCESS_ID
