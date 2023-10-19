@@ -26,6 +26,22 @@
         android:background="@color/activity_background"
         tools:context=".feature.scrap.activity.ScrapListActivity">
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scrap_rv_scrapped_rooms"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adapter="@{adapter}"
+            android:clipToPadding="false"
+            android:paddingTop="72dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="3"
+            tools:listitem="@layout/item_scrapped_room" />
+
         <include layout="@layout/view_header" />
 
         <ImageButton
@@ -84,19 +100,5 @@
             android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/scrap_rv_scrapped_rooms"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="22dp"
-            android:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrap_tv_scrap"
-            app:spanCount="3"
-            tools:listitem="@layout/item_scrapped_room" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
