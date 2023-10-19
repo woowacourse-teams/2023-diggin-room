@@ -25,6 +25,8 @@
         android:background="@color/activity_background"
         tools:context=".feature.genretaste.GenreTasteActivity">
 
+        <include layout="@layout/view_header" />
+
         <TextView
             android:id="@+id/genre_taste_title"
             android:layout_width="wrap_content"

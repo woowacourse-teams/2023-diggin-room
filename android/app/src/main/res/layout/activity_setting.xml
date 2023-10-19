@@ -16,6 +16,8 @@
         android:background="@color/activity_background"
         tools:context=".feature.setting.SettingActivity">
 
+        <include layout="@layout/view_header" />
+
         <ImageButton
             android:id="@+id/setting_iv_back"
             android:layout_width="28dp"

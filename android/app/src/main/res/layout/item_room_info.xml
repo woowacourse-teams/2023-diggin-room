@@ -28,6 +28,14 @@
 
     <merge>
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:src="@drawable/bg_vertical_gradient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/room_info_tv_scrap"
             android:layout_width="wrap_content"

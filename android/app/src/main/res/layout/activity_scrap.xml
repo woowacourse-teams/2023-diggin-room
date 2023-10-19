@@ -26,6 +26,8 @@
         android:background="@color/activity_background"
         tools:context=".feature.scrap.activity.ScrapListActivity">
 
+        <include layout="@layout/view_header" />
+
         <ImageButton
             android:id="@+id/scrap_iv_back"
             android:layout_width="28dp"
