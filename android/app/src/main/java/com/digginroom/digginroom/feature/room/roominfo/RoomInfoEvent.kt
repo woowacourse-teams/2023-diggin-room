@@ -9,5 +9,6 @@ data class RoomInfoEvent(
     val openScrap: () -> Unit,
     val scrap: (Long) -> Unit,
     val unScrap: (Long) -> Unit,
-    val copyInfo: (TrackModel) -> Unit
+    val copyInfo: (TrackModel) -> Unit,
+    val cancel: () -> Unit
 )

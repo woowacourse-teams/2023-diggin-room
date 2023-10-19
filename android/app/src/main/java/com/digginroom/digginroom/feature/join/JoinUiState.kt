@@ -19,4 +19,6 @@ sealed interface JoinUiState {
     ) : JoinUiState
 
     object Succeed : JoinUiState
+
+    object InAvailable : JoinUiState
 }

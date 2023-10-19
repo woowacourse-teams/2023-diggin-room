@@ -7,7 +7,15 @@
 
         <import type="java.util.List" />
 
+        <import type="android.view.View" />
+
         <import type="com.digginroom.digginroom.model.CommentModel" />
+
+        <import type="com.digginroom.digginroom.feature.room.roominfo.RoomInfoType" />
+
+        <variable
+            name="roomInfoType"
+            type="com.digginroom.digginroom.feature.room.roominfo.RoomInfoType" />
 
         <variable
             name="roomInfoUiState"
@@ -19,6 +27,37 @@
     </data>
 
     <merge>
+
+        <TextView
+            android:id="@+id/room_info_tv_scrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:shadowColor="#8C000000"
+            android:shadowRadius="6"
+            android:text="@string/common_scrap_description"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/room_info_ib_back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="@string/common_back_button_description"
+            android:cropToPadding="true"
+            android:onClick="@{() -> roomInfoUiState.roomInfoEvent.cancel.invoke()}"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back_shadow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/room_info_tv_scrap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/room_info_tv_scrap" />
 
         <View
             android:layout_width="match_parent"
@@ -32,7 +71,7 @@
             android:id="@+id/room_info_ib_scrap"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="22dp"
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
@@ -78,7 +117,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="4dp"
             android:cropToPadding="true"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/room_info_tv_scrap_count"
@@ -92,7 +131,7 @@
             android:id="@+id/room_info_tv_scrap_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="22dp"
             android:shadowColor="#8C000000"
             android:shadowRadius="5"
             android:text="@{scrapCountFormatter.convert(roomInfoUiState.roomModel.scrapCount)}"
@@ -145,5 +184,4 @@
             app:layout_constraintBottom_toBottomOf="@id/room_info_tv_title_artist"
             app:layout_constraintEnd_toEndOf="parent" />
     </merge>
-
 </layout>
