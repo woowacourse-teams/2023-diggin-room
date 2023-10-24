@@ -5,12 +5,10 @@ enum class Genre(val title: String) {
     AMBIENT("Ambient"),
     BLUES("Blues"),
     CLASSICAL_MUSIC("Classical Music"),
-    COMEDY("Comedy"),
     COUNTRY("Country"),
     DANCE("Dance"),
     ELECTRONIC("Electronic"),
     EXPERIMENTAL("Experimental"),
-    FIELD_RECORDINGS("Field Recordings"),
     FOLK("Folk"),
     HIP_HOP("Hip Hop"),
     INDUSTRIAL_MUSIC("Industrial Music"),
@@ -22,12 +20,8 @@ enum class Genre(val title: String) {
     PSYCHEDELIA("Psychedelia"),
     PUNK("Punk"),
     RNB("R&B"),
-    REGIONAL_MUSIC("Regional Music"),
     ROCK("Rock"),
-    SINGER_SONGWRITER("Singer-Songwriter"),
-    SKA("Ska"),
-    SOUNDS_AND_EFFECTS("Sounds and Effects"),
-    SPOKEN_WORD("Spoken Word");
+    SINGER_SONGWRITER("Singer-Songwriter");
 
     companion object {
 

@@ -26,6 +26,24 @@
         android:background="@color/activity_background"
         tools:context=".feature.scrap.activity.ScrapListActivity">
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scrap_rv_scrapped_rooms"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adapter="@{adapter}"
+            android:clipToPadding="false"
+            android:paddingTop="72dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="3"
+            tools:listitem="@layout/item_scrapped_room" />
+
+        <include layout="@layout/view_header" />
+
         <ImageButton
             android:id="@+id/scrap_iv_back"
             android:layout_width="28dp"
@@ -33,7 +51,8 @@
             android:layout_marginStart="20dp"
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
-            android:src="@drawable/ic_arrow_left"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="@+id/scrap_tv_scrap"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/scrap_tv_scrap" />
@@ -43,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/scrap_scrap_description"
+            android:text="@string/common_scrap_description"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +77,7 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:gravity="center"
-            android:text="@string/scrap_selection"
+            android:text="@{viewModel.uiState instanceof ScrapUiState.Selection ? @string/scrap_unselection : @string/scrap_selection}"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:visibility="@{viewModel.event.value instanceof ScrapUiEvent.LoadingExtraction ? View.GONE : View.VISIBLE}"
@@ -81,19 +100,5 @@
             android:visibility="@{viewModel.uiState instanceof ScrapUiState.Selection ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/scrap_rv_scrapped_rooms"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="22dp"
-            android:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrap_tv_scrap"
-            app:spanCount="3"
-            tools:listitem="@layout/item_scrapped_room" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

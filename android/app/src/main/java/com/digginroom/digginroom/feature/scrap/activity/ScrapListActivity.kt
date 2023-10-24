@@ -33,17 +33,17 @@ class ScrapListActivity : AppCompatActivity() {
         )[ScrapViewModel::class.java]
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        scrapViewModel.findScrappedRooms()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initScrapBinding()
         initScrapStateObserver()
         initScrapEventObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        scrapViewModel.findScrappedRooms()
     }
 
     private fun initScrapBinding() {

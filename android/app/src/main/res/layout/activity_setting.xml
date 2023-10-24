@@ -16,6 +16,20 @@
         android:background="@color/activity_background"
         tools:context=".feature.setting.SettingActivity">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/setting_rv_settting_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingTop="32dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_tv_setting"
+            tools:listitem="@layout/item_setting" />
+
+        <include layout="@layout/view_header" />
+
         <ImageButton
             android:id="@+id/setting_iv_back"
             android:layout_width="28dp"
@@ -24,7 +38,8 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:onClick="@{() -> settingViewModel.cancel()}"
-            android:src="@drawable/ic_arrow_left"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="@+id/setting_tv_setting"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/setting_tv_setting" />
@@ -41,16 +56,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/setting_rv_settting_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setting_tv_setting"
-            tools:listitem="@layout/item_setting" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

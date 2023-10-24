@@ -6,8 +6,6 @@ sealed interface LoginUiState {
 
     sealed interface InProgress : LoginUiState {
 
-        object General : InProgress
-
         object Google : InProgress
 
         object KaKao : InProgress
@@ -15,8 +13,17 @@ sealed interface LoginUiState {
 
     object Loading : LoginUiState
 
-    object Failed : LoginUiState {
-        val account = AccountModel()
+    sealed interface Failed : LoginUiState {
+
+        object AutoLogin : Failed
+
+        object GuestLogin : Failed
+
+        object SocialLogin : Failed
+
+        data class Login(
+            val account: AccountModel = AccountModel()
+        ) : Failed
     }
 
     sealed interface Succeed : LoginUiState {

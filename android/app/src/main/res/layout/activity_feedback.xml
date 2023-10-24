@@ -18,6 +18,8 @@
         android:layout_height="match_parent"
         android:background="@color/activity_background">
 
+        <include layout="@layout/view_header" />
+
         <ImageButton
             android:id="@+id/feedback_iv_back"
             android:layout_width="28dp"
@@ -26,7 +28,8 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:onClick="@{() -> feedbackViewModel.cancel()}"
-            android:src="@drawable/ic_arrow_left"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back"
             app:layout_constraintBottom_toBottomOf="@+id/feedback_tv_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/feedback_tv_title" />

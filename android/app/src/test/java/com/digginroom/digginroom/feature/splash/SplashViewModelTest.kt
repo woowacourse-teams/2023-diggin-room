@@ -51,7 +51,7 @@ class SplashViewModelTest {
         splashViewModel.validateToken()
 
         // then
-        val expected = LoginUiState.Failed
+        val expected = LoginUiState.Failed.AutoLogin
         val actual = splashViewModel.loginUiState.value
 
         assertEquals(expected, actual)
