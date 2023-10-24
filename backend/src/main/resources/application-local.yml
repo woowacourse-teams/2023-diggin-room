@@ -10,6 +10,7 @@ spring:
         format_sql: true
         highlight_sql: true
         ddl-auto: create
+        use_sql_comments: false
     defer-datasource-initialization: true
   flyway:
     enabled: false
