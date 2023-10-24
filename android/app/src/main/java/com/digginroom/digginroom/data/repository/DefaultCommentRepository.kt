@@ -15,7 +15,7 @@ class DefaultCommentRepository @Keep constructor(
     override suspend fun findComments(
         roomId: Long,
         lastCommentId: Long?,
-        size: Int
+        size: Int?
     ): LogResult<List<Comment>> {
         return logRunCatching {
             commentRemoteDataSource.findComments(roomId, lastCommentId, size).toDomain()

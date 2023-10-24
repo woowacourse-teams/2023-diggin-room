@@ -7,7 +7,7 @@ interface CommentRepository {
     suspend fun findComments(
         roomId: Long,
         lastCommentId: Long? = null,
-        size: Int
+        size: Int? = null
     ): LogResult<List<Comment>>
 
     suspend fun postComment(roomId: Long, comment: String): LogResult<Comment>

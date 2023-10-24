@@ -32,7 +32,7 @@ class CommentViewModel @Keep constructor(
             state = SubmitState.POST
         )
     )
-    private var lastCommentId: Long = 0
+    private var lastCommentId: Long? = null
     private var isLastComment: Boolean = false
 
     val commentResponseUiState: LiveData<CommentResponseUiState> get() = _commentResponseUiState
@@ -40,23 +40,22 @@ class CommentViewModel @Keep constructor(
 
     fun findComments(roomId: Long) {
         if (isLastComment) return
-        if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
-        _commentResponseUiState.value = CommentResponseUiState.Loading
-
         viewModelScope.launch {
-            if (comments.isEmpty()) {
-                commentRepository.findComments(roomId = roomId, size = COMMENT_LIMIT_COUNT)
-            } else {
-                commentRepository.findComments(roomId, lastCommentId, COMMENT_LIMIT_COUNT)
-            }.onSuccess { newComments ->
-                if (newComments.isEmpty()) isLastComment = true
-                comments = newComments.sortedByDescending { it.createdAt }
-                if (newComments.isNotEmpty()) lastCommentId = comments.last().id
-                _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
-            }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
-            }
+            commentRepository.findComments(
+                roomId = roomId,
+                lastCommentId = lastCommentId,
+                size = COMMENT_LIMIT_COUNT
+            )
+                .onSuccess { newComments ->
+                    if (newComments.isEmpty()) isLastComment = true
+                    comments = newComments.sortedByDescending { it.createdAt }
+                    if (newComments.isNotEmpty()) lastCommentId = comments.last().id
+                    _commentResponseUiState.value =
+                        CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                }.onFailure {
+                    _commentResponseUiState.value =
+                        CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
+                }
         }
     }
 

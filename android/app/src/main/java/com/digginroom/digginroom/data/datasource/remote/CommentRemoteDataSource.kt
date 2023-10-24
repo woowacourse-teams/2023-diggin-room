@@ -15,13 +15,10 @@ class CommentRemoteDataSource @Keep constructor(
     suspend fun findComments(
         roomId: Long,
         lastCommentId: Long? = null,
-        size: Int
+        size: Int? = null
     ): CommentsResponse {
-        val response: Response<CommentsResponse> = if (lastCommentId == null) {
-            commentService.findFirstComments(roomId, size)
-        } else {
+        val response: Response<CommentsResponse> =
             commentService.findNextComments(roomId, lastCommentId, size)
-        }
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)

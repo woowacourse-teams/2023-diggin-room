@@ -15,16 +15,10 @@ import retrofit2.http.Query
 interface CommentService {
 
     @GET("/rooms/{id}/comments")
-    suspend fun findFirstComments(
-        @Path(value = "id") roomId: Long,
-        @Query(value = "size") size: Int
-    ): Response<CommentsResponse>
-
-    @GET("/rooms/{id}/comments")
     suspend fun findNextComments(
         @Path(value = "id") roomId: Long,
-        @Query(value = "lastCommentId") lastCommentId: Long?,
-        @Query(value = "size") size: Int?
+        @Query(value = "lastCommentId") lastCommentId: Long? = null,
+        @Query(value = "size") size: Int? = null
     ): Response<CommentsResponse>
 
     @POST("/rooms/{id}/comments")
