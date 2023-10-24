@@ -5,15 +5,15 @@ spring:
   datasource:
     generate-unique-name: false
   jpa:
-    show-sql: true
     properties:
       hibernate:
         format_sql: true
+        highlight_sql: true
         ddl-auto: create
     defer-datasource-initialization: true
   flyway:
     enabled: false
 logging:
   level:
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
