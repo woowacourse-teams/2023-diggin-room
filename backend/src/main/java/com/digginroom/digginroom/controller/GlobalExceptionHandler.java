@@ -4,7 +4,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-import com.digginroom.digginroom.controller.dto.ErrorResponse;
+import com.digginroom.digginroom.service.dto.ErrorResponse;
 import com.digginroom.digginroom.exception.DigginRoomException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DigginRoomException.class)
     public ResponseEntity<ErrorResponse> handleDigginRoomException(final DigginRoomException e) {
         if (e.getHttpStatus() == INTERNAL_SERVER_ERROR) {
-            log.error(e.getMessage());
+            log.error(e.getMessage(), e);
         }
 
         return ResponseEntity

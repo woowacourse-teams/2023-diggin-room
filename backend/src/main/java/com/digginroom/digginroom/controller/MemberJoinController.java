@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.controller.dto.MemberDuplicationResponse;
-import com.digginroom.digginroom.controller.dto.MemberSaveRequest;
+import com.digginroom.digginroom.service.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
