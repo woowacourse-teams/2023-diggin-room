@@ -38,24 +38,23 @@ class CommentViewModel @Keep constructor(
     val commentResponseUiState: LiveData<CommentResponseUiState> get() = _commentResponseUiState
     val commentSubmitUiState: LiveData<CommentSubmitUiState> get() = _commentSubmitUiState
 
-    fun findComments(roomId: Long) {
+    fun findComments(roomId: Long, size: Int) {
         if (isLastComment) return
         viewModelScope.launch {
             commentRepository.findComments(
                 roomId = roomId,
                 lastCommentId = lastCommentId,
-                size = COMMENT_LIMIT_COUNT
-            )
-                .onSuccess { newComments ->
-                    if (newComments.isEmpty()) isLastComment = true
-                    comments = newComments.sortedByDescending { it.createdAt }
-                    if (newComments.isNotEmpty()) lastCommentId = comments.last().id
-                    _commentResponseUiState.value =
-                        CommentResponseUiState.Succeed(comments.map { it.toModel() })
-                }.onFailure {
-                    _commentResponseUiState.value =
-                        CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
-                }
+                size = size
+            ).onSuccess { newComments ->
+                if (newComments.isEmpty()) isLastComment = true
+                comments = newComments.sortedByDescending { it.createdAt }
+                if (newComments.isNotEmpty()) lastCommentId = comments.last().id
+                _commentResponseUiState.value =
+                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
+            }.onFailure {
+                _commentResponseUiState.value =
+                    CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
+            }
         }
     }
 
@@ -136,7 +135,5 @@ class CommentViewModel @Keep constructor(
         const val POST_COMMENT_FAILED = "댓글 작성에 실패하였습니다."
         const val UPDATE_COMMENT_FAILED = "댓글 수정에 실패하였습니다."
         const val DELETE_COMMENT_FAILED = "댓글 삭제에 실패하였습니다."
-
-        const val COMMENT_LIMIT_COUNT = 10
     }
 }

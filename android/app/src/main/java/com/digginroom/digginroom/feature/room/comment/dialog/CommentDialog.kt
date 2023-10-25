@@ -54,7 +54,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     fun show(fragmentManager: FragmentManager, id: Long) {
         if (isAdded) return
         showNow(fragmentManager, COMMENT_DIALOG_TAG)
-        dialogBinding.commentViewModel?.findComments(id)
+        dialogBinding.commentViewModel?.findComments(id, COMMENT_SIZE)
         dialogBinding.roomId = id
         bottomPlacedItemBinding.roomId = id
         dialogBinding.dialogCommentRecyclerViewComment.apply {
@@ -62,7 +62,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (canScrollVertically(1)) {
-                        commentViewModel.findComments(id)
+                        commentViewModel.findComments(id, COMMENT_SIZE)
                     }
                 }
             })
@@ -84,5 +84,6 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     companion object {
         private const val COMMENT_DIALOG_TAG = "CommentDialog"
         private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"
+        private const val COMMENT_SIZE = 10
     }
 }
