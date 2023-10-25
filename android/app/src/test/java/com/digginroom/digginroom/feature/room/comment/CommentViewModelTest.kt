@@ -48,13 +48,14 @@ class CommentViewModelTest {
         val roomId: Long = 0
 
         coEvery {
-            commentRepository.findComments(any())
+            commentRepository.findComments(any(), any(), any())
         } returns LogResult.success(comments)
 
         // when
-        commentViewModel.findComments(roomId)
+        commentViewModel.findComments(roomId, 10)
 
         // then
+        println("결과 ${commentViewModel.commentResponseUiState.value}")
         val actual = commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed
         val expected = comments.map { it.toModel() }
         assertEquals(expected, actual.comments)
