@@ -47,7 +47,7 @@ class CommentViewModel @Keep constructor(
                 size = size
             ).onSuccess { newComments ->
                 if (newComments.isEmpty()) isLastComment = true
-                comments = newComments.sortedByDescending { it.createdAt }
+                comments = comments + newComments.sortedByDescending { it.createdAt }
                 if (newComments.isNotEmpty()) lastCommentId = comments.last().id
                 _commentResponseUiState.value =
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
