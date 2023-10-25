@@ -27,3 +27,16 @@ oauth:
     clientSecret: ${CLIENT_SECRET}
     redirectUri: ${REDIRECT_URI}
     grantType: authorization_code
+
+management:
+  info:
+    env:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: info
+
+info:
+    version: '1.0.0'
