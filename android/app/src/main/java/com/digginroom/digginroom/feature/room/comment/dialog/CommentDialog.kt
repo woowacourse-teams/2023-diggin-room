@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
 import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
@@ -24,7 +26,9 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         initDialogBinding()
         initBottomPlacedItemBinding()
@@ -72,29 +76,32 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     private fun setUpObserver() {
         commentViewModel.commentResponseUiState.observe(this) {
             when (it) {
-                is CommentResponseUiState.Failed -> Unit
+                is CommentResponseUiState.Failed -> {
+                    val errorMessage = when (it) {
+                        CommentResponseUiState.Failed.FindFailed -> R.string.find_comment_failed_message
+                        CommentResponseUiState.Failed.SubmitFailed -> R.string.submit_comment_failed_message
+                        CommentResponseUiState.Failed.DeleteFailed -> R.string.delete_comment_failed_message
+                    }
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                }
 
-                is CommentResponseUiState.Loading -> Unit
+                is CommentResponseUiState.Loading -> {
+                    dialogBinding.dialogCommentTvDefault.visibility = View.INVISIBLE
+                    dialogBinding.dialogCommentRecyclerViewComment.visibility = View.INVISIBLE
+                }
 
                 is CommentResponseUiState.Succeed -> {
                     bottomPlacedItemBinding.currentComment = ""
                     dialogBinding.dialogCommentRecyclerViewComment.apply {
                         (adapter as? CommentAdapter)?.submitList(it.comments)
                         smoothScrollToPosition(0)
-                        visibility = if (it.comments.isEmpty()) {
-                            View.GONE
-                        } else {
-                            View.VISIBLE
-                        }
+                        visibility = if (it.comments.isEmpty()) View.GONE else View.VISIBLE
                     }
                     (dialogBinding.dialogCommentRecyclerViewComment.adapter as? CommentAdapter)?.submitList(
                         it.comments
                     )
-                    dialogBinding.dialogCommentTvDefault.visibility = if (it.comments.isEmpty()) {
-                        View.VISIBLE
-                    } else {
-                        View.GONE
-                    }
+                    dialogBinding.dialogCommentTvDefault.visibility =
+                        if (it.comments.isEmpty()) View.VISIBLE else View.GONE
                 }
             }
         }
@@ -102,10 +109,13 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun showCommentMenuDialog(comment: CommentItem.CommentModel) {
         CommentMenuDialog(
-            roomId = dialogBinding.roomId ?: return, commentId = comment.id, updateComment = {
+            roomId = dialogBinding.roomId ?: return,
+            commentId = comment.id,
+            updateComment = {
                 bottomPlacedItemBinding.currentComment = comment.comment
                 bottomPlacedItemBinding.updateTargetComment = comment
-            }, commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
+            },
+            commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
         ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
     }
 

@@ -7,6 +7,10 @@ sealed class CommentResponseUiState {
         val comments: List<CommentItem> = emptyList()
     ) : CommentResponseUiState()
 
-    data class Failed(val message: String = "") : CommentResponseUiState()
+    sealed class Failed : CommentResponseUiState() {
+        object FindFailed : Failed()
+        object SubmitFailed : Failed()
+        object DeleteFailed : Failed()
+    }
     object Loading : CommentResponseUiState()
 }

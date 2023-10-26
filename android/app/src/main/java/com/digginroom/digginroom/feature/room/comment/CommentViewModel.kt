@@ -44,26 +44,38 @@ class CommentViewModel @Keep constructor(
         if (isLastComment) return
         viewModelScope.launch {
             commentRepository.findComments(
-                roomId = roomId, lastCommentId = lastCommentId, size = size
+                roomId = roomId,
+                lastCommentId = lastCommentId,
+                size = size
             ).onSuccess { newComments ->
                 if (newComments.isEmpty()) {
-                    isLastComment = true
-                    _commentResponseUiState.value =
-                        CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                    infiniteScrollEnd()
                     return@onSuccess
                 }
-                comments = comments + newComments
-                lastCommentId = comments.last().id
-                _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() } + CommentItem.Loading)
+                renewComments(newComments)
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
+                _commentResponseUiState.value = CommentResponseUiState.Failed.FindFailed
             }
         }
     }
 
+    private fun infiniteScrollEnd() {
+        isLastComment = true
+        _commentResponseUiState.value =
+            CommentResponseUiState.Succeed(comments.map { it.toModel() })
+    }
+
+    private fun renewComments(newComments: List<Comment>) {
+        comments = comments + newComments
+        lastCommentId = comments.last().id
+        _commentResponseUiState.value =
+            CommentResponseUiState.Succeed(comments.map { it.toModel() } + CommentItem.Loading)
+    }
+
     fun submitComment(
-        roomId: Long, comment: String, updateTargetCommentModel: CommentItem.CommentModel?
+        roomId: Long,
+        comment: String,
+        updateTargetCommentModel: CommentItem.CommentModel?
     ) {
         if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
@@ -72,7 +84,9 @@ class CommentViewModel @Keep constructor(
             SubmitState.POST -> postComment(roomId, comment)
             SubmitState.UPDATE -> updateTargetCommentModel?.let {
                 updateComment(
-                    roomId, comment, it.id
+                    roomId,
+                    comment,
+                    it.id
                 )
             }
         }
@@ -80,13 +94,15 @@ class CommentViewModel @Keep constructor(
 
     private fun postComment(roomId: Long, comment: String) {
         viewModelScope.launch {
-            commentRepository.postComment(roomId, comment).onSuccess { comment ->
-                comments = comments.toMutableList().apply { add(0, comment) }
-                _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
-            }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed(POST_COMMENT_FAILED)
-            }
+            commentRepository.postComment(roomId, comment)
+                .onSuccess { comment ->
+                    comments = comments.toMutableList().apply { add(0, comment) }
+                    _commentResponseUiState.value =
+                        CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                }.onFailure {
+                    _commentResponseUiState.value =
+                        CommentResponseUiState.Failed.SubmitFailed
+                }
         }
     }
 
@@ -102,7 +118,7 @@ class CommentViewModel @Keep constructor(
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
                 changeToPostMode()
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed(UPDATE_COMMENT_FAILED)
+                _commentResponseUiState.value = CommentResponseUiState.Failed.SubmitFailed
             }
         }
     }
@@ -117,7 +133,7 @@ class CommentViewModel @Keep constructor(
                 _commentResponseUiState.value =
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed(DELETE_COMMENT_FAILED)
+                _commentResponseUiState.value = CommentResponseUiState.Failed.DeleteFailed
             }
         }
     }
@@ -132,12 +148,5 @@ class CommentViewModel @Keep constructor(
         _commentSubmitUiState.value = _commentSubmitUiState.value?.copy(
             state = SubmitState.POST
         )
-    }
-
-    companion object {
-        const val FIND_COMMENT_FAILED = "댓글을 불러올 수 없습니다."
-        const val POST_COMMENT_FAILED = "댓글 작성에 실패하였습니다."
-        const val UPDATE_COMMENT_FAILED = "댓글 수정에 실패하였습니다."
-        const val DELETE_COMMENT_FAILED = "댓글 삭제에 실패하였습니다."
     }
 }
