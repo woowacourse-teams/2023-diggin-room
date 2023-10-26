@@ -35,6 +35,6 @@ management:
     web:
       exposure:
         include: info
-      base-path: ${ACTUATOR_BASE_PATH}
+      base-path: /manage
 info:
     version: '1.0.0'
