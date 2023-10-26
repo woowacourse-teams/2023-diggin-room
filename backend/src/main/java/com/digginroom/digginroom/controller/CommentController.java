@@ -68,6 +68,6 @@ public class CommentController {
 
     @GetMapping
     public ResponseEntity<String> findRoomComments() {
-        return ResponseEntity.ok().body("123");
+        return ResponseEntity.ok().body("새로운 버전");
     }
 }
