@@ -13,25 +13,34 @@ class SampleCommentRepository : CommentRepository {
         size: Int?
     ): LogResult<List<Comment>> {
         val localDateTime = LocalDateTime.of(2023, 10, 25, 3, 10)
-        val comments =
-            (0..20).map {
-                Comment(
-                    it.toLong(),
-                    ('a' + it).toString(),
-                    ('a' + it).toString(),
-                    localDateTime,
-                    localDateTime,
-                    true
-                )
-            }
-        val lastCommentIndex = comments.indexOf(comments.first { it.id == (lastCommentId ?: 0) })
-        return logRunCatching {
-            comments.subList(
-                lastCommentIndex,
-                lastCommentIndex + (size ?: 10)
+        val comments = (COMMENT_START_INDEX..COMMENT_END_INDEX).map {
+            Comment(
+                it.toLong(),
+                ('a' + it).toString(),
+                ('a' + it).toString(),
+                localDateTime,
+                localDateTime,
+                true
             )
         }
+        val startIndex =
+            adjustIndexToSize(comments.size, calculateStartIndex(comments, lastCommentId))
+        val endIndex = adjustIndexToSize(comments.size, calculateEndIndex(startIndex, size))
+        val returnComments = comments.subList(
+            startIndex,
+            endIndex
+        )
+        return logRunCatching {
+            if (lastCommentId == COMMENT_END_INDEX.toLong()) emptyList() else returnComments
+        }
     }
+
+    private fun calculateStartIndex(comments: List<Comment>, lastCommentId: Long?) =
+        comments.indexOf(comments.first { it.id == (lastCommentId ?: 0) }) + 1
+
+    private fun calculateEndIndex(startIndex: Int, size: Int?) = startIndex + (size ?: 10)
+
+    private fun adjustIndexToSize(size: Int, index: Int) = if (index >= size) size else index
 
     override suspend fun postComment(roomId: Long, comment: String): LogResult<Comment> {
         TODO("Not yet implemented")
@@ -47,5 +56,10 @@ class SampleCommentRepository : CommentRepository {
 
     override suspend fun deleteComment(roomId: Long, commentId: Long): LogResult<Unit> {
         TODO("Not yet implemented")
+    }
+
+    companion object {
+        private const val COMMENT_START_INDEX = 0
+        private const val COMMENT_END_INDEX = 30
     }
 }
