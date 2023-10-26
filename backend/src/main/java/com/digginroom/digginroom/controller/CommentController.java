@@ -65,4 +65,10 @@ public class CommentController {
         commentService.delete(loginMemberId, commentId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping
+    public ResponseEntity<CommentsResponse> findRoomComments(
+    ) {
+        return ResponseEntity.status(OK).body("테스트");
+    }
 }
