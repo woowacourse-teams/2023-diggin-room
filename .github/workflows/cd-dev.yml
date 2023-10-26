@@ -3,7 +3,7 @@ name: Development CD
 on:
   workflow_dispatch:
   push:
-    branches: [ "backend", "feature/" ]
+    branches: [ "backend", "feature/422" ]
 permissions:
   contents: read
 jobs:
@@ -71,15 +71,16 @@ jobs:
           done
 
       - name: 기존 버전의 어플리케이션을 확인한다.
+        id: version
         shell: bash {0}
         env:
           GREEN: ${{ steps.port.outputs.green }}
-          SERVER1: ${{ steps.port.outputs.server1 }}
-          SERVER2: ${{ steps.port.outputs.server2 }}
+          SERVER1_PORT: ${{ steps.port.outputs.server1 }}
+          SERVER2_PORT: ${{ steps.port.outputs.server2 }}
         run: |
           function getVersion {
             version=$(curl -s -H "Content-Type: application/json; charset=utf-8" -X GET http://localhost:$1/manage/info | jq -r '.version')
-            if [ -z $version]; then
+            if [ -z $version ]; then
               version="0"
             fi;
             echo ${version}
@@ -95,7 +96,8 @@ jobs:
           SERVER1_MINOR_VERSION=$(echo $SERVER1_VERSION | cut -d "." -f2)
           SERVER2_MAJOR_VERSION=$(echo $SERVER2_VERSION | cut -d "." -f1)
           SERVER2_MINOR_VERSION=$(echo $SERVER2_VERSION | cut -d "." -f2)
-          BLUE_VERSION="$NOW_MAJOR_VERSION.$NOW_MINOR_VERSION"
+          
+          GREEN_VERSION="$NOW_MAJOR_VERSION.$NOW_MINOR_VERSION"
           
           if [ -z $SERVER1_MAJOR_VERSION ] && [ -z $SERVER2_MAJOR_VERSION ]; then
             echo "서버가 한 대도 띄워져있지 않습니다. 서버 1에 배포"
@@ -161,29 +163,30 @@ jobs:
           else
             echo "케이스를 구분할 수 없습니다. 서버 1: $SERVER1_VERSION 서버 2: $SERVER2_VERSION 새로운 서버: $NOW_VERSION"
           fi;
-          
+                    
           echo "blue=$BLUE_PORT">>$GITHUB_OUTPUT    
           echo "retain=$RETAIN_PORT">>$GITHUB_OUTPUT        
-          echo "green_version=$NOW_SERVER_VERSION">>$GITHUB_OUTPUT    
+          echo "green_version=$GREEN_VERSION">>$GITHUB_OUTPUT    
           echo "retain_version=$RETAIN_VERSION">>$GITHUB_OUTPUT    
 
       - name: NGINX의 리버스 프록시 설정을 변경한다.
         env:
           GREEN: ${{ steps.port.outputs.green }}
-          RETAIN: ${{ steps.port.outputs.retain }}
-          GREEN_VERSION: ${{ steps.port.outputs.green_version }}
-          RETAIN_VERSION: ${{ steps.port.outputs.green }}
+          RETAIN: ${{ steps.version.outputs.retain }}
+          GREEN_VERSION: ${{ steps.version.outputs.green_version }}
+          RETAIN_VERSION: ${{ steps.version.outputs.retain_version }}
         shell: bash {0}
         run: |
+            echo $RETAIN
             INC_CONTENTS="if (\$http_version = \"$RETAIN_VERSION\") {
-              proxy_pass http://localhost:$RETAIN_PORT;
+              proxy_pass http://localhost:$RETAIN;
             }
             
             if (\$http_version = \"$GREEN_VERSION\") {
               proxy_pass http://localhost:$GREEN;
             }
             
-            proxy_pass http://localhost:$RETAIN_PORT;"
+            proxy_pass http://localhost:$RETAIN;"
   
             echo $INC_CONTENTS | sudo tee /etc/nginx/conf.d/port.inc;
 
@@ -195,7 +198,7 @@ jobs:
       - name: 기존 어플리케이션을 종료한다
         shell: bash {0}
         env:
-          BLUE: ${{ steps.port.outputs.blue }}
+          BLUE: ${{ steps.version.outputs.blue }}
         run: |
           PROCESS_ID="$(lsof -i:$BLUE -t)"
           if [ -n "$PROCESS_ID" ]; then
