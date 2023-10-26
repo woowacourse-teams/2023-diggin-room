@@ -67,7 +67,7 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<Void> findRoomComments() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> findRoomComments() {
+        return ResponseEntity.ok().body("123");
     }
 }
