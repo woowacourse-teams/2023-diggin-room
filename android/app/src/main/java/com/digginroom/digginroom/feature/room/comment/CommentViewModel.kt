@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentSubmitUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.SubmitState
-import com.digginroom.digginroom.model.CommentModel
+import com.digginroom.digginroom.model.CommentItem
 import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
@@ -39,26 +39,32 @@ class CommentViewModel @Keep constructor(
     val commentSubmitUiState: LiveData<CommentSubmitUiState> get() = _commentSubmitUiState
 
     fun findComments(roomId: Long, size: Int) {
+        if (commentResponseUiState.value is CommentResponseUiState.Loading) return
+        _commentResponseUiState.value = CommentResponseUiState.Loading
         if (isLastComment) return
         viewModelScope.launch {
             commentRepository.findComments(
-                roomId = roomId,
-                lastCommentId = lastCommentId,
-                size = size
+                roomId = roomId, lastCommentId = lastCommentId, size = size
             ).onSuccess { newComments ->
-                if (newComments.isEmpty()) isLastComment = true
-                comments = comments + newComments.sortedByDescending { it.createdAt }
-                if (newComments.isNotEmpty()) lastCommentId = comments.last().id
+                if (newComments.isEmpty()) {
+                    isLastComment = true
+                    _commentResponseUiState.value =
+                        CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                    return@onSuccess
+                }
+                comments = comments + newComments
+                lastCommentId = comments.last().id
                 _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                    CommentResponseUiState.Succeed(comments.map { it.toModel() } + CommentItem.Loading)
             }.onFailure {
-                _commentResponseUiState.value =
-                    CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
+                _commentResponseUiState.value = CommentResponseUiState.Failed(FIND_COMMENT_FAILED)
             }
         }
     }
 
-    fun submitComment(roomId: Long, comment: String, updateTargetCommentModel: CommentModel?) {
+    fun submitComment(
+        roomId: Long, comment: String, updateTargetCommentModel: CommentItem.CommentModel?
+    ) {
         if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
 
@@ -66,9 +72,7 @@ class CommentViewModel @Keep constructor(
             SubmitState.POST -> postComment(roomId, comment)
             SubmitState.UPDATE -> updateTargetCommentModel?.let {
                 updateComment(
-                    roomId,
-                    comment,
-                    it.id
+                    roomId, comment, it.id
                 )
             }
         }
