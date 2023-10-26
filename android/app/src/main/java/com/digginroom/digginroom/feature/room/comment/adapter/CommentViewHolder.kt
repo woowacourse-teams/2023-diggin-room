@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.digginroom.digginroom.databinding.ItemCommentBinding
-import com.digginroom.digginroom.model.CommentModel
+import com.digginroom.digginroom.model.CommentItem.CommentModel
 
 class CommentViewHolder(
     private val binding: ItemCommentBinding,
