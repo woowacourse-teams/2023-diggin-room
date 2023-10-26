@@ -47,5 +47,4 @@ jobs:
           -DCLIENT_ID=${{ secrets.CLIENT_ID }} \
           -DCLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
           -DREDIRECT_URI=${{ secrets.REDIRECT_URI }} \
-          -DACTUATOR_BASE_PATH=${{ secrets.ACTUATOR_BASE_PATH }} \
           DigginRoom-0.0.1-SNAPSHOT.jar &

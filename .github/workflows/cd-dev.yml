@@ -52,7 +52,6 @@ jobs:
           -DCLIENT_ID=${{ secrets.CLIENT_ID }} \
           -DCLIENT_SECRET=${{ secrets.CLIENT_SECRET }} \
           -DREDIRECT_URI=${{ secrets.REDIRECT_URI }} \
-          -DACTUATOR_BASE_PATH=${{ secrets.ACTUATOR_BASE_PATH }} \
           DigginRoom-0.0.1-SNAPSHOT.jar &
 
       - name: 어플리이션이 접속 가능한 상태가 되도록 기다린다
