@@ -5,6 +5,7 @@ import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiS
 import com.digginroom.digginroom.fixture.CommentFixture.Comment
 import com.digginroom.digginroom.fixture.CommentFixture.Comments
 import com.digginroom.digginroom.fixture.LogResult
+import com.digginroom.digginroom.model.CommentItem
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
 import io.mockk.coEvery
@@ -56,7 +57,8 @@ class CommentViewModelTest {
 
         // then
         val actual = commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed
-        val expected = comments.map { it.toModel() }
+        val expected = comments.map { it.toModel() } + CommentItem.Loading
+        println(actual)
         assertEquals(expected, actual.comments)
     }
 
