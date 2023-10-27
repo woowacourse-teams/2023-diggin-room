@@ -81,33 +81,51 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         commentViewModel.commentResponseUiState.observe(this) {
             when (it) {
                 is CommentResponseUiState.Failed -> {
-                    val errorMessage = when (it) {
-                        CommentResponseUiState.Failed.FindFailed -> R.string.find_comment_failed_message
-                        CommentResponseUiState.Failed.SubmitFailed -> R.string.submit_comment_failed_message
-                        CommentResponseUiState.Failed.DeleteFailed -> R.string.delete_comment_failed_message
-                    }
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    showFailedView(it)
                 }
 
                 is CommentResponseUiState.Loading -> {
-                    dialogBinding.dialogCommentTvDefault.visibility = View.INVISIBLE
-                    dialogBinding.dialogCommentRecyclerViewComment.visibility = View.INVISIBLE
+                    showLoadingView()
                 }
 
                 is CommentResponseUiState.Succeed -> {
-                    bottomPlacedItemBinding.currentComment = ""
-                    dialogBinding.dialogCommentRecyclerViewComment.apply {
-                        (adapter as? CommentAdapter)?.submitList(it.comments)
-                        smoothScrollToPosition(0)
-                        visibility = if (it.comments.isEmpty()) View.GONE else View.VISIBLE
-                    }
-                    (dialogBinding.dialogCommentRecyclerViewComment.adapter as? CommentAdapter)?.submitList(
-                        it.comments
-                    )
-                    dialogBinding.dialogCommentTvDefault.visibility =
-                        if (it.comments.isEmpty()) View.VISIBLE else View.GONE
+                    showSucceedView(it)
                 }
             }
+        }
+    }
+
+    private fun showFailedView(failedUiState: CommentResponseUiState.Failed) {
+        val errorMessage = when (failedUiState) {
+            CommentResponseUiState.Failed.Find -> R.string.find_comment_failed_message
+            CommentResponseUiState.Failed.Submit -> R.string.submit_comment_failed_message
+            CommentResponseUiState.Failed.Delete -> R.string.delete_comment_failed_message
+        }
+        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoadingView() {
+        with(dialogBinding) {
+            dialogCommentTvDefault.visibility = View.INVISIBLE
+            dialogCommentRecyclerViewComment.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showSucceedView(succeedCommentResponseUiState: CommentResponseUiState.Succeed) {
+        bottomPlacedItemBinding.currentComment = ""
+        with(dialogBinding) {
+            dialogCommentRecyclerViewComment.apply {
+                val commentAdapter: CommentAdapter = adapter as? CommentAdapter ?: return
+                commentAdapter.submitList(succeedCommentResponseUiState.comments)
+                smoothScrollToPosition(0)
+                visibility =
+                    if (succeedCommentResponseUiState.comments.isEmpty()) View.GONE else View.VISIBLE
+                commentAdapter.submitList(
+                    succeedCommentResponseUiState.comments
+                )
+            }
+            dialogCommentTvDefault.visibility =
+                if (succeedCommentResponseUiState.comments.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

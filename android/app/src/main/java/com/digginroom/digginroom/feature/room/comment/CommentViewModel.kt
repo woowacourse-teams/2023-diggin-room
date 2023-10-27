@@ -54,7 +54,7 @@ class CommentViewModel @Keep constructor(
                     refreshComments(newComments)
                 }
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed.FindFailed
+                _commentResponseUiState.value = CommentResponseUiState.Failed.Find
             }
         }
     }
@@ -99,7 +99,7 @@ class CommentViewModel @Keep constructor(
                 _commentResponseUiState.value =
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed.SubmitFailed
+                _commentResponseUiState.value = CommentResponseUiState.Failed.Submit
             }
         }
     }
@@ -115,7 +115,7 @@ class CommentViewModel @Keep constructor(
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
                 changeToPostMode()
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed.SubmitFailed
+                _commentResponseUiState.value = CommentResponseUiState.Failed.Submit
             }
         }
     }
@@ -130,7 +130,7 @@ class CommentViewModel @Keep constructor(
                 _commentResponseUiState.value =
                     CommentResponseUiState.Succeed(comments.map { it.toModel() })
             }.onFailure {
-                _commentResponseUiState.value = CommentResponseUiState.Failed.DeleteFailed
+                _commentResponseUiState.value = CommentResponseUiState.Failed.Delete
             }
         }
     }

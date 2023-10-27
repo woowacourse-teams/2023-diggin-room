@@ -8,9 +8,10 @@ sealed class CommentResponseUiState {
     ) : CommentResponseUiState()
 
     sealed class Failed : CommentResponseUiState() {
-        object FindFailed : Failed()
-        object SubmitFailed : Failed()
-        object DeleteFailed : Failed()
+        object Find : Failed()
+        object Submit : Failed()
+        object Delete : Failed()
     }
+
     object Loading : CommentResponseUiState()
 }
