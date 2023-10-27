@@ -15,7 +15,7 @@ class CommentDiffUtilCallback : DiffUtil.ItemCallback<CommentItem>() {
 
     override fun areContentsTheSame(oldItem: CommentItem, newItem: CommentItem): Boolean {
         return if (newItem is CommentModel && oldItem is CommentModel) {
-            oldItem.comment == newItem.comment
+            oldItem == newItem
         } else {
             true
         }

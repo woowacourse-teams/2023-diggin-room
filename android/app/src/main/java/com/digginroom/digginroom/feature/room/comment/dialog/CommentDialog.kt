@@ -118,12 +118,12 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             dialogCommentRecyclerViewComment.apply {
                 val commentAdapter: CommentAdapter = adapter as? CommentAdapter ?: return
                 commentAdapter.submitList(succeedCommentResponseUiState.comments)
-                smoothScrollToPosition(0)
                 visibility =
                     if (succeedCommentResponseUiState.comments.isEmpty()) View.GONE else View.VISIBLE
                 commentAdapter.submitList(
                     succeedCommentResponseUiState.comments
                 )
+                post { smoothScrollToPosition(0) }
             }
             dialogCommentTvDefault.visibility =
                 if (succeedCommentResponseUiState.comments.isEmpty()) View.VISIBLE else View.GONE
