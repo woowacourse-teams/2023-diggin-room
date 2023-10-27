@@ -6,8 +6,7 @@ sealed class CommentItem {
         val writer: String,
         val comment: String,
         val elapsedTime: String,
-        val isOwner: Boolean,
-        val infiniteLoading: String = ""
+        val isOwner: Boolean
     ) : CommentItem()
 
     object Loading : CommentItem()

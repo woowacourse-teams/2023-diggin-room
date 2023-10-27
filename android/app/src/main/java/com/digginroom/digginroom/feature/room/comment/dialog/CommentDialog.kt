@@ -19,8 +19,10 @@ import com.dygames.di.DependencyInjector.inject
 class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private lateinit var dialogBinding: DialogCommentLayoutBinding
-    private lateinit var bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding
-    private val commentViewModel: CommentViewModel = inject()
+    private val bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding by lazy {
+        DialogCommentBottomPlacedItemLayoutBinding.inflate(LayoutInflater.from(context))
+    }
+    private val commentViewModel: CommentViewModel by lazy { inject() }
 
     override val dialogView: View by lazy { dialogBinding.root }
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
@@ -31,10 +33,14 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         savedInstanceState: Bundle?
     ): View {
         initDialogBinding()
-        initBottomPlacedItemBinding()
-        setUpObserver()
         isCancelable = true
         return dialogBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initBottomPlacedItemBinding()
+        setUpObserver()
     }
 
     private fun initDialogBinding() {
@@ -46,8 +52,6 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     }
 
     private fun initBottomPlacedItemBinding() {
-        bottomPlacedItemBinding =
-            DialogCommentBottomPlacedItemLayoutBinding.inflate(LayoutInflater.from(context))
         bottomPlacedItemBinding.commentViewModel = commentViewModel
     }
 

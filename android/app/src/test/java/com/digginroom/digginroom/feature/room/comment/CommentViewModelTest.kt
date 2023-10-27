@@ -55,7 +55,6 @@ class CommentViewModelTest {
         commentViewModel.findComments(roomId, 10)
 
         // then
-        println("결과 ${commentViewModel.commentResponseUiState.value}")
         val actual = commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed
         val expected = comments.map { it.toModel() }
         assertEquals(expected, actual.comments)
