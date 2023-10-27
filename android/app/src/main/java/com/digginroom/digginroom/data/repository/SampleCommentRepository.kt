@@ -7,13 +7,11 @@ import com.digginroom.digginroom.repository.CommentRepository
 import java.time.LocalDateTime
 
 class SampleCommentRepository : CommentRepository {
-    override suspend fun findComments(
-        roomId: Long,
-        lastCommentId: Long?,
-        size: Int?
-    ): LogResult<List<Comment>> {
-        val localDateTime = LocalDateTime.of(2023, 10, 25, 3, 10)
-        val comments = (COMMENT_START_INDEX..COMMENT_END_INDEX).map {
+    private val comments: MutableList<Comment>
+    private val localDateTime = LocalDateTime.of(2023, 10, 25, 3, 10)
+
+    init {
+        comments = (COMMENT_START_INDEX..COMMENT_END_INDEX).map {
             Comment(
                 it.toLong(),
                 ('a' + it).toString(),
@@ -22,7 +20,14 @@ class SampleCommentRepository : CommentRepository {
                 localDateTime,
                 true
             )
-        }
+        }.toMutableList()
+    }
+
+    override suspend fun findComments(
+        roomId: Long,
+        lastCommentId: Long?,
+        size: Int?
+    ): LogResult<List<Comment>> {
         val startIndex =
             adjustIndexToSize(comments.size, calculateStartIndex(comments, lastCommentId))
         val endIndex = adjustIndexToSize(comments.size, calculateEndIndex(startIndex, size))
@@ -43,7 +48,9 @@ class SampleCommentRepository : CommentRepository {
     private fun adjustIndexToSize(size: Int, index: Int) = if (index >= size) size else index
 
     override suspend fun postComment(roomId: Long, comment: String): LogResult<Comment> {
-        TODO("Not yet implemented")
+        val comment = Comment(0, "new", comment, localDateTime, localDateTime, true)
+        comments.add(comment)
+        return logRunCatching { comment }
     }
 
     override suspend fun updateComment(
