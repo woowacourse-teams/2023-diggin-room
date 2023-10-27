@@ -22,7 +22,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     private val bottomPlacedItemBinding: DialogCommentBottomPlacedItemLayoutBinding by lazy {
         DialogCommentBottomPlacedItemLayoutBinding.inflate(LayoutInflater.from(context))
     }
-    private val commentViewModel: CommentViewModel by lazy { inject() }
+    private lateinit var commentViewModel: CommentViewModel
 
     override val dialogView: View by lazy { dialogBinding.root }
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
@@ -32,6 +32,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        commentViewModel = inject()
         initDialogBinding()
         isCancelable = true
         return dialogBinding.root
