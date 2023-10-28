@@ -24,13 +24,11 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     }
     private lateinit var commentViewModel: CommentViewModel
 
-    override val dialogView: View by lazy { dialogBinding.root }
+    override val dialogView: View get() = dialogBinding.root
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         commentViewModel = inject()
         initDialogBinding()
@@ -132,13 +130,10 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun showCommentMenuDialog(comment: CommentItem.CommentModel) {
         CommentMenuDialog(
-            roomId = dialogBinding.roomId ?: return,
-            commentId = comment.id,
-            updateComment = {
+            roomId = dialogBinding.roomId ?: return, commentId = comment.id, updateComment = {
                 bottomPlacedItemBinding.currentComment = comment.comment
                 bottomPlacedItemBinding.updateTargetComment = comment
-            },
-            commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
+            }, commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
         ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
     }
 
