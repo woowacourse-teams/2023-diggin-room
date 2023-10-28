@@ -33,8 +33,8 @@ abstract class BottomFixedItemBottomSheetDialog : BottomSheetDialogFragment() {
                 findViewById<FrameLayout>(com.google.android.material.R.id.container)
                     ?: return@setOnShowListener
             bottomSheetDialogParent.makeFullSize()
-            bottomSheetDialogParentContainer.addStickyView(bottomFixedItemView)
-            dialogView.addPaddingAsStickyViewHeight(bottomFixedItemView)
+            bottomSheetDialogParentContainer.addBottomFixedItemView(bottomFixedItemView)
+            dialogView.addPaddingAsBottomFixedItemViewHeight(bottomFixedItemView)
         }
     }
 
@@ -48,7 +48,7 @@ abstract class BottomFixedItemBottomSheetDialog : BottomSheetDialogFragment() {
         requestLayout()
     }
 
-    private fun ViewGroup.addStickyView(view: View) {
+    private fun ViewGroup.addBottomFixedItemView(view: View) {
         val layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -57,9 +57,14 @@ abstract class BottomFixedItemBottomSheetDialog : BottomSheetDialogFragment() {
         addView(view, layoutParams)
     }
 
-    private fun View.addPaddingAsStickyViewHeight(stickyView: View) {
-        stickyView.post {
-            this@addPaddingAsStickyViewHeight.setPadding(0, 0, 0, stickyView.measuredHeight)
+    private fun View.addPaddingAsBottomFixedItemViewHeight(bottomFixedItemView: View) {
+        bottomFixedItemView.post {
+            this@addPaddingAsBottomFixedItemViewHeight.setPadding(
+                0,
+                0,
+                0,
+                bottomFixedItemView.measuredHeight
+            )
         }
     }
 }
