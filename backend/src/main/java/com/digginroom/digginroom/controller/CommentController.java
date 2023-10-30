@@ -65,9 +65,4 @@ public class CommentController {
         commentService.delete(loginMemberId, commentId);
         return ResponseEntity.ok().build();
     }
-
-    @GetMapping
-    public ResponseEntity<String> findRoomComments() {
-        return ResponseEntity.ok().body("새로운 버전");
-    }
 }
