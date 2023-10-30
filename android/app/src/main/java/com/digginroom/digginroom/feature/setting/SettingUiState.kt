@@ -1,13 +1,13 @@
 package com.digginroom.digginroom.feature.setting
 
-sealed interface SettingState {
+sealed interface SettingUiState {
 
-    sealed interface Logout : SettingState {
+    sealed interface Logout : SettingUiState {
 
         object InProgress : Logout
 
         object Done : Logout
     }
 
-    object Cancel : SettingState
+    object Cancel : SettingUiState
 }
