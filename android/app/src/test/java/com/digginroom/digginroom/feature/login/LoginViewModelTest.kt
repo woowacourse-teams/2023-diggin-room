@@ -161,7 +161,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `게스트 로그인 성공시 게스트 로그인 성공 상태가 된다`(){
+    fun `게스트 로그인 성공시 게스트 로그인 성공 상태가 된다`() {
         // given
         coEvery {
             accountRepository.postGuestLogin()
@@ -179,7 +179,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `게스트 로그인 성공시 실패시 게스트 로그인 실패 상태가 된다`(){
+    fun `게스트 로그인 성공시 실패시 게스트 로그인 실패 상태가 된다`() {
         // given
         coEvery {
             accountRepository.postGuestLogin()
