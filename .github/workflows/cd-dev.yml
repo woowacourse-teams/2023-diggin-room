@@ -3,7 +3,7 @@ name: Development CD
 on:
   workflow_dispatch:
   push:
-    branches: [ "backend", "feature/422" ]
+    branches: [ "backend" ]
 permissions:
   contents: read
 jobs:
@@ -177,7 +177,6 @@ jobs:
           RETAIN_VERSION: ${{ steps.version.outputs.retain_version }}
         shell: bash {0}
         run: |
-            echo $RETAIN
             INC_CONTENTS="if (\$http_version = \"$RETAIN_VERSION\") {
               proxy_pass http://localhost:$RETAIN;
             }
