@@ -22,7 +22,7 @@ class CommentViewModel @Keep constructor(
     private var comments: List<Comment> = emptyList()
 
     private val _commentResponseUiState: MutableLiveData<CommentResponseUiState> = MutableLiveData(
-        CommentResponseUiState.Succeed()
+        CommentResponseUiState.Succeed.Find()
     )
 
     private val _commentSubmitUiState: MutableLiveData<CommentSubmitUiState> = MutableLiveData(
@@ -62,14 +62,14 @@ class CommentViewModel @Keep constructor(
     private fun infiniteScrollEnd() {
         isLastComment = true
         _commentResponseUiState.value =
-            CommentResponseUiState.Succeed(comments.map { it.toModel() })
+            CommentResponseUiState.Succeed.Find(comments.map { it.toModel() })
     }
 
     private fun refreshComments(newComments: List<Comment>) {
         comments = comments + newComments
         lastCommentId = comments.last().id
         _commentResponseUiState.value =
-            CommentResponseUiState.Succeed(comments.map { it.toModel() } + CommentItem.Loading)
+            CommentResponseUiState.Succeed.Find(comments.map { it.toModel() } + CommentItem.Loading)
     }
 
     fun submitComment(
@@ -97,7 +97,7 @@ class CommentViewModel @Keep constructor(
             commentRepository.postComment(roomId, comment).onSuccess { comment ->
                 comments = comments.toMutableList().apply { add(0, comment) }
                 _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                    CommentResponseUiState.Succeed.Submit(comments.map { it.toModel() })
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed.Submit
             }
@@ -112,7 +112,7 @@ class CommentViewModel @Keep constructor(
                     this[index] = this[index].copy(comment = comment)
                 }
                 _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                    CommentResponseUiState.Succeed.Submit(comments.map { it.toModel() })
                 changeToPostMode()
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed.Submit
@@ -128,7 +128,7 @@ class CommentViewModel @Keep constructor(
             commentRepository.deleteComment(roomId, commentId).onSuccess {
                 comments = comments.filter { it.id != commentId }
                 _commentResponseUiState.value =
-                    CommentResponseUiState.Succeed(comments.map { it.toModel() })
+                    CommentResponseUiState.Succeed.Delete(comments.map { it.toModel() })
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed.Delete
             }

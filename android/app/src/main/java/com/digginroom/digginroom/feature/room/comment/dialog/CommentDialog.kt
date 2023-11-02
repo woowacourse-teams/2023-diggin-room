@@ -112,19 +112,34 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun showSucceedView(succeedCommentResponseUiState: CommentResponseUiState.Succeed) {
         bottomPlacedItemBinding.currentComment = ""
+        manageDialogBindingSucceedView(succeedCommentResponseUiState)
+    }
+
+    private fun manageDialogBindingSucceedView(succeedCommentResponseUiState: CommentResponseUiState.Succeed) {
         with(dialogBinding) {
-            dialogCommentRecyclerViewComment.apply {
-                val commentAdapter: CommentAdapter = adapter as? CommentAdapter ?: return
-                commentAdapter.submitList(succeedCommentResponseUiState.comments)
-                visibility =
-                    if (succeedCommentResponseUiState.comments.isEmpty()) View.GONE else View.VISIBLE
-                commentAdapter.submitList(
-                    succeedCommentResponseUiState.comments
-                )
-                post { smoothScrollToPosition(0) }
+            refreshCommentItems(dialogCommentRecyclerViewComment, succeedCommentResponseUiState)
+            if (succeedCommentResponseUiState.comments.isEmpty()) {
+                dialogCommentRecyclerViewComment.visibility = View.GONE
+                dialogCommentTvDefault.visibility = View.VISIBLE
+            } else {
+                dialogCommentRecyclerViewComment.visibility = View.VISIBLE
+                dialogCommentTvDefault.visibility = View.GONE
             }
-            dialogCommentTvDefault.visibility =
-                if (succeedCommentResponseUiState.comments.isEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun refreshCommentItems(
+        recyclerView: RecyclerView, succeedCommentResponseUiState: CommentResponseUiState.Succeed
+    ) {
+        recyclerView.apply {
+            val commentAdapter: CommentAdapter = adapter as? CommentAdapter ?: return
+            commentAdapter.submitList(
+                succeedCommentResponseUiState.comments
+            ) {
+                if (succeedCommentResponseUiState is CommentResponseUiState.Succeed.Submit) {
+                    smoothScrollToPosition(0)
+                }
+            }
         }
     }
 
