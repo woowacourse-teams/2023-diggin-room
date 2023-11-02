@@ -41,7 +41,7 @@ class SampleCommentRepository : CommentRepository {
     }
 
     private fun calculateStartIndex(comments: List<Comment>, lastCommentId: Long?) =
-        comments.indexOf(comments.first { it.id == (lastCommentId ?: 0) }) + 1
+        comments.indexOf(comments.first { it.id == (lastCommentId ?: 0) })
 
     private fun calculateEndIndex(startIndex: Int, size: Int?) = startIndex + (size ?: 10)
 
