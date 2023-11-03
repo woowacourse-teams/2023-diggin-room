@@ -137,7 +137,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
                 succeedCommentResponseUiState.comments
             ) {
                 if (succeedCommentResponseUiState is CommentResponseUiState.Succeed.Submit) {
-                    smoothScrollToPosition(0)
+                    smoothScrollToPosition(TOP_POSITION)
                 }
             }
         }
@@ -156,5 +156,6 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         private const val COMMENT_DIALOG_TAG = "CommentDialog"
         private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"
         private const val COMMENT_SIZE = 10
+        private const val TOP_POSITION = 0
     }
 }
