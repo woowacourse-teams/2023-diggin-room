@@ -19,8 +19,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.test.annotation.DirtiesContext;
 
 @DataJpaTest
@@ -71,7 +71,7 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어지고_size_가_10인_경우_해당_룸의_댓글_ID_부터_최신_댓글_부터_10개를_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Page<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
+        Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
 
         assertThat(comments.getContent())
                 .hasSize(10)
@@ -91,7 +91,7 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어지고_size_가_2인_경우_해당_룸의_댓글_ID_부터_최신_댓글_부터_2개를_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 2);
 
-        Page<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
+        Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
 
         assertThat(comments.getContent())
                 .hasSize(2)
@@ -104,7 +104,7 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어졌을_때_size_가_10이고_남은_댓글이_10개_이하인_경우_남은_댓글만_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Page<Comment> comments = commentRepository.getCommentsByCursor(1L, 5L, pageRequest);
+        Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 5L, pageRequest);
 
         assertThat(comments.getContent())
                 .hasSize(4)
@@ -117,7 +117,7 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어지고_룸에_그_이하의_댓글이_없는_경우_빈_결과를_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Page<Comment> comments = commentRepository.getCommentsByCursor(2L, 10L, pageRequest);
+        Slice<Comment> comments = commentRepository.getCommentsByCursor(2L, 10L, pageRequest);
 
         assertThat(comments.getContent()).isEmpty();
     }

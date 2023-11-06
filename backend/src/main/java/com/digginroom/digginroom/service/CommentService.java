@@ -15,8 +15,8 @@ import com.digginroom.digginroom.service.dto.CommentResponse;
 import com.digginroom.digginroom.service.dto.CommentsResponse;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +42,7 @@ public class CommentService {
         validateCommentSize(size);
 
         Member member = memberRepository.getMemberById(memberId);
-        Page<Comment> comments = commentRepository.getCommentsByCursor(
+        Slice<Comment> comments = commentRepository.getCommentsByCursor(
                 roomId,
                 resolvedLastCommentId,
                 PageRequest.of(DEFAULT_PAGE_SIZE, size)
