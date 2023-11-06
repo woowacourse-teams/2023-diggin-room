@@ -2,7 +2,10 @@ package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.exception.RecommendException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
@@ -10,6 +13,9 @@ import com.digginroom.digginroom.service.dto.RoomsResponse;
 import com.digginroom.digginroom.service.dto.TrackResponse;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import com.digginroom.digginroom.service.dto.RoomResponse;
+import com.digginroom.digginroom.service.dto.RoomsResponse;
+import com.digginroom.digginroom.service.dto.TrackResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final MemberRepository memberRepository;
+    private final RoomRecommender roomRecommender;
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
@@ -37,16 +45,9 @@ public class RoomService {
                     recommendedRoom.getScrapCount(),
                     TrackResponse.of(recommendedRoom.getTrack())
             );
-        } catch (IllegalArgumentException e) {
+        } catch (RecommendException e) {
             return this.recommend(memberId);
         }
-    }
-
-    private Room recommendRoom(final Genre recommendedGenre) {
-        List<Room> rooms = roomRepository.findByTrackSuperGenre(recommendedGenre);
-        int pickedIndex = ThreadLocalRandom.current().nextInt(rooms.size());
-
-        return rooms.get(pickedIndex);
     }
 
     @Transactional(readOnly = true)
@@ -87,5 +88,41 @@ public class RoomService {
         Member member = memberRepository.getMemberById(memberId);
 
         member.undislike(room);
+    }
+
+    public CommentsResponse findRoomComments(final Long roomId, final Long loginMemberId) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(loginMemberId);
+        return commentService.getRoomComments(roomId, member);
+    }
+
+    public void validateExistRoom(final Long roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new NotFoundException(roomId);
+        }
+    }
+
+    public CommentResponse comment(final Long roomId, final Long memberId, final CommentRequest request) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        return commentService.comment(roomId, member, request);
+    }
+
+    public void deleteComment(final Long roomId, final Long memberId, final Long commentId) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        commentService.delete(roomId, member, commentId);
+    }
+
+    public CommentResponse updateComment(
+            final Long roomId,
+            final Long memberId,
+            final Long commentId,
+            final CommentRequest request
+    ) {
+        validateExistRoom(roomId);
+        Member member = memberService.findMember(memberId);
+        Comment updateComment = commentService.update(member, roomId, commentId, request);
+        return CommentResponse.of(updateComment, updateComment.isOwner(member));
     }
 }

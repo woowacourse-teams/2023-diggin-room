@@ -14,6 +14,9 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.BeforeEach;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import com.digginroom.digginroom.exception.CommentException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
