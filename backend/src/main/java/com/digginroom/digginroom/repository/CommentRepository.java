@@ -2,7 +2,6 @@ package com.digginroom.digginroom.repository;
 
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.exception.CommentException.NotFoundException;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -17,8 +16,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     default Comment getCommentById(final Long id) {
         return findCommentById(id).orElseThrow(NotFoundException::new);
     }
-
-    List<Comment> findCommentsByRoomId(Long roomId);
 
     @Query("SELECT c "
             + "FROM Comment c "
