@@ -23,6 +23,8 @@ import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -140,20 +142,97 @@ class CommentControllerTest extends ControllerTest {
     }
 
     @Test
-    void 유저는_룸의_댓글들을_볼_수_있다() {
-        commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
-        commentRepository.save(new Comment(나무.getId(), "댓글2", 파워));
+    void 유저가_마지막으로_본_댓글과_볼_댓글_개수를_전달하지_않으면_최신_댓글_10개의_댓글들을_볼_수_있다() {
+        for (int i = 1; i <= 15; i++) {
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+        }
 
         String cookie = login(MEMBER_LOGIN_REQUEST);
 
-        RestAssured.given().log().all()
+        List<String> comments = RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
                 .when().get("/rooms/" + 나무.getId() + "/comments")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value())
+                .body("comments", Matchers.hasSize(10))
+                .extract().as(CommentsResponse.class)
+                .comments().stream()
+                .map(CommentResponse::comment)
+                .collect(Collectors.toList());
+
+        assertThat(comments).containsExactly(
+                "댓글15", "댓글14", "댓글13", "댓글12", "댓글11", "댓글10", "댓글9", "댓글8", "댓글7", "댓글6"
+        );
+    }
+
+    @Test
+    void 유저가_마지막으로_본_댓글을_전달하면_더_이전에_작성한_룸의_댓글들을_볼_수_있다() {
+        for (int i = 1; i <= 15; i++) {
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+        }
+
+        String cookie = login(MEMBER_LOGIN_REQUEST);
+
+        List<String> comments = RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .when().get("/rooms/" + 나무.getId() + "/comments?lastCommentId=5")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("comments", Matchers.hasSize(4))
+                .extract().as(CommentsResponse.class)
+                .comments().stream()
+                .map(CommentResponse::comment)
+                .collect(Collectors.toList());
+
+        assertThat(comments).containsExactly("댓글4", "댓글3", "댓글2", "댓글1");
+    }
+
+    @Test
+    void 유저가_볼_댓글_개수를_전달하면_최대_전달한_개수만큼의_룸의_댓글들을_볼_수_있다() {
+        for (int i = 1; i <= 15; i++) {
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+        }
+
+        String cookie = login(MEMBER_LOGIN_REQUEST);
+
+        List<String> comments = RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .when().get("/rooms/" + 나무.getId() + "/comments?size=2")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
                 .body("comments", Matchers.hasSize(2))
-                .extract().as(CommentsResponse.class);
+                .extract().as(CommentsResponse.class)
+                .comments().stream()
+                .map(CommentResponse::comment)
+                .collect(Collectors.toList());
+
+        assertThat(comments).containsExactly("댓글15", "댓글14");
+    }
+
+    @Test
+    void 유저가_마지막으로_본_댓글과_볼_댓글_개수를_전달하면_더_이전에_작성한_댓글들을_최대_전달한_개수만큼_볼_수_있다() {
+        for (int i = 1; i <= 15; i++) {
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+        }
+
+        String cookie = login(MEMBER_LOGIN_REQUEST);
+
+        List<String> comments = RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .when().get("/rooms/" + 나무.getId() + "/comments?lastCommentId=7&size=2")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .body("comments", Matchers.hasSize(2))
+                .extract().as(CommentsResponse.class)
+                .comments().stream()
+                .map(CommentResponse::comment)
+                .collect(Collectors.toList());
+
+        assertThat(comments).containsExactly("댓글6", "댓글5");
     }
 
     private static String login(final MemberLoginRequest loginRequest) {

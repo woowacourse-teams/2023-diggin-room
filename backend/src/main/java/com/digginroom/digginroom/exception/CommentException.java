@@ -29,4 +29,16 @@ public abstract class CommentException extends DigginRoomException {
             super("해당 룸의 댓글이 아닙니다.", BAD_REQUEST);
         }
     }
+
+    public static class InvalidCommentSizeException extends CommentException {
+        public InvalidCommentSizeException() {
+            super("1개 이상의 댓글을 조회 해야합니다.", BAD_REQUEST);
+        }
+    }
+
+    public static class InvalidLastCommentIdException extends CommentException {
+        public InvalidLastCommentIdException() {
+            super("댓글 ID는 양수여야합니다.", BAD_REQUEST);
+        }
+    }
 }
