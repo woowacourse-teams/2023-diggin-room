@@ -49,27 +49,23 @@ class CommentViewModel @Keep constructor(
                 size = size
             ).onSuccess { newComments ->
                 if (newComments.isEmpty()) {
-                    infiniteScrollEnd()
-                } else {
-                    refreshComments(newComments)
+                    isLastComment = true
                 }
+                refreshComments(newComments)
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed.Find
             }
         }
     }
 
-    private fun infiniteScrollEnd() {
-        isLastComment = true
-        _commentResponseUiState.value =
-            CommentResponseUiState.Succeed.Find(comments.map { it.toModel() })
-    }
-
     private fun refreshComments(newComments: List<Comment>) {
         comments = comments + newComments
         lastCommentId = comments.last().id
-        _commentResponseUiState.value =
+        _commentResponseUiState.value = if (isLastComment) {
+            CommentResponseUiState.Succeed.Find(comments.map { it.toModel() })
+        } else {
             CommentResponseUiState.Succeed.Find(comments.map { it.toModel() } + CommentItem.Loading)
+        }
     }
 
     fun submitComment(

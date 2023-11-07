@@ -9,7 +9,7 @@ class CommentDiffUtilCallback : DiffUtil.ItemCallback<CommentItem>() {
         return if (newItem is CommentModel && oldItem is CommentModel) {
             oldItem.id == newItem.id
         } else {
-            true
+            false
         }
     }
 
@@ -17,7 +17,7 @@ class CommentDiffUtilCallback : DiffUtil.ItemCallback<CommentItem>() {
         return if (newItem is CommentModel && oldItem is CommentModel) {
             oldItem == newItem
         } else {
-            true
+            false
         }
     }
 }
