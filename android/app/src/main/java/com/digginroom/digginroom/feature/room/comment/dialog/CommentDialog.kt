@@ -70,7 +70,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!canScrollVertically(1)) {
+                    if (!canScrollVertically(BOTTOM)) {
                         commentViewModel.findComments(roomId, COMMENT_SIZE)
                     }
                 }
@@ -163,5 +163,6 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         private const val COMMENT_MENU_DIALOG_TAG = "CommentMenuDialog"
         private const val COMMENT_SIZE = 10
         private const val TOP_POSITION = 0
+        private const val BOTTOM = 1
     }
 }
