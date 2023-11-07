@@ -102,7 +102,6 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             CommentResponseUiState.Failed.Submit -> R.string.submit_comment_failed_message
             CommentResponseUiState.Failed.Delete -> R.string.delete_comment_failed_message
         }
-        dialogBinding.dialogCommentProgressBar.visibility = View.GONE
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
@@ -120,7 +119,6 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun manageDialogBindingSucceedView(succeedCommentResponseUiState: CommentResponseUiState.Succeed) {
         with(dialogBinding) {
-            dialogCommentProgressBar.visibility = View.GONE
             refreshCommentItems(dialogCommentRecyclerViewComment, succeedCommentResponseUiState)
             if (succeedCommentResponseUiState.comments.isEmpty()) {
                 dialogCommentRecyclerViewComment.visibility = View.GONE
