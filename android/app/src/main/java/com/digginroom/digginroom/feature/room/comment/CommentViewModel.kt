@@ -22,7 +22,7 @@ class CommentViewModel @Keep constructor(
     private var comments: List<Comment> = emptyList()
 
     private val _commentResponseUiState: MutableLiveData<CommentResponseUiState> = MutableLiveData(
-        CommentResponseUiState.Succeed.Find()
+        CommentResponseUiState.Loading
     )
 
     private val _commentSubmitUiState: MutableLiveData<CommentSubmitUiState> = MutableLiveData(
@@ -40,7 +40,6 @@ class CommentViewModel @Keep constructor(
 
     fun findComments(roomId: Long, size: Int) {
         if (isLastComment) return
-        if (commentResponseUiState.value is CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
         viewModelScope.launch {
             commentRepository.findComments(

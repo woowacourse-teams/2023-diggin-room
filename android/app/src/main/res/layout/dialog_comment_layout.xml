@@ -32,8 +32,8 @@
             android:id="@+id/dialog_comment_progress_bar"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:visibility="visible"
             android:layout_marginTop="100dp"
-            android:visibility="@{commentViewModel.commentResponseUiState instanceof CommentResponseUiState.Loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner" />
