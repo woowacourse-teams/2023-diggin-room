@@ -48,9 +48,7 @@ class CommentViewModel @Keep constructor(
                 lastCommentId = lastCommentId,
                 size = size
             ).onSuccess { newComments ->
-                if (newComments.isEmpty()) {
-                    isLastComment = true
-                }
+                isLastComment = newComments.isEmpty()
                 refreshComments(newComments)
             }.onFailure {
                 _commentResponseUiState.value = CommentResponseUiState.Failed.Find
