@@ -43,7 +43,9 @@ class CommentViewModel @Keep constructor(
         _commentResponseUiState.value = CommentResponseUiState.Loading
         viewModelScope.launch {
             commentRepository.findComments(
-                roomId = roomId, lastCommentId = lastCommentId, size = size
+                roomId = roomId,
+                lastCommentId = lastCommentId,
+                size = size
             ).onSuccess { newComments ->
                 onFindCommentsSuccess(newComments)
             }.onFailure {
@@ -72,7 +74,9 @@ class CommentViewModel @Keep constructor(
     }
 
     fun submitComment(
-        roomId: Long, comment: String, updateTargetCommentModel: CommentItem.CommentModel?
+        roomId: Long,
+        comment: String,
+        updateTargetCommentModel: CommentItem.CommentModel?
     ) {
         if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
@@ -81,7 +85,9 @@ class CommentViewModel @Keep constructor(
             SubmitState.POST -> postComment(roomId, comment)
             SubmitState.UPDATE -> updateTargetCommentModel?.let {
                 updateComment(
-                    roomId, comment, it.id
+                    roomId,
+                    comment,
+                    it.id
                 )
             }
         }
