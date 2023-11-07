@@ -17,7 +17,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,7 +43,7 @@ class CommentViewModelTest {
     }
 
     @Test
-    fun `해당 룸의 댓글 요청 시 성공하면 성공 상태와 함께 댓글을 받아온다`() {
+    fun `해당 룸의 댓글 조회 성공 시 commentResponseUiState 에 받아온 댓글이 담긴 조회 성공 상태로 바뀐다`() {
         // given
         val roomId: Long = 0
 
@@ -56,13 +55,32 @@ class CommentViewModelTest {
         commentViewModel.findComments(roomId, 10)
 
         // then
-        val actual = commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed
+        val actual =
+            commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed.Find
         val expected = comments.map { it.toModel() } + CommentItem.Loading
         assertEquals(expected, actual.comments)
     }
 
     @Test
-    fun `댓글 작성을 요청하면 새 댓글이 생성된다`() {
+    fun `해당 룸의 댓글 조회 실패 시 commentResponseUiState 가 조회 실패 상태로 바뀐다`() {
+        // given
+        val roomId: Long = 0
+
+        coEvery {
+            commentRepository.findComments(any(), any(), any())
+        } returns LogResult.failure()
+
+        // when
+        commentViewModel.findComments(roomId, 10)
+
+        // then
+        val actual = commentViewModel.commentResponseUiState.value
+        val expected = CommentResponseUiState.Failed.Find
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `댓글 작성 성공 시 commentResponseUiState 가 작성한 댓글이 포함된 전송 성공 상태로 바뀐다`() {
         // given
         val comment = Comment(id = 3)
         val roomId: Long = 0
@@ -75,15 +93,16 @@ class CommentViewModelTest {
         commentViewModel.submitComment(roomId, comment.comment, null)
 
         // then
-        val actual = commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed
+        val actual =
+            commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed.Submit
         val expected = listOf(comment.toModel())
         assertEquals(expected, actual.comments)
     }
 
     @Test
-    fun `댓글 작성 요청에 실패하면 commentRequestState가 Failed 된다`() {
+    fun `댓글 작성 실패 시 commentResponseUiState 가 전송 실패 상태로 바뀐다`() {
         // given
-        val comment = comments[0]
+        val comment = Comment(id = 3)
         val roomId: Long = 0
 
         coEvery {
@@ -95,11 +114,12 @@ class CommentViewModelTest {
 
         // then
         val actual = commentViewModel.commentResponseUiState.value
-        assertTrue(actual is CommentResponseUiState.Failed)
+        val expected = CommentResponseUiState.Failed.Submit
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun `댓글 삭제를 요청하면 댓글이 삭제된다`() {
+    fun `댓글 삭제 성공 시 commentResponseUiState 가 삭제한 댓글이 제거된 삭제 성공 상태로 바뀐다`() {
         // given
         val roomId: Long = 0
         val commentId: Long = 3
@@ -119,8 +139,33 @@ class CommentViewModelTest {
 
         // then
         val actual =
-            (commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed).comments.size
+            (commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed.Delete).comments.size
         val expected = 0
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `댓글 삭제 실패 시 commentResponseUiState 가 삭제 실패 상태로 바뀐다`() {
+        // given
+        val roomId: Long = 0
+        val commentId: Long = 3
+        val comment = Comment(id = commentId)
+
+        coEvery {
+            commentRepository.postComment(any(), any())
+        } returns LogResult.success(comment)
+
+        coEvery {
+            commentRepository.deleteComment(any(), any())
+        } returns LogResult.failure()
+
+        // when
+        commentViewModel.submitComment(roomId, "test", null)
+        commentViewModel.deleteComment(roomId, commentId)
+
+        // then
+        val actual = commentViewModel.commentResponseUiState.value
+        val expected = CommentResponseUiState.Failed.Delete
         assertEquals(expected, actual)
     }
 }
