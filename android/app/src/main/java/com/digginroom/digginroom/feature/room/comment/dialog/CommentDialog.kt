@@ -28,7 +28,9 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     override val bottomFixedItemView: View by lazy { bottomPlacedItemBinding.root }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         commentViewModel = inject()
         initDialogBinding()
@@ -129,7 +131,8 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     }
 
     private fun refreshCommentItems(
-        recyclerView: RecyclerView, succeedCommentResponseUiState: CommentResponseUiState.Succeed
+        recyclerView: RecyclerView,
+        succeedCommentResponseUiState: CommentResponseUiState.Succeed
     ) {
         recyclerView.apply {
             val commentAdapter: CommentAdapter = adapter as? CommentAdapter ?: return
@@ -145,10 +148,13 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
 
     private fun showCommentMenuDialog(comment: CommentItem.CommentModel) {
         CommentMenuDialog(
-            roomId = dialogBinding.roomId ?: return, commentId = comment.id, updateComment = {
+            roomId = dialogBinding.roomId ?: return,
+            commentId = comment.id,
+            updateComment = {
                 bottomPlacedItemBinding.currentComment = comment.comment
                 bottomPlacedItemBinding.updateTargetComment = comment
-            }, commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
+            },
+            commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
         ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
     }
 

@@ -58,7 +58,6 @@ class CommentViewModelTest {
         // then
         val actual = commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed
         val expected = comments.map { it.toModel() } + CommentItem.Loading
-        println(actual)
         assertEquals(expected, actual.comments)
     }
 
