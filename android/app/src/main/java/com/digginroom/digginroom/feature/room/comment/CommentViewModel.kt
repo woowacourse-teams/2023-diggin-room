@@ -60,10 +60,10 @@ class CommentViewModel @Keep constructor(
 
     private fun refreshComments(newComments: List<Comment>) {
         comments = comments + newComments
-        lastCommentId = comments.last().id
         _commentResponseUiState.value = if (isLastComment) {
             CommentResponseUiState.Succeed.Find(comments.map { it.toModel() })
         } else {
+            lastCommentId = comments.last().id
             CommentResponseUiState.Succeed.Find(comments.map { it.toModel() } + CommentItem.Loading)
         }
     }
