@@ -28,10 +28,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 @SuppressWarnings("NonAsciiCharacters")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CommentControllerTest extends ControllerTest {
 
     @Autowired
@@ -40,6 +38,7 @@ class CommentControllerTest extends ControllerTest {
     private RoomRepository roomRepository;
     @Autowired
     private CommentRepository commentRepository;
+
     private Room 나무;
     private Room 차이;
     private Member 파워;
