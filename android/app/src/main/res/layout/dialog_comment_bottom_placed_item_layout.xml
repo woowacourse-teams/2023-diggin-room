@@ -12,7 +12,7 @@
             type="java.lang.String" />
 
         <variable
-            name="updateTargetComment"
+            name="commentToUpdate"
             type="com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState.CommentModel" />
 
         <variable
@@ -64,7 +64,7 @@
             android:background="?attr/selectableItemBackground"
             android:cropToPadding="true"
             android:enabled="@{!TextUtils.isEmpty(currentComment)}"
-            android:onClick="@{() -> commentViewModel.submitComment(roomId, currentComment, updateTargetComment)}"
+            android:onClick="@{() -> commentViewModel.submitComment(roomId, currentComment, commentToUpdate)}"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/send_button_selector"

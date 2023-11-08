@@ -77,14 +77,14 @@ class CommentViewModel @Keep constructor(
     fun submitComment(
         roomId: Long,
         comment: String,
-        updateTargetCommentModel: CommentUiState.CommentModel?
+        commentToUpdate: CommentUiState.CommentModel?
     ) {
         if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
 
         when (_commentSubmitUiState.value?.state ?: return) {
             SubmitState.POST -> postComment(roomId, comment)
-            SubmitState.UPDATE -> updateTargetCommentModel?.let {
+            SubmitState.UPDATE -> commentToUpdate?.let {
                 updateComment(
                     roomId,
                     comment,

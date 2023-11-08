@@ -166,7 +166,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
             commentId = comment.id,
             updateComment = {
                 bottomPlacedItemBinding.currentComment = comment.comment
-                bottomPlacedItemBinding.updateTargetComment = comment
+                bottomPlacedItemBinding.commentToUpdate = comment
             },
             commentSubmitUiState = commentViewModel.commentSubmitUiState.value ?: return
         ).show(parentFragmentManager, COMMENT_MENU_DIALOG_TAG)
