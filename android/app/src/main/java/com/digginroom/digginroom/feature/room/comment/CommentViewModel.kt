@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentSubmitUiState
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState
 import com.digginroom.digginroom.feature.room.comment.uistate.SubmitState
-import com.digginroom.digginroom.model.CommentItem
 import com.digginroom.digginroom.model.comment.Comment
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
@@ -39,6 +39,7 @@ class CommentViewModel @Keep constructor(
     val commentSubmitUiState: LiveData<CommentSubmitUiState> get() = _commentSubmitUiState
 
     fun findComments(roomId: Long, size: Int) {
+        println("findComments $comments")
         if (shouldSkipFindComments()) return
         _commentResponseUiState.value = CommentResponseUiState.Loading
         viewModelScope.launch {
@@ -69,14 +70,14 @@ class CommentViewModel @Keep constructor(
             CommentResponseUiState.Succeed.Find(comments.map { it.toModel() })
         } else {
             lastCommentId = comments.last().id
-            CommentResponseUiState.Succeed.Find(comments.map { it.toModel() } + CommentItem.Loading)
+            CommentResponseUiState.Succeed.Find(comments.map { it.toModel() } + CommentUiState.Loading)
         }
     }
 
     fun submitComment(
         roomId: Long,
         comment: String,
-        updateTargetCommentModel: CommentItem.CommentModel?
+        updateTargetCommentModel: CommentUiState.CommentModel?
     ) {
         if (_commentResponseUiState.value == CommentResponseUiState.Loading) return
         _commentResponseUiState.value = CommentResponseUiState.Loading

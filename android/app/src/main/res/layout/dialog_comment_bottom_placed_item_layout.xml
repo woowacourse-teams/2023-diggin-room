@@ -13,7 +13,7 @@
 
         <variable
             name="updateTargetComment"
-            type="com.digginroom.digginroom.model.CommentItem.CommentModel" />
+            type="com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState.CommentModel" />
 
         <variable
             name="commentViewModel"

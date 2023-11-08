@@ -13,7 +13,7 @@ import com.digginroom.digginroom.databinding.DialogCommentLayoutBinding
 import com.digginroom.digginroom.feature.room.comment.CommentViewModel
 import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState
-import com.digginroom.digginroom.model.CommentItem
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState
 import com.dygames.di.DependencyInjector.inject
 
 class CommentDialog : BottomFixedItemBottomSheetDialog() {
@@ -146,7 +146,7 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
         }
     }
 
-    private fun showCommentMenuDialog(comment: CommentItem.CommentModel) {
+    private fun showCommentMenuDialog(comment: CommentUiState.CommentModel) {
         CommentMenuDialog(
             roomId = dialogBinding.roomId ?: return,
             commentId = comment.id,

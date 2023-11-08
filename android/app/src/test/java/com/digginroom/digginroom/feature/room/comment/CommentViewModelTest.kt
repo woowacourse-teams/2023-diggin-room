@@ -2,10 +2,10 @@ package com.digginroom.digginroom.feature.room.comment
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.digginroom.digginroom.feature.room.comment.uistate.CommentResponseUiState
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState
 import com.digginroom.digginroom.fixture.CommentFixture.Comment
 import com.digginroom.digginroom.fixture.CommentFixture.Comments
 import com.digginroom.digginroom.fixture.LogResult
-import com.digginroom.digginroom.model.CommentItem
 import com.digginroom.digginroom.model.mapper.CommentMapper.toModel
 import com.digginroom.digginroom.repository.CommentRepository
 import io.mockk.coEvery
@@ -57,7 +57,7 @@ class CommentViewModelTest {
         // then
         val actual =
             commentViewModel.commentResponseUiState.value as CommentResponseUiState.Succeed.Find
-        val expected = comments.map { it.toModel() } + CommentItem.Loading
+        val expected = comments.map { it.toModel() } + CommentUiState.Loading
         assertEquals(expected, actual.comments)
     }
 

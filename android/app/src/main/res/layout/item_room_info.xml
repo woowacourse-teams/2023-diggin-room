@@ -9,7 +9,7 @@
 
         <import type="android.view.View" />
 
-        <import type="com.digginroom.digginroom.model.CommentItem.CommentModel" />
+        <import type="com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState" />
 
         <import type="com.digginroom.digginroom.feature.room.roominfo.RoomInfoType" />
 
