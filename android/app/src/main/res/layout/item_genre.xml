@@ -19,6 +19,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         android:layout_margin="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -26,16 +27,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/scrap_thumbnail_description"
-            android:onClick="@{()->clickListener.onClick(model)}"
+            android:onClick="@{() -> clickListener.onClick(model)}"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:hasDarkness="@{model.selected}"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:hasDarkness="@{model.selected}"
-            tools:src="@drawable/ic_scrapped_room_example"
-            app:src="@{model.descriptionImageId}" />
+            app:src="@{model.descriptionImageId}"
+            tools:src="@drawable/ic_scrapped_room_example" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_genre_iv_selected"
@@ -55,6 +55,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@{model.title}"
             android:textAlignment="center"
             android:textColor="@color/white"

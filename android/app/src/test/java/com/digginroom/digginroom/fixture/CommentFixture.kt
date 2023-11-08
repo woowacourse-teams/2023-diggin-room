@@ -21,30 +21,15 @@ object CommentFixture {
         isOwner = isOwner
     )
 
-    fun Comments(): List<Comment> = listOf(
-        Comment(
-            id = 0,
-            writer = "test2",
-            comment = "노래 좋아요2",
-            createdAt = LocalDateTime.of(2023, 8, 31, 11, 39),
-            updateAt = LocalDateTime.of(2023, 8, 31, 11, 39),
-            isOwner = true
-        ),
-        Comment(
-            id = 1,
-            writer = "test3",
-            comment = "노래 좋아요3",
-            createdAt = LocalDateTime.of(2023, 8, 31, 11, 39),
-            updateAt = LocalDateTime.of(2023, 8, 31, 11, 39),
-            isOwner = true
-        ),
-        Comment(
-            id = 2,
-            writer = "test4",
-            comment = "노래 좋아요4",
-            createdAt = LocalDateTime.of(2023, 8, 31, 11, 39),
-            updateAt = LocalDateTime.of(2023, 8, 31, 11, 39),
-            isOwner = true
-        )
-    )
+    fun Comments(): List<Comment> =
+        (0..10).map {
+            com.digginroom.digginroom.model.comment.Comment(
+                it.toLong(),
+                ("test$it").toString(),
+                ("노래 좋아요$it").toString(),
+                LocalDateTime.of(2023, 8, 31, 11, 39),
+                LocalDateTime.of(2023, 8, 31, 11, 39),
+                true
+            )
+        }
 }

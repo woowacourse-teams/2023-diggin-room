@@ -3,9 +3,25 @@
 
     <string name="common_login">로그인</string>
     <string name="common_join">회원가입</string>
+    <string name="common_logout">로그아웃</string>
+    <string name="common_withdrawal">회원 탈퇴</string>
+    <string name="common_feedback">피드백</string>
     <string name="common_id">아이디</string>
     <string name="common_password">비밀번호</string>
     <string name="common_thumbnail">https://img.youtube.com/vi/%s/0.jpg</string>
+    <string name="common_back_button_description">image_of_back_button</string>
+    <string name="common_diggin_room_logo">Diggin\' Room Logo</string>
+    <string name="common_account">계정</string>
+    <string name="common_etc">기타 기능</string>
+    <string name="common_yes">네</string>
+    <string name="common_no">아니오</string>
+    <string name="common_inavailable">현재 서비스를 이용할 수 없습니다.</string>
+
+    <string name="login_guest_login">게스트 로그인</string>
+
+    <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
+    <string name="login_check_social_account">소셜 로그인에 실패했습니다.</string>
+    <string name="login_failed_guest_login">게스트 로그인에 실패했습니다.</string>
 
     <string name="join_request_input_id">아이디를 입력하세요</string>
     <string name="join_request_input_password">비밀번호를 입력하세요</string>
@@ -13,27 +29,24 @@
     <string name="join_requset_reinput_password">비밀번호를 다시 한번 입력하세요</string>
     <string name="join_id_rule_description">아이디의 길이는 5자 이상 20자 이하입니다.</string>
     <string name="join_id_duplicated">중복된 아이디입니다.</string>
+    <string name="join_id_inavailable_duplicated_check">현재 아이디 중복을 확인할 수 없습니다.</string>
     <string name="join_password_rule_description">비밀번호는 영문, 숫자, 특수문자 조합의 8자 이상 16자 이하입니다.</string>
     <string name="join_password_not_equal_description">비밀번호가 일치하지 않습니다.</string>
     <string name="login_forgot_account">로그인 정보를 잊으셨나요?</string>
     <string name="login_separator">|</string>
     <string name="join_duplication_check">중복 확인</string>
     <string name="join_tv_available_id">사용가능한 아이디입니다.</string>
-    <string name="login_check_account">아이디, 비밀번호를 확인해주세요.</string>
-    <string name="common_back_button_description">image_of_back_button</string>
-    <string name="common_diggin_room_logo">Diggin\' Room Logo</string>
-    <string name="scrap_scrap_description">스크랩</string>
+    <string name="join_succeed_message">회원가입에 성공했습니다.</string>
+    <string name="join_failed_message">회원가입에 실패했습니다.</string>
+
+    <string name="common_scrap_description">스크랩</string>
     <string name="scrap_thumbnail_description">thumbnail of scrapped room</string>
-    <string name="title_artist_format">%s - %s</string>
-    <string name="track_genre">장르: %s</string>
     <string name="login_google_login_img_description">image_of_google_social_login</string>
     <string name="genre_taste_start">시작하기</string>
     <string name="genre_taste_ask_genre_taste">어떤 음악을 좋아하세요?</string>
     <string name="dialog_comment_input_comment">댓글 작성</string>
     <string name="dialog_comment_empty_comment">대화를 시작해 보세요.</string>
     <string name="dialog_comment_send">등록</string>
-    <string name="edit_comment">수정</string>
-    <string name="delete_comment">삭제</string>
     <string name="updated_comment">(편집됨)</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tutorial_skip">SKIP</string>
@@ -45,10 +58,38 @@
     <string name="tutorial_room_info">음악 정보</string>
     <string name="tutorial_comment">댓글</string>
     <string name="tutorial_scrap">스크랩</string>
+    <string name="tutorial_setting">설정</string>
     <string name="tutorial_navigate_to_scrap">스크랩 페이지 이동</string>
-    <string name="tutorial_dislike_ment">취향에 맞지 않는다면\n양 옆으로 스크롤하세요!</string>
-    <string name="tutorial_find_room_ment">위 아래로 스크롤 하여\n룸을 탐색하세요!</string>
+    <string name="tutorial_dislike_ment">취향에 맞지 않는다면\n양 옆으로 스크롤 해보세요!</string>
+    <string name="tutorial_find_room_ment">위 아래 스크롤로\n룸을 탐색해 보세요!</string>
     <string name="tutorial_previous_room">이전 룸</string>
     <string name="tutorial_next_room">다음 룸</string>
+    <string name="dialog_comment_comment">댓글</string>
+
+    <string name="title_artist_format">%s - %s</string>
+    <string name="track_genre">장르: %s</string>
+    <string name="edit_comment">수정</string>
+    <string name="delete_comment">삭제</string>
+    <string name="setting_setting_private">설정 및 개인정보</string>
+    <string name="dialog_confirm_confirm_logout">로그아웃 하시겠습니까?</string>
+
+    <string name="logout_confirm">정말 로그아웃하시겠습니까?</string>
+
+    <string name="feedback_title">피드백</string>
+    <string name="feedback_hint">피드백을 입력해주세요!</string>
+    <string name="feedback_submit">등록</string>
+    <string name="feedback_failure">피드백 등록에 실패하였습니다.</string>
+    <string name="feedback_success">피드백 등록에 성공하였습니다.</string>
+    <string name="room_clipboard">클립보드에 곡 정보가 복사되었습니다.</string>
+
+    <string name="scrap_maximum_selection">최대 %d개의 룸을 선택할 수 있습니다.</string>
+    <string name="scrap_selection">선택</string>
+    <string name="scrap_unselection">취소</string>
+    <string name="scrap_extracting_playlist">플레이리스트 생성 중입니다!\n예상 시간은 %d초입니다.</string>
+    <string name="scrap_disallowed_extracting_playlist">플레이리스트 생성 작업 중입니다.\n잠시 후 다시 시도해주세요!</string>
+
+    <string name="find_comment_failed_message">댓글을 불러올 수 없습니다.</string>
+    <string name="submit_comment_failed_message">댓글 전송에 실패하였습니다.</string>
+    <string name="delete_comment_failed_message">댓글 삭제에 실패하였습니다.</string>
 
 </resources>

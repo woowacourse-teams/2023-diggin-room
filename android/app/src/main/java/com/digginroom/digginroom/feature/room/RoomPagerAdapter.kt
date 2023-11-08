@@ -2,32 +2,36 @@ package com.digginroom.digginroom.feature.room
 
 import android.content.Context
 import com.digginroom.digginroom.feature.room.customview.roomplayer.YoutubeRoomPlayer
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoEvent
+import com.digginroom.digginroom.feature.room.roominfo.RoomInfoType
 import com.digginroom.digginroom.feature.room.roominfo.RoomInfoUiState
 import com.digginroom.digginroom.model.RoomModel
-import com.digginroom.digginroom.model.TrackModel
 import com.dygames.roompager.Adapter
+import com.dygames.roompager.PagingOrientation
 
 class RoomPagerAdapter(
     var rooms: List<RoomModel> = emptyList(),
     private val loadNextRoom: () -> Unit,
-    private val openComment: (Long) -> Unit,
-    private val openInfo: (TrackModel) -> Unit,
-    private val openScrap: () -> Unit,
-    private val scrap: (Long) -> Unit,
-    private val unScrap: (Long) -> Unit
+    private val dislikeRoom: (Long) -> Unit,
+    private val roomInfoEvent: RoomInfoEvent,
+    private val roomInfoType: RoomInfoType
 ) : Adapter<YoutubeRoomPlayer> {
 
     private var viewHolders: List<YoutubeRoomPlayer> = emptyList()
     private var lastCurrentRoomPosition = 0
 
     override fun createViewHolder(context: Context): YoutubeRoomPlayer =
-        YoutubeRoomPlayer(context) {
+        YoutubeRoomPlayer(
+            context = context,
+            roomInfoType = roomInfoType
+        ) {
             play()
         }
 
     override fun getItemCount(): Int = rooms.size
 
     override fun onRecycle(
+        pagingOrientation: PagingOrientation,
         currentRoomPosition: Int,
         recycledViewHolders: List<Adapter.ViewHolder>
     ) {
@@ -35,6 +39,9 @@ class RoomPagerAdapter(
         lastCurrentRoomPosition = currentRoomPosition
         navigateRooms(currentRoomPosition)
         play()
+        if (pagingOrientation == PagingOrientation.HORIZONTAL) {
+            dislikeRoom(rooms[currentRoomPosition].roomId)
+        }
     }
 
     override fun onLoadNextRoom() {
@@ -79,11 +86,7 @@ class RoomPagerAdapter(
             room.navigate(
                 RoomInfoUiState(
                     rooms[currentRoomPosition + position],
-                    openComment,
-                    openInfo,
-                    openScrap,
-                    scrap,
-                    unScrap
+                    roomInfoEvent
                 )
             )
         }

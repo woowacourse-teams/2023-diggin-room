@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="currentComment"
+            type="java.lang.String" />
+
+        <variable
+            name="commentToUpdate"
+            type="com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState.CommentModel" />
+
+        <variable
+            name="commentViewModel"
+            type="com.digginroom.digginroom.feature.room.comment.CommentViewModel" />
+
+        <variable
+            name="roomId"
+            type="java.lang.Long" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground">
+
+        <View
+            android:id="@+id/dialog_comment_sticky_item_view_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B9B9B9"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/dialog_comment_sticky_et_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:autofillHints="no"
+            android:background="@drawable/bg_stroke_gray_radius_1dp"
+            android:hint="@string/dialog_comment_input_comment"
+            android:inputType="text"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            android:text="@={currentComment}"
+            app:cursorIndex="@{currentComment}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dialog_comment_sticky_btn_send"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_comment_sticky_item_view_separator" />
+
+        <ImageButton
+            android:id="@+id/dialog_comment_sticky_btn_send"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:cropToPadding="true"
+            android:enabled="@{!TextUtils.isEmpty(currentComment)}"
+            android:onClick="@{() -> commentViewModel.submitComment(roomId, currentComment, commentToUpdate)}"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/send_button_selector"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_comment_sticky_et_comment"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

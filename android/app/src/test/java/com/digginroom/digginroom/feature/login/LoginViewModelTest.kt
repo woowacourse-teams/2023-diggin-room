@@ -63,7 +63,7 @@ class LoginViewModelTest {
         )
 
         // then
-        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
+        assertEquals(LoginUiState.Failed.Login(), loginViewModel.uiState.value)
     }
 
     @Test
@@ -132,7 +132,7 @@ class LoginViewModelTest {
         loginViewModel.socialLogin(ID_TOKEN)
 
         // then
-        assertEquals(LoginUiState.Failed, loginViewModel.uiState.value)
+        assertEquals(LoginUiState.Failed.SocialLogin, loginViewModel.uiState.value)
     }
 
     @Test
@@ -157,6 +157,42 @@ class LoginViewModelTest {
 
         // then
         val expected = LoginUiState.InProgress.KaKao
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `게스트 로그인 성공시 게스트 로그인 성공 상태가 된다`() {
+        // given
+        coEvery {
+            accountRepository.postGuestLogin()
+        } returns LogResult.success(Member(true))
+
+        // when
+        loginViewModel.guestLogin()
+
+        val actual = loginViewModel.uiState.value
+
+        // then
+        val expected = LoginUiState.Succeed.Surveyed
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `게스트 로그인 성공시 실패시 게스트 로그인 실패 상태가 된다`() {
+        // given
+        coEvery {
+            accountRepository.postGuestLogin()
+        } returns LogResult.failure(Throwable())
+
+        // when
+        loginViewModel.guestLogin()
+
+        val actual = loginViewModel.uiState.value
+
+        // then
+        val expected = LoginUiState.Failed.GuestLogin
+
         assertEquals(expected, actual)
     }
 }

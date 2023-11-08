@@ -1,7 +1,13 @@
 package com.digginroom.digginroom.feature.room.comment.uistate
 
-import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
+sealed class CommentUiState {
+    data class CommentModel(
+        val id: Long,
+        val writer: String,
+        val comment: String,
+        val elapsedTime: String,
+        val isOwner: Boolean
+    ) : CommentUiState()
 
-data class CommentUiState(
-    val state: CommentState
-)
+    object Loading : CommentUiState()
+}

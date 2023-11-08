@@ -69,8 +69,17 @@ class LoginActivity : AppCompatActivity() {
                     RoomActivity.start(this)
                 }
 
-                is LoginUiState.Failed -> {
+                is LoginUiState.Failed.Login -> {
                     binding.account = it.account
+                    binding.loginTvLoginFailed.text = getString(R.string.login_check_account)
+                }
+
+                is LoginUiState.Failed.SocialLogin -> {
+                    binding.loginTvLoginFailed.text = getString(R.string.login_check_social_account)
+                }
+
+                is LoginUiState.Failed.GuestLogin -> {
+                    binding.loginTvLoginFailed.text = getString(R.string.login_failed_guest_login)
                 }
 
                 else -> {}
@@ -101,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
 
         fun start(context: Context) {
             val intent = Intent(context, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 
             context.startActivity(intent)

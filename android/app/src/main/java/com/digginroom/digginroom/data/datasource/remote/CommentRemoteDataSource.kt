@@ -12,9 +12,13 @@ import retrofit2.Response
 class CommentRemoteDataSource @Keep constructor(
     @Token private val commentService: CommentService
 ) {
-
-    suspend fun findComments(roomId: Long): CommentsResponse {
-        val response: Response<CommentsResponse> = commentService.findComments(roomId)
+    suspend fun findComments(
+        roomId: Long,
+        lastCommentId: Long? = null,
+        size: Int? = null
+    ): CommentsResponse {
+        val response: Response<CommentsResponse> =
+            commentService.findNextComments(roomId, lastCommentId, size)
 
         if (response.code() == 400) throw HttpError.BadRequest(response)
         if (response.code() == 401) throw HttpError.Unauthorized(response)

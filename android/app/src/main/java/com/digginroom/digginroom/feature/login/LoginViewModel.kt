@@ -28,8 +28,20 @@ class LoginViewModel @Keep constructor(
             ).onSuccess { loginResult ->
                 _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
             }.onFailure {
-                _uiState.value = LoginUiState.Failed
+                _uiState.value = LoginUiState.Failed.Login()
             }
+        }
+    }
+
+    fun guestLogin() {
+        _uiState.value = LoginUiState.Loading
+        viewModelScope.launch {
+            accountRepository.postGuestLogin()
+                .onSuccess { loginResult ->
+                    _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
+                }.onFailure {
+                    _uiState.value = LoginUiState.Failed.GuestLogin
+                }
         }
     }
 
@@ -49,7 +61,7 @@ class LoginViewModel @Keep constructor(
                 .onSuccess { loginResult ->
                     _uiState.value = LoginUiState.Succeed.from(loginResult.hasSurveyed)
                 }.onFailure {
-                    _uiState.value = (LoginUiState.Failed)
+                    _uiState.value = LoginUiState.Failed.SocialLogin
                 }
         }
     }

@@ -48,6 +48,21 @@ class AccountRemoteDataSource @Keep constructor(
         throw HttpError.Unknown(response)
     }
 
+    suspend fun postGuestLogin(): MemberToken {
+        val response = accountService.postGuestLogin()
+
+        if (response.code() == 400) throw HttpError.BadRequest(response)
+
+        if (response.code() == 200) {
+            return MemberToken(
+                token = response.headers().get(SET_COOKIE) ?: throw HttpError.EmptyBody(response),
+                hasSurveyed = response.body()?.hasFavorite ?: throw HttpError.EmptyBody(response)
+            )
+        }
+
+        throw HttpError.Unknown(response)
+    }
+
     suspend fun postSocialLogin(idToken: String): MemberToken {
         val response = accountService.postSocialLogin(SocialLoginRequest(idToken))
 

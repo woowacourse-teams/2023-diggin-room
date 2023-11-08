@@ -17,6 +17,12 @@
         tools:targetApi="31">
      
         <activity
+            android:name=".feature.feedback.FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.setting.SettingActivity"
+            android:exported="true" />
+        <activity
             android:name=".feature.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -25,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".feature.genretaste.GenreTasteActivity"
             android:exported="true" />
@@ -39,6 +44,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:host="oauth"
+                    android:scheme="kakao${kakaoNativeKey}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
                     android:scheme="kakao${kakaoNativeKey}" />
             </intent-filter>
         </activity>

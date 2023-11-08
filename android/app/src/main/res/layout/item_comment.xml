@@ -11,7 +11,7 @@
 
         <variable
             name="comment"
-            type="com.digginroom.digginroom.model.CommentModel" />
+            type="com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState.CommentModel" />
 
         <variable
             name="showMenuListener"

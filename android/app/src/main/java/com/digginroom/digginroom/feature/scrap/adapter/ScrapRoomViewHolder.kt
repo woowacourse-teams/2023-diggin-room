@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.databinding.ItemScrappedRoomBinding
-import com.digginroom.digginroom.model.RoomModel
+import com.digginroom.digginroom.model.ScrappedRoomModel
 
 data class ScrapRoomViewHolder(
     private val binding: ItemScrappedRoomBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(scrappedRoom: RoomModel) {
+    fun bind(scrappedRoom: ScrappedRoomModel) {
         with(binding) {
             position = adapterPosition
             room = scrappedRoom

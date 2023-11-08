@@ -1,22 +1,12 @@
 package com.digginroom.digginroom.feature.room.comment.dialog
 
+import android.text.Editable
+import android.text.Selection
+import android.widget.EditText
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.digginroom.digginroom.feature.room.comment.adapter.CommentAdapter
-import com.digginroom.digginroom.feature.room.comment.uistate.state.CommentState
 
-object CommentDialogBindingAdapter {
-    @JvmStatic
-    @BindingAdapter("app:comments")
-    fun comments(recyclerView: RecyclerView, comments: CommentState) {
-        when (comments) {
-            is CommentState.Failed -> Unit
-            CommentState.Loading -> Unit
-            is CommentState.Succeed -> {
-                (recyclerView.adapter as? CommentAdapter)?.submitList(
-                    comments.comments
-                )
-            }
-        }
-    }
+@BindingAdapter("app:cursorIndex")
+fun EditText.cursorIndex(comments: String?) {
+    val editable: Editable = this.text
+    Selection.setSelection(editable, editable.length)
 }

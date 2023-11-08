@@ -22,13 +22,13 @@ class JoinViewModel @Keep constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
+    val accountModel = JoinAccountModel()
     private var joinVerification = JoinVerification(
         idVerification = IdVerification(),
         passwordVerification = PasswordVerification()
     )
 
-    private val _uiState: MutableLiveData<JoinUiState> =
-        MutableLiveData(JoinUiState.InProgress(joinVerification.toModel()))
+    private val _uiState: MutableLiveData<JoinUiState> = MutableLiveData()
     val uiState: LiveData<JoinUiState>
         get() = _uiState
 
@@ -52,7 +52,9 @@ class JoinViewModel @Keep constructor(
                 )
 
                 _uiState.value = JoinUiState.InProgress(joinVerification.toModel())
-            }.onFailure {}
+            }.onFailure {
+                _uiState.value = JoinUiState.InAvailable
+            }
         }
     }
 

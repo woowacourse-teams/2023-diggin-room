@@ -12,9 +12,13 @@ class DefaultCommentRepository @Keep constructor(
     private val commentRemoteDataSource: CommentRemoteDataSource
 ) : CommentRepository {
 
-    override suspend fun findComments(roomId: Long): LogResult<List<Comment>> {
+    override suspend fun findComments(
+        roomId: Long,
+        lastCommentId: Long?,
+        size: Int?
+    ): LogResult<List<Comment>> {
         return logRunCatching {
-            commentRemoteDataSource.findComments(roomId).toDomain()
+            commentRemoteDataSource.findComments(roomId, lastCommentId, size).toDomain()
         }
     }
 

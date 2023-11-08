@@ -2,18 +2,31 @@ package com.digginroom.digginroom.feature.room.comment.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.digginroom.digginroom.model.CommentModel
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState
+import java.lang.IllegalArgumentException
 
-class CommentAdapter(private val menuClickListener: (CommentModel) -> Unit) :
-    ListAdapter<CommentModel, CommentViewHolder>(CommentDiffUtilCallback()) {
+class CommentAdapter(private val menuClickListener: (CommentUiState.CommentModel) -> Unit) :
+    ListAdapter<CommentUiState, ViewHolder>(CommentDiffUtilCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        return CommentViewHolder.of(parent) {
-            menuClickListener(getItem(it))
+    override fun getItemViewType(position: Int): Int {
+        return CommentViewType.valueOf(getItem(position))
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return when (viewType) {
+            CommentViewType.LOADING.ordinal -> CommentLoadingViewHolder.of(parent)
+            CommentViewType.COMMENT.ordinal -> CommentViewHolder.of(parent) {
+                menuClickListener(
+                    getItem(it) as CommentUiState.CommentModel
+                )
+            }
+
+            else -> throw IllegalArgumentException("알 수 없는 ViewType")
         }
     }
 
-    override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (holder is CommentViewHolder) holder.bind(getItem(position) as CommentUiState.CommentModel)
     }
 }
