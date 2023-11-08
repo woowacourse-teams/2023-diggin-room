@@ -2,7 +2,7 @@ package com.digginroom.digginroom.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 
-import com.digginroom.digginroom.controller.dto.ErrorResponse;
+import com.digginroom.digginroom.service.dto.ErrorResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;

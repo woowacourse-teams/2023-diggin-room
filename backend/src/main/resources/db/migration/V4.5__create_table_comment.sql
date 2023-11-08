@@ -7,5 +7,5 @@ create table comment
     updated_at timestamp(6),
     comment    varchar(500),
     primary key (id),
-    constraint fk_comment_member foreign key (member_id) references member (id)
+    constraint FKmrrrpi513ssu63i2783jyiv9m foreign key (member_id) references member (id)
 )

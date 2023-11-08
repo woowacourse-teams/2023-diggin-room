@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DigginRoom"
         tools:targetApi="31">
+     
         <activity
             android:name=".feature.feedback.FeedbackActivity"
             android:exported="false" />
@@ -36,6 +37,16 @@
         <activity
             android:name=".feature.login.LoginActivity"
             android:exported="true" />
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth"
+                    android:scheme="kakao${kakaoNativeKey}" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
