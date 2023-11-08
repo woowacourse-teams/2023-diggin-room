@@ -14,24 +14,24 @@ class SettingViewModel @Keep constructor(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
-    private val _state: MutableLiveData<SettingState> = MutableLiveData()
-    val state: LiveData<SettingState>
-        get() = _state
+    private val _uiState: MutableLiveData<SettingUiState> = MutableLiveData()
+    val uiState: LiveData<SettingUiState>
+        get() = _uiState
 
     fun startLogout() {
-        _state.value = SettingState.Logout.InProgress
+        _uiState.value = SettingUiState.Logout.InProgress
     }
 
     fun logout() {
         viewModelScope.launch {
             tokenRepository.delete()
                 .onSuccess {
-                    _state.value = SettingState.Logout.Done
+                    _uiState.value = SettingUiState.Logout.Done
                 }.onFailure {}
         }
     }
 
     fun cancel() {
-        _state.value = SettingState.Cancel
+        _uiState.value = SettingUiState.Cancel
     }
 }

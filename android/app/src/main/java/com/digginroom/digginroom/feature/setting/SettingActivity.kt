@@ -80,11 +80,11 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun initSettingObserver() {
-        settingViewModel.state.observe(this) {
-            when (settingViewModel.state.value as SettingState) {
-                SettingState.Logout.InProgress -> logoutConfirmDialog.show()
-                SettingState.Logout.Done -> LoginActivity.start(this)
-                SettingState.Cancel -> finish()
+        settingViewModel.uiState.observe(this) {
+            when (settingViewModel.uiState.value as SettingUiState) {
+                SettingUiState.Logout.InProgress -> logoutConfirmDialog.show()
+                SettingUiState.Logout.Done -> LoginActivity.start(this)
+                SettingUiState.Cancel -> finish()
             }
         }
     }
