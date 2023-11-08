@@ -62,12 +62,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner"
-            app:responseState="@{commentViewModel.commentResponseUiState}"
-            app:visible="@{commentViewModel.commentResponseUiState}"
             tools:itemCount="200" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/dialog_comment_tv_default"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -75,8 +73,7 @@
             android:text="@string/dialog_comment_empty_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner"
-            app:visible="@{commentViewModel.commentResponseUiState}" />
+            app:layout_constraintTop_toBottomOf="@id/dialog_comment_tv_banner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

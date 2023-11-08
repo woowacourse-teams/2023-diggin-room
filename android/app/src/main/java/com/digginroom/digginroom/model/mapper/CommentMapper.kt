@@ -2,7 +2,7 @@ package com.digginroom.digginroom.model.mapper
 
 import com.digginroom.digginroom.data.entity.CommentResponse
 import com.digginroom.digginroom.data.entity.CommentsResponse
-import com.digginroom.digginroom.model.CommentModel
+import com.digginroom.digginroom.feature.room.comment.uistate.CommentUiState.CommentModel
 import com.digginroom.digginroom.model.comment.Comment
 import java.time.Duration
 import java.time.LocalDateTime

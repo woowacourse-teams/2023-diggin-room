@@ -1,12 +1,27 @@
 package com.digginroom.digginroom.feature.room.comment.uistate
 
-import com.digginroom.digginroom.model.CommentModel
-
 sealed class CommentResponseUiState {
-    data class Succeed(
-        val comments: List<CommentModel> = emptyList()
-    ) : CommentResponseUiState()
 
-    data class Failed(val message: String = "") : CommentResponseUiState()
+    sealed class Succeed : CommentResponseUiState() {
+
+        open val comments: List<CommentUiState> = emptyList()
+
+        data class Find(
+            override val comments: List<CommentUiState> = emptyList()
+        ) : Succeed()
+        data class Submit(
+            override val comments: List<CommentUiState> = emptyList()
+        ) : Succeed()
+        data class Delete(
+            override val comments: List<CommentUiState> = emptyList()
+        ) : Succeed()
+    }
+
+    sealed class Failed : CommentResponseUiState() {
+        object Find : Failed()
+        object Submit : Failed()
+        object Delete : Failed()
+    }
+
     object Loading : CommentResponseUiState()
 }
