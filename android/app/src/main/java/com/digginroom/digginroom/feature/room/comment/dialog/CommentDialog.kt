@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.digginroom.digginroom.R
 import com.digginroom.digginroom.databinding.DialogCommentBottomPlacedItemLayoutBinding
@@ -66,15 +67,28 @@ class CommentDialog : BottomFixedItemBottomSheetDialog() {
     }
 
     private fun setUpRecyclerViewListener(roomId: Long) {
-        dialogBinding.dialogCommentRecyclerViewComment.apply {
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        dialogBinding.dialogCommentRecyclerViewComment.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (!canScrollVertically(BOTTOM)) {
-                        commentViewModel.findComments(roomId, COMMENT_SIZE)
-                    }
+                    handleRecyclerViewScroll(recyclerView, roomId)
                 }
-            })
+            }
+        )
+    }
+
+    private fun handleRecyclerViewScroll(recyclerView: RecyclerView, roomId: Long) {
+        val layoutManager = recyclerView.layoutManager
+        val adapter = recyclerView.adapter
+
+        if (layoutManager !is LinearLayoutManager || adapter == null) return
+
+        val lastVisibleItemPosition =
+            layoutManager.findLastCompletelyVisibleItemPosition() + 1
+        val itemTotalCount = adapter.itemCount - 1
+
+        if (lastVisibleItemPosition == itemTotalCount || !recyclerView.canScrollVertically(BOTTOM)) {
+            commentViewModel.findComments(roomId, COMMENT_SIZE)
         }
     }
 
