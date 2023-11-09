@@ -81,7 +81,7 @@ jobs:
           function getVersion {
             version=$(curl -s -H "Content-Type: application/json; charset=utf-8" -X GET http://localhost:$1/manage/info | jq -r '.version')
             if [ -z $version ]; then
-              version="0"
+              version="1.0.0"
             fi;
             echo ${version}
           }
