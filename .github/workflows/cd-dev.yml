@@ -161,7 +161,8 @@ jobs:
             RETAIN_PORT=$SERVER1_PORT
             RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
           else
-            echo "케이스를 구분할 수 없습니다. 서버 1: $SERVER1_VERSION 서버 2: $SERVER2_VERSION 새로운 서버: $NOW_VERSION"
+            echo "::error title=배포 실패::케이스를 구분할 수 없습니다. 서버 1: $SERVER1_VERSION 서버 2: $SERVER2_VERSION 새로운 서버: $NOW_VERSION";
+            exit 1;
           fi;
                     
           echo "blue=$BLUE_PORT">>$GITHUB_OUTPUT    
