@@ -21,13 +21,19 @@ jobs:
         id: port
         shell: bash {0}
         run: |
-          if [ -z "$(lsof -i:8081)" ]; then
-              echo "green=8081">>$GITHUB_OUTPUT
-              echo "blue=8080">>$GITHUB_OUTPUT
-          else
+          if [ -z "$(lsof -i:8080)" ]; then
               echo "green=8080">>$GITHUB_OUTPUT
-              echo "blue=8081">>$GITHUB_OUTPUT
-          fi
+              echo "server1=8081">>$GITHUB_OUTPUT
+              echo "server2=8082">>$GITHUB_OUTPUT
+          elif [ -z "$(lsof -i:8081)" ]; then
+              echo "green=8081">>$GITHUB_OUTPUT
+              echo "server1=8080">>$GITHUB_OUTPUT
+              echo "server2=8082">>$GITHUB_OUTPUT
+          elif [ -z "$(lsof -i:8082)" ]; then
+              echo "green=8082">>$GITHUB_OUTPUT
+              echo "server1=8080">>$GITHUB_OUTPUT
+              echo "server2=8081">>$GITHUB_OUTPUT
+          fi;
 
       - name: JAR 파일 복사
         working-directory: ./backend
@@ -64,12 +70,125 @@ jobs:
               echo "새로운 어플리케이션을 띄우는 중입니다.";
           done
 
+      - name: 기존 버전의 어플리케이션을 확인한다.
+        id: version
+        shell: bash {0}
+        env:
+          GREEN: ${{ steps.port.outputs.green }}
+          SERVER1_PORT: ${{ steps.port.outputs.server1 }}
+          SERVER2_PORT: ${{ steps.port.outputs.server2 }}
+        run: |
+          function getVersion {
+            version=$(curl -s -H "Content-Type: application/json; charset=utf-8" -X GET http://localhost:$1/manage/info | jq -r '.version')
+            if [ -z $version ]; then
+              version="1.0.0"
+            fi;
+            echo ${version}
+          }
+          
+          SERVER1_VERSION=$(getVersion $SERVER1)
+          SERVER2_VERSION=$(getVersion $SERVER2)
+          NOW_SERVER_VERSION=$(getVersion $GREEN)
+          
+          NOW_MAJOR_VERSION=$(echo $NOW_SERVER_VERSION | cut -d "." -f1)
+          NOW_MINOR_VERSION=$(echo $NOW_SERVER_VERSION | cut -d "." -f2)
+          SERVER1_MAJOR_VERSION=$(echo $SERVER1_VERSION | cut -d "." -f1)
+          SERVER1_MINOR_VERSION=$(echo $SERVER1_VERSION | cut -d "." -f2)
+          SERVER2_MAJOR_VERSION=$(echo $SERVER2_VERSION | cut -d "." -f1)
+          SERVER2_MINOR_VERSION=$(echo $SERVER2_VERSION | cut -d "." -f2)
+          
+          GREEN_VERSION="$NOW_MAJOR_VERSION.$NOW_MINOR_VERSION"
+          
+          if [ -z $SERVER1_MAJOR_VERSION ] && [ -z $SERVER2_MAJOR_VERSION ]; then
+            echo "서버가 한 대도 띄워져있지 않습니다. 서버 1에 배포"
+            BLUE_PORT=$SERVER1_PORT
+            RETAIN_PORT=$SERVER2_PORT
+            RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
+          elif [ -z $SERVER1_MAJOR_VERSION ]; then
+            if [ $SERVER1_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER2_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
+              echo "서버 2에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR/MINOR 버전이 동일합니다. 서버 2에 블루그린 배포 - 1"
+              BLUE_PORT=$SERVER2_PORT
+              RETAIN_PORT=$SERVER1_PORT
+              RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
+            else
+              echo "서버 2에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR or MINOR 버전이 다릅니다. 서버 1에 배포 - 2"
+              BLUE_PORT=$SERVER1_PORT
+              RETAIN_PORT=$SERVER2_PORT
+              RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
+            fi;
+          elif [ -z $SERVER2_MAJOR_VERSION ]; then
+            if [ $SERVER1_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
+              echo "서버 1에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR/MINOR 버전이 동일합니다. 서버 1에 블루그린 배포 - 1"
+              BLUE_PORT=$SERVER1_PORT
+              RETAIN_PORT=$SERVER2_PORT
+              RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
+            else
+              echo "서버 1에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR or MINOR 버전이 다릅니다. 서버 2에 블루그린 배포 - 2"
+              BLUE_PORT=$SERVER2_PORT
+              RETAIN_PORT=$SERVER1_PORT
+              RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
+            fi;
+          elif [ $SERVER1_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
+            echo "서버 1과의 MAJOR/MINOR 버전이 동일합니다. 서버 1에 블루그린 배포 - 1"
+            BLUE_PORT=$SERVER1_PORT
+            RETAIN_PORT=$SERVER2_PORT
+            RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
+          elif [ $SERVER2_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER2_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
+            echo "서버 2와의 MAJOR/MINOR 버전이 동일합니다. 서버 2에 블루그린 배포 - 2"
+            BLUE_PORT=$SERVER2_PORT
+            RETAIN_PORT=$SERVER1_PORT
+            RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
+          elif [ $SERVER1_MAJOR_VERSION -eq $SERVER2_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -le $SERVER2_MINOR_VERSION ]; then
+            echo "새로운 서버의 MAJOR or MINOR버전이 업그레이드 되었습니다. 서버 1의 MINOR 버전이 서버 2보다 낮습니다. 서버 1에 블루그린 배포 - 3";
+            echo "$SERVER1_VERSION 의 어플을 강제 업데이트하세요."
+            BLUE_PORT=$SERVER1_PORT
+            RETAIN_PORT=$SERVER2_PORT
+            RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
+          elif [ $SERVER1_MAJOR_VERSION -eq $SERVER2_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -gt $SERVER2_MINOR_VERSION ]; then
+            echo "새로운 서버의 MAJOR or MINOR버전이 업그레이드 되었습니다. 서버 2의 MINOR 버전이 서버 1보다 낮습니다. 서버 2에 블루그린 배포 - 4"
+            echo "$SERVER2_VERSION 의 어플을 강제 업데이트하세요."
+            BLUE_PORT=$SERVER2_PORT
+            RETAIN_PORT=$SERVER1_PORT
+            RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
+          elif [ $SERVER1_MAJOR_VERSION -lt $SERVER2_MAJOR_VERSION ]; then
+            echo "새로운 서버의 MAJOR or MINOR버전이 업그레이드 되었습니다. 서버 1의 MAJOR 버전이 서버 2보다 낮습니다. 서버 1에 블루그린 배포 - 5";
+            BLUE_PORT=$SERVER1_PORT
+            RETAIN_PORT=$SERVER2_PORT
+            RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
+          elif [ $SERVER1_MAJOR_VERSION -gt $SERVER2_MAJOR_VERSION ]; then
+            echo "새로운 서버의 MAJOR or MINOR버전이 업그레이드 되었습니다. 서버 2의 MINOR 버전이 서버 1보다 낮습니다. 서버 2에 블루그린 배포 - 6"
+            BLUE_PORT=$SERVER2_PORT
+            RETAIN_PORT=$SERVER1_PORT
+            RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
+          else
+            echo "::error title=배포 실패::케이스를 구분할 수 없습니다. 서버 1: $SERVER1_VERSION 서버 2: $SERVER2_VERSION 새로운 서버: $NOW_VERSION";
+            exit 1;
+          fi;
+                    
+          echo "blue=$BLUE_PORT">>$GITHUB_OUTPUT    
+          echo "retain=$RETAIN_PORT">>$GITHUB_OUTPUT        
+          echo "green_version=$GREEN_VERSION">>$GITHUB_OUTPUT    
+          echo "retain_version=$RETAIN_VERSION">>$GITHUB_OUTPUT    
+
       - name: NGINX의 리버스 프록시 설정을 변경한다.
         env:
           GREEN: ${{ steps.port.outputs.green }}
+          RETAIN: ${{ steps.version.outputs.retain }}
+          GREEN_VERSION: ${{ steps.version.outputs.green_version }}
+          RETAIN_VERSION: ${{ steps.version.outputs.retain_version }}
         shell: bash {0}
         run: |
-          echo "proxy_pass http://localhost:$GREEN;" | sudo tee /etc/nginx/conf.d/port.inc;
+            INC_CONTENTS="if (\$http_version = \"$RETAIN_VERSION\") {
+              proxy_pass http://localhost:$RETAIN;
+            }
+            
+            if (\$http_version = \"$GREEN_VERSION\") {
+              proxy_pass http://localhost:$GREEN;
+            }
+            
+            proxy_pass http://localhost:$RETAIN;"
+  
+            echo $INC_CONTENTS | sudo tee /etc/nginx/conf.d/port.inc;
 
       - name: NGINX reload 를 진행한다.
         shell: bash {0}
@@ -79,7 +198,7 @@ jobs:
       - name: 기존 어플리케이션을 종료한다
         shell: bash {0}
         env:
-          BLUE: ${{ steps.port.outputs.blue }}
+          BLUE: ${{ steps.version.outputs.blue }}
         run: |
           PROCESS_ID="$(lsof -i:$BLUE -t)"
           if [ -n "$PROCESS_ID" ]; then
