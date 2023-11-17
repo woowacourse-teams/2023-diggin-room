@@ -1,11 +1,10 @@
 package com.digginroom.digginroom.domain.recommend;
 
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.domain.member.MemberGenre;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RecommendException.NoRecommendableRoomException;
 import com.digginroom.digginroom.exception.RecommendException.UnderBoundWeightException;
+import com.digginroom.digginroom.membergenre.domain.MemberGenre;
 import com.digginroom.digginroom.repository.RoomRepository;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,8 +17,7 @@ public class RoomRecommender {
 
     private final RoomRepository roomRepository;
 
-    public Room recommend(final Member member) {
-        List<MemberGenre> memberGenres = member.getMemberGenres();
+    public Room recommend(final List<MemberGenre> memberGenres) {
         Genre recommenedGenre = recommendGenre(memberGenres);
         return recommendRoom(recommenedGenre);
     }
