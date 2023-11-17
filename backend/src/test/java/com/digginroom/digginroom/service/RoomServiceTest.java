@@ -8,9 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.digginroom.digginroom.service.dto.RoomResponse;
-import com.digginroom.digginroom.service.dto.RoomsResponse;
-import com.digginroom.digginroom.service.dto.TrackResponse;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
@@ -19,6 +16,9 @@ import com.digginroom.digginroom.exception.RoomException.NotDislikedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.RoomResponse;
+import com.digginroom.digginroom.service.dto.RoomsResponse;
+import com.digginroom.digginroom.service.dto.TrackResponse;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class RoomServiceTest {
 
     @Autowired

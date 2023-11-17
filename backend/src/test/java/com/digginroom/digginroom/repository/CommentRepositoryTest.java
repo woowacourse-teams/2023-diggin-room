@@ -9,27 +9,25 @@ import com.digginroom.digginroom.domain.BaseEntity;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.CommentException;
+import com.digginroom.digginroom.util.DatabaseCleanerExtension;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.BeforeEach;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import com.digginroom.digginroom.exception.CommentException;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
-@DataJpaTest
+@Transactional
+@ExtendWith(DatabaseCleanerExtension.class)
 @SuppressWarnings("NonAsciiCharacters")
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CommentRepositoryTest {
 
     @PersistenceContext
@@ -75,7 +73,8 @@ class CommentRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
-
+        System.out.println("====================================");
+        System.out.println(commentRepository.count());
         assertThat(comments.getContent())
                 .hasSize(10)
                 .map(BaseEntity::getId)
