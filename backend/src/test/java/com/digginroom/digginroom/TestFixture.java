@@ -1,10 +1,8 @@
 package com.digginroom.digginroom;
 
-import com.digginroom.digginroom.service.dto.CommentRequest;
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
-import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.member.Password;
 import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
@@ -13,7 +11,10 @@ import com.digginroom.digginroom.oauth.jwk.GoogleJwkProvider;
 import com.digginroom.digginroom.oauth.jwk.KakaoJwkProvider;
 import com.digginroom.digginroom.oauth.jwk.ThirdPartyJwkProviders;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
-
+import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
+import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
 import java.util.List;
 
 //TODO: 픽스쳐 분리
@@ -30,12 +31,15 @@ public class TestFixture {
     public static final MemberLoginRequest MEMBER2_LOGIN_REQUEST = new MemberLoginRequest(MEMBER2_USERNAME,
             MEMBER2_PASSWORD);
 
+    public static Password PASSWORD = new Password(MEMBER_PASSWORD, new DigginRoomPasswordEncoder());
+    public static Password PASSWORD2 = new Password(MEMBER2_PASSWORD, new DigginRoomPasswordEncoder());
+
     public static Member 파워() {
-        return Member.self(MEMBER_USERNAME, MEMBER_PASSWORD);
+        return Member.self(MEMBER_USERNAME, PASSWORD);
     }
 
     public static Member 블랙캣() {
-        return Member.self(MEMBER2_USERNAME, MEMBER2_PASSWORD);
+        return Member.self(MEMBER2_USERNAME, PASSWORD2);
     }
 
     public static final CommentRequest COMMENT_REQUEST = new CommentRequest("베리는 REST API 고수");

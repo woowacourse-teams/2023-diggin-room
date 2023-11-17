@@ -9,14 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static org.hamcrest.Matchers.*;
 
 @SuppressWarnings("NonAsciiCharacters")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberLoginControllerTest extends ControllerTest {
 
     @Autowired

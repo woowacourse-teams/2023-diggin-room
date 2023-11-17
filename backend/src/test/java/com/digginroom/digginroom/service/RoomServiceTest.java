@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.service;
 
+import static com.digginroom.digginroom.TestFixture.PASSWORD;
 import static com.digginroom.digginroom.TestFixture.나무;
 import static com.digginroom.digginroom.TestFixture.차이;
 import static com.digginroom.digginroom.TestFixture.파워;
@@ -54,7 +55,7 @@ class RoomServiceTest {
 
     @Test
     void 스크랩_항목이_있는_경우_멤버가_스크랩한_룸_목록을_조회할_수_있다() {
-        Member member = memberRepository.save(Member.self("member", "1234"));
+        Member member = memberRepository.save(Member.self("member", PASSWORD));
         Room 나무 = 나무();
         Room 차이 = 차이();
         roomRepository.save(나무);
@@ -83,7 +84,7 @@ class RoomServiceTest {
 
     @Test
     void 스크랩_항목이_없는_경우_멤버가_빈_룸_목록을_조회할_수_있다() {
-        Member member = memberRepository.save(Member.self("member", "1234"));
+        Member member = memberRepository.save(Member.self("member", PASSWORD));
 
         RoomsResponse scrappedRooms = roomService.findScrappedRooms(member.getId());
 

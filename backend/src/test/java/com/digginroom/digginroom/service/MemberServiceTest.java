@@ -1,6 +1,8 @@
 package com.digginroom.digginroom.service;
 
 import static com.digginroom.digginroom.TestFixture.ID_TOKEN_PAYLOAD;
+import static com.digginroom.digginroom.TestFixture.MEMBER_PASSWORD;
+import static com.digginroom.digginroom.TestFixture.PASSWORD;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static com.digginroom.digginroom.domain.Genre.DANCE;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
@@ -11,14 +13,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
-import com.digginroom.digginroom.service.dto.MemberLoginResponse;
-import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginResponse;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
+import com.digginroom.digginroom.util.PasswordEncoder;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -38,6 +41,8 @@ class MemberServiceTest {
     private MemberRepository memberRepository;
     @Mock
     private IdTokenResolver idTokenResolver;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private MemberService memberService;
 
@@ -46,7 +51,9 @@ class MemberServiceTest {
         when(memberRepository.existsByUsername("power"))
                 .thenReturn(false);
 
-        memberService.save(new MemberSaveRequest("power", "power"));
+        when(passwordEncoder.encode(MEMBER_PASSWORD)).thenReturn(PASSWORD.getPassword());
+
+        memberService.save(new MemberSaveRequest("power", MEMBER_PASSWORD));
 
         verify(memberRepository).save(any(Member.class));
     }
@@ -71,10 +78,10 @@ class MemberServiceTest {
 
     @Test
     void 회원_정보가_있다면_로그인_할_수_있다() {
-        Member power = Member.self("power", "power123!");
+        Member power = Member.self("power", PASSWORD);
         when(memberRepository.getMemberByUsername("power")).thenReturn(power);
-
-        assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), "power123!")))
+        when(passwordEncoder.matches(MEMBER_PASSWORD, PASSWORD.getPassword())).thenReturn(true);
+        assertThat(memberService.loginMember(new MemberLoginRequest(power.getUsername(), MEMBER_PASSWORD)))
                 .isEqualTo(MemberLoginResponse.of(power));
     }
 
@@ -88,11 +95,12 @@ class MemberServiceTest {
 
     @Test
     void 비밀번호가_틀리면_로그인_할_수_없다() {
-        Member power = Member.self("power", "power123!");
+        Member power = Member.self("power", PASSWORD);
         when(memberRepository.getMemberByUsername("power")).thenReturn(power);
+        when(passwordEncoder.matches(MEMBER_PASSWORD + "asd", PASSWORD.getPassword())).thenReturn(false);
 
         assertThatThrownBy(() -> memberService.loginMember(
-                new MemberLoginRequest(power.getUsername(), power.getPassword() + "asd")))
+                new MemberLoginRequest(power.getUsername(), MEMBER_PASSWORD + "asd")))
                 .isInstanceOf(MemberException.NotFoundException.class);
     }
 

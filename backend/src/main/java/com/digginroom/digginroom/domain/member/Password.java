@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.domain.member;
 
-import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
+import com.digginroom.digginroom.util.PasswordEncoder;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,15 +17,15 @@ public class Password {
 
     private String password = EMPTY_PASSWORD;
 
-    public Password(final String password) {
-        this.password = DigginRoomPasswordEncoder.encode(password);
+    public Password(final String password, final PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
     }
 
-    public boolean doesNotMatch(final String password) {
+    public boolean doesNotMatch(final String password, final PasswordEncoder passwordEncoder) {
         if (this.isEmpty()) {
             return false;
         }
-        return !DigginRoomPasswordEncoder.matches(password, this.password);
+        return !passwordEncoder.matches(password, this.password);
     }
 
     public boolean isEmpty() {
