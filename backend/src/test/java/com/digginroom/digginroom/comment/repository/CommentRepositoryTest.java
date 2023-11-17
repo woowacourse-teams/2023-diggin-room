@@ -74,8 +74,7 @@ class CommentRepositoryTest {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
-        System.out.println("====================================");
-        System.out.println(commentRepository.count());
+
         assertThat(comments.getContent())
                 .hasSize(10)
                 .map(BaseEntity::getId)
