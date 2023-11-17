@@ -5,7 +5,7 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.TestFixture;
-import com.digginroom.digginroom.controller.ControllerTest;
+import com.digginroom.digginroom.ControllerTest;
 import com.digginroom.digginroom.feedback.domain.Feedback;
 import com.digginroom.digginroom.feedback.dto.FeedbackRequest;
 import com.digginroom.digginroom.feedback.dto.FeedbackResponse;
