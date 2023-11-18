@@ -1,12 +1,13 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.domain.member.WeightFactor;
 import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.RecommendException;
 import com.digginroom.digginroom.membergenre.domain.MemberGenre;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreRepository;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
@@ -33,6 +34,8 @@ public class RoomService {
     public RoomResponse recommend(final Long memberId) {
         Member member = memberRepository.getMemberById(memberId);
         List<MemberGenre> memberGenres = memberGenreRepository.findByMemberId(memberId);
+        validateHasMemberGenres(memberGenres);
+
         try {
             Room recommendedRoom = roomRecommender.recommend(memberGenres);
 
@@ -45,6 +48,12 @@ public class RoomService {
             );
         } catch (RecommendException e) {
             return this.recommend(memberId);
+        }
+    }
+
+    private void validateHasMemberGenres(final List<MemberGenre> memberGenres) {
+        if(memberGenres.isEmpty()){
+            throw new EmptyFavoriteException();
         }
     }
 

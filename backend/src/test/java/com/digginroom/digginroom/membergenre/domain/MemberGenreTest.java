@@ -1,11 +1,10 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.membergenre.domain;
 
-import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.domain.member.MemberGenre;
-import com.digginroom.digginroom.domain.member.WeightFactor;
-import com.digginroom.digginroom.domain.member.WeightStatus;
+import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ class MemberGenreTest {
 
     @Test
     void 가중치는_100_이하로_떨어질_수_없다() {
-        MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 파워());
+        MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 1L);
 
         for (int currentTime = 0; currentTime < 100; currentTime++) {
             memberGenre.adjustWeight(WeightFactor.DISLIKE);
@@ -27,7 +26,7 @@ class MemberGenreTest {
 
     @Test
     void 취향에_맞는_장르의_가중치를_증가시킬_수_있다() {
-        MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 파워());
+        MemberGenre memberGenre = new MemberGenre(Genre.AMBIENT, 1L);
 
         memberGenre.adjustWeight(WeightFactor.FAVORITE);
 

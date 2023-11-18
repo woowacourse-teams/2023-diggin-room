@@ -2,8 +2,8 @@ package com.digginroom.digginroom.membergenre.domain;
 
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.UUIDBaseEntity;
-import com.digginroom.digginroom.domain.member.WeightFactor;
-import com.digginroom.digginroom.domain.member.WeightStatus;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

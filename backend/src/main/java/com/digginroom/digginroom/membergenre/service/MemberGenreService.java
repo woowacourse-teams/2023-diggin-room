@@ -1,12 +1,10 @@
 package com.digginroom.digginroom.membergenre.service;
 
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
-import com.digginroom.digginroom.membergenre.domain.MemberGenre;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreEvent;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreRepository;
 import com.digginroom.digginroom.membergenre.domain.MemberGenres;
 import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,10 +25,6 @@ public class MemberGenreService {
         MemberGenres memberGenres = MemberGenres.createMemberGenres(memberId);
         memberGenres.markFavorites(genres.favoriteGenres());
         memberGenreRepository.saveAll(memberGenres.getMemberGenres());
-    }
-
-    public List<MemberGenre> findMemberGenres(Long memberId) {
-        return memberGenreRepository.findByMemberId(memberId);
     }
 
     public boolean hasFavorite(Long memberId) {

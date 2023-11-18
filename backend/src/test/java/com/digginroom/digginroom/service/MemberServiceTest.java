@@ -4,8 +4,6 @@ import static com.digginroom.digginroom.TestFixture.ID_TOKEN_PAYLOAD;
 import static com.digginroom.digginroom.TestFixture.MEMBER_PASSWORD;
 import static com.digginroom.digginroom.TestFixture.PASSWORD;
 import static com.digginroom.digginroom.TestFixture.파워;
-import static com.digginroom.digginroom.domain.Genre.DANCE;
-import static com.digginroom.digginroom.domain.Genre.ROCK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,12 +15,10 @@ import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.MemberException;
 import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.service.dto.MemberLoginResponse;
 import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.util.PasswordEncoder;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -127,26 +123,6 @@ class MemberServiceTest {
 
         verify(memberRepository, times(0)).save(any());
         assertThat(response).isNotNull();
-    }
-
-    @Test
-    void 취향_정보를_입력한다() {
-        Member member = 파워();
-        when(memberRepository.getMemberById(member.getId())).thenReturn(member);
-
-        memberService.markFavorite(member.getId(), new FavoriteGenresRequest(List.of(DANCE.getName(), ROCK.getName())));
-
-        assertThat(member.hasFavorite()).isTrue();
-    }
-
-    @Test
-    void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_반환한다() {
-        Member member = 파워();
-        when(memberRepository.getMemberById(member.getId())).thenReturn(member);
-
-        assertThat(memberService.getMemberDetails(member.getId()))
-                .extracting("memberId", "username", "hasFavorite")
-                .containsExactly(member.getId(), member.getUsername(), member.hasFavorite());
     }
 
     @Test

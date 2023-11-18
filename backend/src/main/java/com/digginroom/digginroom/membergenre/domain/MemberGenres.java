@@ -1,10 +1,10 @@
 package com.digginroom.digginroom.membergenre.domain;
 
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.member.WeightFactor;
 import com.digginroom.digginroom.exception.GenreException.MemberGenreNotFoundException;
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.membergenre.domain;
 
 import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.domain.member.WeightFactor;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 
 public interface MemberGenreEvent {
 
