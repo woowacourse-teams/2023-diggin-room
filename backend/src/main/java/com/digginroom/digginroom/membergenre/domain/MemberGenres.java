@@ -4,6 +4,7 @@ import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.WeightFactor;
 import com.digginroom.digginroom.exception.GenreException.MemberGenreNotFoundException;
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
+import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +35,10 @@ public class MemberGenres {
         genres.forEach(this::markFavorite);
     }
 
-    private boolean validateDuplicate(final List<Genre> genres) {
-        return new HashSet<>(genres).size() != genres.size();
+    private void validateDuplicate(final List<Genre> genres) {
+        if (new HashSet<>(genres).size() != genres.size()) {
+            throw new FavoriteExistsException();
+        }
     }
 
     private void markFavorite(final Genre genre) {

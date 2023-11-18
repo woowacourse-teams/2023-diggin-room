@@ -6,7 +6,7 @@ import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RecommendException;
 import com.digginroom.digginroom.membergenre.domain.MemberGenre;
-import com.digginroom.digginroom.membergenre.service.MemberGenreService;
+import com.digginroom.digginroom.membergenre.domain.MemberGenreRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
@@ -26,13 +26,13 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final RoomRecommender roomRecommender;
-    private final MemberGenreService memberGenreService;
+    private final MemberGenreRepository memberGenreRepository;
     private final ApplicationEventPublisher publisher;
 
     @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
         Member member = memberRepository.getMemberById(memberId);
-        List<MemberGenre> memberGenres = memberGenreService.findMemberGenres(memberId);
+        List<MemberGenre> memberGenres = memberGenreRepository.findByMemberId(memberId);
         try {
             Room recommendedRoom = roomRecommender.recommend(memberGenres);
 
