@@ -8,4 +8,4 @@ spring:
     database: mysql
     generate-ddl: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
