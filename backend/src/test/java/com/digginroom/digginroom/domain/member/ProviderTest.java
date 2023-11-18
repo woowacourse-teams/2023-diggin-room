@@ -1,5 +1,6 @@
 package com.digginroom.digginroom.domain.member;
 
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;

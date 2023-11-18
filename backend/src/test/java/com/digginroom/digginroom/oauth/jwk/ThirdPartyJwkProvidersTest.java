@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.oauth.jwk;
 
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.exception.OAuthResolverException;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
 import org.junit.jupiter.api.DisplayNameGeneration;

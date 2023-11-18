@@ -2,7 +2,6 @@ package com.digginroom.digginroom.oauth.jwk;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.domain.member.Provider;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;

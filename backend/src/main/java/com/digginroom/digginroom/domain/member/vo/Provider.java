@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.domain.member;
+package com.digginroom.digginroom.domain.member.vo;
 
 import java.util.Arrays;
 import java.util.Optional;

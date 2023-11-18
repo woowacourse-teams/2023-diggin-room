@@ -2,8 +2,8 @@ package com.digginroom.digginroom;
 
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.domain.member.Password;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Password;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
 import com.digginroom.digginroom.oauth.IdTokenResolver;

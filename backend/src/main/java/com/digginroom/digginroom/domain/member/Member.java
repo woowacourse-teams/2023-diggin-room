@@ -1,6 +1,9 @@
 package com.digginroom.digginroom.domain.member;
 
 import com.digginroom.digginroom.domain.BaseEntity;
+import com.digginroom.digginroom.domain.member.vo.Nickname;
+import com.digginroom.digginroom.domain.member.vo.Password;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.domain.room.Room;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

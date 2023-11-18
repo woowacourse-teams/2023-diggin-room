@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.oauth.jwk;
 
 import com.auth0.jwk.Jwk;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 
 public interface ThirdPartyJwkProvider {
 

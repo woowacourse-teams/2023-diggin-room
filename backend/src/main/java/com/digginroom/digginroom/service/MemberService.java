@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.service;
 
 import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.domain.member.Password;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Password;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
 import com.digginroom.digginroom.exception.MemberException.WrongProviderException;
@@ -26,7 +26,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final IdTokenResolver idTokenResolver;
     private final PasswordEncoder passwordEncoder;
-
 
     public void save(final MemberSaveRequest request) {
         if (isDuplicated(request.username())) {
@@ -62,6 +61,7 @@ public class MemberService {
         if (member.getPassword().doesNotMatch(request.password(), passwordEncoder)) {
             throw new NotFoundException();
         }
+
         return MemberLoginResponse.of(member);
     }
 
