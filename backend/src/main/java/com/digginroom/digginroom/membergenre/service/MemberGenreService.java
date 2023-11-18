@@ -26,7 +26,7 @@ public class MemberGenreService {
         }
         MemberGenres memberGenres = MemberGenres.createMemberGenres(memberId);
         memberGenres.markFavorites(genres.favoriteGenres());
-        memberGenreRepository.saveAll(memberGenres);
+        memberGenreRepository.saveAll(memberGenres.getMemberGenres());
     }
 
     public List<MemberGenre> findMemberGenres(Long memberId) {

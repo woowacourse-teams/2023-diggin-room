@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.membergenre.domain;
 
-import com.digginroom.digginroom.domain.BaseEntity;
 import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.UUIDBaseEntity;
 import com.digginroom.digginroom.domain.member.WeightFactor;
 import com.digginroom.digginroom.domain.member.WeightStatus;
 import jakarta.persistence.Entity;
@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberGenre extends BaseEntity{
+public class MemberGenre extends UUIDBaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Genre genre;
-    private int weight;
     private Long memberId;
+    private int weight;
 
     public MemberGenre(final Genre genre, final Long memberId) {
         this.genre = genre;

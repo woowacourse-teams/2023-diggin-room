@@ -10,6 +10,12 @@ spring:
       add-mappings: false
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
   flyway:
     enabled: true
     baseline-on-migrate: true
