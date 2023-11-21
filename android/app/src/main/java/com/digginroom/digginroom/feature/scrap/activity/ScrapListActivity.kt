@@ -82,6 +82,13 @@ class ScrapListActivity : AppCompatActivity() {
                     SocialLogin.Google.getIntent(this)
                 )
 
+                is ScrapUiState.Selection -> {
+                    binding.scrapIbExtractPlaylist.isEnabled = it.isAvailableExtraction
+                    binding.adapter?.submitList(
+                        scrapViewModel.uiState.value?.rooms
+                    )
+                }
+
                 else -> binding.adapter?.submitList(
                     scrapViewModel.uiState.value?.rooms
                 )
@@ -96,6 +103,7 @@ class ScrapListActivity : AppCompatActivity() {
                     it.expectedTime
                 )
                 is ScrapUiEvent.DisAllowedExtraction -> getString(R.string.scrap_disallowed_extracting_playlist)
+
                 is ScrapUiEvent.FailedSelection -> getString(R.string.scrap_maximum_selection).format(
                     it.maximum
                 )
