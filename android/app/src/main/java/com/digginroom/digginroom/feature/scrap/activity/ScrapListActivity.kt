@@ -83,7 +83,7 @@ class ScrapListActivity : AppCompatActivity() {
                 )
 
                 is ScrapUiState.Selection -> {
-                    binding.scrapIbExtractPlaylist.isEnabled = it.isAvailableExtraction
+                    binding.scrapIbExtractPlaylist.isEnabled = it.isExtractionAvailable
                     binding.adapter?.submitList(
                         scrapViewModel.uiState.value?.rooms
                     )
