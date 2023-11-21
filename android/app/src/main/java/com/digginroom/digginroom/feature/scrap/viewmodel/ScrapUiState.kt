@@ -21,7 +21,7 @@ sealed interface ScrapUiState {
     data class Selection(
         override val onSelect: (position: Int) -> Unit,
         override val rooms: List<ScrappedRoomModel>,
-        val isAvailableExtraction: Boolean
+        val isExtractionAvailable: Boolean
     ) : ScrapUiState
 
     data class PlaylistExtraction(
