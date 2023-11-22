@@ -67,7 +67,7 @@ class ScrapViewModel @Keep constructor(
                         _uiState.value = ScrapUiState.Selection(
                             onSelect = ::switchSelection,
                             rooms = rooms.value.map { it.toModel(selectable = true) },
-                            isExtractionAvailable = rooms.isSelected
+                            isExtractionAvailable = rooms.hasBeenSelected
                         )
                     }
                 } else {
@@ -84,7 +84,7 @@ class ScrapViewModel @Keep constructor(
         _uiState.value = ScrapUiState.Selection(
             onSelect = ::switchSelection,
             rooms = rooms.value.map { it.toModel(selectable = true) },
-            isExtractionAvailable = rooms.isSelected
+            isExtractionAvailable = rooms.hasBeenSelected
         )
     }
 

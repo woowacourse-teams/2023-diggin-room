@@ -9,7 +9,7 @@ class ScrappedRooms(
     val value: List<ScrappedRoom>
         get() = _value
 
-    val isSelected: Boolean
+    val hasBeenSelected: Boolean
         get() = _value.any { it.isSelected }
 
     val selectedId: List<String>
