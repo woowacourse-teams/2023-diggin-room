@@ -1,8 +1,8 @@
 package com.digginroom.digginroom.member.controller;
 
 import com.digginroom.digginroom.ControllerTest;
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -13,7 +13,9 @@ import org.springframework.http.HttpStatus;
 
 import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.TestFixture.파워;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isA;
 
 @SuppressWarnings("NonAsciiCharacters")
 class MemberLoginControllerTest extends ControllerTest {
@@ -21,11 +23,8 @@ class MemberLoginControllerTest extends ControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
-
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void setUp() {
         memberRepository.save(파워());
     }
 

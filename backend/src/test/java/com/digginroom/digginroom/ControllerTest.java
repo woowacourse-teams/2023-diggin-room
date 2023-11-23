@@ -20,7 +20,7 @@ public abstract class ControllerTest {
     private int port;
 
     @BeforeEach
-    public void setUp() {
+    void setPortUp() {
         RestAssured.port = port;
     }
 }

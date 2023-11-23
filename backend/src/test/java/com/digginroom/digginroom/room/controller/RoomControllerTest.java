@@ -1,5 +1,23 @@
 package com.digginroom.digginroom.room.controller;
 
+import com.digginroom.digginroom.ControllerTest;
+import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.RoomRequest;
+import com.digginroom.digginroom.service.dto.RoomResponse;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+
+import java.util.List;
+
 import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.TestFixture.MEMBER_PASSWORD;
 import static com.digginroom.digginroom.TestFixture.MEMBER_USERNAME;
@@ -9,23 +27,6 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
-
-import com.digginroom.digginroom.ControllerTest;
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
-import com.digginroom.digginroom.service.dto.RoomRequest;
-import com.digginroom.digginroom.service.dto.RoomResponse;
-import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.repository.RoomRepository;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import java.util.List;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 
 @SuppressWarnings("NonAsciiCharacters")
 class RoomControllerTest extends ControllerTest {
@@ -37,10 +38,8 @@ class RoomControllerTest extends ControllerTest {
     private Room room1;
     private Room room2;
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void setUp() {
         memberRepository.save(파워());
         room1 = roomRepository.save(나무());
         room2 = roomRepository.save(차이());

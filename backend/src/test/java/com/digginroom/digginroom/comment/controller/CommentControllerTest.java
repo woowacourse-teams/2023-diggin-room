@@ -1,16 +1,7 @@
 package com.digginroom.digginroom.comment.controller;
 
-import static com.digginroom.digginroom.TestFixture.COMMENT_UPDATE_REQUEST;
-import static com.digginroom.digginroom.TestFixture.MEMBER2_LOGIN_REQUEST;
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.TestFixture.나무;
-import static com.digginroom.digginroom.TestFixture.블랙캣;
-import static com.digginroom.digginroom.TestFixture.차이;
-import static com.digginroom.digginroom.TestFixture.파워;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.ControllerTest;
+import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
@@ -24,13 +15,23 @@ import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.digginroom.digginroom.TestFixture.COMMENT_UPDATE_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER2_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.나무;
+import static com.digginroom.digginroom.TestFixture.블랙캣;
+import static com.digginroom.digginroom.TestFixture.차이;
+import static com.digginroom.digginroom.TestFixture.파워;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
 class CommentControllerTest extends ControllerTest {
@@ -46,10 +47,8 @@ class CommentControllerTest extends ControllerTest {
     private Room 차이;
     private Member 파워;
 
-    @Override
     @BeforeEach
-    public void setUp() {
-        super.setUp();
+    void setUp() {
         파워 = memberRepository.save(파워());
         memberRepository.save(블랙캣());
         나무 = roomRepository.save(나무());
@@ -58,7 +57,7 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 댓글을_작성_할_수_있다() {
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         RestAssured.given().log().all()
                 .cookie(cookie)
@@ -76,7 +75,7 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 댓글은_500자_이하여야한다() {
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         RestAssured.given().log().all()
                 .cookie(cookie)
@@ -89,7 +88,7 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 댓글은_1자_이상이여야한다() {
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         RestAssured.given().log().all()
                 .cookie(cookie)
@@ -102,9 +101,8 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저는_자신의_댓글을_삭제할_수_있다() {
-        String cookie = login(MEMBER_LOGIN_REQUEST);
-
-        CommentResponse commentResponse = commentRequest(cookie, "댓글");
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
+        CommentResponse commentResponse = commentWith(new CommentRequest("댓글"), cookie);
 
         RestAssured.given().log().all()
                 .cookie(cookie)
@@ -116,10 +114,10 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저는_다른_유저의_댓글을_삭제할_수_없다() {
-        String powerCookie = login(MEMBER_LOGIN_REQUEST);
-        String blackcatCookie = login(MEMBER2_LOGIN_REQUEST);
+        String powerCookie = getCookieWith(MEMBER_LOGIN_REQUEST);
+        String blackcatCookie = getCookieWith(MEMBER2_LOGIN_REQUEST);
 
-        CommentResponse commentResponse = commentRequest(blackcatCookie, "댓글");
+        CommentResponse commentResponse = commentWith(new CommentRequest("댓글"), blackcatCookie);
 
         RestAssured.given().log().all()
                 .cookie(powerCookie)
@@ -131,7 +129,7 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저는_존재하지_않은_댓글을_삭제할_수_없다() {
-        String powerCookie = login(MEMBER_LOGIN_REQUEST);
+        String powerCookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         RestAssured.given().log().all()
                 .cookie(powerCookie)
@@ -147,7 +145,7 @@ class CommentControllerTest extends ControllerTest {
             commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
         }
 
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         List<String> comments = RestAssured.given().log().all()
                 .cookie(cookie)
@@ -172,7 +170,7 @@ class CommentControllerTest extends ControllerTest {
             commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
         }
 
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         List<String> comments = RestAssured.given().log().all()
                 .cookie(cookie)
@@ -195,7 +193,7 @@ class CommentControllerTest extends ControllerTest {
             commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
         }
 
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         List<String> comments = RestAssured.given().log().all()
                 .cookie(cookie)
@@ -218,7 +216,7 @@ class CommentControllerTest extends ControllerTest {
             commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
         }
 
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         List<String> comments = RestAssured.given().log().all()
                 .cookie(cookie)
@@ -235,30 +233,10 @@ class CommentControllerTest extends ControllerTest {
         assertThat(comments).containsExactly("댓글6", "댓글5");
     }
 
-    private static String login(final MemberLoginRequest loginRequest) {
-        Response response = RestAssured.given().log().all()
-                .body(loginRequest)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        return response.header("Set-Cookie");
-    }
-
-    private CommentResponse commentRequest(final String cookie, final String comment) {
-        return RestAssured.given().log().all()
-                .cookie(cookie)
-                .contentType(ContentType.JSON)
-                .body(new CommentRequest(comment))
-                .when().post("/rooms/" + 나무.getId() + "/comments").then().log()
-                .all().statusCode(HttpStatus.CREATED.value())
-                .extract().as(CommentResponse.class);
-    }
-
     @Test
     void 유저는_자신의_댓글을_수정할_수_있다() {
         Comment comment = commentRepository.save(new Comment(나무.getId(), "댓글1", 파워));
-        String cookie = login(MEMBER_LOGIN_REQUEST);
+        String cookie = getCookieWith(MEMBER_LOGIN_REQUEST);
 
         RestAssured.given().log().all()
                 .cookie(cookie)
@@ -271,5 +249,25 @@ class CommentControllerTest extends ControllerTest {
 
         Comment updatedComment = commentRepository.getCommentById(comment.getId());
         assertThat(updatedComment.getComment()).isEqualTo(COMMENT_UPDATE_REQUEST.comment());
+    }
+
+    private String getCookieWith(final MemberLoginRequest loginRequest) {
+        Response response = RestAssured.given().log().all()
+                .body(loginRequest)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/login");
+
+        return response.header("Set-Cookie");
+    }
+
+    private CommentResponse commentWith(final CommentRequest comment, final String cookie) {
+        return RestAssured.given().log().all()
+                .cookie(cookie)
+                .contentType(ContentType.JSON)
+                .body(comment)
+                .when().post("/rooms/" + 나무.getId() + "/comments").then().log()
+                .all().statusCode(HttpStatus.CREATED.value())
+                .extract().as(CommentResponse.class);
     }
 }
