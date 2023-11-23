@@ -9,6 +9,9 @@ class ScrappedRooms(
     val value: List<ScrappedRoom>
         get() = _value
 
+    val hasSelected: Boolean
+        get() = _value.any { it.isSelected }
+
     val selectedId: List<String>
         get() = _value.filter {
             it.isSelected
