@@ -2,8 +2,9 @@ package com.digginroom.digginroom.membergenre.domain;
 
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.UUIDBaseEntity;
+import com.digginroom.digginroom.membergenre.domain.vo.Weight;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
-import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,11 +20,12 @@ public class MemberGenre extends UUIDBaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Genre genre;
     private Long memberId;
-    private int weight;
+    @Embedded
+    private Weight weight;
 
     public MemberGenre(final Genre genre, final Long memberId) {
         this.genre = genre;
-        this.weight = WeightStatus.DEFAULT.getValue();
+        this.weight = new Weight();
         this.memberId = memberId;
     }
 
@@ -32,6 +34,6 @@ public class MemberGenre extends UUIDBaseEntity {
     }
 
     public void adjustWeight(final WeightFactor weightFactor) {
-        this.weight = Integer.max(WeightStatus.LOWER_BOUND.getValue(), this.weight + weightFactor.getValue());
+        this.weight = weight.adjust(weightFactor);
     }
 }
