@@ -5,6 +5,7 @@ import com.digginroom.digginroom.exception.GenreException.MemberGenreNotFoundExc
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +16,14 @@ public class MemberGenres {
     private List<MemberGenre> memberGenres;
 
     public MemberGenres(final List<MemberGenre> memberGenres) {
+        validateHasMemberGenres(memberGenres);
         this.memberGenres = memberGenres;
+    }
+
+    private void validateHasMemberGenres(final List<MemberGenre> memberGenres) {
+        if (memberGenres.isEmpty()) {
+            throw new EmptyFavoriteException();
+        }
     }
 
     public void adjustWeight(final Genre genre, final WeightFactor weightFactor) {
