@@ -3,15 +3,14 @@ package com.digginroom.digginroom.membergenre.domain;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.recommend.GenreRecommender;
 import com.digginroom.digginroom.membergenre.domain.vo.Weight;
+import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
-import java.util.concurrent.ThreadLocalRandom;
-
 @Component
 @RequiredArgsConstructor
-public class DefaultGenreRecommender implements GenreRecommender {
+public class GenreByWeight implements GenreRecommender {
 
     private final MemberGenreRepository memberGenreRepository;
 

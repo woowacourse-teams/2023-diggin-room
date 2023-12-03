@@ -4,7 +4,6 @@ import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RecommendException;
-import com.digginroom.digginroom.membergenre.domain.MemberGenreRepository;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
@@ -24,7 +23,6 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final RoomRecommender roomRecommender;
-    private final MemberGenreRepository memberGenreRepository;
     private final ApplicationEventPublisher publisher;
 
     @Transactional(readOnly = true)
@@ -32,7 +30,7 @@ public class RoomService {
         Member member = memberRepository.getMemberById(memberId);
 
         try {
-            Room recommendedRoom = roomRecommender.recommend(memberId);
+            Room recommendedRoom = roomRepository.getRoomById(roomRecommender.recommend(memberId));
 
             return new RoomResponse(
                     recommendedRoom.getId(),
