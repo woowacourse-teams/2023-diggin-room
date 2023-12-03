@@ -21,15 +21,15 @@ public class GenreByWeight implements GenreRecommender {
     }
 
     private Genre pickByWeight(final MemberGenres memberGenres) {
-        int randomizedFactor = ThreadLocalRandom.current().nextInt(memberGenres.sumWeights().getValue());
-        Iterator<MemberGenre> iterator = memberGenres.getMemberGenres().iterator();
-        MemberGenre current = iterator.next();
-        Weight cursor = current.getWeight();
+        int picker = ThreadLocalRandom.current().nextInt(memberGenres.sumWeights().getValue());
+        Iterator<MemberGenre> sections = memberGenres.getMemberGenres().iterator();
+        MemberGenre section = sections.next();
+        Weight cumulated = section.getWeight();
 
-        while (randomizedFactor >= cursor.getValue() && iterator.hasNext()) {
-            cursor = cursor.add(current.getWeight());
-            current = iterator.next();
+        while (cumulated.isLessThan(picker) && sections.hasNext()) {
+            cumulated = cumulated.add(section.getWeight());
+            section = sections.next();
         }
-        return current.getGenre();
+        return section.getGenre();
     }
 }

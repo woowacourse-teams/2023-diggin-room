@@ -2,7 +2,6 @@ package com.digginroom.digginroom.membergenre.domain.vo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
 import java.util.Objects;
 
 @Embeddable
@@ -31,10 +30,18 @@ public class Weight {
         return new Weight(this.value + factor.getValue());
     }
 
+    public boolean isLessThan(final int value) {
+        return this.value < value;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Weight weight = (Weight) o;
 

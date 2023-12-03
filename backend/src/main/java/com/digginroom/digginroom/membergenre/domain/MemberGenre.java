@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberGenre extends UUIDBaseEntity {
 
+    private Long memberId;
     @Enumerated(value = EnumType.STRING)
     private Genre genre;
-    private Long memberId;
     @Embedded
     private Weight weight;
 
