@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MemberGenres {
 
-    private List<MemberGenre> memberGenres;
+    private final List<MemberGenre> memberGenres;
 
     public MemberGenres(final List<MemberGenre> memberGenres) {
         validateHasMemberGenres(memberGenres);
