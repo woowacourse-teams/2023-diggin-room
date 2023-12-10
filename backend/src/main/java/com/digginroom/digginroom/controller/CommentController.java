@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,9 +30,11 @@ public class CommentController {
     @GetMapping("/{roomId}/comments")
     public ResponseEntity<CommentsResponse> findRoomComments(
             @Auth final Long loginMemberId,
-            @PathVariable final Long roomId
+            @PathVariable final Long roomId,
+            @RequestParam(required = false) final Long lastCommentId,
+            @RequestParam(defaultValue = "10") final int size
     ) {
-        CommentsResponse roomComments = commentService.getRoomComments(roomId, loginMemberId);
+        CommentsResponse roomComments = commentService.getRoomComments(roomId, loginMemberId, lastCommentId, size);
         return ResponseEntity.status(OK).body(roomComments);
     }
 

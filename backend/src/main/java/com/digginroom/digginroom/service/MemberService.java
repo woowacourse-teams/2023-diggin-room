@@ -1,13 +1,8 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
-import com.digginroom.digginroom.service.dto.MemberDuplicationResponse;
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
-import com.digginroom.digginroom.service.dto.MemberLoginResponse;
-import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.member.Password;
 import com.digginroom.digginroom.domain.member.Provider;
 import com.digginroom.digginroom.exception.MemberException.DuplicationException;
 import com.digginroom.digginroom.exception.MemberException.NotFoundException;
@@ -15,6 +10,13 @@ import com.digginroom.digginroom.exception.MemberException.WrongProviderExceptio
 import com.digginroom.digginroom.oauth.IdTokenResolver;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
 import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
+import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
+import com.digginroom.digginroom.service.dto.MemberDuplicationResponse;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import com.digginroom.digginroom.service.dto.MemberLoginResponse;
+import com.digginroom.digginroom.service.dto.MemberSaveRequest;
+import com.digginroom.digginroom.util.PasswordEncoder;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,13 +29,15 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final IdTokenResolver idTokenResolver;
+    private final PasswordEncoder passwordEncoder;
 
 
     public void save(final MemberSaveRequest request) {
         if (isDuplicated(request.username())) {
             throw new DuplicationException();
         }
-        memberRepository.save(request.toMember());
+        Password password = new Password(request.password(), passwordEncoder);
+        memberRepository.save(Member.self(request.username(), password));
     }
 
     private boolean isDuplicated(final String username) {
@@ -73,7 +77,7 @@ public class MemberService {
             throw new WrongProviderException();
         }
 
-        if (member.getPassword().doesNotMatch(request.password())) {
+        if (member.getPassword().doesNotMatch(request.password(), passwordEncoder)) {
             throw new NotFoundException();
         }
         return MemberLoginResponse.of(member);

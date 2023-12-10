@@ -1,5 +1,9 @@
 package com.digginroom.digginroom.feedback.controller;
 
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.파워;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.controller.ControllerTest;
 import com.digginroom.digginroom.feedback.domain.Feedback;
@@ -17,15 +21,9 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
-
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.TestFixture.파워;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class FeedbackControllerTest extends ControllerTest {
 
     @Autowired

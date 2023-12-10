@@ -8,10 +8,8 @@ import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.annotation.DirtiesContext;
 
 @SuppressWarnings("NonAsciiCharacters")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberArgumentResolverTest extends ControllerTest {
 
     @Test

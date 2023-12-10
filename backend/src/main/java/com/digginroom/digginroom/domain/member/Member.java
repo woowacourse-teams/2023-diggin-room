@@ -47,8 +47,8 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public static Member self(final String username, final String password) {
-        return new Member(username, new Password(password), Provider.SELF, Nickname.random());
+    public static Member self(final String username, final Password password) {
+        return new Member(username, password, Provider.SELF, Nickname.random());
     }
 
     public static Member social(final String username, final Provider provider, final String nickname) {
