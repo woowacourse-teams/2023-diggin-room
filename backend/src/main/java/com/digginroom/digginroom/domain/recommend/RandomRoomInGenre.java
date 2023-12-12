@@ -16,6 +16,7 @@ public class RandomRoomInGenre implements RoomRecommender {
     private final RoomRepository roomRepository;
     private final GenreRecommender genreRecommender;
 
+    @Override
     public Long recommend(final Long memberId) {
         Genre recommenedGenre = genreRecommender.recommend(memberId);
         return recommendRoom(recommenedGenre).getId();
