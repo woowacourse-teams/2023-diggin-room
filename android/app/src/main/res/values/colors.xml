@@ -9,4 +9,5 @@
     <color name="room_info_text_color">@color/black</color>
     <color name="room_info_sub_text_color">#808080</color>
     <color name="activity_background">#110B2E</color>
+    <color name="tutorial_point">#FFFBE6FF</color>
 </resources>
