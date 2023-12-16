@@ -42,6 +42,9 @@ class TutorialFragment : Fragment() {
         binding.tutorialTvSkip.setOnClickListener {
             finishFragment()
         }
+        binding.tutorialBtnNext.setOnClickListener {
+            viewPager.currentItem = viewPager.currentItem + 1
+        }
         return binding.root
     }
 
