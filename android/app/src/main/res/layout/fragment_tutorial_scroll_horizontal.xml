@@ -1,66 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background"
+    tools:context=".feature.tutorial.TutorialScrollHorizontalFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/layout_horizontal_scroll_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        tools:context=".feature.tutorial.TutorialScrollHorizontalFragment">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/lottie_horizontal_scroll"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tv_horizontal_scroll_description_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="@string/tutorial_dislike_ment"
+            android:text="@string/tutorial_horizontal_scroll_description_title"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/tutorial2_iv_left_arrow"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:rotation="180"
-            android:src="@drawable/ic_tutorial_gesture_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/tutorial_point"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_horizontal_scroll_description_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/tutorial_dislike"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tutorial2_iv_left_arrow"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="20dp"
+            android:text="@string/tutorial_horizontal_scroll_description_content"
+            android:textAlignment="center"
+            android:textColor="@color/tutorial_point"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+    </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="@string/tutorial_dislike"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tutorial2_iv_right_arrow"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/tutorial2_iv_right_arrow"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/ic_tutorial_gesture_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_horizontal_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="6:7.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/lottie_horizontal" />
+</androidx.constraintlayout.widget.ConstraintLayout>
