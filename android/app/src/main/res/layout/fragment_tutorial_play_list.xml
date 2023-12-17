@@ -11,28 +11,28 @@
         android:id="@+id/layout_play_list_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/lottie_play_list"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tv_play_list_description_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:text="@string/tutorial_play_list_description_title"
+            android:textAlignment="center"
             android:textColor="@color/tutorial_point"
             android:textSize="26sp"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_marginTop="20dp"
             android:id="@+id/tv_play_list_description_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_marginTop="20dp"
             android:text="@string/tutorial_play_list_description_content"
+            android:textAlignment="center"
             android:textColor="@color/tutorial_point"
             android:textSize="16sp"
             android:textStyle="normal" />

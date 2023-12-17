@@ -11,9 +11,9 @@
         android:id="@+id/layout_horizontal_scroll_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/lottie_horizontal_scroll"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
