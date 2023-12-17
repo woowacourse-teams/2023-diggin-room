@@ -1,141 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background"
+    tools:context=".feature.tutorial.TutorialRoomInfoFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/layout_vertical_scroll_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        tools:context=".feature.tutorial.TutorialRoomInfoFragment">
-
-        <include layout="@layout/item_room_info" />
-
-        <ImageView
-            android:id="@+id/tutorial_iv_arrow_iv_music"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="15dp"
-            android:rotation="-90"
-            android:src="@drawable/ic_tutorial_curve_arrow"
-            app:layout_constraintBottom_toTopOf="@id/room_info_iv_music"
-            app:layout_constraintStart_toStartOf="@id/room_info_iv_music" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tv_vertical_scroll_description_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/tutorial_room_info_room_info"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/tutorial_iv_arrow_iv_music"
-            app:layout_constraintTop_toTopOf="@+id/tutorial_iv_arrow_iv_music" />
-
-        <ImageView
-            android:id="@+id/tutorial_iv_arrow_ib_scrap"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="-10dp"
-            android:layout_marginEnd="30dp"
-            android:rotation="90"
-            android:src="@drawable/ic_tutorial_curve_arrow"
-            app:layout_constraintEnd_toEndOf="@+id/room_info_ib_scrap"
-            app:layout_constraintStart_toStartOf="@+id/room_info_ib_scrap"
-            app:layout_constraintTop_toBottomOf="@+id/room_info_ib_scrap" />
+            android:text="@string/tutorial_room_info_description_title"
+            android:textAlignment="center"
+            android:textColor="@color/tutorial_point"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_vertical_scroll_description_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/tutorial_room_info_navigate_to_scrap"
-            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:text="@string/tutorial_room_info_description_content"
+            android:textColor="@color/tutorial_point"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/tutorial_iv_arrow_ib_scrap"
-            app:layout_constraintEnd_toStartOf="@id/tutorial_iv_arrow_ib_scrap" />
+            android:textStyle="normal" />
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/tutorial_iv_arrow_scrap_toggle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_tutorial_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/room_info_scrap_toggle"
-            app:layout_constraintEnd_toStartOf="@id/room_info_scrap_toggle"
-            app:layout_constraintTop_toTopOf="@+id/room_info_scrap_toggle" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_vertical_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="8.2:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/room_info_lottie" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/tutorial_room_info_scrap"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/tutorial_iv_arrow_scrap_toggle"
-            app:layout_constraintTop_toTopOf="@id/tutorial_iv_arrow_scrap_toggle" />
-
-        <ImageView
-            android:id="@+id/tutorial_iv_arrow_ib_comment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_tutorial_arrow"
-            app:layout_constraintBottom_toBottomOf="@id/room_info_ib_comment"
-            app:layout_constraintEnd_toStartOf="@id/room_info_scrap_toggle"
-            app:layout_constraintTop_toTopOf="@id/room_info_ib_comment" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/tutorial_room_info_comment"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/tutorial_iv_arrow_ib_comment"
-            app:layout_constraintTop_toTopOf="@id/tutorial_iv_arrow_ib_comment" />
-
-        <ImageView
-            android:id="@+id/tutorial_iv_arrow_ib_info"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_tutorial_arrow"
-            app:layout_constraintBottom_toBottomOf="@id/room_info_ib_info"
-            app:layout_constraintEnd_toStartOf="@id/room_info_ib_info"
-            app:layout_constraintTop_toTopOf="@id/room_info_ib_info" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/tutorial_room_info_room_info"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/tutorial_iv_arrow_ib_info"
-            app:layout_constraintTop_toTopOf="@id/tutorial_iv_arrow_ib_info" />
-
-        <ImageView
-            android:id="@+id/tutorial_iv_arrow_ib_setting"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_tutorial_arrow"
-            app:layout_constraintBottom_toBottomOf="@id/room_info_ib_setting"
-            app:layout_constraintEnd_toStartOf="@id/room_info_ib_setting"
-            app:layout_constraintTop_toTopOf="@id/room_info_ib_setting" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="@string/tutorial_room_info_setting"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/tutorial_iv_arrow_ib_setting"
-            app:layout_constraintTop_toTopOf="@id/tutorial_iv_arrow_ib_setting" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

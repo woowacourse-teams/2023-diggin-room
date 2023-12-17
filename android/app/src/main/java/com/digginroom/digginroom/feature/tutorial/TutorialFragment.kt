@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -22,8 +21,8 @@ class TutorialFragment : Fragment() {
         listOf(
             TutorialScrollVerticalFragment(),
             TutorialScrollHorizontalFragment(),
-            TutorialPlayListFragment(),
             TutorialRoomInfoFragment(),
+            TutorialPlayListFragment(),
             TutorialEndFragment()
         )
     }
@@ -57,11 +56,6 @@ class TutorialFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 setCurrentIndicator(position)
-                if (position == fragments.size - 2) {
-                    showFullScreenOfViewPager()
-                } else {
-                    showNavigationButtons()
-                }
                 if (position == fragments.size - 1) {
                     finishFragment()
                 }
@@ -70,27 +64,6 @@ class TutorialFragment : Fragment() {
 
         setupIndicators()
         setCurrentIndicator(0)
-    }
-
-    private fun showFullScreenOfViewPager() {
-        binding.constraintLayout.background = null
-        binding.tutorialTvSkip.visibility = View.GONE
-        binding.tutorialBtnNext.visibility = View.GONE
-        val constraints = ConstraintSet()
-        constraints.clone(binding.constraintLayout)
-        constraints.connect(
-            binding.tutorialViewpagerTutorial.id,
-            ConstraintSet.TOP,
-            binding.constraintLayout.id,
-            ConstraintSet.TOP
-        )
-        constraints.applyTo(binding.constraintLayout)
-    }
-
-    private fun showNavigationButtons() {
-        binding.constraintLayout.setBackgroundColor(requireContext().getColor(R.color.activity_background))
-        binding.tutorialTvSkip.visibility = View.VISIBLE
-        binding.tutorialBtnNext.visibility = View.VISIBLE
     }
 
     private fun finishFragment() {

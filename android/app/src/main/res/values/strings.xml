@@ -53,16 +53,13 @@
 
     <string name="tutorial_skip">SKIP</string>
     <string name="tutorial_next">다음</string>
-    <string name="tutorial_vertical_scroll_description_title">상하 스크롤을 이용한\n룸 탐색 !</string>
+    <string name="tutorial_vertical_scroll_description_title">상하 스크롤을 이용한\n룸 탐색</string>
     <string name="tutorial_vertical_scroll_description_content">사용자의 취향에 맞는 룸을 추천해줍니다</string>
-    <string name="tutorial_room_info_room_info">음악 정보</string>
-    <string name="tutorial_room_info_comment">댓글</string>
-    <string name="tutorial_room_info_scrap">스크랩</string>
-    <string name="tutorial_room_info_setting">설정</string>
-    <string name="tutorial_room_info_navigate_to_scrap">스크랩 페이지 이동</string>
-    <string name="tutorial_horizontal_scroll_description_title">좌우 스크롤을 이용한\n룸 싫어요!</string>
+    <string name="tutorial_room_info_description_title">다양하게 룸 즐기기</string>
+    <string name="tutorial_room_info_description_content">각 아이콘의 기능을 확인하세요</string>
+    <string name="tutorial_horizontal_scroll_description_title">좌우 스크롤을 이용한\n룸 싫어요</string>
     <string name="tutorial_horizontal_scroll_description_content">취향에 맞지 않는 룸을 넘기면\n해당 장르는 덜 추천됩니다</string>
-    <string name="tutorial_play_list_description_title">유튜브 플레이리스트 추출!</string>
+    <string name="tutorial_play_list_description_title">유튜브 플레이리스트 추출</string>
     <string name="tutorial_play_list_description_content">스크랩한 룸을\n유튜브 플레이리스트로 추출할 수 있습니다</string>
 
     <string name="title_artist_format">%s - %s</string>
