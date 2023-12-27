@@ -93,4 +93,18 @@ class FeedbackControllerTest extends ControllerTest {
                 .usingRecursiveFieldByFieldElementComparatorIgnoringFields("writerId")
                 .containsExactly(FeedbackResponse.of(new Feedback(파워().getId(), content)));
     }
+
+    @Test
+    void 피드백_문구가_비어있으면_예외가_발생한다() {
+        String content = "";
+
+        RestAssured.given().log().all()
+                .body(new FeedbackRequest(content))
+                .contentType(ContentType.JSON)
+                .cookie(cookie)
+                .when()
+                .post("/feedbacks")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
 }

@@ -16,7 +16,7 @@ jobs:
         working-directory: ./backend
     env:
       MYSQL_CONTAINER_NAME: temp-mysql
-      SOURCE_DB_HOSTNAME: ip-192-168-2-43.ap-northeast-2.compute.internal
+      SOURCE_DB_HOSTNAME: 140.238.23.55
       SOURCE_DB_PORT: 3306
       SOURCE_DB_SCHEMA: digginroom_dev
     steps:
