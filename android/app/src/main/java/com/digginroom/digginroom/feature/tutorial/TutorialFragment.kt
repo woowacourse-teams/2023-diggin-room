@@ -22,6 +22,7 @@ class TutorialFragment : Fragment() {
             TutorialScrollVerticalFragment(),
             TutorialScrollHorizontalFragment(),
             TutorialRoomInfoFragment(),
+            TutorialPlayListFragment(),
             TutorialEndFragment()
         )
     }
@@ -40,6 +41,9 @@ class TutorialFragment : Fragment() {
         binding.tutorialTvSkip.setOnClickListener {
             finishFragment()
         }
+        binding.tutorialBtnNext.setOnClickListener {
+            viewPager.currentItem = viewPager.currentItem + 1
+        }
         return binding.root
     }
 
@@ -54,8 +58,6 @@ class TutorialFragment : Fragment() {
                 setCurrentIndicator(position)
                 if (position == fragments.size - 1) {
                     finishFragment()
-                } else {
-                    binding.tutorialTvSkip.text = getString(R.string.tutorial_skip)
                 }
             }
         })

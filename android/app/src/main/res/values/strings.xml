@@ -47,24 +47,20 @@
     <string name="dialog_comment_input_comment">댓글 작성</string>
     <string name="dialog_comment_empty_comment">대화를 시작해 보세요.</string>
     <string name="dialog_comment_send">등록</string>
+    <string name="dialog_comment_comment">댓글</string>
     <string name="updated_comment">(편집됨)</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="tutorial_skip">SKIP</string>
-    <string name="tutorial_start">START</string>
     <string name="tutorial_next">다음</string>
-    <string name="tutorial_previous">이전</string>
-    <string name="tutorial_dislike">싫어요</string>
-    <string name="tutorial">튜토리얼</string>
-    <string name="tutorial_room_info">음악 정보</string>
-    <string name="tutorial_comment">댓글</string>
-    <string name="tutorial_scrap">스크랩</string>
-    <string name="tutorial_setting">설정</string>
-    <string name="tutorial_navigate_to_scrap">스크랩 페이지 이동</string>
-    <string name="tutorial_dislike_ment">취향에 맞지 않는다면\n양 옆으로 스크롤 해보세요!</string>
-    <string name="tutorial_find_room_ment">위 아래 스크롤로\n룸을 탐색해 보세요!</string>
-    <string name="tutorial_previous_room">이전 룸</string>
-    <string name="tutorial_next_room">다음 룸</string>
-    <string name="dialog_comment_comment">댓글</string>
+    <string name="tutorial_vertical_scroll_description_title">상하 스크롤을 이용한\n룸 탐색</string>
+    <string name="tutorial_vertical_scroll_description_content">사용자의 취향에 맞는 룸을 추천해줍니다</string>
+    <string name="tutorial_room_info_description_title">다양하게 룸 즐기기</string>
+    <string name="tutorial_room_info_description_content">각 아이콘의 기능을 확인하세요</string>
+    <string name="tutorial_horizontal_scroll_description_title">좌우 스크롤을 이용한\n룸 싫어요</string>
+    <string name="tutorial_horizontal_scroll_description_content">취향에 맞지 않는 룸을 넘기면\n해당 장르는 덜 추천됩니다</string>
+    <string name="tutorial_play_list_description_title">유튜브 플레이리스트 추출</string>
+    <string name="tutorial_play_list_description_content">스크랩한 룸을\n유튜브 플레이리스트로 추출할 수 있습니다</string>
 
     <string name="title_artist_format">%s - %s</string>
     <string name="track_genre">장르: %s</string>

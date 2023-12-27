@@ -116,6 +116,9 @@ dependencies {
     // fragment
     implementation("androidx.fragment:fragment-ktx:1.4.0")
 
+    // lottie
+    implementation("com.airbnb.android:lottie:5.2.0")
+
     // test
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
