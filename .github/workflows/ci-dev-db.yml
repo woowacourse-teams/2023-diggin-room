@@ -10,13 +10,12 @@ permissions:
 
 jobs:
   validate:
-    runs-on: development
+    runs-on: dev
     defaults:
       run:
         working-directory: ./backend
     env:
       MYSQL_CONTAINER_NAME: temp-mysql
-      SOURCE_DB_HOSTNAME: 3.35.24.92
       SOURCE_DB_PORT: 3306
       SOURCE_DB_SCHEMA: digginroom_dev
     steps:
@@ -54,7 +53,7 @@ jobs:
         sudo docker exec $MYSQL_CONTAINER_NAME sh -c ' \
           mysqldump \
           -u ${{ secrets.DEV_DATASOURCE_USERNAME }} -p${{ secrets.DEV_DATASOURCE_PASSWORD }} \
-          -h ${{ env.SOURCE_DB_HOSTNAME }} -P ${{ env.SOURCE_DB_PORT }} \
+          -h ${{ secrets.DEV_DATASOURCE_URL }} -P ${{ env.SOURCE_DB_PORT }} \
           -B ${{ env.SOURCE_DB_SCHEMA }} \
           ${{ env.DUMP_OPTIONS }} \
           --where="1 limit 100" \
