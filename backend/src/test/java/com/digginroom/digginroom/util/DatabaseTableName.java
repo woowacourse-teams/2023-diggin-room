@@ -15,7 +15,7 @@ public enum DatabaseTableName {
 
     public static DatabaseTableName of(final String name) {
         return Arrays.stream(values())
-                .filter(databaseTableName -> databaseTableName.getName().equals(name))
+                .filter(databaseTableName -> databaseTableName.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(EMPTY);
     }
