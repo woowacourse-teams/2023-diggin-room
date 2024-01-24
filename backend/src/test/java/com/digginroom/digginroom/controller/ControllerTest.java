@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.controller;
 
 
-import com.digginroom.digginroom.util.DatabaseCleanerExtension;
+import com.digginroom.digginroom.config.DatabaseCleanerExtension;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;

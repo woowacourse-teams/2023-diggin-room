@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.util;
+package com.digginroom.digginroom.config;
 
 import java.util.Set;
 import org.springframework.context.annotation.Bean;

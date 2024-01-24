@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.util;
+package com.digginroom.digginroom.config;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;

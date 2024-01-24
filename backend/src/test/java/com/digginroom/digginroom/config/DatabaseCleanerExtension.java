@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.util;
+package com.digginroom.digginroom.config;
 
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
