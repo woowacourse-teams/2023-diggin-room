@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: dev
+    runs-on: development
     defaults:
       run:
         working-directory: ./backend
