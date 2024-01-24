@@ -16,7 +16,7 @@ jobs:
         working-directory: ./backend
     env:
       MYSQL_CONTAINER_NAME: temp-mysql
-      SOURCE_DB_HOSTNAME: ip-192-168-2-43.ap-northeast-2.compute.internal
+      SOURCE_DB_HOSTNAME: digginroom-db-1.cxyy6oukuxsh.ap-northeast-2.rds.amazonaws.com
       SOURCE_DB_PORT: 3306
       SOURCE_DB_SCHEMA: digginroom_dev
     steps:
@@ -48,7 +48,7 @@ jobs:
 
     - name: 개발 DB 덤프
       env:
-        DUMP_OPTIONS: --single-transaction --no-tablespaces
+        DUMP_OPTIONS:
         # 테이블 락킹 권한과 테이블 스페이스 열람 권한 (PROCESS 권한) 없이 덤프할 수 있다.
       run: |
         sudo docker exec $MYSQL_CONTAINER_NAME sh -c ' \

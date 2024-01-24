@@ -14,7 +14,7 @@ public class Feedback extends BaseEntity {
     private Long writerId;
     private String content;
 
-    public Feedback(Long writerId, String content) {
+    public Feedback(final Long writerId, final String content) {
         this.writerId = writerId;
         this.content = content;
     }
