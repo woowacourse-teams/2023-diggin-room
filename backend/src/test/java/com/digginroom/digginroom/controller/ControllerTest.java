@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles({"local", "auth"})
+@ActiveProfiles("local")
 @ExtendWith(DatabaseCleanerExtension.class)
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
