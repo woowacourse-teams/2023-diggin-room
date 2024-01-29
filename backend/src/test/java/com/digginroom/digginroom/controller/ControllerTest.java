@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 public abstract class ControllerTest {
 
     @LocalServerPort
-    private int port;
+    protected int port;
 
     @BeforeEach
     void setUp() {

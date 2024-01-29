@@ -1,8 +1,5 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.TestFixture.MEMBER_PASSWORD;
-import static com.digginroom.digginroom.TestFixture.MEMBER_USERNAME;
 import static com.digginroom.digginroom.TestFixture.나무;
 import static com.digginroom.digginroom.TestFixture.차이;
 import static com.digginroom.digginroom.TestFixture.파워;
@@ -10,22 +7,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
 
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
-import com.digginroom.digginroom.service.dto.RoomRequest;
-import com.digginroom.digginroom.service.dto.RoomResponse;
+import com.digginroom.digginroom.controller.mock.MockLoginServer;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.RoomRequest;
+import com.digginroom.digginroom.service.dto.RoomResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("auth")
 @SuppressWarnings("NonAsciiCharacters")
 class RoomControllerTest extends ControllerTest {
 
@@ -33,6 +31,9 @@ class RoomControllerTest extends ControllerTest {
     private MemberRepository memberRepository;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private MockLoginServer mockLoginServer;
+
     private Room room1;
     private Room room2;
 
@@ -47,13 +48,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 로그인된_사용자는_룸을_탐색할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -67,6 +62,10 @@ class RoomControllerTest extends ControllerTest {
                 .extract().as(RoomResponse.class);
     }
 
+    private String login(final int port) {
+        return mockLoginServer.getCachedLoginValue(port);
+    }
+
     @Test
     void 로그인하지_않은_사용자는_룸을_탐색할_수_없다() {
         RestAssured.given()
@@ -78,13 +77,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 룸을_스크랩할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -98,13 +91,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 룸_스크랩을_취소할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -127,13 +114,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 싫어요한_룸을_스크랩_할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -156,13 +137,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 룸을_싫어요_할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -176,13 +151,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 싫어요한_룸도_여러번_싫어요할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -205,13 +174,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 스크랩한_룸을_싫어요_할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -234,13 +197,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 싫어요한_룸을_취소할_수_있디() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -263,13 +220,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 싫어요하지_않은_룸은_싫어요_취소할_수_없다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -283,13 +234,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 스크랩을_하지_않은_유저는_빈_스크랩_목록을_조회할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -302,13 +247,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 스크랩을_한_유저는_스크랩_목록을_조회할_수_있다() {
-        Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -339,13 +278,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 유저가_룸을_스크랩하면_해당_룸의_스크랩_수가_올라간다() {
-        Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
@@ -364,13 +297,7 @@ class RoomControllerTest extends ControllerTest {
 
     @Test
     void 유저가_룸을_언스크랩하면_해당_룸의_스크랩_수가_감소한다() {
-        Response response = RestAssured.given().log().all()
-                .body(new MemberLoginRequest(MEMBER_USERNAME, MEMBER_PASSWORD))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
+        String cookie = login(port);
 
         RestAssured.given()
                 .cookie(cookie)
