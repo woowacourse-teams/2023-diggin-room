@@ -5,6 +5,9 @@ import java.util.Arrays;
 public enum DatabaseTableName {
 
     MEMBER("member"),
+    MEMBER_GENRE("member_genre"),
+    SPRING_SESSION("spring_session"),
+    SPRING_SESSION_ATTRIBUTES("spring_session_attributes"),
     EMPTY("");
 
     private final String name;
