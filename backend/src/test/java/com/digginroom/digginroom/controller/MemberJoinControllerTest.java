@@ -7,7 +7,9 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("default")
 @SuppressWarnings("NonAsciiCharacters")
 class MemberJoinControllerTest extends ControllerTest {
 

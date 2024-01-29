@@ -1,50 +1,36 @@
 package com.digginroom.digginroom.controller;
 
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.domain.Genre.DANCE;
 import static com.digginroom.digginroom.domain.Genre.RNB;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
 
-import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import java.util.List;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("default")
 @SuppressWarnings("NonAsciiCharacters")
 class MemberOperationControllerTest extends ControllerTest {
 
-    private String cookie;
-
-    @BeforeEach
-    void login() {
-        RestAssured.given().log().all()
+    private String login() {
+        return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(TestFixture.MEMBER_SAVE_REQUEST)
-                .when().post("/join")
+                .when().post("/login/guest")
                 .then().log().all()
-                .statusCode(HttpStatus.CREATED.value());
-
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract().response();
-
-        this.cookie = response.header("Set-Cookie");
+                .extract()
+                .response().header("Set-Cookie");
     }
 
     @Test
     void 취향_장르들을_선택한다() {
+        String cookie = login();
+
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .body(new FavoriteGenresRequest(List.of(DANCE.getName(), ROCK.getName())))
@@ -57,6 +43,8 @@ class MemberOperationControllerTest extends ControllerTest {
 
     @Test
     void 없는_취향_장르를_선택하면_예외가_발생한다() {
+        String cookie = login();
+
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .body(new FavoriteGenresRequest(List.of("없는 장르")))
@@ -69,6 +57,8 @@ class MemberOperationControllerTest extends ControllerTest {
 
     @Test
     void 중복된_취향_장르가_있으면_예외가_발생한다() {
+        String cookie = login();
+
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .body(new FavoriteGenresRequest(List.of(ROCK.getName(), ROCK.getName())))
@@ -81,6 +71,8 @@ class MemberOperationControllerTest extends ControllerTest {
 
     @Test
     void 취향_정보를_한_번_이상_전달하면_예외가_발생한다() {
+        String cookie = login();
+
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .body(new FavoriteGenresRequest(List.of(ROCK.getName())))
@@ -102,6 +94,8 @@ class MemberOperationControllerTest extends ControllerTest {
 
     @Test
     void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_응답한다() {
+        String cookie = login();
+
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
