@@ -19,6 +19,7 @@ import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
@@ -27,15 +28,22 @@ import org.springframework.test.context.ActiveProfiles;
 @SuppressWarnings("NonAsciiCharacters")
 class RoomControllerTest extends ControllerTest {
 
-    @Autowired
     private MemberRepository memberRepository;
-    @Autowired
     private RoomRepository roomRepository;
-    @Autowired
     private MockLoginServer mockLoginServer;
-
     private Room room1;
     private Room room2;
+
+    @Autowired
+    public RoomControllerTest(MemberRepository memberRepository,
+                              RoomRepository roomRepository,
+                              ObjectProvider<MockLoginServer> mockLoginServerObjectProvider
+    ) {
+        this.memberRepository = memberRepository;
+        this.roomRepository = roomRepository;
+        this.mockLoginServer = mockLoginServerObjectProvider.getObject();
+        System.out.println(123123);
+    }
 
     @Override
     @BeforeEach

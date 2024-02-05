@@ -1,10 +1,8 @@
 package com.digginroom.digginroom.feedback.controller;
 
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.controller.ControllerTest;
 import com.digginroom.digginroom.controller.mock.MockLoginServer;
 import com.digginroom.digginroom.feedback.domain.Feedback;
@@ -15,11 +13,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
@@ -29,11 +27,17 @@ import org.springframework.test.context.ActiveProfiles;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class FeedbackControllerTest extends ControllerTest {
 
-    @Autowired
     private FeedbackRepository feedbackRepository;
-    @Autowired
     private MockLoginServer mockLoginServer;
     private String cookie;
+
+    @Autowired
+    public FeedbackControllerTest(FeedbackRepository feedbackRepository,
+                                  ObjectProvider<MockLoginServer> mockLoginServerObjectProvider
+    ) {
+        this.feedbackRepository = feedbackRepository;
+        this.mockLoginServer = mockLoginServerObjectProvider.getObject();
+    }
 
     @BeforeEach
     void login() {

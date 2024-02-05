@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,16 +32,23 @@ import org.springframework.test.context.ActiveProfiles;
 @SuppressWarnings("NonAsciiCharacters")
 class CommentControllerTest extends ControllerTest {
 
-    @Autowired
     private MemberRepository memberRepository;
-    @Autowired
     private RoomRepository roomRepository;
-    @Autowired
     private CommentRepository commentRepository;
-    @Autowired
     private MockLoginServer mockLoginServer;
-
     private Room 나무;
+
+    @Autowired
+    public CommentControllerTest(MemberRepository memberRepository,
+                                 RoomRepository roomRepository,
+                                 CommentRepository commentRepository,
+                                 ObjectProvider<MockLoginServer> mockLoginServerObjectProvider
+    ) {
+        this.memberRepository = memberRepository;
+        this.roomRepository = roomRepository;
+        this.commentRepository = commentRepository;
+        this.mockLoginServer = mockLoginServerObjectProvider.getObject();
+    }
 
     @Override
     @BeforeEach

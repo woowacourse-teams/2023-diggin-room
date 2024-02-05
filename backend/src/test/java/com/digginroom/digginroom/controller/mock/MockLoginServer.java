@@ -3,14 +3,14 @@ package com.digginroom.digginroom.controller.mock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
 import reactor.core.publisher.Mono;
 
+@Scope("prototype")
 @Component
-@Profile("auth")
 public class MockLoginServer {
 
     private static final String HOST = "http://localhost:";
