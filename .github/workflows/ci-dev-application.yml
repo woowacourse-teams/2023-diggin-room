@@ -20,5 +20,5 @@ jobs:
         distribution: 'corretto'
 
     - name: Build with Gradle
-      run: ./gradlew --info build
+      run: ./gradlew build
       working-directory: ./backend
