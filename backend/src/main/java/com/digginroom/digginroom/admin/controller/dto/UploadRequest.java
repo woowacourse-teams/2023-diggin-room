@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.admin.controller.dto;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.membergenre.service.MemberGenreService;

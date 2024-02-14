@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.repository;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.domain.recommend;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RecommendException.NoRecommendableRoomException;
 import com.digginroom.digginroom.repository.RoomRepository;

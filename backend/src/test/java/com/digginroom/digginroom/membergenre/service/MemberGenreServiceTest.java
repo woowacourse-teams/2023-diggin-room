@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.membergenre.service;
 
 import com.digginroom.digginroom.controller.ControllerTest;
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.membergenre.domain.MemberGenre;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreEvent;

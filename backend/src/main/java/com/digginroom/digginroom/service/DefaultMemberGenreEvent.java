@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.service;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreEvent;
 import lombok.AllArgsConstructor;

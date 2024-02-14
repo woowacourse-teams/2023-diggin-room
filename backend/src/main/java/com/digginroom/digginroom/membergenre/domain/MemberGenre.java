@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.membergenre.domain;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.UUIDBaseEntity;
 import com.digginroom.digginroom.membergenre.domain.vo.Weight;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;

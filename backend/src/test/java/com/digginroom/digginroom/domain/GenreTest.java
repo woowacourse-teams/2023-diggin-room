@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.domain;
 
-import static com.digginroom.digginroom.domain.Genre.of;
+import static com.digginroom.digginroom.domain.room.Genre.of;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.digginroom.digginroom.exception.GenreException.GenreNotFoundException;
