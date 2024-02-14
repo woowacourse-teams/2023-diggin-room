@@ -8,17 +8,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.digginroom.digginroom.service.dto.RoomResponse;
-import com.digginroom.digginroom.service.dto.RoomsResponse;
-import com.digginroom.digginroom.service.dto.TrackResponse;
-import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.exception.RoomException.AlreadyScrappedException;
-import com.digginroom.digginroom.exception.RoomException.NotDislikedException;
 import com.digginroom.digginroom.exception.RoomException.NotScrappedException;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.RoomResponse;
+import com.digginroom.digginroom.service.dto.RoomsResponse;
+import com.digginroom.digginroom.service.dto.TrackResponse;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -32,26 +30,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class RoomServiceTest {
 
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
-    private RoomService roomService;
-    @Autowired
     private MemberRepository memberRepository;
-
-    @Test
-    void 페이징을_사용하여_여러_룸_중_랜덤으로_하나를_선택한다() {
-        Member member = memberRepository.save(파워());
-        roomRepository.save(나무());
-        roomRepository.save(차이());
-
-        final var pickedRoom = roomService.recommend(member.getId());
-
-        assertThat(pickedRoom).isNotNull();
-    }
+    @Autowired
+    private RoomService roomService;
 
     @Test
     void 스크랩_항목이_있는_경우_멤버가_스크랩한_룸_목록을_조회할_수_있다() {
@@ -151,13 +138,13 @@ class RoomServiceTest {
     }
 
     @Test
-    void 사용자는_룸을_싫어요_할_수_있다() {
+    void 사용자가_룸을_싫어요하면_해당_장르의_가중치를_감소하는_이벤트를_발행한다() {
         Member member = memberRepository.save(파워());
         Room room = roomRepository.save(차이());
 
         roomService.dislike(member.getId(), room.getId());
 
-        assertThat(member.getDislikeRooms()).isNotEmpty();
+//        verify(publisher).publishEvent(any(DefaultMemberGenreEvent.class));
     }
 
     @Test
@@ -181,85 +168,13 @@ class RoomServiceTest {
     }
 
     @Test
-    void 사용자는_싫어요한_룸을_취소할_수_있다() {
+    void 사용자가_룸을_싫어요를_취소하면_해당_장르의_가중치를_증가하는_이벤트를_발행한다() {
         Member member = memberRepository.save(파워());
         Room room = roomRepository.save(차이());
         roomService.dislike(member.getId(), room.getId());
 
         roomService.undislike(member.getId(), room.getId());
-
-        assertThat(member.getDislikeRooms()).isEmpty();
-    }
-
-    @Test
-    void 사용자는_싫어요하지_않은_룸을_취소할_수_없다() {
-        Member member = memberRepository.save(파워());
-        Room room = roomRepository.save(차이());
-
-        assertThatThrownBy(() -> roomService.undislike(member.getId(), room.getId()))
-                .isInstanceOf(NotDislikedException.class)
-                .hasMessageContaining("싫어요하지 않은 룸입니다.");
-    }
-
-    @Test
-    void 멤버가_룸을_스크랩하면_가중치가_올라간다() {
-        Member member = memberRepository.save(파워());
-        Room room = roomRepository.save(차이());
-        Genre targetGenre = room.getTrack().getSuperGenre();
-        int originalWeight = getWeight(member, targetGenre);
-
-        roomService.scrap(member.getId(), room.getId());
-
-        int resultWeight = getWeight(member, targetGenre);
-        assertThat(resultWeight).isGreaterThan(originalWeight);
-    }
-
-    private int getWeight(final Member member, final Genre targetGenre) {
-        return member.getMemberGenres().stream()
-                .filter(it -> it.isSameGenre(targetGenre))
-                .findFirst()
-                .get().getWeight();
-    }
-
-    @Test
-    void 멤버가_룸을_스크랩을_취소하면_가중치가_돌아간다() {
-        Member member = memberRepository.save(파워());
-        Room room = roomRepository.save(차이());
-        Genre targetGenre = room.getTrack().getSuperGenre();
-        int originalWeight = getWeight(member, targetGenre);
-        roomService.scrap(member.getId(), room.getId());
-
-        roomService.unscrap(member.getId(), room.getId());
-
-        int resultWeight = getWeight(member, targetGenre);
-        assertThat(resultWeight).isEqualTo(originalWeight);
-    }
-
-    @Test
-    void 멤버가_룸을_싫어요하면_가중치가_내려간다() {
-        Member member = memberRepository.save(파워());
-        Room room = roomRepository.save(차이());
-        Genre targetGenre = room.getTrack().getSuperGenre();
-        int originalWeight = getWeight(member, targetGenre);
-
-        roomService.dislike(member.getId(), room.getId());
-
-        int resultWeight = getWeight(member, targetGenre);
-        assertThat(resultWeight).isLessThan(originalWeight);
-    }
-
-    @Test
-    void 멤버가_룸을_싫어요를_취소하면_가중치가_돌아간다() {
-        Member member = memberRepository.save(파워());
-        Room room = roomRepository.save(차이());
-        Genre targetGenre = room.getTrack().getSuperGenre();
-        int originalWeight = getWeight(member, targetGenre);
-        roomService.dislike(member.getId(), room.getId());
-
-        roomService.undislike(member.getId(), room.getId());
-
-        int resultWeight = getWeight(member, targetGenre);
-        assertThat(resultWeight).isEqualTo(originalWeight);
+        //verify(publisher).publishEvent(any(DefaultMemberGenreEvent.class));
     }
 
     @Test

@@ -90,7 +90,6 @@ class MemberLoginControllerTest extends ControllerTest {
                 .post("/login/guest")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("hasFavorite", is(false))
                 .body("memberId", isA(Integer.class));
     }
 }

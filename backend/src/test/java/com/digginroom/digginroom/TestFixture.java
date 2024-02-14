@@ -1,9 +1,9 @@
 package com.digginroom.digginroom;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.domain.member.Password;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Password;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
 import com.digginroom.digginroom.oauth.IdTokenResolver;
@@ -17,19 +17,25 @@ import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
 import java.util.List;
 
-//TODO: 픽스쳐 분리
 @SuppressWarnings("NonAsciiCharacters")
 public class TestFixture {
 
     public static final String MEMBER_PASSWORD = "power1234@";
     public static final String MEMBER_USERNAME = "power";
-    public static final MemberLoginRequest MEMBER_LOGIN_REQUEST = new MemberLoginRequest(MEMBER_USERNAME,
-            MEMBER_PASSWORD);
-    public static final MemberSaveRequest MEMBER_SAVE_REQUEST = new MemberSaveRequest(MEMBER_USERNAME, MEMBER_PASSWORD);
+    public static final MemberLoginRequest MEMBER_LOGIN_REQUEST = new MemberLoginRequest(
+            MEMBER_USERNAME,
+            MEMBER_PASSWORD
+    );
+    public static final MemberSaveRequest MEMBER_SAVE_REQUEST = new MemberSaveRequest(
+            MEMBER_USERNAME,
+            MEMBER_PASSWORD
+    );
     public static final String MEMBER2_PASSWORD = "blackcat1234@";
     public static final String MEMBER2_USERNAME = "blackcat";
-    public static final MemberLoginRequest MEMBER2_LOGIN_REQUEST = new MemberLoginRequest(MEMBER2_USERNAME,
-            MEMBER2_PASSWORD);
+    public static final MemberLoginRequest MEMBER2_LOGIN_REQUEST = new MemberLoginRequest(
+            MEMBER2_USERNAME,
+            MEMBER2_PASSWORD
+    );
 
     public static Password PASSWORD = new Password(MEMBER_PASSWORD, new DigginRoomPasswordEncoder());
     public static Password PASSWORD2 = new Password(MEMBER2_PASSWORD, new DigginRoomPasswordEncoder());

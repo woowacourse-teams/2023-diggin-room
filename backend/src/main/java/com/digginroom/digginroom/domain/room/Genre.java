@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.domain;
+package com.digginroom.digginroom.domain.room;
 
 import com.digginroom.digginroom.exception.GenreException.GenreNotFoundException;
 import lombok.Getter;

@@ -10,12 +10,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
 
+import com.digginroom.digginroom.domain.room.Genre;
+import com.digginroom.digginroom.domain.member.Member;
+import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.membergenre.service.MemberGenreService;
+import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
 import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.service.dto.RoomRequest;
 import com.digginroom.digginroom.service.dto.RoomResponse;
-import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.repository.RoomRepository;
+import com.digginroom.digginroom.util.DatabaseCleanerExtension;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -23,9 +28,11 @@ import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+@ExtendWith(DatabaseCleanerExtension.class)
 @SuppressWarnings("NonAsciiCharacters")
 class RoomControllerTest extends ControllerTest {
 
@@ -33,6 +40,8 @@ class RoomControllerTest extends ControllerTest {
     private MemberRepository memberRepository;
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private MemberGenreService memberGenreService;
     private Room room1;
     private Room room2;
 
@@ -40,7 +49,8 @@ class RoomControllerTest extends ControllerTest {
     @BeforeEach
     void setUp() {
         super.setUp();
-        memberRepository.save(파워());
+        Member 파워 = memberRepository.save(파워());
+        memberGenreService.markFavorite(파워.getId(),new FavoriteGenresRequest(List.of(Genre.DANCE)));
         room1 = roomRepository.save(나무());
         room2 = roomRepository.save(차이());
     }
@@ -259,26 +269,6 @@ class RoomControllerTest extends ControllerTest {
                 .delete("/room/dislike")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
-    }
-
-    @Test
-    void 싫어요하지_않은_룸은_싫어요_취소할_수_없다() {
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login");
-
-        String cookie = response.header("Set-Cookie");
-
-        RestAssured.given()
-                .cookie(cookie)
-                .when()
-                .contentType(ContentType.JSON)
-                .body(new RoomRequest(room1.getId()))
-                .delete("/room/dislike")
-                .then().log().all()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test

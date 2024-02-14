@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.domain.track;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

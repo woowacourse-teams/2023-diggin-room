@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.domain.member;
+package com.digginroom.digginroom.domain.member.vo;
 
 import jakarta.persistence.Embeddable;
 import java.util.UUID;

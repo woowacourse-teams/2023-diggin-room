@@ -4,9 +4,8 @@ import com.auth0.jwk.Jwk;
 import com.auth0.jwk.JwkException;
 import com.auth0.jwk.JwkProvider;
 import com.auth0.jwk.JwkProviderBuilder;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.exception.OAuthResolverException.InvalidIdTokenException;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

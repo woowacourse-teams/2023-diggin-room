@@ -9,7 +9,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 import com.digginroom.digginroom.exception.OAuthResolverException.*;
 import com.digginroom.digginroom.oauth.payload.GoogleIdTokenPayload;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;

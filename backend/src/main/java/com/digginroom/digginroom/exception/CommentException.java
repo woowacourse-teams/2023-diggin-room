@@ -24,12 +24,6 @@ public abstract class CommentException extends DigginRoomException {
         }
     }
 
-    public static class NotSameRoomException extends CommentException {
-        public NotSameRoomException() {
-            super("해당 룸의 댓글이 아닙니다.", BAD_REQUEST);
-        }
-    }
-
     public static class InvalidCommentSizeException extends CommentException {
         public InvalidCommentSizeException() {
             super("1개 이상의 댓글을 조회 해야합니다.", BAD_REQUEST);
