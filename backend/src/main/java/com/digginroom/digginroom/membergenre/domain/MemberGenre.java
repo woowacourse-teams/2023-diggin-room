@@ -1,11 +1,12 @@
-package com.digginroom.digginroom.domain.member;
+package com.digginroom.digginroom.membergenre.domain;
 
-import com.digginroom.digginroom.domain.BaseEntity;
 import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.UUIDBaseEntity;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,18 +14,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberGenre extends BaseEntity {
+public class MemberGenre extends UUIDBaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Genre genre;
+    private Long memberId;
     private int weight;
-    @ManyToOne
-    private Member member;
 
-    public MemberGenre(final Genre genre, final Member member) {
+    public MemberGenre(final Genre genre, final Long memberId) {
         this.genre = genre;
         this.weight = WeightStatus.DEFAULT.getValue();
-        this.member = member;
+        this.memberId = memberId;
     }
 
     public boolean isSameGenre(final Genre genre) {

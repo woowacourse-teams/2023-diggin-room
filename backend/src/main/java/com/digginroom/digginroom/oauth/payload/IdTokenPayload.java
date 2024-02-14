@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.oauth.payload;
 
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 
 public interface IdTokenPayload {
 

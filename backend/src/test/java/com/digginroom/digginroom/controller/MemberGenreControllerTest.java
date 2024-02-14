@@ -6,8 +6,8 @@ import static com.digginroom.digginroom.domain.Genre.RNB;
 import static com.digginroom.digginroom.domain.Genre.ROCK;
 
 import com.digginroom.digginroom.TestFixture;
+import com.digginroom.digginroom.membergenre.service.dto.MemberGenresResponse;
 import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
-import com.digginroom.digginroom.service.dto.MemberDetailsResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 @SuppressWarnings("NonAsciiCharacters")
-class MemberOperationControllerTest extends ControllerTest {
+class MemberGenreControllerTest extends ControllerTest {
 
     private String cookie;
 
@@ -47,11 +47,11 @@ class MemberOperationControllerTest extends ControllerTest {
     void 취향_장르들을_선택한다() {
         RestAssured.given().log().all()
                 .cookie(cookie)
-                .body(new FavoriteGenresRequest(List.of(DANCE.getName(), ROCK.getName())))
+                .body(new FavoriteGenresRequest(List.of(DANCE, ROCK)))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/member/favorite-genres")
-                .then()
+                .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
 
@@ -59,11 +59,15 @@ class MemberOperationControllerTest extends ControllerTest {
     void 없는_취향_장르를_선택하면_예외가_발생한다() {
         RestAssured.given().log().all()
                 .cookie(cookie)
-                .body(new FavoriteGenresRequest(List.of("없는 장르")))
+                .body("{\n"
+                        + "  \"favoriteGenres\": [\n"
+                        + "    \"없는장르\",\n"
+                        + "  ]\n"
+                        + "}")
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/member/favorite-genres")
-                .then()
+                .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
@@ -71,7 +75,7 @@ class MemberOperationControllerTest extends ControllerTest {
     void 중복된_취향_장르가_있으면_예외가_발생한다() {
         RestAssured.given().log().all()
                 .cookie(cookie)
-                .body(new FavoriteGenresRequest(List.of(ROCK.getName(), ROCK.getName())))
+                .body(new FavoriteGenresRequest(List.of(ROCK, ROCK)))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/member/favorite-genres")
@@ -83,7 +87,7 @@ class MemberOperationControllerTest extends ControllerTest {
     void 취향_정보를_한_번_이상_전달하면_예외가_발생한다() {
         RestAssured.given().log().all()
                 .cookie(cookie)
-                .body(new FavoriteGenresRequest(List.of(ROCK.getName())))
+                .body(new FavoriteGenresRequest(List.of(ROCK)))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/member/favorite-genres")
@@ -92,7 +96,7 @@ class MemberOperationControllerTest extends ControllerTest {
 
         RestAssured.given().log().all()
                 .cookie(cookie)
-                .body(new FavoriteGenresRequest(List.of(RNB.getName())))
+                .body(new FavoriteGenresRequest(List.of(RNB)))
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/member/favorite-genres")
@@ -101,17 +105,15 @@ class MemberOperationControllerTest extends ControllerTest {
     }
 
     @Test
-    void 아이디_유저네임_취향정보수집여부를_포함한_회원정보를_응답한다() {
+    void 유저가_이미_장르가_선택했는지_여부를_반환한다() {
         RestAssured.given().log().all()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/member/me")
+                .get("/member/genres")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("memberId", Matchers.notNullValue())
-                .body("username", Matchers.notNullValue())
                 .body("hasFavorite", Matchers.notNullValue())
-                .extract().as(MemberDetailsResponse.class);
+                .extract().as(MemberGenresResponse.class);
     }
 }

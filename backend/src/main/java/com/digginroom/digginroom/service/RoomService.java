@@ -3,13 +3,19 @@ package com.digginroom.digginroom.service;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.recommend.RoomRecommender;
 import com.digginroom.digginroom.domain.room.Room;
+import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.RecommendException;
+import com.digginroom.digginroom.membergenre.domain.MemberGenre;
+import com.digginroom.digginroom.membergenre.domain.MemberGenreRepository;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomResponse;
 import com.digginroom.digginroom.service.dto.RoomsResponse;
 import com.digginroom.digginroom.service.dto.TrackResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +27,17 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
     private final RoomRecommender roomRecommender;
+    private final MemberGenreRepository memberGenreRepository;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional(readOnly = true)
     public RoomResponse recommend(final Long memberId) {
         Member member = memberRepository.getMemberById(memberId);
+        List<MemberGenre> memberGenres = memberGenreRepository.findByMemberId(memberId);
+        validateHasMemberGenres(memberGenres);
 
         try {
-            Room recommendedRoom = roomRecommender.recommend(member);
+            Room recommendedRoom = roomRecommender.recommend(memberGenres);
 
             return new RoomResponse(
                     recommendedRoom.getId(),
@@ -38,6 +48,12 @@ public class RoomService {
             );
         } catch (RecommendException e) {
             return this.recommend(memberId);
+        }
+    }
+
+    private void validateHasMemberGenres(final List<MemberGenre> memberGenres) {
+        if(memberGenres.isEmpty()){
+            throw new EmptyFavoriteException();
         }
     }
 
@@ -59,25 +75,40 @@ public class RoomService {
         Room room = roomRepository.getRoomById(roomId);
         Member member = memberRepository.getMemberById(memberId);
         member.scrap(room);
+        publisher.publishEvent(new DefaultMemberGenreEvent(
+                room.getTrack().getSuperGenre(),
+                memberId,
+                WeightFactor.SCRAP
+        ));
     }
+
 
     public void unscrap(final Long memberId, final Long roomId) {
         Room room = roomRepository.getRoomById(roomId);
         Member member = memberRepository.getMemberById(memberId);
         member.unscrap(room);
+        publisher.publishEvent(new DefaultMemberGenreEvent(
+                room.getTrack().getSuperGenre(),
+                memberId,
+                WeightFactor.UNSCRAP
+        ));
     }
 
     public void dislike(final Long memberId, final Long roomId) {
         Room room = roomRepository.getRoomById(roomId);
-        Member member = memberRepository.getMemberById(memberId);
-
-        member.dislike(room);
+        publisher.publishEvent(new DefaultMemberGenreEvent(
+                room.getTrack().getSuperGenre(),
+                memberId,
+                WeightFactor.DISLIKE
+        ));
     }
 
     public void undislike(final Long memberId, final Long roomId) {
         Room room = roomRepository.getRoomById(roomId);
-        Member member = memberRepository.getMemberById(memberId);
-
-        member.undislike(room);
+        publisher.publishEvent(new DefaultMemberGenreEvent(
+                room.getTrack().getSuperGenre(),
+                memberId,
+                WeightFactor.UNDISLIKE
+        ));
     }
 }

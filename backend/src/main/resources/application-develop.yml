@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DEV_DATASOURCE_URL}
+    url: ${DEV_DATASOURCE_URL}?rewriteBatchedStatements=true
     username: ${DEV_DATASOURCE_USERNAME}
     password: ${DEV_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -8,4 +8,4 @@ spring:
     database: mysql
     generate-ddl: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none

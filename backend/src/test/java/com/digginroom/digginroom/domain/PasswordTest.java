@@ -2,7 +2,7 @@ package com.digginroom.digginroom.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.domain.member.Password;
+import com.digginroom.digginroom.domain.member.vo.Password;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;
 import com.digginroom.digginroom.util.PasswordEncoder;
 import org.junit.jupiter.api.DisplayNameGeneration;

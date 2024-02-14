@@ -1,7 +1,7 @@
 package com.digginroom.digginroom.oauth.payload;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.digginroom.digginroom.domain.member.Provider;
+import com.digginroom.digginroom.domain.member.vo.Provider;
 
 import java.util.Map;
 
