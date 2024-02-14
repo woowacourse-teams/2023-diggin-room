@@ -6,6 +6,7 @@ import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteExceptio
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
 import com.digginroom.digginroom.membergenre.domain.vo.Weight;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,8 +22,8 @@ public class MemberGenres {
         this.memberGenres = memberGenres;
     }
 
-    public static MemberGenres createMemberGenres(final Long memberId) {
-        return new MemberGenres(Arrays.stream(Genre.values())
+    public MemberGenres(final Long memberId) {
+        this(Arrays.stream(Genre.values())
                 .map(genre -> new MemberGenre(genre, memberId))
                 .toList()
         );

@@ -22,7 +22,7 @@ public class MemberGenreService {
         if (hasFavorite(memberId)) {
             throw new FavoriteExistsException();
         }
-        MemberGenres memberGenres = MemberGenres.createMemberGenres(memberId);
+        MemberGenres memberGenres = new MemberGenres(memberId);
         memberGenres.markFavorites(genres.favoriteGenres());
         memberGenreRepository.saveAll(memberGenres.getMemberGenres());
     }
