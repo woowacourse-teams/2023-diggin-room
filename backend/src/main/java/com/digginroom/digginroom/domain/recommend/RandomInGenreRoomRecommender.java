@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RandomRoomInGenre implements RoomRecommender {
+public class RandomInGenreRoomRecommender implements RoomRecommender {
 
     private final RoomRepository roomRepository;
     private final GenreRecommender genreRecommender;
