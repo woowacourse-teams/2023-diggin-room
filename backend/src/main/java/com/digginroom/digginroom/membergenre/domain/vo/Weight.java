@@ -2,9 +2,12 @@ package com.digginroom.digginroom.membergenre.domain.vo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
 @Embeddable
+@EqualsAndHashCode
 public class Weight {
 
     @Column(name = "weight")
@@ -32,25 +35,6 @@ public class Weight {
 
     public boolean isLessThan(final int value) {
         return this.value < value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Weight weight = (Weight) o;
-
-        return Objects.equals(value, weight.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return value != null ? value.hashCode() : 0;
     }
 
     public Integer getValue() {
