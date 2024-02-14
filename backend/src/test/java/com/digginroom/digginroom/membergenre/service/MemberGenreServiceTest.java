@@ -1,25 +1,27 @@
 package com.digginroom.digginroom.membergenre.service;
 
-import static com.digginroom.digginroom.TestFixture.파워;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.digginroom.digginroom.controller.ControllerTest;
-import com.digginroom.digginroom.domain.Genre;
 import com.digginroom.digginroom.domain.member.Member;
-import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
-import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.membergenre.domain.MemberGenre;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreEvent;
 import com.digginroom.digginroom.membergenre.domain.MemberGenreRepository;
 import com.digginroom.digginroom.membergenre.domain.MemberGenres;
+import com.digginroom.digginroom.membergenre.domain.vo.Weight;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.service.dto.FavoriteGenresRequest;
-import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+import static com.digginroom.digginroom.TestFixture.파워;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -40,7 +42,7 @@ class MemberGenreServiceTest extends ControllerTest {
     @Test
     void 멤버_장르_가중치가_있다면_TRUE를_반환한다() {
         Member member = memberRepository.save(파워());
-        memberGenreRepository.saveAll(MemberGenres.createMemberGenres(member.getId()).getMemberGenres());
+        memberGenreRepository.saveAll(new MemberGenres(member.getId()).getMemberGenres());
 
         assertThat(memberGenreService.hasFavorite(member.getId())).isTrue();
     }
@@ -48,7 +50,7 @@ class MemberGenreServiceTest extends ControllerTest {
     @Test
     void 멤버_장르_가중치를_조절한다() {
         Member member = memberRepository.save(파워());
-        memberGenreRepository.saveAll(MemberGenres.createMemberGenres(member.getId()).getMemberGenres());
+        memberGenreRepository.saveAll(new MemberGenres(member.getId()).getMemberGenres());
 
         memberGenreService.adjustMemberGenreWeight(new MemberGenreEvent() {
             @Override
@@ -72,7 +74,7 @@ class MemberGenreServiceTest extends ControllerTest {
                 Genre.ROCK
         );
         assertThat(memberGenre.getWeight())
-                .isEqualTo(WeightStatus.DEFAULT.getValue() + WeightFactor.SCRAP.getValue());
+                .isEqualTo(new Weight(WeightStatus.DEFAULT.getValue() + WeightFactor.SCRAP.getValue()));
     }
 
     private MemberGenre getMemberGenre(final List<MemberGenre> memberGenres, final Genre genre) {
@@ -92,10 +94,10 @@ class MemberGenreServiceTest extends ControllerTest {
 
         List<MemberGenre> memberGenres = memberGenreRepository.findByMemberId(member.getId());
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(memberGenres).map(it -> it.getWeight()).allMatch(it -> it >= WeightStatus.DEFAULT.getValue());
-            softly.assertThat(getMemberGenre(memberGenres, Genre.ROCK).getWeight()).isEqualTo(11000);
-            softly.assertThat(getMemberGenre(memberGenres, Genre.POP).getWeight()).isEqualTo(11000);
-            softly.assertThat(getMemberGenre(memberGenres, Genre.BLUES).getWeight()).isEqualTo(11000);
+            softly.assertThat(memberGenres).map(MemberGenre::getWeight).allMatch(it -> it.getValue() >= WeightStatus.DEFAULT.getValue());
+            softly.assertThat(getMemberGenre(memberGenres, Genre.ROCK).getWeight()).isEqualTo(new Weight(11000));
+            softly.assertThat(getMemberGenre(memberGenres, Genre.POP).getWeight()).isEqualTo(new Weight(11000));
+            softly.assertThat(getMemberGenre(memberGenres, Genre.BLUES).getWeight()).isEqualTo(new Weight(11000));
         });
     }
 }

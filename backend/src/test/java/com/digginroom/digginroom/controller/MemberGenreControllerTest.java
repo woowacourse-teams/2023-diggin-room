@@ -1,9 +1,9 @@
 package com.digginroom.digginroom.controller;
 
 import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.domain.Genre.DANCE;
-import static com.digginroom.digginroom.domain.Genre.RNB;
-import static com.digginroom.digginroom.domain.Genre.ROCK;
+import static com.digginroom.digginroom.domain.room.Genre.DANCE;
+import static com.digginroom.digginroom.domain.room.Genre.RNB;
+import static com.digginroom.digginroom.domain.room.Genre.ROCK;
 
 import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.membergenre.service.dto.MemberGenresResponse;

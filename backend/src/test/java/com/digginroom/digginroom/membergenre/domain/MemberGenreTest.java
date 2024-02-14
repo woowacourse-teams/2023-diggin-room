@@ -1,13 +1,14 @@
 package com.digginroom.digginroom.membergenre.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
+import com.digginroom.digginroom.membergenre.domain.vo.Weight;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import com.digginroom.digginroom.membergenre.domain.vo.WeightStatus;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -21,7 +22,7 @@ class MemberGenreTest {
             memberGenre.adjustWeight(WeightFactor.DISLIKE);
         }
 
-        assertThat(memberGenre.getWeight()).isEqualTo(100);
+        assertThat(memberGenre.getWeight()).isEqualTo(new Weight(100));
     }
 
     @Test
@@ -31,6 +32,6 @@ class MemberGenreTest {
         memberGenre.adjustWeight(WeightFactor.FAVORITE);
 
         assertThat(memberGenre.getWeight())
-                .isEqualTo(WeightStatus.DEFAULT.getValue() + WeightFactor.FAVORITE.getValue());
+                .isEqualTo(new Weight(WeightStatus.DEFAULT.getValue() + WeightFactor.FAVORITE.getValue()));
     }
 }

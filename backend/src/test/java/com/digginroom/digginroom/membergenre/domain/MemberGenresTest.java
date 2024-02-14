@@ -1,20 +1,22 @@
 package com.digginroom.digginroom.membergenre.domain;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import com.digginroom.digginroom.domain.Genre;
-import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.exception.MemberException.EmptyFavoriteException;
 import com.digginroom.digginroom.exception.MemberException.FavoriteExistsException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.digginroom.digginroom.membergenre.domain.vo.Weight;
+import com.digginroom.digginroom.membergenre.domain.vo.WeightFactor;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -36,7 +38,7 @@ class MemberGenresTest {
 
         MemberGenre memberGenre = getMemberGenre(Genre.ROCK);
 
-        Assertions.assertThat(memberGenre.getWeight()).isEqualTo(3000);
+        Assertions.assertThat(memberGenre.getWeight()).isEqualTo(new Weight(3000));
     }
 
     private MemberGenre getMemberGenre(final Genre genre) {
@@ -55,8 +57,8 @@ class MemberGenresTest {
         MemberGenre rockGenre = getMemberGenre(Genre.ROCK);
 
         SoftAssertions.assertSoftly(softly -> {
-            Assertions.assertThat(danceGenre.getWeight()).isEqualTo(11000);
-            Assertions.assertThat(rockGenre.getWeight()).isEqualTo(11000);
+            Assertions.assertThat(danceGenre.getWeight()).isEqualTo(new Weight(11000));
+            Assertions.assertThat(rockGenre.getWeight()).isEqualTo(new Weight(11000));
         });
     }
 

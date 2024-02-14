@@ -1,6 +1,6 @@
 package com.digginroom.digginroom;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.member.vo.Password;
 import com.digginroom.digginroom.domain.member.vo.Provider;

@@ -1,6 +1,6 @@
 package com.digginroom.digginroom.exception;
 
-import com.digginroom.digginroom.domain.Genre;
+import com.digginroom.digginroom.domain.room.Genre;
 import org.springframework.http.HttpStatus;
 
 public class GenreException extends DigginRoomException {

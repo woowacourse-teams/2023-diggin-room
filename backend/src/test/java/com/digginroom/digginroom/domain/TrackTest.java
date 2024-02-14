@@ -3,6 +3,7 @@ package com.digginroom.digginroom.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.TestFixture;
+import com.digginroom.digginroom.domain.room.Genre;
 import com.digginroom.digginroom.domain.room.Room;
 import com.digginroom.digginroom.domain.track.Track;
 import jakarta.persistence.EntityManager;
