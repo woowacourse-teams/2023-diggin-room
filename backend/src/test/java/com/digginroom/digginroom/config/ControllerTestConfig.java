@@ -6,12 +6,12 @@ import static com.digginroom.digginroom.config.DatabaseTableName.SPRING_SESSION;
 import static com.digginroom.digginroom.config.DatabaseTableName.SPRING_SESSION_ATTRIBUTES;
 
 import java.util.Set;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Configuration
+@TestConfiguration
 public class ControllerTestConfig {
 
     @Bean

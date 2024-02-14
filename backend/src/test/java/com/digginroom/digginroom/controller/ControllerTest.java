@@ -1,6 +1,7 @@
 package com.digginroom.digginroom.controller;
 
 
+import com.digginroom.digginroom.config.ControllerTestConfig;
 import com.digginroom.digginroom.config.DatabaseCleanerExtension;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,12 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
 @ActiveProfiles("local")
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(DatabaseCleanerExtension.class)
 @DisplayNameGeneration(ReplaceUnderscores.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ContextConfiguration(classes = {ControllerTestConfig.class})
 public abstract class ControllerTest {
 
     @LocalServerPort
@@ -29,3 +32,4 @@ public abstract class ControllerTest {
         RestAssured.port = port;
     }
 }
+
