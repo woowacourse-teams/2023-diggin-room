@@ -102,13 +102,13 @@ jobs:
           if [ -z $SERVER1_MAJOR_VERSION ] && [ -z $SERVER2_MAJOR_VERSION ]; then
             echo "서버가 한 대도 띄워져있지 않습니다. 서버 1에 배포"
             BLUE_PORT=$SERVER1_PORT
-            RETAIN_PORT=$SERVER2_PORT
+            RETAIN_PORT=$GREEN
             RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
           elif [ -z $SERVER1_MAJOR_VERSION ]; then
             if [ $SERVER1_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER2_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
               echo "서버 2에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR/MINOR 버전이 동일합니다. 서버 2에 블루그린 배포 - 1"
               BLUE_PORT=$SERVER2_PORT
-              RETAIN_PORT=$SERVER1_PORT
+              RETAIN_PORT=$GREEN
               RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
             else
               echo "서버 2에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR or MINOR 버전이 다릅니다. 서버 1에 배포 - 2"
@@ -120,7 +120,7 @@ jobs:
             if [ $SERVER1_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
               echo "서버 1에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR/MINOR 버전이 동일합니다. 서버 1에 블루그린 배포 - 1"
               BLUE_PORT=$SERVER1_PORT
-              RETAIN_PORT=$SERVER2_PORT
+              RETAIN_PORT=$GREEN
               RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
             else
               echo "서버 1에 한 대만 띄워져있습니다. 기존 서버와의 MAJOR or MINOR 버전이 다릅니다. 서버 2에 블루그린 배포 - 2"
