@@ -1,7 +1,13 @@
 package com.digginroom.digginroom.controller;
 
-import com.digginroom.digginroom.service.dto.MemberLoginRequest;
+import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
+import static com.digginroom.digginroom.TestFixture.파워;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isA;
+
 import com.digginroom.digginroom.repository.MemberRepository;
+import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -9,11 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
-import static com.digginroom.digginroom.TestFixture.파워;
-import static org.hamcrest.Matchers.*;
-
+@ActiveProfiles("default")
 @SuppressWarnings("NonAsciiCharacters")
 class MemberLoginControllerTest extends ControllerTest {
 

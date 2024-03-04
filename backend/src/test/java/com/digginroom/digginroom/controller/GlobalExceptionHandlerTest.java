@@ -6,7 +6,9 @@ import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("default")
 @SuppressWarnings("NonAsciiCharacters")
 class GlobalExceptionHandlerTest extends ControllerTest {
 

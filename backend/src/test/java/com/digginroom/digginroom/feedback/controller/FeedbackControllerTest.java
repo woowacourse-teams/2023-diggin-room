@@ -1,11 +1,10 @@
 package com.digginroom.digginroom.feedback.controller;
 
-import static com.digginroom.digginroom.TestFixture.MEMBER_LOGIN_REQUEST;
 import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.digginroom.digginroom.TestFixture;
 import com.digginroom.digginroom.controller.ControllerTest;
+import com.digginroom.digginroom.controller.mock.MockLoginServer;
 import com.digginroom.digginroom.feedback.domain.Feedback;
 import com.digginroom.digginroom.feedback.dto.FeedbackRequest;
 import com.digginroom.digginroom.feedback.dto.FeedbackResponse;
@@ -14,41 +13,35 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("auth")
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class FeedbackControllerTest extends ControllerTest {
 
-    @Autowired
     private FeedbackRepository feedbackRepository;
+    private MockLoginServer mockLoginServer;
     private String cookie;
+
+    @Autowired
+    public FeedbackControllerTest(FeedbackRepository feedbackRepository,
+                                  ObjectProvider<MockLoginServer> mockLoginServerObjectProvider
+    ) {
+        this.feedbackRepository = feedbackRepository;
+        this.mockLoginServer = mockLoginServerObjectProvider.getObject();
+    }
 
     @BeforeEach
     void login() {
-        RestAssured.given().log().all()
-                .contentType(ContentType.JSON)
-                .body(TestFixture.MEMBER_SAVE_REQUEST)
-                .when().post("/join")
-                .then().log().all()
-                .statusCode(HttpStatus.CREATED.value());
-
-        Response response = RestAssured.given().log().all()
-                .body(MEMBER_LOGIN_REQUEST)
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/login")
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .extract().response();
-
-        this.cookie = response.header("Set-Cookie");
+        this.cookie = mockLoginServer.getCachedLoginValue(port);
     }
 
     @Test
