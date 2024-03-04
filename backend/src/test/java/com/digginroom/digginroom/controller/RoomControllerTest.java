@@ -42,7 +42,6 @@ class RoomControllerTest extends ControllerTest {
         this.memberRepository = memberRepository;
         this.roomRepository = roomRepository;
         this.mockLoginServer = mockLoginServerObjectProvider.getObject();
-        System.out.println(123123);
     }
 
     @Override
