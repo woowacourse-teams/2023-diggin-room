@@ -131,12 +131,12 @@ jobs:
           elif [ $SERVER1_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
             echo "서버 1과의 MAJOR/MINOR 버전이 동일합니다. 서버 1에 블루그린 배포 - 1"
             BLUE_PORT=$SERVER1_PORT
-            RETAIN_PORT=$SERVER2_PORT
+            RETAIN_PORT=$GREEN
             RETAIN_VERSION="$SERVER2_MAJOR_VERSION.$SERVER2_MINOR_VERSION"
           elif [ $SERVER2_MAJOR_VERSION -eq $NOW_MAJOR_VERSION ] && [ $SERVER2_MINOR_VERSION -eq $NOW_MINOR_VERSION ]; then
             echo "서버 2와의 MAJOR/MINOR 버전이 동일합니다. 서버 2에 블루그린 배포 - 2"
             BLUE_PORT=$SERVER2_PORT
-            RETAIN_PORT=$SERVER1_PORT
+            RETAIN_PORT=$GREEN
             RETAIN_VERSION="$SERVER1_MAJOR_VERSION.$SERVER1_MINOR_VERSION"
           elif [ $SERVER1_MAJOR_VERSION -eq $SERVER2_MAJOR_VERSION ] && [ $SERVER1_MINOR_VERSION -le $SERVER2_MINOR_VERSION ]; then
             echo "새로운 서버의 MAJOR or MINOR버전이 업그레이드 되었습니다. 서버 1의 MINOR 버전이 서버 2보다 낮습니다. 서버 1에 블루그린 배포 - 3";
