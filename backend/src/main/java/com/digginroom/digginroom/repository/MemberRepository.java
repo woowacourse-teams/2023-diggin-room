@@ -34,14 +34,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     default MemberNickname getMemberNickname(final Long id) {
         return findMemberNicknameById(id).orElseThrow(NotFoundException::new);
     }
-
-    @Query("SELECT new com.digginroom.digginroom.repository.dto.MemberNickname(id, nickname.nickname) "
-            + "FROM Member "
-            + "WHERE id IN :ids")
-    List<MemberNickname> findMemberNicknameByIdIn(@Param("ids") final List<Long> id);
-
-    default Map<Long, MemberNickname> getMemberNicknameByIdIn(final List<Long> id) {
-        return findMemberNicknameByIdIn(id).stream()
-                .collect(Collectors.toMap(MemberNickname::memberId, Function.identity()));
-    }
 }

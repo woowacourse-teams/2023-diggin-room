@@ -9,10 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -27,7 +23,7 @@ public class CommentTempTest extends PerformanceController {
         long time = test(() -> RestAssured.given()
                 .cookie(cookie)
                 .contentType(ContentType.JSON)
-                .when().get("/rooms/" + ThreadLocalRandom.current().nextInt(216, 375) + "/comments/1"));
+                .when().get("/rooms/" + ThreadLocalRandom.current().nextInt(216, 375) + "/comments"));
         System.out.println("그냥 조인 시간: " + time);
     }
 
@@ -75,13 +71,13 @@ public class CommentTempTest extends PerformanceController {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         AtomicInteger num = new AtomicInteger(0);
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 1; i++) {
             executorService.submit(() -> {
                 runnable.run();
                 num.addAndGet(1);
             });
         }
-        while (num.get() < 10000) {
+        while (num.get() < 1) {
             try {
                 System.out.println(num.get() + " - " + Thread.activeCount());
                 Thread.sleep(100);

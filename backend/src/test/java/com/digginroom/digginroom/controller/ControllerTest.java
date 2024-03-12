@@ -32,4 +32,3 @@ public abstract class ControllerTest {
         RestAssured.port = port;
     }
 }
-
