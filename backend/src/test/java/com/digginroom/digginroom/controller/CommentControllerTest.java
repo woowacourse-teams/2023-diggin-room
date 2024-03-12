@@ -146,7 +146,7 @@ class CommentControllerTest extends ControllerTest {
         Member 파워 = memberRepository.save(파워());
 
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워.getId()));
         }
 
         String cookie = login(port);
@@ -173,7 +173,7 @@ class CommentControllerTest extends ControllerTest {
         Member 파워 = memberRepository.save(파워());
 
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워.getId()));
         }
 
         String cookie = login(port);
@@ -198,7 +198,7 @@ class CommentControllerTest extends ControllerTest {
         Member 파워 = memberRepository.save(파워());
 
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워.getId()));
         }
 
         String cookie = login(port);
@@ -223,7 +223,7 @@ class CommentControllerTest extends ControllerTest {
         Member 파워 = memberRepository.save(파워());
 
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워.getId()));
         }
 
         String cookie = login(port);

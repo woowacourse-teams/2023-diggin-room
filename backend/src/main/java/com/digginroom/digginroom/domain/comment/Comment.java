@@ -20,17 +20,16 @@ public class Comment extends BaseEntity {
     private Long roomId;
     @Column(length = 500)
     private String comment;
-    @ManyToOne
-    private Member member;
+    private Long memberId;
 
-    public void updateComment(final String comment, final Member member) {
-        if (!isOwner(member)) {
+    public void updateComment(final String comment, final Long memberId) {
+        if (!isOwner(memberId)) {
             throw new NotOwnerException();
         }
         this.comment = comment;
     }
 
-    public boolean isOwner(final Member member) {
-        return this.member.equals(member);
+    public boolean isOwner(final Long memberId) {
+        return this.memberId.equals(memberId);
     }
 }

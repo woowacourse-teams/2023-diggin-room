@@ -5,18 +5,15 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.digginroom.digginroom.domain.BaseEntity;
 import com.digginroom.digginroom.domain.comment.Comment;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.CommentException;
+import com.digginroom.digginroom.repository.dto.CommentMember;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.BeforeEach;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import com.digginroom.digginroom.exception.CommentException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -59,7 +56,7 @@ class CommentRepositoryTest {
 
     private void 멤버가_룸에_댓글을_여러_개를_저장_한다(final long 룸ID, final Member 멤버, final int 저장개수) {
         for (int index = 0; index < 저장개수; index++) {
-            Comment comment = new Comment(룸ID, "댓글입니다.", 멤버);
+            Comment comment = new Comment(룸ID, "댓글입니다.", 멤버.getId());
             em.persist(comment);
         }
     }
@@ -74,11 +71,11 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어지고_size_가_10인_경우_해당_룸의_댓글_ID_부터_최신_댓글_부터_10개를_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
+        Slice<CommentMember> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
 
         assertThat(comments.getContent())
                 .hasSize(10)
-                .map(BaseEntity::getId)
+                .map(CommentMember::id)
                 .usingRecursiveComparison()
                 .isEqualTo(getReversedList(5, 14));
     }
@@ -94,11 +91,11 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어지고_size_가_2인_경우_해당_룸의_댓글_ID_부터_최신_댓글_부터_2개를_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 2);
 
-        Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
+        Slice<CommentMember> comments = commentRepository.getCommentsByCursor(1L, 15L, pageRequest);
 
         assertThat(comments.getContent())
                 .hasSize(2)
-                .map(BaseEntity::getId)
+                .map(CommentMember::id)
                 .usingRecursiveComparison()
                 .isEqualTo(getReversedList(13, 14));
     }
@@ -107,11 +104,11 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어졌을_때_size_가_10이고_남은_댓글이_10개_이하인_경우_남은_댓글만_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Slice<Comment> comments = commentRepository.getCommentsByCursor(1L, 5L, pageRequest);
+        Slice<CommentMember> comments = commentRepository.getCommentsByCursor(1L, 5L, pageRequest);
 
         assertThat(comments.getContent())
                 .hasSize(4)
-                .map(BaseEntity::getId)
+                .map(CommentMember::id)
                 .usingRecursiveComparison()
                 .isEqualTo(getReversedList(1, 4));
     }
@@ -120,7 +117,7 @@ class CommentRepositoryTest {
     void 마지막으로_본_댓글이_주어지고_룸에_그_이하의_댓글이_없는_경우_빈_결과를_반환한다() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Slice<Comment> comments = commentRepository.getCommentsByCursor(2L, 10L, pageRequest);
+        Slice<CommentMember> comments = commentRepository.getCommentsByCursor(2L, 10L, pageRequest);
 
         assertThat(comments.getContent()).isEmpty();
     }

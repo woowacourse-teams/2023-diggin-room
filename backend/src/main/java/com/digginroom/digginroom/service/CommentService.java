@@ -40,6 +40,15 @@ public class CommentService {
         Long resolvedLastCommentId = getLastCommentId(lastCommentId);
         validateLastCommentId(resolvedLastCommentId);
         validateCommentSize(size);
+        Slice<CommentMember> commentMembers = commentRepository.getCommentsByCursor(
+                roomId,
+                resolvedLastCommentId,
+                PageRequest.of(DEFAULT_PAGE_SIZE, size)
+        );
+        return new CommentsResponse(commentMembers.getContent().stream()
+                .map(commentMember -> CommentResponse.of(commentMember, memberId))
+                .toList());
+    }
 
         Member member = memberRepository.getMemberById(memberId);
         Slice<Comment> comments = commentRepository.getCommentsByCursor(
