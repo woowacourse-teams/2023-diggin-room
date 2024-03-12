@@ -1,0 +1,1 @@
+CREATE INDEX COMMENT_ROOM_ID_COMMENT_ID_IDX ON comment (room_id, id desc);
