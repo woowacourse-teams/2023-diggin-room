@@ -1,7 +1,7 @@
-package com.digginroom.digginroom.service.dto;
+package com.digginroom.digginroom.comment.service.dto;
 
-import com.digginroom.digginroom.domain.comment.Comment;
-import com.digginroom.digginroom.repository.dto.CommentMember;
+import com.digginroom.digginroom.comment.domain.Comment;
+import com.digginroom.digginroom.comment.repository.dto.CommentMember;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

@@ -1,11 +1,9 @@
-package com.digginroom.digginroom.domain.comment;
+package com.digginroom.digginroom.comment.domain;
 
 import com.digginroom.digginroom.domain.BaseEntity;
-import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.CommentException.NotOwnerException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

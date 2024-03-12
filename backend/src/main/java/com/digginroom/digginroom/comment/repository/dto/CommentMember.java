@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.repository.dto;
+package com.digginroom.digginroom.comment.repository.dto;
 
 import java.time.LocalDateTime;
 

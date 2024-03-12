@@ -1,9 +1,8 @@
-package com.digginroom.digginroom.repository;
+package com.digginroom.digginroom.comment.repository;
 
-import com.digginroom.digginroom.domain.comment.Comment;
-import com.digginroom.digginroom.repository.dto.CommentMember;
+import com.digginroom.digginroom.comment.domain.Comment;
+import com.digginroom.digginroom.comment.repository.dto.CommentMember;
 import com.digginroom.digginroom.exception.CommentException.NotFoundException;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,7 +18,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
         return findCommentById(id).orElseThrow(NotFoundException::new);
     }
 
-    @Query("SELECT new com.digginroom.digginroom.repository.dto.CommentMember("
+    @Query("SELECT new com.digginroom.digginroom.comment.repository.dto.CommentMember("
             + "c.id, c.comment, c.createdAt, c.updatedAt, m.id, m.nickname.nickname"
             + ") "
             + "FROM Comment c JOIN Member m "

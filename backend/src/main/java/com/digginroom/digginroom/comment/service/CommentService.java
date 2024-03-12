@@ -1,27 +1,20 @@
-package com.digginroom.digginroom.service;
+package com.digginroom.digginroom.comment.service;
 
 import static com.digginroom.digginroom.exception.CommentException.InvalidCommentSizeException;
 import static com.digginroom.digginroom.exception.CommentException.NotOwnerException;
 
-import com.digginroom.digginroom.domain.comment.Comment;
+import com.digginroom.digginroom.comment.domain.Comment;
+import com.digginroom.digginroom.comment.repository.CommentRepository;
+import com.digginroom.digginroom.comment.repository.dto.CommentMember;
+import com.digginroom.digginroom.comment.service.dto.CommentRequest;
+import com.digginroom.digginroom.comment.service.dto.CommentResponse;
+import com.digginroom.digginroom.comment.service.dto.CommentsResponse;
 import com.digginroom.digginroom.exception.CommentException.InvalidLastCommentIdException;
 import com.digginroom.digginroom.exception.RoomException.NotFoundException;
-import com.digginroom.digginroom.repository.CommentRepository;
 import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
-import com.digginroom.digginroom.repository.dto.CommentMember;
 import com.digginroom.digginroom.repository.dto.MemberNickname;
-import com.digginroom.digginroom.service.dto.CommentRequest;
-import com.digginroom.digginroom.service.dto.CommentResponse;
-import com.digginroom.digginroom.service.dto.CommentsResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;

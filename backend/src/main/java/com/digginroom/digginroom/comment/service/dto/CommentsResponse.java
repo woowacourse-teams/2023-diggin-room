@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.service.dto;
+package com.digginroom.digginroom.comment.service.dto;
 
 import java.util.List;
 

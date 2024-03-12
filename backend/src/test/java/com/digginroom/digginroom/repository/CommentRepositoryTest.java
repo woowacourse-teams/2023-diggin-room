@@ -5,10 +5,11 @@ import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.digginroom.digginroom.domain.comment.Comment;
+import com.digginroom.digginroom.comment.domain.Comment;
+import com.digginroom.digginroom.comment.repository.CommentRepository;
 import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.exception.CommentException;
-import com.digginroom.digginroom.repository.dto.CommentMember;
+import com.digginroom.digginroom.comment.repository.dto.CommentMember;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;

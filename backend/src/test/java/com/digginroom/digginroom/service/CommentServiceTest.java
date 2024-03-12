@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import com.digginroom.digginroom.comment.service.CommentService;
 import com.digginroom.digginroom.exception.CommentException.InvalidCommentSizeException;
 import com.digginroom.digginroom.exception.CommentException.InvalidLastCommentIdException;
-import com.digginroom.digginroom.repository.CommentRepository;
-import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.repository.dto.CommentMember;
-import com.digginroom.digginroom.service.dto.CommentResponse;
-import com.digginroom.digginroom.service.dto.CommentsResponse;
+import com.digginroom.digginroom.comment.repository.CommentRepository;
+import com.digginroom.digginroom.comment.repository.dto.CommentMember;
+import com.digginroom.digginroom.comment.service.dto.CommentResponse;
+import com.digginroom.digginroom.comment.service.dto.CommentsResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;

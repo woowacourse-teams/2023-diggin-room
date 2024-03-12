@@ -1,4 +1,4 @@
-package com.digginroom.digginroom.service.dto;
+package com.digginroom.digginroom.comment.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
