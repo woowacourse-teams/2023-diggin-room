@@ -77,7 +77,7 @@ public class CommentService {
         Comment comment = new Comment(roomId, request.comment(), memberId);
         commentRepository.save(comment);
 
-        return CommentResponse.of(comment, comment.isOwner(memberId), memberNickname.nickName());
+        return CommentResponse.of(comment, comment.isOwner(memberId), memberNickname.getNickname());
     }
 
     public void validateExistRoom(final Long roomId) {
@@ -107,6 +107,6 @@ public class CommentService {
         MemberNickname memberNickname = memberRepository.getMemberNickname(memberId);
         Comment comment = commentRepository.getCommentById(commentId);
         comment.updateComment(request.comment(), memberId);
-        return CommentResponse.of(comment, comment.isOwner(memberId), memberNickname.nickName());
+        return CommentResponse.of(comment, comment.isOwner(memberId), memberNickname.getNickname());
     }
 }

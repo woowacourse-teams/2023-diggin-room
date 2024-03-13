@@ -1,4 +1,9 @@
 package com.digginroom.digginroom.repository.dto;
 
-public record MemberNickname(Long memberId, String nickName) {
+import org.springframework.beans.factory.annotation.Value;
+
+public interface MemberNickname {
+
+    @Value("#{target.nickname}")
+    String getNickname();
 }
