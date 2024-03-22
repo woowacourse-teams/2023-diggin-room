@@ -11,7 +11,7 @@ import com.digginroom.digginroom.oauth.jwk.GoogleJwkProvider;
 import com.digginroom.digginroom.oauth.jwk.KakaoJwkProvider;
 import com.digginroom.digginroom.oauth.jwk.ThirdPartyJwkProviders;
 import com.digginroom.digginroom.oauth.payload.IdTokenPayload;
-import com.digginroom.digginroom.service.dto.CommentRequest;
+import com.digginroom.digginroom.comment.service.dto.CommentRequest;
 import com.digginroom.digginroom.service.dto.MemberLoginRequest;
 import com.digginroom.digginroom.service.dto.MemberSaveRequest;
 import com.digginroom.digginroom.util.DigginRoomPasswordEncoder;

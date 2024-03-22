@@ -2,14 +2,12 @@ package com.digginroom.digginroom.controller;
 
 import static com.digginroom.digginroom.TestFixture.나무;
 import static com.digginroom.digginroom.TestFixture.차이;
-import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.hasSize;
 
 import com.digginroom.digginroom.controller.mock.MockLoginServer;
 import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
 import com.digginroom.digginroom.service.dto.RoomRequest;
 import com.digginroom.digginroom.service.dto.RoomResponse;
@@ -28,18 +26,15 @@ import org.springframework.test.context.ActiveProfiles;
 @SuppressWarnings("NonAsciiCharacters")
 class RoomControllerTest extends ControllerTest {
 
-    private MemberRepository memberRepository;
     private RoomRepository roomRepository;
     private MockLoginServer mockLoginServer;
     private Room room1;
     private Room room2;
 
     @Autowired
-    public RoomControllerTest(MemberRepository memberRepository,
-                              RoomRepository roomRepository,
+    public RoomControllerTest(RoomRepository roomRepository,
                               ObjectProvider<MockLoginServer> mockLoginServerObjectProvider
     ) {
-        this.memberRepository = memberRepository;
         this.roomRepository = roomRepository;
         this.mockLoginServer = mockLoginServerObjectProvider.getObject();
     }
@@ -48,7 +43,6 @@ class RoomControllerTest extends ControllerTest {
     @BeforeEach
     void setUp() {
         super.setUp();
-        memberRepository.save(파워());
         room1 = roomRepository.save(나무());
         room2 = roomRepository.save(차이());
     }

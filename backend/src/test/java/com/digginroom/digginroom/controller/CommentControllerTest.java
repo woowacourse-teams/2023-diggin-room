@@ -2,20 +2,17 @@ package com.digginroom.digginroom.controller;
 
 import static com.digginroom.digginroom.TestFixture.COMMENT_UPDATE_REQUEST;
 import static com.digginroom.digginroom.TestFixture.나무;
-import static com.digginroom.digginroom.TestFixture.파워;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.digginroom.digginroom.TestFixture;
+import com.digginroom.digginroom.comment.domain.Comment;
+import com.digginroom.digginroom.comment.repository.CommentRepository;
+import com.digginroom.digginroom.comment.service.dto.CommentRequest;
+import com.digginroom.digginroom.comment.service.dto.CommentResponse;
+import com.digginroom.digginroom.comment.service.dto.CommentsResponse;
 import com.digginroom.digginroom.controller.mock.MockLoginServer;
-import com.digginroom.digginroom.domain.comment.Comment;
-import com.digginroom.digginroom.domain.member.Member;
 import com.digginroom.digginroom.domain.room.Room;
-import com.digginroom.digginroom.repository.CommentRepository;
-import com.digginroom.digginroom.repository.MemberRepository;
 import com.digginroom.digginroom.repository.RoomRepository;
-import com.digginroom.digginroom.service.dto.CommentRequest;
-import com.digginroom.digginroom.service.dto.CommentResponse;
-import com.digginroom.digginroom.service.dto.CommentsResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import java.util.List;
@@ -32,19 +29,16 @@ import org.springframework.test.context.ActiveProfiles;
 @SuppressWarnings("NonAsciiCharacters")
 class CommentControllerTest extends ControllerTest {
 
-    private MemberRepository memberRepository;
     private RoomRepository roomRepository;
     private CommentRepository commentRepository;
     private MockLoginServer mockLoginServer;
     private Room 나무;
 
     @Autowired
-    public CommentControllerTest(MemberRepository memberRepository,
-                                 RoomRepository roomRepository,
+    public CommentControllerTest(RoomRepository roomRepository,
                                  CommentRepository commentRepository,
                                  ObjectProvider<MockLoginServer> mockLoginServerObjectProvider
     ) {
-        this.memberRepository = memberRepository;
         this.roomRepository = roomRepository;
         this.commentRepository = commentRepository;
         this.mockLoginServer = mockLoginServerObjectProvider.getObject();
@@ -143,10 +137,8 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저가_마지막으로_본_댓글과_볼_댓글_개수를_전달하지_않으면_최신_댓글_10개의_댓글들을_볼_수_있다() {
-        Member 파워 = memberRepository.save(파워());
-
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 1L));
         }
 
         String cookie = login(port);
@@ -170,10 +162,8 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저가_마지막으로_본_댓글을_전달하면_더_이전에_작성한_룸의_댓글들을_볼_수_있다() {
-        Member 파워 = memberRepository.save(파워());
-
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 1L));
         }
 
         String cookie = login(port);
@@ -195,10 +185,8 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저가_볼_댓글_개수를_전달하면_최대_전달한_개수만큼의_룸의_댓글들을_볼_수_있다() {
-        Member 파워 = memberRepository.save(파워());
-
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 1L));
         }
 
         String cookie = login(port);
@@ -220,10 +208,8 @@ class CommentControllerTest extends ControllerTest {
 
     @Test
     void 유저가_마지막으로_본_댓글과_볼_댓글_개수를_전달하면_더_이전에_작성한_댓글들을_최대_전달한_개수만큼_볼_수_있다() {
-        Member 파워 = memberRepository.save(파워());
-
         for (int i = 1; i <= 15; i++) {
-            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 파워));
+            commentRepository.save(new Comment(나무.getId(), "댓글" + i, 1L));
         }
 
         String cookie = login(port);

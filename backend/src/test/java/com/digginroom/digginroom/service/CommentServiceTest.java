@@ -1,17 +1,17 @@
 package com.digginroom.digginroom.service;
 
-import static com.digginroom.digginroom.TestFixture.블랙캣;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import com.digginroom.digginroom.domain.comment.Comment;
+import com.digginroom.digginroom.comment.service.CommentService;
 import com.digginroom.digginroom.exception.CommentException.InvalidCommentSizeException;
 import com.digginroom.digginroom.exception.CommentException.InvalidLastCommentIdException;
-import com.digginroom.digginroom.repository.CommentRepository;
-import com.digginroom.digginroom.repository.MemberRepository;
-import com.digginroom.digginroom.service.dto.CommentResponse;
-import com.digginroom.digginroom.service.dto.CommentsResponse;
+import com.digginroom.digginroom.comment.repository.CommentRepository;
+import com.digginroom.digginroom.comment.repository.dto.CommentMember;
+import com.digginroom.digginroom.comment.service.dto.CommentResponse;
+import com.digginroom.digginroom.comment.service.dto.CommentsResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -30,18 +30,16 @@ class CommentServiceTest {
 
     @Mock
     private CommentRepository commentRepository;
-    @Mock
-    private MemberRepository memberRepository;
     @InjectMocks
     private CommentService commentService;
 
     @Test
     void 댓글을_무한_스크롤로_조회할_수_있다() {
-        Comment kong = new Comment(1L, "kong", 블랙캣());
-        Comment blackCat = new Comment(1L, "blackCat", 블랙캣());
-        List<Comment> comments = List.of(blackCat, kong);
+        LocalDateTime now = LocalDateTime.now();
+        CommentMember kong = new CommentMember(1L, "kong", now, now, 1L, "kong1");
+        CommentMember blackCat = new CommentMember(1L, "blackCat", now, now, 1L, "blackCat");
+        List<CommentMember> comments = List.of(blackCat, kong);
 
-        when(memberRepository.getMemberById(1L)).thenReturn(블랙캣());
         when(commentRepository.getCommentsByCursor(1L, 10L, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<>(comments));
 
@@ -55,11 +53,11 @@ class CommentServiceTest {
 
     @Test
     void 마지막으로_본_댓글이_없는_경우_Long_MAX_VALUE로_검색한다() {
-        Comment kong = new Comment(1L, "kong", 블랙캣());
-        Comment blackCat = new Comment(1L, "blackCat", 블랙캣());
-        List<Comment> comments = List.of(blackCat, kong);
+        LocalDateTime now = LocalDateTime.now();
+        CommentMember kong = new CommentMember(1L, "kong", now, now, 1L, "kong1");
+        CommentMember blackCat = new CommentMember(1L, "blackCat", now, now, 1L, "blackCat");
+        List<CommentMember> comments = List.of(blackCat, kong);
 
-        when(memberRepository.getMemberById(1L)).thenReturn(블랙캣());
         when(commentRepository.getCommentsByCursor(1L, Long.MAX_VALUE, PageRequest.of(0, 10)))
                 .thenReturn(new PageImpl<>(comments));
 
